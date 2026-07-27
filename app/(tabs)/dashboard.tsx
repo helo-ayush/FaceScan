@@ -1,0 +1,162 @@
+import React from "react";
+import { View, Text, ScrollView, Pressable } from "react-native";
+import { useRouter } from "expo-router";
+import { ScreenHeader } from "@/components/ScreenHeader";
+import { Icon } from "@/components/Icon";
+import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
+import { AppSettings } from "@/utils/settings";
+
+export default function DashboardScreen() {
+  const router = useRouter();
+
+  return (
+    <View className="flex-1 bg-background">
+      <ScreenHeader title="Dashboard" />
+      <ScrollView
+        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: 32 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Hello Banner Card */}
+        <Animated.View 
+          entering={FadeInUp.delay(100).duration(500)}
+          className="mb-6 bg-surface border border-slate-100 rounded-3xl p-6 shadow-soft"
+        >
+          <Text className="text-sm font-semibold uppercase tracking-wider text-primary">
+            Welcome Back
+          </Text>
+          <Text className="text-3xl font-bold text-on-surface tracking-tight mt-1">
+            Hello, Admin
+          </Text>
+          <Text className="text-sm text-on-surface-variant mt-2 font-medium">
+            Monday, October 23, 2023
+          </Text>
+        </Animated.View>
+
+        {/* Overview Section */}
+        <Animated.View 
+          entering={FadeInUp.delay(200).duration(500)}
+          className="mb-8"
+        >
+          <Text className="text-[11px] font-bold tracking-widest uppercase text-on-surface-variant mb-4">
+            Today's Overview
+          </Text>
+          <View className="flex-row gap-4">
+            {/* Present Card */}
+            <View className="flex-1 bg-surface border border-slate-100 rounded-3xl p-5 min-h-[150px] justify-between shadow-soft">
+              <View className="flex-row justify-between items-start">
+                <View className="w-10 h-10 rounded-2xl bg-primary/10 items-center justify-center">
+                  <Icon name="how_to_reg" size={22} color="#4f46e5" />
+                </View>
+                <View className="bg-success-light px-2 py-0.5 rounded-full border border-success/10 flex-row items-center gap-0.5">
+                  <Icon name="trending_up" size={10} color="#10b981" />
+                  <Text className="text-[9px] font-extrabold text-success">+5%</Text>
+                </View>
+              </View>
+              <View className="mt-4">
+                <Text className="text-3xl font-black text-on-surface tracking-tight">142</Text>
+                <Text className="text-xs font-bold text-on-surface-variant mt-1">Present</Text>
+              </View>
+            </View>
+
+            {/* Late / Absent Stack */}
+            <View className="flex-1 gap-4">
+              <View className="bg-surface border border-slate-100 rounded-3xl p-4 flex-row items-center justify-between shadow-soft">
+                <View>
+                  <Text className="text-xl font-black text-on-surface tracking-tight">12</Text>
+                  <Text className="text-[10px] font-bold text-on-surface-variant mt-0.5">Late</Text>
+                </View>
+                <View className="w-9 h-9 rounded-xl bg-warning/10 items-center justify-center">
+                  <Icon name="schedule" size={18} color="#f59e0b" />
+                </View>
+              </View>
+
+              <View className="bg-surface border border-slate-100 rounded-3xl p-4 flex-row items-center justify-between shadow-soft">
+                <View>
+                  <Text className="text-xl font-black text-on-surface tracking-tight">5</Text>
+                  <Text className="text-[10px] font-bold text-on-surface-variant mt-0.5">Absent</Text>
+                </View>
+                <View className="w-9 h-9 rounded-xl bg-error/10 items-center justify-center">
+                  <Icon name="person_off" size={18} color="#ef4444" />
+                </View>
+              </View>
+            </View>
+          </View>
+        </Animated.View>
+
+        {/* Quick Actions */}
+        <Animated.View 
+          entering={FadeInUp.delay(300).duration(500)}
+          className="mb-6"
+        >
+          <Text className="text-[11px] font-bold tracking-widest uppercase text-on-surface-variant mb-4">
+            Quick Actions
+          </Text>
+
+          {/* Launch Scanner Primary Button */}
+          <View className="shadow-premium rounded-3xl mb-4 bg-primary">
+            <Pressable 
+              onPress={() => {
+                AppSettings.haptic("light");
+                router.replace("/"); // Route back to the root camera landing page
+              }}
+              className="p-6 flex-row items-center gap-5 active:scale-[0.98] transition-all"
+            >
+              <View className="w-14 h-14 rounded-2xl bg-white/20 items-center justify-center border border-white/10">
+                <Icon name="document_scanner" size={28} color="#ffffff" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-xl font-bold text-on-primary tracking-tight">
+                  Launch Scanner
+                </Text>
+                <Text className="text-xs text-on-primary/80 mt-1 font-medium">
+                  Start instant face scan to mark attendance
+                </Text>
+              </View>
+            </Pressable>
+          </View>
+
+          {/* Secondary Action Grid */}
+          <View className="flex-row gap-4">
+            {/* New Student Action */}
+            <View className="flex-1 bg-surface border border-slate-100 rounded-3xl shadow-soft">
+              <Pressable
+                onPress={() => {
+                  AppSettings.haptic("light");
+                  router.push("/enroll");
+                }}
+                className="p-5 rounded-3xl gap-3 active:scale-[0.97] transition-all"
+              >
+                <View className="w-10 h-10 rounded-2xl bg-accent/10 items-center justify-center">
+                  <Icon name="person_add" size={20} color="#7c3aed" />
+                </View>
+                <View>
+                  <Text className="font-bold text-on-surface text-base">New Student</Text>
+                  <Text className="text-xs font-medium text-on-surface-variant mt-0.5">Enroll now</Text>
+                </View>
+              </Pressable>
+            </View>
+
+            {/* View Logs Action */}
+            <View className="flex-1 bg-surface border border-slate-100 rounded-3xl shadow-soft">
+              <Pressable
+                onPress={() => {
+                  AppSettings.haptic("light");
+                  router.push("/logs");
+                }}
+                className="p-5 rounded-3xl gap-3 active:scale-[0.97] transition-all"
+              >
+                <View className="w-10 h-10 rounded-2xl bg-secondary/10 items-center justify-center">
+                  <Icon name="history" size={20} color="#6366f1" />
+                </View>
+                <View>
+                  <Text className="font-bold text-on-surface text-base">View Logs</Text>
+                  <Text className="text-xs font-medium text-on-surface-variant mt-0.5">Today's records</Text>
+                </View>
+              </Pressable>
+            </View>
+          </View>
+        </Animated.View>
+      </ScrollView>
+    </View>
+  );
+}
