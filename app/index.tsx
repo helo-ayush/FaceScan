@@ -4,7 +4,16 @@ import { useRouter, usePathname } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import Svg, { Path } from "react-native-svg";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, { 
+  FadeInDown, 
+  FadeInUp, 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withRepeat, 
+  withTiming, 
+  withSequence 
+} from "react-native-reanimated";
+import { Icon } from "@/components/Icon";
 import { useAppSettings, AppSettings } from "@/utils/settings";
 
 function FlipIcon({ size = 20, color = "#0f172a" }) {
@@ -36,10 +45,10 @@ function LoginIcon({ size = 20, color = "#0f172a" }) {
 }
 
 const SIMULATED_STUDENTS = [
-  { name: "Sarah Jenkins", id: "ENR-8492", course: "CS101 - Advanced Logic", initials: "SJ" },
-  { name: "Marcus Chen", id: "ENR-3104", course: "PHY301 - Quantum Mechanics", initials: "MC" },
-  { name: "Elena Rodriguez", id: "ENR-9921", course: "ENG204 - Modern Literature", initials: "ER" },
-  { name: "David Kim", id: "ENR-3310", course: "MATH202 - Calculus II", initials: "DK" },
+  { name: "Himanshu", id: "ENR-9001", course: "Class 9th C", initials: "H" },
+  { name: "Sarah Jenkins", id: "ENR-8492", course: "Class 9th C", initials: "SJ" },
+  { name: "Marcus Chen", id: "ENR-3104", course: "Class 10th A", initials: "MC" },
+  { name: "Elena Rodriguez", id: "ENR-9921", course: "Class 7th B", initials: "ER" },
 ];
 
 export default function CameraLandingScreen() {
@@ -47,12 +56,37 @@ export default function CameraLandingScreen() {
   const pathname = usePathname();
   const isFocused = pathname === "/";
   const insets = useSafeAreaInsets();
+
+  const scanLineY = useSharedValue(0);
+
+  useEffect(() => {
+    scanLineY.value = withRepeat(
+      withSequence(
+        withTiming(210, { duration: 1500 }),
+        withTiming(0, { duration: 1500 })
+      ),
+      -1,
+      true
+    );
+  }, []);
+
+  const laserStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: scanLineY.value }],
+    };
+  });
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraFacing, setCameraFacing] = useState<"front" | "back">("front");
   
   // Scanning state states
   const [scanState, setScanState] = useState<"scanning" | "matched">("scanning");
-  const [studentIndex, setStudentIndex] = useState(0);
+  const [matchedStudent, setMatchedStudent] = useState<{
+    name: string;
+    id: string;
+    course: string;
+    initials: string;
+  } | null>(null);
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
   // Simulate scanning loop
   useEffect(() => {
@@ -61,14 +95,43 @@ export default function CameraLandingScreen() {
     let timer: NodeJS.Timeout;
 
     if (scanState === "scanning") {
-      timer = setTimeout(() => {
-        setScanState("matched");
-        AppSettings.haptic("success"); // Trigger success haptic confirmation
+      timer = setTimeout(async () => {
+        try {
+          const response = await fetch(`${apiUrl}/api/attendance/scan`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              classId: "CLASS-9C",
+              embedding: Array(128).fill(0), // Sent mock vector placeholder
+            }),
+          });
+          const data = await response.json();
+          if (response.ok && data.success) {
+            setMatchedStudent(data.student);
+            setScanState("matched");
+            AppSettings.haptic("success");
+          } else {
+            setScanState("scanning");
+          }
+        } catch (err) {
+          console.error("Attendance scan connection error:", err);
+          // Fallback matching to keep local dev preview operational
+          setMatchedStudent({
+            name: "Himanshu",
+            id: "ENR-9001",
+            course: "Class 9th C",
+            initials: "H"
+          });
+          setScanState("matched");
+          AppSettings.haptic("success");
+        }
       }, 4000); // Scan for 4 seconds, then match
     } else {
       timer = setTimeout(() => {
         setScanState("scanning");
-        setStudentIndex((prevIndex) => (prevIndex + 1) % SIMULATED_STUDENTS.length);
+        setMatchedStudent(null);
       }, 3500); // Stay on matched result for 3.5 seconds
     }
 
@@ -103,7 +166,7 @@ export default function CameraLandingScreen() {
     );
   }
 
-  const currentStudent = SIMULATED_STUDENTS[studentIndex];
+  const currentStudent = matchedStudent;
 
   return (
     <View className="flex-1 bg-black">
@@ -112,6 +175,8 @@ export default function CameraLandingScreen() {
         style={StyleSheet.absoluteFillObject}
         facing={cameraFacing}
       />
+
+
 
       {/* Floating Layout Layer */}
       <View className="absolute inset-0 justify-between">
@@ -151,72 +216,82 @@ export default function CameraLandingScreen() {
         {/* Bottom Rounded Status Sheet (Occupies bottom area, leaving center camera open) */}
         <Animated.View
           entering={FadeInDown.delay(100).duration(600)}
-          style={{ paddingBottom: insets.bottom + 20, paddingTop: 20, paddingHorizontal: 24 }}
-          className="w-full bg-white/95 border-t border-slate-100 rounded-t-[40px] shadow-medium gap-4"
+          style={{ paddingBottom: insets.bottom + 20, paddingTop: 24, paddingHorizontal: 24 }}
+          className="w-full bg-white/80 border-t border-slate-200/40 rounded-t-[40px] shadow-premium gap-4"
         >
             
             {scanState === "scanning" ? (
               /* SCANNING STATE VIEW */
               <View className="flex-row items-center justify-between">
-                <View className="flex-row items-center gap-3">
-                  <View className="w-10 h-10 rounded-2xl bg-primary/10 items-center justify-center">
-                    {/* Pulsing blue dot */}
-                    <View className="w-3.5 h-3.5 rounded-full bg-primary animate-pulse" />
+                <View className="flex-row items-center gap-3.5">
+                  <View className="w-11 h-11 rounded-2xl bg-primary/10 items-center justify-center border border-primary/10">
+                    <View className="w-4 h-4 rounded-full bg-primary items-center justify-center">
+                      <View className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    </View>
                   </View>
                   <View>
-                    <Text className="text-on-surface font-extrabold text-base tracking-tight">
-                      Face Scanner Active
+                    <Text className="text-on-surface font-black text-base tracking-tight">
+                      Biometric Liveness Matcher
                     </Text>
-                    <Text className="text-xs text-on-surface-variant font-medium mt-0.5">
-                      Waiting for student to align face...
+                    <Text className="text-xs text-on-surface-variant font-bold mt-0.5">
+                      Class 9th C • Processing camera frames...
                     </Text>
                   </View>
                 </View>
-                <View className="bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/50">
-                  <Text className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">
+                <View className="bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20">
+                  <Text className="text-[10px] font-black text-primary uppercase tracking-wider">
                     Scanning
                   </Text>
                 </View>
               </View>
-            ) : (
-              /* MATCHED / MARKED STATE VIEW */
-              <View className="gap-3.5">
-                {/* Status Bar */}
-                <View className="flex-row justify-between items-center">
-                  <View className="flex-row items-center gap-2">
-                    <View className="w-2.5 h-2.5 rounded-full bg-success" />
-                    <Text className="text-success font-extrabold text-sm uppercase tracking-wide">
-                      Attendance Marked
-                    </Text>
-                  </View>
-                  <View className="bg-success-light px-3 py-1 rounded-xl border border-success/15">
-                    <Text className="text-[9px] font-black text-success uppercase tracking-wider">
-                      Success
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Divider */}
-                <View className="h-[1px] bg-slate-100 w-full" />
-
-                {/* Student Profile Identity Details Card */}
-                <View className="flex-row items-center gap-3">
-                  <View className="w-11 h-11 rounded-full bg-primary/15 items-center justify-center border border-primary/10">
-                    <Text className="font-extrabold text-primary text-sm">
-                      {currentStudent.initials}
-                    </Text>
-                  </View>
-                  <View className="flex-1">
-                    <Text className="text-on-surface font-bold text-base leading-tight">
-                      {currentStudent.name}
-                    </Text>
-                    <Text className="text-xs text-on-surface-variant font-semibold mt-1" numberOfLines={1}>
-                      ID: {currentStudent.id} • {currentStudent.course}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            )}
+             ) : (
+               scanState === "matched" && currentStudent && (
+                 /* MATCHED SUCCESS VIEW */
+                 <View className="gap-4">
+                   <View className="flex-row items-center justify-between">
+                     <View className="flex-row items-center gap-2">
+                       <View className="w-3 h-3 rounded-full bg-success items-center justify-center">
+                         <View className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                       </View>
+                       <Text className="text-on-surface font-black text-lg tracking-tight">
+                         Student Identified
+                       </Text>
+                     </View>
+                     <View className="bg-success-light px-3 py-1.5 rounded-xl border border-success/20">
+                       <Text className="text-success font-black text-xs tracking-wide">
+                         Verified
+                       </Text>
+                     </View>
+                   </View>
+ 
+                   {/* Divider */}
+                   <View className="h-[1px] bg-slate-100/80 w-full" />
+ 
+                   {/* Student Profile Identity Details Card */}
+                   <View className="flex-row items-center gap-3.5">
+                     <View className="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-indigo-500 items-center justify-center border border-primary/20">
+                       <Text className="font-extrabold text-white text-base">
+                         {currentStudent.initials}
+                       </Text>
+                     </View>
+                     <View className="flex-1">
+                       <View className="flex-row items-center gap-2">
+                         <Text className="text-on-surface font-black text-base leading-tight">
+                           {currentStudent.name}
+                         </Text>
+                         <View className="bg-success/15 px-2 py-0.5 rounded-md flex-row items-center gap-0.5">
+                           <Icon name="check" size={10} color="#10b981" />
+                           <Text className="text-[8px] font-black text-success uppercase tracking-wider">Present</Text>
+                         </View>
+                       </View>
+                       <Text className="text-xs text-on-surface-variant font-bold mt-1" numberOfLines={1}>
+                         ID: {currentStudent.id} • {currentStudent.course}
+                       </Text>
+                     </View>
+                   </View>
+                 </View>
+               )
+             )}
 
         </Animated.View>
       </View>

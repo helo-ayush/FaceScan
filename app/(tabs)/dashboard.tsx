@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useFocusEffect } from "expo-router";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Icon } from "@/components/Icon";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
@@ -8,6 +8,32 @@ import { AppSettings } from "@/utils/settings";
 
 export default function DashboardScreen() {
   const router = useRouter();
+  const [stats, setStats] = useState({ present: 142, absent: 15 });
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
+
+  function fetchStats() {
+    fetch(`${apiUrl}/api/attendance/logs`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.stats) {
+          setStats(data.stats);
+        }
+      })
+      .catch((err) => console.error("Error fetching dashboard statistics:", err));
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchStats();
+    }, [])
+  );
+
+  const formattedDate = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <View className="flex-1 bg-background">
@@ -28,7 +54,7 @@ export default function DashboardScreen() {
             Hello, Admin
           </Text>
           <Text className="text-sm text-on-surface-variant mt-2 font-medium">
-            Monday, October 23, 2023
+            {formattedDate}
           </Text>
         </Animated.View>
 
@@ -47,37 +73,23 @@ export default function DashboardScreen() {
                 <View className="w-10 h-10 rounded-2xl bg-primary/10 items-center justify-center">
                   <Icon name="how_to_reg" size={22} color="#4f46e5" />
                 </View>
-                <View className="bg-success-light px-2 py-0.5 rounded-full border border-success/10 flex-row items-center gap-0.5">
-                  <Icon name="trending_up" size={10} color="#10b981" />
-                  <Text className="text-[9px] font-extrabold text-success">+5%</Text>
-                </View>
               </View>
               <View className="mt-4">
-                <Text className="text-3xl font-black text-on-surface tracking-tight">142</Text>
+                <Text className="text-3xl font-black text-on-surface tracking-tight">{stats.present}</Text>
                 <Text className="text-xs font-bold text-on-surface-variant mt-1">Present</Text>
               </View>
             </View>
 
-            {/* Late / Absent Stack */}
-            <View className="flex-1 gap-4">
-              <View className="bg-surface border border-slate-100 rounded-3xl p-4 flex-row items-center justify-between shadow-soft">
-                <View>
-                  <Text className="text-xl font-black text-on-surface tracking-tight">12</Text>
-                  <Text className="text-[10px] font-bold text-on-surface-variant mt-0.5">Late</Text>
-                </View>
-                <View className="w-9 h-9 rounded-xl bg-warning/10 items-center justify-center">
-                  <Icon name="schedule" size={18} color="#f59e0b" />
+            {/* Absent Card */}
+            <View className="flex-1 bg-surface border border-slate-100 rounded-3xl p-5 min-h-[150px] justify-between shadow-soft">
+              <View className="flex-row justify-between items-start">
+                <View className="w-10 h-10 rounded-2xl bg-error/10 items-center justify-center">
+                  <Icon name="person_off" size={22} color="#ef4444" />
                 </View>
               </View>
-
-              <View className="bg-surface border border-slate-100 rounded-3xl p-4 flex-row items-center justify-between shadow-soft">
-                <View>
-                  <Text className="text-xl font-black text-on-surface tracking-tight">5</Text>
-                  <Text className="text-[10px] font-bold text-on-surface-variant mt-0.5">Absent</Text>
-                </View>
-                <View className="w-9 h-9 rounded-xl bg-error/10 items-center justify-center">
-                  <Icon name="person_off" size={18} color="#ef4444" />
-                </View>
+              <View className="mt-4">
+                <Text className="text-3xl font-black text-on-surface tracking-tight">{stats.absent}</Text>
+                <Text className="text-xs font-bold text-on-surface-variant mt-1">Absent</Text>
               </View>
             </View>
           </View>
