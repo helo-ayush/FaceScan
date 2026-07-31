@@ -20,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#faf8ff"
-      }
+      },
+      "package": "com.anonymous.facewmobile"
     },
     "web": {
       "bundler": "metro",
@@ -28,7 +29,13 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "react-native-face-detector-camera",
+        {
+          "cameraPermission": "Allow Attendance Companion to use the camera for face detection."
+        }
+      ]
     ]
   }
 }
