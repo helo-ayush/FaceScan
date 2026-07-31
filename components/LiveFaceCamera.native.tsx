@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { LayoutChangeEvent, StyleSheet } from "react-native";
+import { PERFORMANCE_PRESETS, PerformanceMode } from "@/utils/settings";
 import {
   CameraView,
   FaceDetectionResult,
@@ -19,10 +20,21 @@ export type RealtimeFace = {
   smilingProbability: number | null;
   leftEyeOpenProbability: number | null;
   rightEyeOpenProbability: number | null;
+  frameBrightness: number | null;
+  faceBrightness: number | null;
+  backgroundBrightness: number | null;
+};
+
+export type RealtimeLighting = {
+  frameBrightness: number | null;
+  brightPixelRatio: number | null;
 };
 
 type Props = {
   onFaceChange: (face: RealtimeFace | null) => void;
+  onLightingChange: (lighting: RealtimeLighting) => void;
+  performanceMode: PerformanceMode;
+  cameraFacing: "front" | "back";
   onCameraReady: () => void;
   onError: (message: string) => void;
   onPreviewLayout: (event: LayoutChangeEvent) => void;
@@ -34,11 +46,20 @@ type Props = {
  */
 export function LiveFaceCamera({
   onFaceChange,
+  onLightingChange,
+  performanceMode,
+  cameraFacing,
   onCameraReady,
   onError,
   onPreviewLayout,
 }: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const brightnessRef = useRef<Record<"frame" | "face" | "background" | "highlights", number | null>>({
+    frame: null,
+    face: null,
+    background: null,
+    highlights: null,
+  });
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -47,7 +68,26 @@ export function LiveFaceCamera({
   };
 
   const handleFacesDetected = useCallback(
-    ({ faces }: FaceDetectionResult) => {
+    ({ faces, frameBrightness, brightPixelRatio }: FaceDetectionResult & {
+      frameBrightness?: number;
+      brightPixelRatio?: number;
+    }) => {
+      const smoothBrightness = (
+        key: "frame" | "face" | "background" | "highlights",
+        value: number | undefined,
+      ) => {
+        if (value === undefined) return null;
+        const previous = brightnessRef.current[key];
+        const next = previous === null ? value : previous * 0.72 + value * 0.28;
+        brightnessRef.current[key] = next;
+        return next;
+      };
+      const smoothedFrame = smoothBrightness("frame", frameBrightness);
+      onLightingChange({
+        frameBrightness: smoothedFrame,
+        brightPixelRatio: smoothBrightness("highlights", brightPixelRatio),
+      });
+
       const largest = faces.reduce<(typeof faces)[number] | null>(
         (current, candidate) => {
           const candidateArea =
@@ -65,6 +105,11 @@ export function LiveFaceCamera({
         return;
       }
 
+      const lightingFace = largest as (typeof faces)[number] & {
+        frameBrightness?: number;
+        faceBrightness?: number;
+        backgroundBrightness?: number;
+      };
       onFaceChange({
         imageWidth: size.width,
         imageHeight: size.height,
@@ -76,15 +121,18 @@ export function LiveFaceCamera({
         smilingProbability: largest.smilingProbability ?? null,
         leftEyeOpenProbability: largest.leftEyeOpenProbability ?? null,
         rightEyeOpenProbability: largest.rightEyeOpenProbability ?? null,
+        frameBrightness: smoothedFrame,
+        faceBrightness: smoothBrightness("face", lightingFace.faceBrightness),
+        backgroundBrightness: smoothBrightness("background", lightingFace.backgroundBrightness),
       });
     },
-    [onFaceChange, size.height, size.width],
+    [onFaceChange, onLightingChange, performanceMode, size.height, size.width],
   );
 
   return (
     <CameraView
       style={StyleSheet.absoluteFillObject}
-      facing="front"
+      facing={cameraFacing}
       onLayout={handleLayout}
       onCameraReady={onCameraReady}
       onMountError={(cameraError) => onError(cameraError.message)}
@@ -94,7 +142,7 @@ export function LiveFaceCamera({
         detectLandmarks: FaceDetectorLandmarks.none,
         runClassifications: FaceDetectorClassifications.all,
         tracking: true,
-        minDetectionInterval: 100,
+        minDetectionInterval: PERFORMANCE_PRESETS[performanceMode].intervalMs,
       }}
     />
   );

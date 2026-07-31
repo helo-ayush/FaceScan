@@ -3,6 +3,17 @@ import * as Haptics from "expo-haptics";
 
 const SETTINGS_KEY = "@face_scanner_settings";
 
+export type PerformanceMode = "low" | "balanced" | "high";
+
+export const PERFORMANCE_PRESETS: Record<
+  PerformanceMode,
+  { fps: number; intervalMs: number }
+> = {
+  low: { fps: 5, intervalMs: 200 },
+  balanced: { fps: 12, intervalMs: 83 },
+  high: { fps: 24, intervalMs: 42 },
+};
+
 export interface SettingsConfig {
   autoCapture: boolean;
   showGrid: boolean;
@@ -10,6 +21,7 @@ export interface SettingsConfig {
   hapticsEnabled: boolean;
   cameraFacing: "front" | "back";
   sensitivity: "low" | "standard" | "high";
+  performance: PerformanceMode;
 }
 
 export const defaultSettings: SettingsConfig = {
@@ -19,6 +31,7 @@ export const defaultSettings: SettingsConfig = {
   hapticsEnabled: true,
   cameraFacing: "front",
   sensitivity: "standard",
+  performance: "balanced",
 };
 
 let memorySettings: SettingsConfig = { ...defaultSettings };

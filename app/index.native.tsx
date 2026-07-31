@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   LayoutChangeEvent,
   Pressable,
@@ -10,10 +10,10 @@ import { usePathname, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCameraPermissions } from "react-native-face-detector-camera";
 import Svg, { Path } from "react-native-svg";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInUp, FadeOutUp } from "react-native-reanimated";
 
-import { LiveFaceCamera, RealtimeFace } from "@/components/LiveFaceCamera";
-import { AppSettings } from "@/utils/settings";
+import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/LiveFaceCamera";
+import { AppSettings, useAppSettings } from "@/utils/settings";
 
 type PreviewLayout = {
   width: number;
@@ -88,6 +88,44 @@ function mapFaceToPreview(
   };
 }
 
+type LightingWarning = {
+  title: string;
+  message: string;
+};
+
+function getLightingWarning(
+  face: RealtimeFace | null,
+  lighting: RealtimeLighting,
+): LightingWarning | null {
+  const frame = face?.frameBrightness ?? lighting.frameBrightness;
+  const brightPixelRatio = lighting.brightPixelRatio ?? 0;
+  const faceBrightness = face?.faceBrightness ?? null;
+  const background = face?.backgroundBrightness ?? null;
+
+  if (faceBrightness !== null && background !== null && faceBrightness < background - 32 && faceBrightness < 128) {
+    return { title: "Backlit face", message: "Turn toward the light" };
+  }
+  if (faceBrightness !== null && faceBrightness < 66) {
+    return { title: "Face too dim", message: "Move closer to light" };
+  }
+  if (frame !== null && frame < 58) {
+    return { title: "Scene too dim", message: "Increase room light" };
+  }
+  if (brightPixelRatio >= 0.04) {
+    return { title: "Harsh glare", message: "Move away from bright light" };
+  }
+  if (faceBrightness !== null && background !== null && faceBrightness > background + 36 && faceBrightness > 185) {
+    return { title: "Direct light on face", message: "Avoid direct light" };
+  }
+  if (faceBrightness !== null && faceBrightness > 222) {
+    return { title: "Face overexposed", message: "Reduce face light" };
+  }
+  if (frame !== null && frame > 226) {
+    return { title: "Scene overexposed", message: "Reduce room light" };
+  }
+  return null;
+}
+
 function probabilityText(value: number | null) {
   return value === null ? null : `${Math.round(value * 100)}%`;
 }
@@ -97,7 +135,13 @@ export default function CameraLandingScreen() {
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const [permission, requestPermission] = useCameraPermissions();
+  const { settings, updateSetting, triggerHaptic } = useAppSettings();
   const [face, setFace] = useState<RealtimeFace | null>(null);
+  const [lighting, setLighting] = useState<RealtimeLighting>({
+    frameBrightness: null,
+    brightPixelRatio: null,
+  });
+  const [displayedLightingWarning, setDisplayedLightingWarning] = useState<LightingWarning | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [cameraReady, setCameraReady] = useState(false);
   const [previewLayout, setPreviewLayout] = useState<PreviewLayout | null>(null);
@@ -116,6 +160,16 @@ export default function CameraLandingScreen() {
     setPreviewLayout({ width, height });
   };
 
+  const lightingWarning = getLightingWarning(face, lighting);
+  const lightingWarningKey = lightingWarning?.title ?? "none";
+
+  useEffect(() => {
+    const timer = setTimeout(
+      () => setDisplayedLightingWarning(lightingWarning),
+      lightingWarning ? 500 : 800,
+    );
+    return () => clearTimeout(timer);
+  }, [lightingWarningKey]);
   const smile = probabilityText(face?.smilingProbability ?? null);
   const leftEye = probabilityText(face?.leftEyeOpenProbability ?? null);
   const rightEye = probabilityText(face?.rightEyeOpenProbability ?? null);
@@ -161,7 +215,10 @@ export default function CameraLandingScreen() {
   return (
     <View className="flex-1 bg-black">
       <LiveFaceCamera
+        performanceMode={settings.performance}
+        cameraFacing={settings.cameraFacing}
         onFaceChange={setFace}
+        onLightingChange={setLighting}
         onCameraReady={() => setCameraReady(true)}
         onError={setError}
         onPreviewLayout={handleCameraLayout}
@@ -205,11 +262,40 @@ export default function CameraLandingScreen() {
             </Pressable>
           </View>
 
-          <View className="w-12 h-12 rounded-full bg-white/90 border border-slate-100/50 shadow-medium items-center justify-center">
-            <Text className="text-[9px] font-black text-on-surface-variant uppercase">
-              Front
-            </Text>
+          <View className="w-12 h-12 rounded-full bg-white/90 border border-slate-100/50 shadow-medium">
+            <Pressable
+              accessibilityLabel="Switch camera"
+              accessibilityRole="button"
+              onPress={() => {
+                triggerHaptic("light");
+                updateSetting("cameraFacing", settings.cameraFacing === "front" ? "back" : "front");
+                setFace(null);
+              }}
+              className="w-full h-full items-center justify-center rounded-full active:scale-95 transition-all"
+            >
+              <FlipIcon color="#0f172a" />
+            </Pressable>
           </View>
+
+          {displayedLightingWarning && (
+            <Animated.View
+              pointerEvents="none"
+              entering={FadeInDown.duration(220)}
+              exiting={FadeOutUp.duration(180)}
+              style={{ position: "absolute", left: 80, right: 80, top: insets.top + 16 }}
+              className="h-12 flex-row items-center gap-2 rounded-full border border-amber-200 bg-white/95 px-3 shadow-medium"
+            >
+              <View className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+              <View className="flex-1 flex-row items-center gap-1.5">
+                <Text className="text-xs font-black text-amber-800" numberOfLines={1}>
+                  {displayedLightingWarning.title}
+                </Text>
+                <Text className="flex-1 text-[10px] font-semibold text-amber-700" numberOfLines={1}>
+                  {displayedLightingWarning.message}
+                </Text>
+              </View>
+            </Animated.View>
+          )}
         </Animated.View>
 
         <Animated.View

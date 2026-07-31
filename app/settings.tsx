@@ -5,6 +5,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
 import { useAppSettings } from "@/utils/settings";
 
+const PERFORMANCE_OPTIONS = [
+  { key: "low", label: "Low", fps: 5, description: "Longest battery life" },
+  { key: "balanced", label: "Balanced", fps: 12, description: "Recommended for everyday use" },
+  { key: "high", label: "High", fps: 24, description: "Smoothest face box" },
+] as const;
+
+
 export default function SettingsScreen() {
   const router = useRouter();
   const { settings, updateSetting, triggerHaptic } = useAppSettings();
@@ -53,6 +60,32 @@ export default function SettingsScreen() {
           </Text>
 
           <View className="bg-surface border border-slate-100 rounded-3xl overflow-hidden shadow-soft">
+          <View className="p-5 border-b border-slate-100">
+            <View className="flex-row items-start justify-between mb-1">
+              <View className="flex-1 pr-3">
+                <Text className="font-bold text-on-surface text-base">Detection Performance</Text>
+                <Text className="text-xs text-on-surface-variant mt-1">Choose how often the live face detector processes camera frames.</Text>
+              </View>
+              <Text className="text-xs font-black text-primary">{settings.performance.toUpperCase()}</Text>
+            </View>
+            <View className="flex-row gap-2 mt-4">
+              {PERFORMANCE_OPTIONS.map((option) => (
+                <Pressable
+                  key={option.key}
+                  onPress={() => {
+                    triggerHaptic("light");
+                    updateSetting("performance", option.key);
+                  }}
+                  className={`flex-1 rounded-2xl border p-3 ${settings.performance === option.key ? "bg-primary/10 border-primary" : "bg-surface-muted border-slate-100"} active:scale-95`}
+                >
+                  <Text className={`font-black text-sm ${settings.performance === option.key ? "text-primary" : "text-on-surface-variant"}`}>{option.label}</Text>
+                  <Text className={`text-xs font-bold mt-1 ${settings.performance === option.key ? "text-primary" : "text-on-surface-variant"}`}>{option.fps} FPS</Text>
+                </Pressable>
+              ))}
+            </View>
+            <Text className="text-[11px] text-on-surface-variant mt-3">{PERFORMANCE_OPTIONS.find((option) => option.key === settings.performance)?.description}</Text>
+          </View>
+
             {/* Auto Capture Toggle */}
             <Pressable
               onPress={() => {
@@ -79,7 +112,7 @@ export default function SettingsScreen() {
                 const nextVal = !settings.hapticsEnabled;
                 updateSetting("hapticsEnabled", nextVal);
                 if (nextVal) {
-                  setTimeout(() => AppSettings.haptic("light"), 100);
+                  setTimeout(() => triggerHaptic("light"), 100);
                 }
               }}
               className="p-5 flex-row items-center justify-between border-b border-slate-100 active:bg-surface-muted/50"
