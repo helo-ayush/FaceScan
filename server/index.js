@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const Class = require("./models/Class");
 const Student = require("./models/Student");
@@ -10,6 +11,10 @@ const AttendanceLog = require("./models/AttendanceLog");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/facescan";
+
+if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
+  console.warn("Admin login env vars are missing. Check server/.env and how the backend is started.");
+}
 
 // Enable CORS for frontend app
 app.use(cors());

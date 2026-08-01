@@ -15,6 +15,12 @@ export type RealtimeFace = {
   frameBrightness: number | null;
   faceBrightness: number | null;
   backgroundBrightness: number | null;
+  alignmentReady: boolean;
+  alignmentRotationDegrees: number | null;
+  alignmentScale: number | null;
+  normalizationReady: boolean;
+  normalizationCoverage: number | null;
+  debugNormalizedPreviewUri: string | null;
 };
 
 export type RealtimeLighting = {

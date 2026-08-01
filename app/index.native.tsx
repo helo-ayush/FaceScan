@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
+  Image,
   LayoutChangeEvent,
   Pressable,
   StyleSheet,
@@ -244,6 +245,18 @@ export default function CameraLandingScreen() {
         </View>
       )}
 
+      {face?.debugNormalizedPreviewUri && (
+        <View pointerEvents="none" style={[styles.normalizedPreview, { top: insets.top + 80 }]}>
+          <Image
+            source={{ uri: face.debugNormalizedPreviewUri }}
+            style={styles.normalizedPreviewImage}
+          />
+          <View style={styles.normalizedPreviewLabel}>
+            <View style={styles.normalizedPreviewDot} />
+            <Text style={styles.normalizedPreviewText}>ALIGNED 112</Text>
+          </View>
+        </View>
+      )}
       <View className="absolute inset-0 justify-between">
         <Animated.View
           entering={FadeInUp.delay(200).duration(500)}
@@ -382,6 +395,46 @@ export default function CameraLandingScreen() {
 }
 
 const styles = StyleSheet.create({
+  normalizedPreview: {
+    position: "absolute",
+    right: 24,
+    width: 120,
+    padding: 4,
+    borderRadius: 16,
+    backgroundColor: "rgba(15, 23, 42, 0.86)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.22)",
+    shadowColor: "#0f172a",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.24,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  normalizedPreviewImage: {
+    width: 112,
+    height: 112,
+    borderRadius: 12,
+    backgroundColor: "#020617",
+  },
+  normalizedPreviewLabel: {
+    height: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+  },
+  normalizedPreviewDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#34d399",
+  },
+  normalizedPreviewText: {
+    color: "#f8fafc",
+    fontSize: 9,
+    fontWeight: "800",
+    letterSpacing: 0.6,
+  },
   faceFrame: {
     position: "absolute",
     borderColor: "#5d5fef",

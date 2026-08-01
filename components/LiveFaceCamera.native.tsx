@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LayoutChangeEvent, StyleSheet } from "react-native";
 import { PERFORMANCE_PRESETS, PerformanceMode } from "@/utils/settings";
 import {
@@ -23,6 +23,12 @@ export type RealtimeFace = {
   frameBrightness: number | null;
   faceBrightness: number | null;
   backgroundBrightness: number | null;
+  alignmentReady: boolean;
+  alignmentRotationDegrees: number | null;
+  alignmentScale: number | null;
+  normalizationReady: boolean;
+  normalizationCoverage: number | null;
+  debugNormalizedPreviewUri: string | null;
 };
 
 export type RealtimeLighting = {
@@ -54,6 +60,19 @@ export function LiveFaceCamera({
   onPreviewLayout,
 }: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const faceDetectorSettings = useMemo(
+    () => ({
+      mode: FaceDetectorMode.fast,
+      // Native step 2 uses ML Kit eye landmarks to build the alignment transform.
+      detectLandmarks: FaceDetectorLandmarks.all,
+      runClassifications: FaceDetectorClassifications.all,
+      tracking: true,
+      // Temporary inspection mode: native crop preview is capped at ~1 fps.
+      debugNormalizedPreview: true,
+      minDetectionInterval: PERFORMANCE_PRESETS[performanceMode].intervalMs,
+    }),
+    [performanceMode],
+  );
   const brightnessRef = useRef<Record<"frame" | "face" | "background" | "highlights", number | null>>({
     frame: null,
     face: null,
@@ -61,6 +80,7 @@ export function LiveFaceCamera({
     highlights: null,
   });
   const clearFaceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const debugPreviewUriRef = useRef<string | null>(null);
 
   const scheduleFaceClear = useCallback(() => {
     if (clearFaceTimerRef.current !== null) return;
@@ -70,6 +90,7 @@ export function LiveFaceCamera({
     const gracePeriodMs = Math.max(650, PERFORMANCE_PRESETS[performanceMode].intervalMs * 3);
     clearFaceTimerRef.current = setTimeout(() => {
       clearFaceTimerRef.current = null;
+      debugPreviewUriRef.current = null;
       onFaceChange(null);
     }, gracePeriodMs);
   }, [onFaceChange, performanceMode]);
@@ -135,7 +156,20 @@ export function LiveFaceCamera({
         backgroundBrightness?: number;
         imageWidth?: number;
         imageHeight?: number;
+        alignment?: {
+          isReady?: boolean;
+          rotationDegrees?: number;
+          scale?: number;
+        };
+        normalization?: {
+          isReady?: boolean;
+          coverage?: number;
+          previewBase64?: string;
+        };
       };
+      if (lightingFace.normalization?.previewBase64) {
+        debugPreviewUriRef.current = `data:image/jpeg;base64,${lightingFace.normalization.previewBase64}`;
+      }
       onFaceChange({
         imageWidth: lightingFace.imageWidth ?? size.width,
         imageHeight: lightingFace.imageHeight ?? size.height,
@@ -150,6 +184,12 @@ export function LiveFaceCamera({
         frameBrightness: smoothedFrame,
         faceBrightness: smoothBrightness("face", lightingFace.faceBrightness),
         backgroundBrightness: smoothBrightness("background", lightingFace.backgroundBrightness),
+        alignmentReady: lightingFace.alignment?.isReady === true,
+        alignmentRotationDegrees: lightingFace.alignment?.rotationDegrees ?? null,
+        alignmentScale: lightingFace.alignment?.scale ?? null,
+        normalizationReady: lightingFace.normalization?.isReady === true,
+        normalizationCoverage: lightingFace.normalization?.coverage ?? null,
+        debugNormalizedPreviewUri: debugPreviewUriRef.current,
       });
     },
     [onFaceChange, onLightingChange, performanceMode, scheduleFaceClear, size.height, size.width],
@@ -163,13 +203,7 @@ export function LiveFaceCamera({
       onCameraReady={onCameraReady}
       onMountError={(cameraError) => onError(cameraError.message)}
       onFacesDetected={handleFacesDetected}
-      faceDetectorSettings={{
-        mode: FaceDetectorMode.fast,
-        detectLandmarks: FaceDetectorLandmarks.none,
-        runClassifications: FaceDetectorClassifications.all,
-        tracking: true,
-        minDetectionInterval: PERFORMANCE_PRESETS[performanceMode].intervalMs,
-      }}
+      faceDetectorSettings={faceDetectorSettings}
     />
   );
 }
