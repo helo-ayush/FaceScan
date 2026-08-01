@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { LayoutChangeEvent, StyleSheet } from "react-native";
 import { PERFORMANCE_PRESETS, PerformanceMode } from "@/utils/settings";
 import {
@@ -60,6 +60,25 @@ export function LiveFaceCamera({
     background: null,
     highlights: null,
   });
+  const clearFaceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const scheduleFaceClear = useCallback(() => {
+    if (clearFaceTimerRef.current !== null) return;
+
+    // A single ML Kit miss is normal in a live stream. Keep the last valid box
+    // through a few scan windows, then clear it only when loss is sustained.
+    const gracePeriodMs = Math.max(650, PERFORMANCE_PRESETS[performanceMode].intervalMs * 3);
+    clearFaceTimerRef.current = setTimeout(() => {
+      clearFaceTimerRef.current = null;
+      onFaceChange(null);
+    }, gracePeriodMs);
+  }, [onFaceChange, performanceMode]);
+
+  useEffect(() => () => {
+    if (clearFaceTimerRef.current !== null) {
+      clearTimeout(clearFaceTimerRef.current);
+    }
+  }, []);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -101,18 +120,25 @@ export function LiveFaceCamera({
       );
 
       if (!largest || !size.width || !size.height) {
-        onFaceChange(null);
+        scheduleFaceClear();
         return;
+      }
+
+      if (clearFaceTimerRef.current !== null) {
+        clearTimeout(clearFaceTimerRef.current);
+        clearFaceTimerRef.current = null;
       }
 
       const lightingFace = largest as (typeof faces)[number] & {
         frameBrightness?: number;
         faceBrightness?: number;
         backgroundBrightness?: number;
+        imageWidth?: number;
+        imageHeight?: number;
       };
       onFaceChange({
-        imageWidth: size.width,
-        imageHeight: size.height,
+        imageWidth: lightingFace.imageWidth ?? size.width,
+        imageHeight: lightingFace.imageHeight ?? size.height,
         x: largest.bounds.origin.x,
         y: largest.bounds.origin.y,
         width: largest.bounds.size.width,
@@ -126,7 +152,7 @@ export function LiveFaceCamera({
         backgroundBrightness: smoothBrightness("background", lightingFace.backgroundBrightness),
       });
     },
-    [onFaceChange, onLightingChange, performanceMode, size.height, size.width],
+    [onFaceChange, onLightingChange, performanceMode, scheduleFaceClear, size.height, size.width],
   );
 
   return (
