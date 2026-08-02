@@ -50,6 +50,7 @@ export interface SettingsConfig {
   performance: PerformanceMode;
   scanningPerformance: ScanningPerformanceMode;
   smoothFaceBox: boolean;
+  strictLightingCheck: boolean;
 }
 
 export const defaultSettings: SettingsConfig = {
@@ -62,6 +63,7 @@ export const defaultSettings: SettingsConfig = {
   performance: "balanced",
   scanningPerformance: "standard",
   smoothFaceBox: true,
+  strictLightingCheck: true,
 };
 
 let memorySettings: SettingsConfig = { ...defaultSettings };

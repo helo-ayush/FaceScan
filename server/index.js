@@ -25,66 +25,8 @@ mongoose
   .connect(MONGODB_URI)
   .then(() => {
     console.log("Successfully connected to MongoDB");
-    seedDatabase();
   })
   .catch((err) => console.error("MongoDB connection error:", err));
-
-// Seeding standard mock roster data for development checks
-async function seedDatabase() {
-  try {
-    await Class.deleteMany({});
-    await Student.deleteMany({});
-    await AttendanceLog.deleteMany({});
-    console.log("Database collections cleared for fresh seed data...");
-
-    const defaultClasses = [
-      { classId: "CLASS-9C", name: "Class 9th C", code: "9C" },
-      { classId: "CLASS-10A", name: "Class 10th A", code: "10A" },
-      { classId: "CLASS-7B", name: "Class 7th B", code: "7B" }
-    ];
-    await Class.insertMany(defaultClasses);
-    console.log("Seeded default classes");
-
-    const mockEmbedding = Array(512).fill(0);
-    const defaultStudents = [
-      { name: "Himanshu Kumar", enrollmentNumber: "ENR-9001", classId: "CLASS-9C", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      { name: "Sarah Jenkins", enrollmentNumber: "ENR-8492", classId: "CLASS-9C", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      { name: "Marcus Chen", enrollmentNumber: "ENR-3104", classId: "CLASS-9C", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      { name: "Elena Rodriguez", enrollmentNumber: "ENR-9921", classId: "CLASS-9C", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      
-      { name: "Liam Vance", enrollmentNumber: "ENR-1021", classId: "CLASS-10A", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      { name: "Sophia Patel", enrollmentNumber: "ENR-1022", classId: "CLASS-10A", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      { name: "Ethan Carter", enrollmentNumber: "ENR-1023", classId: "CLASS-10A", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      
-      { name: "Ava Morrison", enrollmentNumber: "ENR-2041", classId: "CLASS-7B", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      { name: "Noah Bennett", enrollmentNumber: "ENR-2042", classId: "CLASS-7B", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
-      { name: "Isabella Ross", enrollmentNumber: "ENR-2043", classId: "CLASS-7B", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } }
-    ];
-    const insertedStudents = await Student.insertMany(defaultStudents);
-    console.log("Seeded default students list");
-
-    console.log("Seeding attendance logs history for the last 10 days...");
-    for (let i = 0; i < 10; i++) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().split("T")[0];
-
-      for (const student of insertedStudents) {
-        const status = Math.random() < 0.8 ? "present" : "absent";
-        await AttendanceLog.create({
-          enrollmentNumber: student.enrollmentNumber,
-          classId: student.classId,
-          status,
-          date: dateStr,
-          timestamp: new Date(dateStr + "T09:00:00")
-        });
-      }
-    }
-    console.log("Successfully seeded 10-day attendance logs history");
-  } catch (e) {
-    console.error("Error seeding database:", e);
-  }
-}
 
 app.get("/api/classes", async (req, res) => {
   try {

@@ -1,3 +1,5 @@
+import React from "react";
+import { LayoutChangeEvent } from "react-native";
 import { PerformanceMode, ScanningPerformanceMode } from "@/utils/settings";
 
 export type RealtimeFace = {
@@ -19,6 +21,7 @@ export type RealtimeFace = {
   alignmentScale: number | null;
   normalizationReady: boolean;
   normalizationCoverage: number | null;
+  previewBase64: string | null;
   embedding: number[] | null;
   processDurationMs: number | null;
 };
@@ -28,18 +31,21 @@ export type RealtimeLighting = {
   brightPixelRatio: number | null;
 };
 
-type Props = {
+export type LiveFaceCameraProps = {
+  cameraRef?: React.RefObject<any>;
   onFaceChange: (face: RealtimeFace | null) => void;
   onLightingChange: (lighting: RealtimeLighting) => void;
   performanceMode: PerformanceMode;
   scanningPerformance?: ScanningPerformanceMode;
   cameraFacing: "front" | "back";
+  showNativeOverlay?: boolean;
+  smoothNativeOverlay?: boolean;
   onCameraReady: () => void;
   onError: (message: string) => void;
   onPreviewLayout: (event: LayoutChangeEvent) => void;
 };
 
 /** Web fallback; the native runtime resolves LiveFaceCamera.native.tsx. */
-export function LiveFaceCamera(_props: Props) {
+export function LiveFaceCamera(_props: LiveFaceCameraProps) {
   return null;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { View, Text, ScrollView, Pressable, Modal, LayoutAnimation } from "react-native";
+import { View, Text, ScrollView, Pressable, Modal, LayoutAnimation, StyleSheet } from "react-native";
 import { useFocusEffect } from "expo-router";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Icon } from "@/components/Icon";
@@ -14,6 +14,7 @@ type LogEntry = {
   course: string;
   time: string;
   status: "present" | "absent";
+  date?: string;
 };
 
 const STATUS_CONFIG = {
@@ -320,25 +321,44 @@ export default function LogsScreen() {
         </Animated.View>
       )}
 
-      {/* Traditional Calendar Modal Picker */}
-      <Modal
-        transparent
-        animationType="fade"
-        visible={showDatePicker !== null}
-        onRequestClose={() => setShowDatePicker(null)}
-      >
-        <Pressable 
-          onPress={() => {
-            AppSettings.haptic("light");
-            setShowDatePicker(null);
-          }}
-          className="flex-1 bg-black/40 justify-end"
+      {/* Traditional Calendar Modal Picker Overlay */}
+      {showDatePicker !== null && (
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              zIndex: 9999,
+              backgroundColor: "rgba(15, 23, 42, 0.6)",
+              justifyContent: "flex-end",
+            },
+          ]}
         >
+          <Pressable 
+            style={StyleSheet.absoluteFillObject}
+            onPress={() => {
+              AppSettings.haptic("light");
+              setShowDatePicker(null);
+            }}
+          />
           <AnimatedPressable 
             entering={SlideInDown.duration(280)}
             exiting={SlideOutDown.duration(220)}
             onPress={() => {}} // Intercept clicks inside calendar card
-            className="bg-surface rounded-t-[32px] p-6 h-[460px] w-full border-t border-slate-100 shadow-premium"
+            style={{
+              backgroundColor: "#ffffff",
+              borderTopLeftRadius: 32,
+              borderTopRightRadius: 32,
+              padding: 24,
+              height: 460,
+              width: "100%",
+              borderTopWidth: 1,
+              borderTopColor: "#f1f5f9",
+              elevation: 10,
+              shadowColor: "#000",
+              shadowOpacity: 0.15,
+              shadowRadius: 20,
+              shadowOffset: { width: 0, height: -10 },
+            }}
           >
             {/* Header controls inside modal */}
             <View className="flex-row justify-between items-center mb-4">
@@ -579,8 +599,8 @@ export default function LogsScreen() {
               </View>
             )}
           </AnimatedPressable>
-        </Pressable>
-      </Modal>
+        </View>
+      )}
     </View>
   );
 }

@@ -28,6 +28,7 @@ export type RealtimeFace = {
   alignmentScale: number | null;
   normalizationReady: boolean;
   normalizationCoverage: number | null;
+  previewBase64: string | null;
   embedding: number[] | null;
   processDurationMs: number | null;
 };
@@ -37,7 +38,8 @@ export type RealtimeLighting = {
   brightPixelRatio: number | null;
 };
 
-type Props = {
+export type LiveFaceCameraProps = {
+  cameraRef?: React.RefObject<any>;
   onFaceChange: (face: RealtimeFace | null) => void;
   onLightingChange: (lighting: RealtimeLighting) => void;
   performanceMode: PerformanceMode;
@@ -51,10 +53,10 @@ type Props = {
 };
 
 /**
- * Native ML Kit receives preview frames directly. No photos are captured, so
- * this component has neither shutter feedback nor snapshot processing latency.
+ * Native ML Kit receives preview frames directly.
  */
 export function LiveFaceCamera({
+  cameraRef,
   onFaceChange,
   onLightingChange,
   performanceMode,
@@ -65,7 +67,7 @@ export function LiveFaceCamera({
   onCameraReady,
   onError,
   onPreviewLayout,
-}: Props) {
+}: LiveFaceCameraProps) {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const faceDetectorSettings = useMemo(
     () => ({
@@ -194,6 +196,7 @@ export function LiveFaceCamera({
         alignmentScale: lightingFace.alignment?.scale ?? null,
         normalizationReady: lightingFace.normalization?.isReady === true,
         normalizationCoverage: lightingFace.normalization?.coverage ?? null,
+        previewBase64: lightingFace.normalization?.previewBase64 ?? null,
         embedding: lightingFace.normalization?.embedding ?? null,
         processDurationMs: lightingFace.normalization?.processDurationMs ?? null,
       });
@@ -203,6 +206,7 @@ export function LiveFaceCamera({
 
   return (
     <CameraView
+      ref={cameraRef}
       style={StyleSheet.absoluteFillObject}
       facing={cameraFacing}
       onLayout={handleLayout}

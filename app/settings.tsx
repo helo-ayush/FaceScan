@@ -236,6 +236,25 @@ export default function SettingsScreen() {
               </View>
             </Pressable>
 
+            {/* Strict Enrollment Lighting Check Toggle */}
+            <Pressable
+              onPress={() => {
+                triggerHaptic("light");
+                updateSetting("strictLightingCheck", !settings.strictLightingCheck);
+              }}
+              className="p-5 flex-row items-center justify-between border-b border-slate-100 active:bg-surface-muted/50"
+            >
+              <View className="flex-1 pr-4">
+                <Text className="font-bold text-on-surface text-base">Strict Enrollment Lighting Check</Text>
+                <Text className="text-xs text-on-surface-variant mt-1">
+                  Block capturing face photos during enrollment when lighting warnings (dim light, glare, backlighting) are present.
+                </Text>
+              </View>
+              <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.strictLightingCheck ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
+                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
+              </View>
+            </Pressable>
+
             {/* Haptic Feedback Toggle */}
             <Pressable
               onPress={() => {

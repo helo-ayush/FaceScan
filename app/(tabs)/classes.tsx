@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, ScrollView, Pressable, Modal, TextInput, LayoutAnimation } from "react-native";
+import { View, Text, ScrollView, Pressable, Modal, TextInput, LayoutAnimation, StyleSheet } from "react-native";
 import { useFocusEffect } from "expo-router";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Icon } from "@/components/Icon";
@@ -442,17 +442,46 @@ export default function ClassesScreen() {
         </Animated.View>
       </ScrollView>
 
-      {/* Premium Custom Deletion Confirmation Modal */}
-      <Modal
-        transparent
-        animationType="fade"
-        visible={confirmDelete !== null}
-        onRequestClose={() => setConfirmDelete(null)}
-      >
-        <View className="flex-1 bg-black/40 justify-center items-center px-6">
+      {/* Premium Custom Deletion Confirmation Modal Overlay */}
+      {confirmDelete !== null && (
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              zIndex: 9999,
+              backgroundColor: "rgba(15, 23, 42, 0.6)",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 24,
+            },
+          ]}
+        >
+          <Pressable
+            style={StyleSheet.absoluteFillObject}
+            onPress={() => {
+              AppSettings.haptic("light");
+              setConfirmDelete(null);
+              setConfirmTextInput("");
+            }}
+          />
           <Animated.View 
-            entering={FadeInUp.duration(300)}
-            className="bg-surface rounded-3xl p-6 shadow-premium max-w-[340px] w-full border border-slate-100 items-center gap-5"
+            entering={FadeInUp.duration(250)}
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: 24,
+              padding: 24,
+              maxWidth: 340,
+              width: "100%",
+              borderWidth: 1,
+              borderColor: "#f1f5f9",
+              alignItems: "center",
+              gap: 20,
+              elevation: 10,
+              shadowColor: "#000",
+              shadowOpacity: 0.15,
+              shadowRadius: 20,
+              shadowOffset: { width: 0, height: 10 },
+            }}
           >
             {/* Warning Circle Icon */}
             <View className="w-14 h-14 rounded-full bg-error-light border border-error/10 items-center justify-center">
@@ -533,19 +562,46 @@ export default function ClassesScreen() {
             </View>
           </Animated.View>
         </View>
-      </Modal>
+      )}
 
       {/* Create Class Modal Overlay Form */}
-      <Modal
-        transparent
-        animationType="fade"
-        visible={showCreateModal}
-        onRequestClose={() => setShowCreateModal(false)}
-      >
-        <View className="flex-1 bg-black/40 justify-center items-center px-6">
+      {showCreateModal && (
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              zIndex: 9999,
+              backgroundColor: "rgba(15, 23, 42, 0.6)",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 24,
+            },
+          ]}
+        >
+          <Pressable
+            style={StyleSheet.absoluteFillObject}
+            onPress={() => {
+              AppSettings.haptic("light");
+              setShowCreateModal(false);
+            }}
+          />
           <Animated.View 
-            entering={FadeInUp.duration(300)}
-            className="bg-surface rounded-3xl p-6 shadow-premium max-w-[350px] w-full border border-slate-100 gap-4"
+            entering={FadeInUp.duration(250)}
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: 24,
+              padding: 24,
+              maxWidth: 350,
+              width: "100%",
+              borderWidth: 1,
+              borderColor: "#f1f5f9",
+              gap: 16,
+              elevation: 10,
+              shadowColor: "#000",
+              shadowOpacity: 0.15,
+              shadowRadius: 20,
+              shadowOffset: { width: 0, height: 10 },
+            }}
           >
             {/* Header */}
             <View className="flex-row justify-between items-center mb-1">
@@ -626,7 +682,7 @@ export default function ClassesScreen() {
             </Pressable>
           </Animated.View>
         </View>
-      </Modal>
+      )}
     </View>
   );
 }
