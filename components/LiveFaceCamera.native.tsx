@@ -43,6 +43,8 @@ type Props = {
   performanceMode: PerformanceMode;
   scanningPerformance: ScanningPerformanceMode;
   cameraFacing: "front" | "back";
+  showNativeOverlay?: boolean;
+  smoothNativeOverlay?: boolean;
   onCameraReady: () => void;
   onError: (message: string) => void;
   onPreviewLayout: (event: LayoutChangeEvent) => void;
@@ -58,6 +60,8 @@ export function LiveFaceCamera({
   performanceMode,
   scanningPerformance,
   cameraFacing,
+  showNativeOverlay = true,
+  smoothNativeOverlay = true,
   onCameraReady,
   onError,
   onPreviewLayout,
@@ -70,10 +74,12 @@ export function LiveFaceCamera({
       detectLandmarks: FaceDetectorLandmarks.all,
       runClassifications: FaceDetectorClassifications.all,
       tracking: true,
+      showNativeOverlay,
+      smoothNativeOverlay,
       minDetectionInterval: (PERFORMANCE_PRESETS[performanceMode] || PERFORMANCE_PRESETS.balanced).intervalMs,
       scanningIntervalMs: (SCANNING_PERFORMANCE_PRESETS[scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).intervalMs,
     }),
-    [performanceMode, scanningPerformance],
+    [performanceMode, scanningPerformance, showNativeOverlay, smoothNativeOverlay],
   );
   const brightnessRef = useRef<Record<"frame" | "face" | "background" | "highlights", number | null>>({
     frame: null,

@@ -50,7 +50,7 @@ index b56f488..bf58baf 100644
  
        AsyncFunction("takePicture") { view: CameraView, options: PictureOptions, promise: Promise ->
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
-index afd158a..d5aea77 100644
+index afd158a..fc9cd4b 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
 @@ -5,6 +5,7 @@ import android.content.Context
@@ -61,15 +61,16 @@ index afd158a..d5aea77 100644
  import android.view.View
  import androidx.appcompat.app.AppCompatActivity
  import androidx.camera.core.Camera
-@@ -55,6 +56,7 @@ class CameraView(
+@@ -55,6 +56,8 @@ class CameraView(
      private var imageCaptureUseCase: ImageCapture? = null
      private var imageAnalysisUseCase: ImageAnalysis? = null
      private var previewView = PreviewView(context)
++    private var faceOverlayView = FaceOverlayView(context)
 +    private var targetRotation = Surface.ROTATION_0
      private val scope = CoroutineScope(Dispatchers.Main)
  
      var lenFacing = CameraType.FRONT
-@@ -82,6 +84,32 @@ class CameraView(
+@@ -82,6 +85,32 @@ class CameraView(
      // Scanning-related properties
      private var faceDetectorSettings = FaceDetectorSettings()
      private var shouldDetectFaces = false
@@ -102,7 +103,15 @@ index afd158a..d5aea77 100644
  
      override fun onLayout(
          changed: Boolean,
-@@ -139,9 +167,11 @@ class CameraView(
+@@ -94,6 +123,7 @@ class CameraView(
+         val height = bottom - top
+ 
+         previewView.layout(0, 0, width, height)
++        faceOverlayView.layout(0, 0, width, height)
+         postInvalidate(left, top, right, bottom)
+     }
+ 
+@@ -139,9 +169,11 @@ class CameraView(
          providerFuture.addListener(
              {
                  val cameraProvider: ProcessCameraProvider = providerFuture.get()
@@ -114,7 +123,7 @@ index afd158a..d5aea77 100644
                      .build()
                      .also {
                          it.setSurfaceProvider(previewView.surfaceProvider)
-@@ -151,8 +181,10 @@ class CameraView(
+@@ -151,8 +183,10 @@ class CameraView(
                      .requireLensFacing(lenFacing.mapToCharacteristic())
                      .build()
  
@@ -127,7 +136,7 @@ index afd158a..d5aea77 100644
  
                  Log.d("FaceDetector", "applying useCases")
                  val useCases = UseCaseGroup.Builder().apply {
-@@ -182,11 +214,17 @@ class CameraView(
+@@ -182,11 +216,17 @@ class CameraView(
          )
      }
  
@@ -147,7 +156,7 @@ index afd158a..d5aea77 100644
                      .build()
              )
              .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-@@ -194,9 +232,11 @@ class CameraView(
+@@ -194,9 +234,11 @@ class CameraView(
              .also { analyzer ->
                  Log.d("FaceDetector", "analyzer creating")
                  analyzer.setAnalyzer(
@@ -155,14 +164,14 @@ index afd158a..d5aea77 100644
 -                    FaceDetector(faceDetectorSettings) {
 -                        onFacesDetected(it)
 +                    cameraExecutor,
-+                    FaceDetector(faceDetectorSettings, mirrorFaces, context, cameraExecutor) { faces, frameBrightness, brightPixelRatio ->
++                    FaceDetector(faceDetectorSettings, mirrorFaces, context, cameraExecutor, faceOverlayView) { faces, frameBrightness, brightPixelRatio ->
 +                        post {
 +                            onFacesDetected(faces, frameBrightness, brightPixelRatio)
 +                        }
                      }
                  )
              }
-@@ -214,8 +254,14 @@ class CameraView(
+@@ -214,12 +256,20 @@ class CameraView(
      }
  
      fun setShouldDetectFaces(shouldDetectFaces: Boolean) {
@@ -178,7 +187,13 @@ index afd158a..d5aea77 100644
      }
  
      fun setFaceDetectorSettings(settings: Map<String, Any>) {
-@@ -229,7 +275,9 @@ class CameraView(
+         faceDetectorSettings.setSettings(settings)
++        faceOverlayView.isOverlayEnabled = faceDetectorSettings.showNativeOverlay
++        faceOverlayView.isSmooth = faceDetectorSettings.smoothNativeOverlay
+     }
+ 
+     fun releaseCamera() {
+@@ -229,7 +279,9 @@ class CameraView(
      }
  
      private fun onFacesDetected(
@@ -189,7 +204,7 @@ index afd158a..d5aea77 100644
      ) {
          Log.d("FaceDetector", "onFacesDetected private fun call")
          if (shouldDetectFaces) {
-@@ -237,7 +285,9 @@ class CameraView(
+@@ -237,7 +289,9 @@ class CameraView(
              onFacesDetected(
                  FacesDetectedEvent(
                      faces,
@@ -200,6 +215,14 @@ index afd158a..d5aea77 100644
                  )
              )
          }
+@@ -264,6 +318,7 @@ class CameraView(
+             }
+         })
+         addView(previewView)
++        addView(faceOverlayView)
+     }
+ 
+     fun onPictureSaved(response: Bundle) {
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/Events.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/Events.kt
 index 69d0809..907e1d3 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/Events.kt
@@ -215,8 +238,168 @@ index 69d0809..907e1d3 100644
  ) : Record
  
  data class PictureSavedEvent(
+diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/FaceOverlayView.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/FaceOverlayView.kt
+new file mode 100644
+index 0000000..95a6c70
+--- /dev/null
++++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/FaceOverlayView.kt
+@@ -0,0 +1,154 @@
++package com.facedetectorcamera
++
++import android.content.Context
++import android.graphics.Canvas
++import android.graphics.Color
++import android.graphics.CornerPathEffect
++import android.graphics.Paint
++import android.graphics.RectF
++import android.view.View
++import kotlin.math.max
++
++class FaceOverlayView(context: Context) : View(context) {
++    var isOverlayEnabled: Boolean = true
++        set(value) {
++            field = value
++            if (!value) {
++                isFaceDetected = false
++                currentRect = null
++                targetRect = null
++            }
++            postInvalidateOnAnimation()
++        }
++
++    var isSmooth: Boolean = true
++        set(value) {
++            field = value
++            postInvalidateOnAnimation()
++        }
++
++    private var currentRect: RectF? = null
++    private var targetRect: RectF? = null
++    private var isFaceDetected = false
++
++    private val boxPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
++        color = Color.parseColor("#4f46e5") // Indigo primary
++        style = Paint.Style.STROKE
++        strokeWidth = 6f
++        pathEffect = CornerPathEffect(24f)
++    }
++
++    private val glowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
++        color = Color.parseColor("#334f46e5")
++        style = Paint.Style.STROKE
++        strokeWidth = 14f
++        pathEffect = CornerPathEffect(28f)
++    }
++
++    private val textBgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
++        color = Color.parseColor("#4f46e5")
++        style = Paint.Style.FILL
++    }
++
++    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
++        color = Color.WHITE
++        textSize = 24f
++        isFakeBoldText = true
++    }
++
++    fun updateFace(
++        rect: RectF?,
++        imageWidth: Int,
++        imageHeight: Int,
++        isMirrored: Boolean
++    ) {
++        if (!isOverlayEnabled || rect == null || imageWidth <= 0 || imageHeight <= 0) {
++            if (isFaceDetected) {
++                isFaceDetected = false
++                targetRect = null
++                postInvalidateOnAnimation()
++            }
++            return
++        }
++
++        val viewW = width.toFloat()
++        val viewH = height.toFloat()
++        if (viewW <= 0 || viewH <= 0) return
++
++        // Scale factors mapping camera image pixels to screen preview view
++        val scale = max(viewW / imageWidth, viewH / imageHeight)
++        val renderedW = imageWidth * scale
++        val renderedH = imageHeight * scale
++        val offsetX = (viewW - renderedW) / 2f
++        val offsetY = (viewH - renderedH) / 2f
++
++        val mappedLeft = if (isMirrored) {
++            viewW - (rect.left * scale + offsetX) - (rect.width() * scale)
++        } else {
++            rect.left * scale + offsetX
++        }
++        val mappedTop = rect.top * scale + offsetY
++        val mappedRight = mappedLeft + rect.width() * scale
++        val mappedBottom = mappedTop + rect.height() * scale
++
++        val newTarget = RectF(mappedLeft, mappedTop, mappedRight, mappedBottom)
++
++        if (!isFaceDetected || currentRect == null) {
++            currentRect = RectF(newTarget)
++            isFaceDetected = true
++        }
++
++        targetRect = newTarget
++        postInvalidateOnAnimation()
++    }
++
++    override fun onDraw(canvas: Canvas) {
++        super.onDraw(canvas)
++        if (!isOverlayEnabled || !isFaceDetected) return
++
++        val target = targetRect ?: return
++        val current = currentRect ?: return
++
++        if (isSmooth) {
++            // High-frequency exponential low-pass filter directly on frame animation loop (60 FPS native)
++            val alpha = 0.35f
++            current.left += (target.left - current.left) * alpha
++            current.top += (target.top - current.top) * alpha
++            current.right += (target.right - current.right) * alpha
++            current.bottom += (target.bottom - current.bottom) * alpha
++        } else {
++            current.set(target)
++        }
++
++        // Draw glow aura
++        canvas.drawRoundRect(current, 24f, 24f, glowPaint)
++
++        // Draw main bounding box
++        canvas.drawRoundRect(current, 24f, 24f, boxPaint)
++
++        // Draw "FACE DETECTED" top label badge
++        val labelText = "FACE DETECTED"
++        val textWidth = textPaint.measureText(labelText)
++        val labelPaddingH = 16f
++        val labelHeight = 36f
++        val labelRect = RectF(
++            current.left,
++            maxOf(0f, current.top - labelHeight - 6f),
++            current.left + textWidth + (labelPaddingH * 2),
++            maxOf(labelHeight, current.top - 6f)
++        )
++
++        canvas.drawRoundRect(labelRect, 12f, 12f, textBgPaint)
++        canvas.drawText(
++            labelText,
++            labelRect.left + labelPaddingH,
++            labelRect.bottom - 10f,
++            textPaint
++        )
++
++        // Request continuous smooth frame updates until target position is reached
++        if (isSmooth && Math.abs(current.left - target.left) > 0.5f) {
++            postInvalidateOnAnimation()
++        }
++    }
++}
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetector.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetector.kt
-index 701049f..877bcd5 100644
+index 701049f..e9b7a75 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetector.kt
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetector.kt
 @@ -1,6 +1,6 @@
@@ -227,7 +410,7 @@ index 701049f..877bcd5 100644
  import android.os.Bundle
  import android.util.Log
  import androidx.annotation.OptIn
-@@ -9,98 +9,233 @@ import androidx.camera.core.ImageAnalysis
+@@ -9,98 +9,244 @@ import androidx.camera.core.ImageAnalysis
  import androidx.camera.core.ImageProxy
  import com.facedetectorcamera.facedetector.FaceDetectorUtils.rotateFaceX
  import com.facedetectorcamera.facedetector.FaceDetectorUtils.serializeFace
@@ -249,6 +432,7 @@ index 701049f..877bcd5 100644
 +    private val mirrorFaces: Boolean,
 +    private val context: android.content.Context,
 +    private val executor: java.util.concurrent.Executor,
++    private val faceOverlayView: com.facedetectorcamera.FaceOverlayView? = null,
 +    val onComplete: (ArrayList<Bundle>, Double, Double) -> Unit
  ) : ImageAnalysis.Analyzer {
 -    // device display data
@@ -324,13 +508,23 @@ index 701049f..877bcd5 100644
 +                val primaryFace = faces.maxByOrNull {
 +                    it.boundingBox.width() * it.boundingBox.height()
 +                }
++                val orientedWidth = if (rotation == 90 || rotation == 270) image.height else image.width
++                val orientedHeight = if (rotation == 90 || rotation == 270) image.width else image.height
++
++                faceOverlayView?.let { overlay ->
++                    val primaryBounds = primaryFace?.boundingBox?.let { android.graphics.RectF(it) }
++                    overlay.post {
++                        overlay.isOverlayEnabled = settings.showNativeOverlay
++                        overlay.isSmooth = settings.smoothNativeOverlay
++                        overlay.updateFace(primaryBounds, orientedWidth, orientedHeight, mirrorFaces)
++                    }
++                }
++
 +                val luminance = calculateLuminance(
 +                    imageProxy,
 +                    primaryFace?.boundingBox,
 +                    rotation
 +                )
-+                val orientedWidth = if (rotation == 90 || rotation == 270) image.height else image.width
-+                val orientedHeight = if (rotation == 90 || rotation == 270) image.width else image.height
 +
 +                faces.forEach { face ->
 +                    // Step 2: calculate the native similarity transform before
@@ -515,7 +709,7 @@ index 701049f..877bcd5 100644
  }
 \ No newline at end of file
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetectorUtils.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetectorUtils.kt
-index 1c75f18..6ac833b 100644
+index 1c75f18..8bccb2b 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetectorUtils.kt
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetectorUtils.kt
 @@ -15,6 +15,7 @@ private const val MIN_INTERVAL_MILLIS_KEY = "minDetectionInterval"
@@ -526,12 +720,14 @@ index 1c75f18..6ac833b 100644
  
  // constants
  const val NO_CLASSIFICATIONS = FaceDetectorOptions.CLASSIFICATION_MODE_NONE
-@@ -24,10 +25,12 @@ const val FAST_MODE = FaceDetectorOptions.PERFORMANCE_MODE_FAST
+@@ -24,10 +25,14 @@ const val FAST_MODE = FaceDetectorOptions.PERFORMANCE_MODE_FAST
  class FaceDetectorSettings() {
      private var faceDetector: FaceDetector? = null
      var minDetectionInterval: Long = 0
 +    var scanningIntervalMs: Long = 500L
 +    var emitNormalizedCropPreview: Boolean = false
++    var showNativeOverlay: Boolean = true
++    var smoothNativeOverlay: Boolean = true
      // Concurrency lock for scanners to avoid flooding the runtime
      @Volatile
      var faceDetectorTaskLock = false
@@ -540,11 +736,17 @@ index 1c75f18..6ac833b 100644
      private var tracking = false
          set(value) {
              if (field != value) {
-@@ -70,11 +73,15 @@ class FaceDetectorSettings() {
+@@ -70,11 +75,21 @@ class FaceDetectorSettings() {
          if (settings[RUN_CLASSIFICATIONS_KEY] is Number) {
              classificationType = (settings[RUN_CLASSIFICATIONS_KEY] as Number).toInt()
          }
 +        emitNormalizedCropPreview = settings[DEBUG_NORMALIZED_PREVIEW_KEY] as? Boolean ?: false
++        if (settings["showNativeOverlay"] is Boolean) {
++            showNativeOverlay = settings["showNativeOverlay"] as Boolean
++        }
++        if (settings["smoothNativeOverlay"] is Boolean) {
++            smoothNativeOverlay = settings["smoothNativeOverlay"] as Boolean
++        }
          minDetectionInterval = if (settings[MIN_INTERVAL_MILLIS_KEY] is Number) {
              (settings[MIN_INTERVAL_MILLIS_KEY] as Number).toInt().toLong()
          } else {

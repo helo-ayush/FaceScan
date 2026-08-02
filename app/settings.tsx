@@ -12,9 +12,9 @@ import {
 } from "@/utils/settings";
 
 const DETECTION_OPTIONS: Array<{ key: PerformanceMode; label: string; fps: string }> = [
-  { key: "low", label: "Low", fps: "5 FPS" },
-  { key: "balanced", label: "Balanced", fps: "12 FPS" },
-  { key: "high", label: "High", fps: "24 FPS" },
+  { key: "low", label: "Low", fps: "10 FPS" },
+  { key: "balanced", label: "Balanced", fps: "20 FPS" },
+  { key: "high", label: "High", fps: "30 FPS" },
 ];
 
 const SCANNING_OPTIONS: Array<{ key: ScanningPerformanceMode; label: string; speed: string }> = [

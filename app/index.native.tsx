@@ -58,11 +58,11 @@ function SmoothFaceBox({
 
   useEffect(() => {
     if (smooth) {
-      // Spring physics smoothly transitions trajectory without freezing or stopping mid-interval
+      // High-stiffness, low-mass spring for instant 60 FPS face box response without trailing lag
       const springConfig = {
-        stiffness: 110,
-        damping: 14,
-        mass: 0.5,
+        stiffness: 240,
+        damping: 20,
+        mass: 0.3,
       };
       left.value = withSpring(previewFace.left, springConfig);
       top.value = withSpring(previewFace.top, springConfig);
@@ -286,6 +286,8 @@ export default function CameraLandingScreen() {
         performanceMode={settings.performance}
         scanningPerformance={settings.scanningPerformance}
         cameraFacing={settings.cameraFacing}
+        showNativeOverlay={true}
+        smoothNativeOverlay={settings.smoothFaceBox}
         onFaceChange={setFace}
         onLightingChange={setLighting}
         onCameraReady={() => setCameraReady(true)}
@@ -293,13 +295,7 @@ export default function CameraLandingScreen() {
         onPreviewLayout={handleCameraLayout}
       />
 
-      {previewFace && (
-        <SmoothFaceBox
-          previewFace={previewFace}
-          smooth={settings.smoothFaceBox}
-          intervalMs={(PERFORMANCE_PRESETS[settings.performance] || PERFORMANCE_PRESETS.balanced).intervalMs}
-        />
-      )}
+      {/* Ultra-fast 60 FPS Native Kotlin Box Overlay renders inside LiveFaceCamera directly on Android Canvas */}
 
       <View className="absolute inset-0 justify-between">
         <Animated.View

@@ -10,9 +10,9 @@ export const PERFORMANCE_PRESETS: Record<
   PerformanceMode,
   { fps: number; intervalMs: number; label: string; description: string }
 > = {
-  low: { fps: 5, intervalMs: 200, label: "Low", description: "Lowest battery draw for tracking box (5 FPS)." },
-  balanced: { fps: 12, intervalMs: 83, label: "Balanced", description: "Recommended everyday tracking rate (12 FPS)." },
-  high: { fps: 24, intervalMs: 42, label: "High", description: "Smoothest tracking box rate (24 FPS)." },
+  low: { fps: 10, intervalMs: 100, label: "Low", description: "Eco battery tracking rate (10 FPS)." },
+  balanced: { fps: 20, intervalMs: 50, label: "Balanced", description: "Recommended everyday tracking rate (20 FPS)." },
+  high: { fps: 30, intervalMs: 33, label: "High", description: "Maximum silky-smooth tracking rate (30 FPS)." },
 };
 
 export const SCANNING_PERFORMANCE_PRESETS: Record<
