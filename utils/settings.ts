@@ -4,14 +4,40 @@ import * as Haptics from "expo-haptics";
 const SETTINGS_KEY = "@face_scanner_settings";
 
 export type PerformanceMode = "low" | "balanced" | "high";
+export type ScanningPerformanceMode = "low" | "standard" | "high";
 
 export const PERFORMANCE_PRESETS: Record<
   PerformanceMode,
-  { fps: number; intervalMs: number }
+  { fps: number; intervalMs: number; label: string; description: string }
 > = {
-  low: { fps: 5, intervalMs: 200 },
-  balanced: { fps: 12, intervalMs: 83 },
-  high: { fps: 24, intervalMs: 42 },
+  low: { fps: 5, intervalMs: 200, label: "Low", description: "Lowest battery draw for tracking box (5 FPS)." },
+  balanced: { fps: 12, intervalMs: 83, label: "Balanced", description: "Recommended everyday tracking rate (12 FPS)." },
+  high: { fps: 24, intervalMs: 42, label: "High", description: "Smoothest tracking box rate (24 FPS)." },
+};
+
+export const SCANNING_PERFORMANCE_PRESETS: Record<
+  ScanningPerformanceMode,
+  { intervalMs: number; label: string; modeName: string; description: string; warning?: string }
+> = {
+  low: {
+    intervalMs: 1000,
+    label: "Low (1s)",
+    modeName: "Eco Mode",
+    description: "Extracts embeddings once every 1 second. Lowest battery & CPU usage.",
+  },
+  standard: {
+    intervalMs: 500,
+    label: "Standard (500ms)",
+    modeName: "Balanced Mode",
+    description: "Extracts embeddings twice per second (500ms). Optimal speed & battery.",
+  },
+  high: {
+    intervalMs: 200,
+    label: "High (200ms)",
+    modeName: "Fast Mode",
+    description: "Extracts embeddings 5 times per second (200ms) for rapid matching.",
+    warning: "⚠️ High battery consumption! May cause phone heating or frame drops on lower-end devices.",
+  },
 };
 
 export interface SettingsConfig {
@@ -22,6 +48,8 @@ export interface SettingsConfig {
   cameraFacing: "front" | "back";
   sensitivity: "low" | "standard" | "high";
   performance: PerformanceMode;
+  scanningPerformance: ScanningPerformanceMode;
+  smoothFaceBox: boolean;
 }
 
 export const defaultSettings: SettingsConfig = {
@@ -32,6 +60,8 @@ export const defaultSettings: SettingsConfig = {
   cameraFacing: "front",
   sensitivity: "standard",
   performance: "balanced",
+  scanningPerformance: "standard",
+  smoothFaceBox: true,
 };
 
 let memorySettings: SettingsConfig = { ...defaultSettings };
@@ -50,7 +80,18 @@ export const AppSettings = {
     try {
       const stored = await AsyncStorage.getItem(SETTINGS_KEY);
       if (stored) {
-        memorySettings = { ...defaultSettings, ...JSON.parse(stored) };
+        const parsed = JSON.parse(stored);
+        memorySettings = {
+          ...defaultSettings,
+          ...parsed,
+          performance: PERFORMANCE_PRESETS[parsed?.performance as PerformanceMode]
+            ? parsed.performance
+            : defaultSettings.performance,
+          scanningPerformance: SCANNING_PERFORMANCE_PRESETS[parsed?.scanningPerformance as ScanningPerformanceMode]
+            ? parsed.scanningPerformance
+            : defaultSettings.scanningPerformance,
+          smoothFaceBox: typeof parsed?.smoothFaceBox === "boolean" ? parsed.smoothFaceBox : defaultSettings.smoothFaceBox,
+        };
       }
     } catch (e) {
       console.warn("Failed to load settings from storage", e);

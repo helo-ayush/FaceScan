@@ -1,5 +1,4 @@
-import { LayoutChangeEvent } from "react-native";
-import { PerformanceMode } from "@/utils/settings";
+import { PerformanceMode, ScanningPerformanceMode } from "@/utils/settings";
 
 export type RealtimeFace = {
   imageWidth: number;
@@ -20,7 +19,8 @@ export type RealtimeFace = {
   alignmentScale: number | null;
   normalizationReady: boolean;
   normalizationCoverage: number | null;
-  debugNormalizedPreviewUri: string | null;
+  embedding: number[] | null;
+  processDurationMs: number | null;
 };
 
 export type RealtimeLighting = {
@@ -32,6 +32,7 @@ type Props = {
   onFaceChange: (face: RealtimeFace | null) => void;
   onLightingChange: (lighting: RealtimeLighting) => void;
   performanceMode: PerformanceMode;
+  scanningPerformance?: ScanningPerformanceMode;
   cameraFacing: "front" | "back";
   onCameraReady: () => void;
   onError: (message: string) => void;

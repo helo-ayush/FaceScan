@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LayoutChangeEvent, StyleSheet } from "react-native";
-import { PERFORMANCE_PRESETS, PerformanceMode } from "@/utils/settings";
+import { PERFORMANCE_PRESETS, PerformanceMode, SCANNING_PERFORMANCE_PRESETS, ScanningPerformanceMode } from "@/utils/settings";
 import {
   CameraView,
   FaceDetectionResult,
@@ -28,7 +28,8 @@ export type RealtimeFace = {
   alignmentScale: number | null;
   normalizationReady: boolean;
   normalizationCoverage: number | null;
-  debugNormalizedPreviewUri: string | null;
+  embedding: number[] | null;
+  processDurationMs: number | null;
 };
 
 export type RealtimeLighting = {
@@ -40,6 +41,7 @@ type Props = {
   onFaceChange: (face: RealtimeFace | null) => void;
   onLightingChange: (lighting: RealtimeLighting) => void;
   performanceMode: PerformanceMode;
+  scanningPerformance: ScanningPerformanceMode;
   cameraFacing: "front" | "back";
   onCameraReady: () => void;
   onError: (message: string) => void;
@@ -54,6 +56,7 @@ export function LiveFaceCamera({
   onFaceChange,
   onLightingChange,
   performanceMode,
+  scanningPerformance,
   cameraFacing,
   onCameraReady,
   onError,
@@ -67,11 +70,10 @@ export function LiveFaceCamera({
       detectLandmarks: FaceDetectorLandmarks.all,
       runClassifications: FaceDetectorClassifications.all,
       tracking: true,
-      // Temporary inspection mode: native crop preview is capped at ~1 fps.
-      debugNormalizedPreview: true,
-      minDetectionInterval: PERFORMANCE_PRESETS[performanceMode].intervalMs,
+      minDetectionInterval: (PERFORMANCE_PRESETS[performanceMode] || PERFORMANCE_PRESETS.balanced).intervalMs,
+      scanningIntervalMs: (SCANNING_PERFORMANCE_PRESETS[scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).intervalMs,
     }),
-    [performanceMode],
+    [performanceMode, scanningPerformance],
   );
   const brightnessRef = useRef<Record<"frame" | "face" | "background" | "highlights", number | null>>({
     frame: null,
@@ -80,17 +82,15 @@ export function LiveFaceCamera({
     highlights: null,
   });
   const clearFaceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const debugPreviewUriRef = useRef<string | null>(null);
 
   const scheduleFaceClear = useCallback(() => {
     if (clearFaceTimerRef.current !== null) return;
 
     // A single ML Kit miss is normal in a live stream. Keep the last valid box
     // through a few scan windows, then clear it only when loss is sustained.
-    const gracePeriodMs = Math.max(650, PERFORMANCE_PRESETS[performanceMode].intervalMs * 3);
+    const gracePeriodMs = Math.max(650, (PERFORMANCE_PRESETS[performanceMode] || PERFORMANCE_PRESETS.balanced).intervalMs * 3);
     clearFaceTimerRef.current = setTimeout(() => {
       clearFaceTimerRef.current = null;
-      debugPreviewUriRef.current = null;
       onFaceChange(null);
     }, gracePeriodMs);
   }, [onFaceChange, performanceMode]);
@@ -165,11 +165,10 @@ export function LiveFaceCamera({
           isReady?: boolean;
           coverage?: number;
           previewBase64?: string;
+          embedding?: number[];
+          processDurationMs?: number;
         };
       };
-      if (lightingFace.normalization?.previewBase64) {
-        debugPreviewUriRef.current = `data:image/jpeg;base64,${lightingFace.normalization.previewBase64}`;
-      }
       onFaceChange({
         imageWidth: lightingFace.imageWidth ?? size.width,
         imageHeight: lightingFace.imageHeight ?? size.height,
@@ -189,7 +188,8 @@ export function LiveFaceCamera({
         alignmentScale: lightingFace.alignment?.scale ?? null,
         normalizationReady: lightingFace.normalization?.isReady === true,
         normalizationCoverage: lightingFace.normalization?.coverage ?? null,
-        debugNormalizedPreviewUri: debugPreviewUriRef.current,
+        embedding: lightingFace.normalization?.embedding ?? null,
+        processDurationMs: lightingFace.normalization?.processDurationMs ?? null,
       });
     },
     [onFaceChange, onLightingChange, performanceMode, scheduleFaceClear, size.height, size.width],

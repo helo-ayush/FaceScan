@@ -11,10 +11,19 @@ import { usePathname, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCameraPermissions } from "react-native-face-detector-camera";
 import Svg, { Path } from "react-native-svg";
-import Animated, { FadeInDown, FadeInUp, FadeOutUp } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  FadeInDown,
+  FadeInUp,
+  FadeOutUp,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 
 import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/LiveFaceCamera";
-import { AppSettings, useAppSettings } from "@/utils/settings";
+import { AppSettings, PERFORMANCE_PRESETS, useAppSettings } from "@/utils/settings";
 
 type PreviewLayout = {
   width: number;
@@ -27,6 +36,64 @@ type PreviewFace = {
   width: number;
   height: number;
 };
+
+function SmoothFaceBox({
+  previewFace,
+  smooth,
+  intervalMs,
+}: {
+  previewFace: PreviewFace;
+  smooth: boolean;
+  intervalMs: number;
+}) {
+  const left = useSharedValue(previewFace.left);
+  const top = useSharedValue(previewFace.top);
+  const width = useSharedValue(previewFace.width);
+  const height = useSharedValue(previewFace.height);
+  const opacity = useSharedValue(0);
+
+  useEffect(() => {
+    opacity.value = withTiming(1, { duration: 150 });
+  }, []);
+
+  useEffect(() => {
+    if (smooth) {
+      // Spring physics smoothly transitions trajectory without freezing or stopping mid-interval
+      const springConfig = {
+        stiffness: 110,
+        damping: 14,
+        mass: 0.5,
+      };
+      left.value = withSpring(previewFace.left, springConfig);
+      top.value = withSpring(previewFace.top, springConfig);
+      width.value = withSpring(previewFace.width, springConfig);
+      height.value = withSpring(previewFace.height, springConfig);
+    } else {
+      left.value = previewFace.left;
+      top.value = previewFace.top;
+      width.value = previewFace.width;
+      height.value = previewFace.height;
+    }
+  }, [previewFace.left, previewFace.top, previewFace.width, previewFace.height, smooth]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    left: left.value,
+    top: top.value,
+    width: width.value,
+    height: height.value,
+    opacity: opacity.value,
+  }));
+
+  return (
+    <View pointerEvents="none" style={StyleSheet.absoluteFillObject}>
+      <Animated.View style={[styles.faceFrame, animatedStyle]}>
+        <View style={styles.faceLabel}>
+          <Text style={styles.faceLabelText}>FACE DETECTED</Text>
+        </View>
+      </Animated.View>
+    </View>
+  );
+}
 
 function FlipIcon({ size = 20, color = "#0f172a" }) {
   return (
@@ -217,6 +284,7 @@ export default function CameraLandingScreen() {
     <View className="flex-1 bg-black">
       <LiveFaceCamera
         performanceMode={settings.performance}
+        scanningPerformance={settings.scanningPerformance}
         cameraFacing={settings.cameraFacing}
         onFaceChange={setFace}
         onLightingChange={setLighting}
@@ -226,37 +294,13 @@ export default function CameraLandingScreen() {
       />
 
       {previewFace && (
-        <View pointerEvents="none" style={StyleSheet.absoluteFillObject}>
-          <View
-            style={[
-              styles.faceFrame,
-              {
-                left: previewFace.left,
-                top: previewFace.top,
-                width: previewFace.width,
-                height: previewFace.height,
-              },
-            ]}
-          >
-            <View style={styles.faceLabel}>
-              <Text style={styles.faceLabelText}>FACE DETECTED</Text>
-            </View>
-          </View>
-        </View>
+        <SmoothFaceBox
+          previewFace={previewFace}
+          smooth={settings.smoothFaceBox}
+          intervalMs={(PERFORMANCE_PRESETS[settings.performance] || PERFORMANCE_PRESETS.balanced).intervalMs}
+        />
       )}
 
-      {face?.debugNormalizedPreviewUri && (
-        <View pointerEvents="none" style={[styles.normalizedPreview, { top: insets.top + 80 }]}>
-          <Image
-            source={{ uri: face.debugNormalizedPreviewUri }}
-            style={styles.normalizedPreviewImage}
-          />
-          <View style={styles.normalizedPreviewLabel}>
-            <View style={styles.normalizedPreviewDot} />
-            <Text style={styles.normalizedPreviewText}>ALIGNED 112</Text>
-          </View>
-        </View>
-      )}
       <View className="absolute inset-0 justify-between">
         <Animated.View
           entering={FadeInUp.delay(200).duration(500)}
@@ -349,6 +393,22 @@ export default function CameraLandingScreen() {
                 >
                   {statusDescription}
                 </Text>
+                {/* DEBUG EMBEDDING POPUP BEGIN */}
+                {face?.embedding && (
+                  <Text
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: 10,
+                      color: "#10b981",
+                      marginTop: 6,
+                      lineHeight: 14,
+                    }}
+                    numberOfLines={2}
+                  >
+                    {face.processDurationMs}ms : [{face.embedding.map(v => Math.round(v * 100) / 100).join(", ")}]
+                  </Text>
+                )}
+                {/* DEBUG EMBEDDING POPUP END */}
               </View>
             </View>
             <View
@@ -395,46 +455,6 @@ export default function CameraLandingScreen() {
 }
 
 const styles = StyleSheet.create({
-  normalizedPreview: {
-    position: "absolute",
-    right: 24,
-    width: 120,
-    padding: 4,
-    borderRadius: 16,
-    backgroundColor: "rgba(15, 23, 42, 0.86)",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.22)",
-    shadowColor: "#0f172a",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.24,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  normalizedPreviewImage: {
-    width: 112,
-    height: 112,
-    borderRadius: 12,
-    backgroundColor: "#020617",
-  },
-  normalizedPreviewLabel: {
-    height: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-  },
-  normalizedPreviewDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: "#34d399",
-  },
-  normalizedPreviewText: {
-    color: "#f8fafc",
-    fontSize: 9,
-    fontWeight: "800",
-    letterSpacing: 0.6,
-  },
   faceFrame: {
     position: "absolute",
     borderColor: "#5d5fef",

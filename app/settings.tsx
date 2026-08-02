@@ -3,14 +3,25 @@ import { View, Text, ScrollView, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
-import { useAppSettings } from "@/utils/settings";
+import {
+  PERFORMANCE_PRESETS,
+  PerformanceMode,
+  SCANNING_PERFORMANCE_PRESETS,
+  ScanningPerformanceMode,
+  useAppSettings,
+} from "@/utils/settings";
 
-const PERFORMANCE_OPTIONS = [
-  { key: "low", label: "Low", fps: 5, description: "Longest battery life" },
-  { key: "balanced", label: "Balanced", fps: 12, description: "Recommended for everyday use" },
-  { key: "high", label: "High", fps: 24, description: "Smoothest face box" },
-] as const;
+const DETECTION_OPTIONS: Array<{ key: PerformanceMode; label: string; fps: string }> = [
+  { key: "low", label: "Low", fps: "5 FPS" },
+  { key: "balanced", label: "Balanced", fps: "12 FPS" },
+  { key: "high", label: "High", fps: "24 FPS" },
+];
 
+const SCANNING_OPTIONS: Array<{ key: ScanningPerformanceMode; label: string; speed: string }> = [
+  { key: "low", label: "Low", speed: "1 sec" },
+  { key: "standard", label: "Standard", speed: "500 ms" },
+  { key: "high", label: "High", speed: "200 ms" },
+];
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -53,38 +64,158 @@ export default function SettingsScreen() {
         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Section 1: Capture Behavior */}
+        {/* Section 1: Performance & Optimization */}
+        <View className="mb-6">
+          <Text className="text-[10px] font-bold text-on-surface-variant mb-3 uppercase tracking-widest pl-1">
+            Performance Category
+          </Text>
+
+          <View className="bg-surface border border-slate-100 rounded-3xl overflow-hidden shadow-soft">
+            {/* Detection Rate (Face Box FPS) */}
+            <View className="p-5 border-b border-slate-100">
+              <View className="flex-row items-start justify-between mb-1">
+                <View className="flex-1 pr-3">
+                  <Text className="font-bold text-on-surface text-base">Face Box Tracking Rate</Text>
+                  <Text className="text-xs text-on-surface-variant mt-1">
+                    Controls camera frame analysis frequency for face detection box tracking.
+                  </Text>
+                </View>
+                <Text className="text-xs font-black text-primary uppercase">
+                  {settings.performance}
+                </Text>
+              </View>
+              <View className="flex-row gap-2 mt-4">
+                {DETECTION_OPTIONS.map((option) => (
+                  <Pressable
+                    key={option.key}
+                    onPress={() => {
+                      triggerHaptic("light");
+                      updateSetting("performance", option.key);
+                    }}
+                    className={`flex-1 rounded-2xl border p-3 ${
+                      settings.performance === option.key
+                        ? "bg-primary/10 border-primary"
+                        : "bg-surface-muted border-slate-100"
+                    } active:scale-95`}
+                  >
+                    <Text
+                      className={`font-black text-sm ${
+                        settings.performance === option.key
+                          ? "text-primary"
+                          : "text-on-surface-variant"
+                      }`}
+                    >
+                      {option.label}
+                    </Text>
+                    <Text
+                      className={`text-xs font-bold mt-1 ${
+                        settings.performance === option.key
+                          ? "text-primary"
+                          : "text-on-surface-variant"
+                      }`}
+                    >
+                      {option.fps}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+              <Text className="text-[11px] text-on-surface-variant mt-3">
+                {(PERFORMANCE_PRESETS[settings.performance] || PERFORMANCE_PRESETS.balanced).description}
+              </Text>
+            </View>
+
+            {/* Scanning Recognition Performance (Interval) */}
+            <View className="p-5 border-b border-slate-100">
+              <View className="flex-row items-start justify-between mb-1">
+                <View className="flex-1 pr-3">
+                  <Text className="font-bold text-on-surface text-base">Face Recognition Scan Rate</Text>
+                  <Text className="text-xs text-on-surface-variant mt-1">
+                    Controls how frequently face feature vectors (embeddings) are extracted for matching.
+                  </Text>
+                </View>
+                <Text className="text-xs font-black text-primary uppercase">
+                  {settings.scanningPerformance || "standard"}
+                </Text>
+              </View>
+              <View className="flex-row gap-2 mt-4">
+                {SCANNING_OPTIONS.map((option) => (
+                  <Pressable
+                    key={option.key}
+                    onPress={() => {
+                      triggerHaptic("light");
+                      updateSetting("scanningPerformance", option.key);
+                    }}
+                    className={`flex-1 rounded-2xl border p-3 ${
+                      settings.scanningPerformance === option.key
+                        ? "bg-primary/10 border-primary"
+                        : "bg-surface-muted border-slate-100"
+                    } active:scale-95`}
+                  >
+                    <Text
+                      className={`font-black text-sm ${
+                        settings.scanningPerformance === option.key
+                          ? "text-primary"
+                          : "text-on-surface-variant"
+                      }`}
+                    >
+                      {option.label}
+                    </Text>
+                    <Text
+                      className={`text-xs font-bold mt-1 ${
+                        settings.scanningPerformance === option.key
+                          ? "text-primary"
+                          : "text-on-surface-variant"
+                      }`}
+                    >
+                      {option.speed}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+              <Text className="text-[11px] font-semibold text-on-surface-variant mt-3">
+                {(SCANNING_PERFORMANCE_PRESETS[settings.scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).description}
+              </Text>
+              {(SCANNING_PERFORMANCE_PRESETS[settings.scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).warning && (
+                <View className="mt-3 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex-row items-center gap-2">
+                  <Text className="text-xs font-bold text-amber-700 leading-tight">
+                    {(SCANNING_PERFORMANCE_PRESETS[settings.scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).warning}
+                  </Text>
+                </View>
+              )}
+            </View>
+
+            {/* Smooth Face Box Motion Toggle */}
+            <Pressable
+              onPress={() => {
+                triggerHaptic("light");
+                updateSetting("smoothFaceBox", !settings.smoothFaceBox);
+              }}
+              className="p-5 flex-row items-center justify-between active:bg-surface-muted/50"
+            >
+              <View className="flex-1 pr-4">
+                <Text className="font-bold text-on-surface text-base">Smooth Box Motion</Text>
+                <Text className="text-xs text-on-surface-variant mt-1">
+                  Smoothly animate the face tracking box between position updates for a fluid preview.
+                </Text>
+              </View>
+              <View
+                className={`w-12 h-7 rounded-full p-1 transition-all ${
+                  settings.smoothFaceBox ? "bg-primary items-end" : "bg-slate-200 items-start"
+                }`}
+              >
+                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
+              </View>
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Section 2: Capture Behavior */}
         <View className="mb-6">
           <Text className="text-[10px] font-bold text-on-surface-variant mb-3 uppercase tracking-widest pl-1">
             Capture Configuration
           </Text>
 
           <View className="bg-surface border border-slate-100 rounded-3xl overflow-hidden shadow-soft">
-          <View className="p-5 border-b border-slate-100">
-            <View className="flex-row items-start justify-between mb-1">
-              <View className="flex-1 pr-3">
-                <Text className="font-bold text-on-surface text-base">Detection Performance</Text>
-                <Text className="text-xs text-on-surface-variant mt-1">Choose how often the live face detector processes camera frames.</Text>
-              </View>
-              <Text className="text-xs font-black text-primary">{settings.performance.toUpperCase()}</Text>
-            </View>
-            <View className="flex-row gap-2 mt-4">
-              {PERFORMANCE_OPTIONS.map((option) => (
-                <Pressable
-                  key={option.key}
-                  onPress={() => {
-                    triggerHaptic("light");
-                    updateSetting("performance", option.key);
-                  }}
-                  className={`flex-1 rounded-2xl border p-3 ${settings.performance === option.key ? "bg-primary/10 border-primary" : "bg-surface-muted border-slate-100"} active:scale-95`}
-                >
-                  <Text className={`font-black text-sm ${settings.performance === option.key ? "text-primary" : "text-on-surface-variant"}`}>{option.label}</Text>
-                  <Text className={`text-xs font-bold mt-1 ${settings.performance === option.key ? "text-primary" : "text-on-surface-variant"}`}>{option.fps} FPS</Text>
-                </Pressable>
-              ))}
-            </View>
-            <Text className="text-[11px] text-on-surface-variant mt-3">{PERFORMANCE_OPTIONS.find((option) => option.key === settings.performance)?.description}</Text>
-          </View>
 
             {/* Auto Capture Toggle */}
             <Pressable

@@ -45,7 +45,7 @@ async function seedDatabase() {
     await Class.insertMany(defaultClasses);
     console.log("Seeded default classes");
 
-    const mockEmbedding = Array(128).fill(0);
+    const mockEmbedding = Array(512).fill(0);
     const defaultStudents = [
       { name: "Himanshu Kumar", enrollmentNumber: "ENR-9001", classId: "CLASS-9C", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },
       { name: "Sarah Jenkins", enrollmentNumber: "ENR-8492", classId: "CLASS-9C", faceEmbeddings: { front: mockEmbedding, left45: mockEmbedding, right45: mockEmbedding } },

@@ -104,7 +104,7 @@ export default function CameraLandingScreen() {
             },
             body: JSON.stringify({
               classId: "CLASS-9C",
-              embedding: Array(128).fill(0), // Sent mock vector placeholder
+              embedding: Array(512).fill(0), // Sent mock vector placeholder
             }),
           });
           const data = await response.json();

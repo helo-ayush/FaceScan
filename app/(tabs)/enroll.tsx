@@ -83,9 +83,9 @@ export default function EnrollScreen() {
           enrollmentNumber: enrollmentId.trim(),
           classId: selectedClassId,
           faceEmbeddings: {
-            front: Array(128).fill(0),
-            left45: Array(128).fill(0),
-            right45: Array(128).fill(0),
+            front: Array(512).fill(0),
+            left45: Array(512).fill(0),
+            right45: Array(512).fill(0),
           },
         }),
       });
