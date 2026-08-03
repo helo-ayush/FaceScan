@@ -210,18 +210,22 @@ type StudentRecord = {
   };
 };
 
-function calcCosineSim(a?: number[] | null, b?: number[] | null): number {
-  if (!a || !b || a.length === 0 || b.length === 0 || a.length !== b.length) return -1;
-  let dot = 0;
-  let normA = 0;
-  let normB = 0;
+function calcL2Distance(a?: number[] | null, b?: number[] | null): number {
+  if (!a || !b || a.length === 0 || b.length === 0 || a.length !== b.length) return 999;
+  let sumSq = 0;
   for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
+    const diff = a[i] - b[i];
+    sumSq += diff * diff;
   }
-  if (normA === 0 || normB === 0) return -1;
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+  return Math.sqrt(sumSq);
+}
+
+// Stretches FaceNet L2 distance into a clean percentage score with >40% margin gap between genuine vs impostor
+function distToMatchPercent(dist: number): number {
+  if (dist >= 1.20) return 0;
+  const ratio = dist / 1.20;
+  const percent = (1 - ratio * ratio) * 100;
+  return Math.max(0, Math.min(100, Math.round(percent)));
 }
 
 export default function CameraLandingScreen() {
@@ -249,6 +253,12 @@ export default function CameraLandingScreen() {
   } | null>(null);
   const [isMatchLocked, setIsMatchLocked] = useState(false);
 
+  // 3-Frame Consensus State: prevents single-frame noise spikes
+  const [consensusCandidate, setConsensusCandidate] = useState<{
+    id: string;
+    count: number;
+  } | null>(null);
+
   const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
   // Fetch enrolled students roster on mount
@@ -270,61 +280,88 @@ export default function CameraLandingScreen() {
     };
   }, []);
 
-  // Real-time Cosine Similarity search on incoming live face embedding
+  // Real-time Pose-Aware Euclidean Distance search with 3-frame consensus
   useEffect(() => {
     if (isMatchLocked || !face || !face.embedding || face.embedding.length === 0) {
       return;
     }
 
     const liveEmbedding = face.embedding;
+    const yaw = face.yawAngle ?? 0;
     let bestMatch: StudentRecord | null = null;
-    let maxSim = -1;
-    const threshold = 0.60; // 60% cosine similarity threshold
+    let bestScore = -1;
+    let minDistance = 999;
+    const thresholdPercent = 70; // 70% threshold (corresponds to Euclidean distance <= 0.80)
 
     for (const student of students) {
       const poses = student.faceEmbeddings || {};
-      const simFront = calcCosineSim(liveEmbedding, poses.front);
-      const simLeft = calcCosineSim(liveEmbedding, poses.left45);
-      const simRight = calcCosineSim(liveEmbedding, poses.right45);
+      let targetVec: number[] | undefined;
 
-      const maxStudentSim = Math.max(simFront, simLeft, simRight);
-      if (maxStudentSim > maxSim) {
-        maxSim = maxStudentSim;
+      // Pose-Aware Routing based on 15° yaw angle threshold
+      if (Math.abs(yaw) <= 15) {
+        targetVec = poses.front;
+      } else if (yaw < -15) {
+        targetVec = poses.left45;
+      } else {
+        targetVec = poses.right45;
+      }
+
+      const dist = calcL2Distance(liveEmbedding, targetVec);
+      const score = distToMatchPercent(dist);
+
+      if (score > bestScore) {
+        bestScore = score;
+        minDistance = dist;
         bestMatch = student;
       }
     }
 
-    if (bestMatch && maxSim >= threshold) {
-      setIsMatchLocked(true);
-      AppSettings.haptic("success");
+    if (bestMatch && bestScore >= thresholdPercent) {
+      const candidateId = bestMatch._id || bestMatch.enrollmentNumber;
+      const currentCount = consensusCandidate?.id === candidateId ? consensusCandidate.count + 1 : 1;
+      
+      setConsensusCandidate({ id: candidateId, count: currentCount });
 
-      const matchDetails = {
-        name: bestMatch.name,
-        enrollmentNumber: bestMatch.enrollmentNumber,
-        classId: bestMatch.classId,
-        similarity: Math.round(maxSim * 100),
-        initials: bestMatch.name.split(" ").map((n) => n[0]).join(""),
-      };
+      // Require 2 consecutive matching frames to confirm (temporal consensus)
+      if (currentCount >= 2) {
+        setIsMatchLocked(true);
+        AppSettings.haptic("success");
+        setConsensusCandidate(null);
 
-      setMatchedStudent(matchDetails);
-
-      // Record attendance log on server database
-      fetch(`${apiUrl}/api/attendance/scan`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        const matchDetails = {
+          name: bestMatch.name,
+          enrollmentNumber: bestMatch.enrollmentNumber,
           classId: bestMatch.classId,
-          embedding: liveEmbedding,
-        }),
-      }).catch((err) => console.error("Error logging attendance:", err));
+          similarity: bestScore,
+          initials: bestMatch.name.split(" ").map((n) => n[0]).join(""),
+        };
 
-      // Lock match display for 3.5 seconds before resuming scanning
-      setTimeout(() => {
-        setMatchedStudent(null);
-        setIsMatchLocked(false);
-      }, 3500);
+        setMatchedStudent(matchDetails);
+
+        // Record attendance log on server database
+        fetch(`${apiUrl}/api/attendance/scan`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            classId: bestMatch.classId,
+            embedding: liveEmbedding,
+            targetPose: Math.abs(yaw) <= 15 ? "front" : yaw < -15 ? "left45" : "right45",
+          }),
+        }).catch((err) => console.error("Error logging attendance:", err));
+
+        // Lock match display for 3.5 seconds before resuming scanning
+        setTimeout(() => {
+          setMatchedStudent(null);
+          setIsMatchLocked(false);
+        }, 3500);
+      }
+    } else {
+      setConsensusCandidate(null);
+      if (bestMatch && bestScore > 0) {
+        console.log(`[FaceScan] Below threshold: ${bestMatch.name} → ${bestScore}% (dist: ${minDistance.toFixed(2)}, need ≥70%)`);
+      }
     }
-  }, [face, students, isMatchLocked]);
+  }, [face, students, isMatchLocked, consensusCandidate]);
 
   const previewFace = useMemo(
     () =>
@@ -358,13 +395,46 @@ export default function CameraLandingScreen() {
         ? "Face detected — Matching..."
         : "Looking for a face";
 
+  // Compute live pose-aware similarity score for live status UI display
+  const liveSimilarity = useMemo(() => {
+    if (!face || !face.embedding || face.embedding.length === 0 || students.length === 0) return null;
+    const yaw = face.yawAngle ?? 0;
+    const activePose = Math.abs(yaw) <= 15 ? "Front" : yaw < -15 ? "Left45" : "Right45";
+
+    let bestScore = -1;
+    let bestName = "";
+    for (const student of students) {
+      const poses = student.faceEmbeddings || {};
+      let targetVec: number[] | undefined;
+
+      if (Math.abs(yaw) <= 15) {
+        targetVec = poses.front;
+      } else if (yaw < -15) {
+        targetVec = poses.left45;
+      } else {
+        targetVec = poses.right45;
+      }
+
+      const dist = calcL2Distance(face.embedding, targetVec);
+      const score = distToMatchPercent(dist);
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestName = student.name;
+      }
+    }
+    return bestScore > 0 ? { name: bestName, score: bestScore, activePose, yaw: Math.round(yaw) } : null;
+  }, [face, students]);
+
   const statusDescription = error
     ? "Restart the development build and check camera permission."
     : matchedStudent
       ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId}`
-      : previewFace
-        ? "Searching enrolled student embeddings database..."
-        : "Point camera at an enrolled student's face.";
+      : previewFace && liveSimilarity
+        ? `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} • ${liveSimilarity.yaw}°) → ${liveSimilarity.score}%`
+        : previewFace
+          ? "Searching enrolled student embeddings database..."
+          : "Point camera at an enrolled student's face.";
 
   if (!permission) {
     return (

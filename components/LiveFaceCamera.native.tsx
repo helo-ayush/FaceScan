@@ -31,6 +31,8 @@ export type RealtimeFace = {
   previewBase64: string | null;
   embedding: number[] | null;
   processDurationMs: number | null;
+  yawAngle: number | null;
+  rollAngle: number | null;
 };
 
 export type RealtimeLighting = {
@@ -199,6 +201,8 @@ export function LiveFaceCamera({
         previewBase64: lightingFace.normalization?.previewBase64 ?? null,
         embedding: lightingFace.normalization?.embedding ?? null,
         processDurationMs: lightingFace.normalization?.processDurationMs ?? null,
+        yawAngle: (largest as any).yawAngle ?? (largest as any).headEulerAngleY ?? null,
+        rollAngle: (largest as any).rollAngle ?? (largest as any).headEulerAngleZ ?? null,
       });
     },
     [onFaceChange, onLightingChange, performanceMode, scheduleFaceClear, size.height, size.width],

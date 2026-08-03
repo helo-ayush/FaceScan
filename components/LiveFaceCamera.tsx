@@ -24,6 +24,8 @@ export type RealtimeFace = {
   previewBase64: string | null;
   embedding: number[] | null;
   processDurationMs: number | null;
+  yawAngle: number | null;
+  rollAngle: number | null;
 };
 
 export type RealtimeLighting = {

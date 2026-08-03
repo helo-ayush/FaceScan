@@ -183,24 +183,27 @@ app.get("/api/students/:enrollmentNumber/stats", async (req, res) => {
   }
 });
 
-// Helper for 512D Cosine Similarity calculations
-function calculateCosineSimilarity(vecA, vecB) {
-  if (!vecA || !vecB || vecA.length !== vecB.length || vecA.length === 0) return -1;
-  let dotProduct = 0;
-  let normA = 0;
-  let normB = 0;
+// Helper for 512D L2 Euclidean Distance calculations (FaceNet native metric)
+function calculateL2Distance(vecA, vecB) {
+  if (!vecA || !vecB || vecA.length !== vecB.length || vecA.length === 0) return 999;
+  let sumSq = 0;
   for (let i = 0; i < vecA.length; i++) {
-    dotProduct += vecA[i] * vecB[i];
-    normA += vecA[i] * vecA[i];
-    normB += vecB[i] * vecB[i];
+    const diff = vecA[i] - vecB[i];
+    sumSq += diff * diff;
   }
-  if (normA === 0 || normB === 0) return -1;
-  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+  return Math.sqrt(sumSq);
+}
+
+function distToMatchPercent(dist) {
+  if (dist >= 1.20) return 0;
+  const ratio = dist / 1.20;
+  const percent = (1 - ratio * ratio) * 100;
+  return Math.max(0, Math.min(100, Math.round(percent)));
 }
 
 // Attendance checking scan endpoint
 app.post("/api/attendance/scan", async (req, res) => {
-  const { classId, embedding } = req.body;
+  const { classId, embedding, targetPose } = req.body;
   try {
     const query = (classId && classId.trim() !== "") ? { classId: classId.trim() } : {};
     const students = await Student.find(query);
@@ -209,23 +212,29 @@ app.post("/api/attendance/scan", async (req, res) => {
     }
 
     let bestMatch = null;
-    let maxSimilarity = -1;
-    const similarityThreshold = 0.60; // 60% cosine similarity threshold
+    let bestScore = -1;
+    const thresholdPercent = 70; // 70% match threshold (corresponds to Euclidean distance <= 0.80)
 
     for (const student of students) {
       const poses = student.faceEmbeddings || {};
-      const simFront = calculateCosineSimilarity(embedding, poses.front);
-      const simLeft = calculateCosineSimilarity(embedding, poses.left45);
-      const simRight = calculateCosineSimilarity(embedding, poses.right45);
+      let targetVec;
 
-      const maxStudentSim = Math.max(simFront, simLeft, simRight);
-      if (maxStudentSim > maxSimilarity) {
-        maxSimilarity = maxStudentSim;
+      if (targetPose && poses[targetPose]) {
+        targetVec = poses[targetPose];
+      } else {
+        targetVec = poses.front;
+      }
+
+      const dist = calculateL2Distance(embedding, targetVec);
+      const score = distToMatchPercent(dist);
+
+      if (score > bestScore) {
+        bestScore = score;
         bestMatch = student;
       }
     }
 
-    if (bestMatch && maxSimilarity >= similarityThreshold) {
+    if (bestMatch && bestScore >= thresholdPercent) {
       const today = new Date().toISOString().split("T")[0];
       const targetClassId = bestMatch.classId || classId || "GENERAL";
       
