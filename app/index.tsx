@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import { useRouter, usePathname } from "expo-router";
+import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import Svg, { Path } from "react-native-svg";
@@ -52,9 +52,6 @@ const SIMULATED_STUDENTS = [
 ];
 
 export default function CameraLandingScreen() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const isFocused = pathname === "/";
   const insets = useSafeAreaInsets();
 
   const scanLineY = useSharedValue(0);
@@ -90,7 +87,6 @@ export default function CameraLandingScreen() {
 
   // Simulate scanning loop
   useEffect(() => {
-    if (!isFocused) return;
 
     let timer: NodeJS.Timeout;
 
@@ -136,7 +132,7 @@ export default function CameraLandingScreen() {
     }
 
     return () => clearTimeout(timer);
-  }, [scanState, isFocused]);
+  }, [scanState]);
 
   if (!permission) {
     return (

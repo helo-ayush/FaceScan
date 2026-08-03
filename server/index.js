@@ -20,6 +20,11 @@ if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
 app.use(cors());
 app.use(express.json());
 
+// Health check endpoint
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "ok", message: "Server is healthy", timestamp: new Date().toISOString() });
+});
+
 // Establish MongoDB connection
 mongoose
   .connect(MONGODB_URI)
@@ -70,6 +75,16 @@ app.post("/api/classes", async (req, res) => {
     res.status(201).json({ success: true, class: newClass });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
+  }
+});
+
+// Student list endpoint (for client-side fast matching cache)
+app.get("/api/students", async (req, res) => {
+  try {
+    const students = await Student.find();
+    res.status(200).json({ success: true, students });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
@@ -168,61 +183,62 @@ app.get("/api/students/:enrollmentNumber/stats", async (req, res) => {
   }
 });
 
+// Helper for 512D Cosine Similarity calculations
+function calculateCosineSimilarity(vecA, vecB) {
+  if (!vecA || !vecB || vecA.length !== vecB.length || vecA.length === 0) return -1;
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  if (normA === 0 || normB === 0) return -1;
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
 // Attendance checking scan endpoint
 app.post("/api/attendance/scan", async (req, res) => {
   const { classId, embedding } = req.body;
   try {
-    const students = await Student.find({ classId });
+    const query = (classId && classId.trim() !== "") ? { classId: classId.trim() } : {};
+    const students = await Student.find(query);
     if (students.length === 0) {
-      return res.status(404).json({ success: false, message: "No students enrolled in this class" });
+      return res.status(404).json({ success: false, message: "No enrolled students found" });
     }
 
     let bestMatch = null;
-    let minDistance = Infinity;
-    const threshold = 0.6; // Matches under this Euclidean distance are verified
-
-    function calculateDistance(vecA, vecB) {
-      if (!vecA || !vecB || vecA.length !== vecB.length) return Infinity;
-      let sum = 0;
-      for (let i = 0; i < vecA.length; i++) {
-        sum += (vecA[i] - vecB[i]) ** 2;
-      }
-      return Math.sqrt(sum);
-    }
+    let maxSimilarity = -1;
+    const similarityThreshold = 0.60; // 60% cosine similarity threshold
 
     for (const student of students) {
-      const distFront = calculateDistance(embedding, student.faceEmbeddings.front);
-      const distLeft = calculateDistance(embedding, student.faceEmbeddings.left45);
-      const distRight = calculateDistance(embedding, student.faceEmbeddings.right45);
+      const poses = student.faceEmbeddings || {};
+      const simFront = calculateCosineSimilarity(embedding, poses.front);
+      const simLeft = calculateCosineSimilarity(embedding, poses.left45);
+      const simRight = calculateCosineSimilarity(embedding, poses.right45);
 
-      const studentMinDist = Math.min(distFront, distLeft, distRight);
-      if (studentMinDist < minDistance) {
-        minDistance = studentMinDist;
+      const maxStudentSim = Math.max(simFront, simLeft, simRight);
+      if (maxStudentSim > maxSimilarity) {
+        maxSimilarity = maxStudentSim;
         bestMatch = student;
       }
     }
 
-    // Support mock verification check if vectors are empty placeholders
-    const isMockVector = !embedding || embedding.every(v => v === 0);
-    if (isMockVector) {
-      const randomIndex = Math.floor(Math.random() * students.length);
-      bestMatch = students[randomIndex];
-      minDistance = 0.2;
-    }
-
-    if (bestMatch && minDistance <= threshold) {
+    if (bestMatch && maxSimilarity >= similarityThreshold) {
       const today = new Date().toISOString().split("T")[0];
+      const targetClassId = bestMatch.classId || classId || "GENERAL";
       
       let attendance = await AttendanceLog.findOne({
         enrollmentNumber: bestMatch.enrollmentNumber,
-        classId,
+        classId: targetClassId,
         date: today,
       });
 
       if (!attendance) {
         attendance = await AttendanceLog.create({
           enrollmentNumber: bestMatch.enrollmentNumber,
-          classId,
+          classId: targetClassId,
           status: "present",
           date: today,
         });
@@ -233,13 +249,18 @@ app.post("/api/attendance/scan", async (req, res) => {
         student: {
           name: bestMatch.name,
           id: bestMatch.enrollmentNumber,
-          course: classId,
+          course: targetClassId,
           initials: bestMatch.name.split(" ").map(n => n[0]).join(""),
         },
-        distance: minDistance
+        similarity: Math.round(maxSimilarity * 100) / 100,
+        similarityPercent: `${Math.round(maxSimilarity * 100)}%`
       });
     } else {
-      return res.status(400).json({ success: false, message: "Face verification failed (profile match not found)" });
+      return res.status(400).json({ 
+        success: false, 
+        message: "Face verification failed (profile match not found)",
+        maxSimilarity: maxSimilarity > -1 ? Math.round(maxSimilarity * 100) / 100 : 0
+      });
     }
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

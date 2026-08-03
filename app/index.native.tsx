@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { usePathname, useRouter } from "expo-router";
+import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCameraPermissions } from "react-native-face-detector-camera";
 import Svg, { Path } from "react-native-svg";
@@ -198,9 +198,33 @@ function probabilityText(value: number | null) {
   return value === null ? null : `${Math.round(value * 100)}%`;
 }
 
+type StudentRecord = {
+  _id: string;
+  name: string;
+  enrollmentNumber: string;
+  classId: string;
+  faceEmbeddings?: {
+    front?: number[];
+    left45?: number[];
+    right45?: number[];
+  };
+};
+
+function calcCosineSim(a?: number[] | null, b?: number[] | null): number {
+  if (!a || !b || a.length === 0 || b.length === 0 || a.length !== b.length) return -1;
+  let dot = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
+  }
+  if (normA === 0 || normB === 0) return -1;
+  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
 export default function CameraLandingScreen() {
-  const router = useRouter();
-  const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const [permission, requestPermission] = useCameraPermissions();
   const { settings, updateSetting, triggerHaptic } = useAppSettings();
@@ -214,7 +238,94 @@ export default function CameraLandingScreen() {
   const [cameraReady, setCameraReady] = useState(false);
   const [previewLayout, setPreviewLayout] = useState<PreviewLayout | null>(null);
 
-  const isFocused = pathname === "/";
+  // Student Roster & Real-time Matching state
+  const [students, setStudents] = useState<StudentRecord[]>([]);
+  const [matchedStudent, setMatchedStudent] = useState<{
+    name: string;
+    enrollmentNumber: string;
+    classId: string;
+    similarity: number;
+    initials: string;
+  } | null>(null);
+  const [isMatchLocked, setIsMatchLocked] = useState(false);
+
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
+
+  // Fetch enrolled students roster on mount
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`${apiUrl}/api/students`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data.success && Array.isArray(data.students)) {
+          setStudents(data.students);
+        }
+      })
+      .catch((err) => {
+        console.log("Unable to fetch student roster for local matching:", err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Real-time Cosine Similarity search on incoming live face embedding
+  useEffect(() => {
+    if (isMatchLocked || !face || !face.embedding || face.embedding.length === 0) {
+      return;
+    }
+
+    const liveEmbedding = face.embedding;
+    let bestMatch: StudentRecord | null = null;
+    let maxSim = -1;
+    const threshold = 0.60; // 60% cosine similarity threshold
+
+    for (const student of students) {
+      const poses = student.faceEmbeddings || {};
+      const simFront = calcCosineSim(liveEmbedding, poses.front);
+      const simLeft = calcCosineSim(liveEmbedding, poses.left45);
+      const simRight = calcCosineSim(liveEmbedding, poses.right45);
+
+      const maxStudentSim = Math.max(simFront, simLeft, simRight);
+      if (maxStudentSim > maxSim) {
+        maxSim = maxStudentSim;
+        bestMatch = student;
+      }
+    }
+
+    if (bestMatch && maxSim >= threshold) {
+      setIsMatchLocked(true);
+      AppSettings.haptic("success");
+
+      const matchDetails = {
+        name: bestMatch.name,
+        enrollmentNumber: bestMatch.enrollmentNumber,
+        classId: bestMatch.classId,
+        similarity: Math.round(maxSim * 100),
+        initials: bestMatch.name.split(" ").map((n) => n[0]).join(""),
+      };
+
+      setMatchedStudent(matchDetails);
+
+      // Record attendance log on server database
+      fetch(`${apiUrl}/api/attendance/scan`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          classId: bestMatch.classId,
+          embedding: liveEmbedding,
+        }),
+      }).catch((err) => console.error("Error logging attendance:", err));
+
+      // Lock match display for 3.5 seconds before resuming scanning
+      setTimeout(() => {
+        setMatchedStudent(null);
+        setIsMatchLocked(false);
+      }, 3500);
+    }
+  }, [face, students, isMatchLocked]);
+
   const previewFace = useMemo(
     () =>
       face && previewLayout
@@ -238,19 +349,22 @@ export default function CameraLandingScreen() {
     );
     return () => clearTimeout(timer);
   }, [lightingWarningKey]);
-  const smile = probabilityText(face?.smilingProbability ?? null);
-  const leftEye = probabilityText(face?.leftEyeOpenProbability ?? null);
-  const rightEye = probabilityText(face?.rightEyeOpenProbability ?? null);
+
   const statusTitle = error
     ? "Detector unavailable"
-    : previewFace
-      ? "Face detected"
-      : "Looking for a face";
+    : matchedStudent
+      ? matchedStudent.name
+      : previewFace
+        ? "Face detected — Matching..."
+        : "Looking for a face";
+
   const statusDescription = error
     ? "Restart the development build and check camera permission."
-    : previewFace
-      ? `Tracking live position${face?.trackingId !== null && face?.trackingId !== undefined ? ` ? Track ${face.trackingId}` : ""}`
-      : "Point the camera at one clear, forward-facing face.";
+    : matchedStudent
+      ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId}`
+      : previewFace
+        ? "Searching enrolled student embeddings database..."
+        : "Point camera at an enrolled student's face.";
 
   if (!permission) {
     return (
@@ -295,27 +409,48 @@ export default function CameraLandingScreen() {
         onPreviewLayout={handleCameraLayout}
       />
 
-      {/* Ultra-fast 60 FPS Native Kotlin Box Overlay renders inside LiveFaceCamera directly on Android Canvas */}
-
       <View className="absolute inset-0 justify-between">
         <Animated.View
           entering={FadeInUp.delay(200).duration(500)}
           style={{ paddingTop: insets.top + 16, paddingHorizontal: 24 }}
           className="flex-row justify-between items-center w-full"
         >
-          <View className="w-12 h-12 rounded-full bg-white border border-slate-100/50 shadow-medium">
+          <View
+            className="w-12 h-12 rounded-full bg-white"
+            style={{
+              borderWidth: 1,
+              borderColor: "rgba(241,245,249,0.5)",
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.08,
+              shadowRadius: 8,
+              elevation: 3,
+            }}
+          >
             <Pressable
               onPress={() => {
                 AppSettings.haptic("light");
                 router.push("/login");
               }}
-              className="w-full h-full items-center justify-center rounded-full active:scale-95 transition-all"
+              className="w-full h-full items-center justify-center rounded-full"
             >
               <LoginIcon color="#0f172a" />
             </Pressable>
           </View>
 
-          <View className="w-12 h-12 rounded-full bg-white/90 border border-slate-100/50 shadow-medium">
+          <View
+            className="w-12 h-12 rounded-full"
+            style={{
+              backgroundColor: "rgba(255,255,255,0.9)",
+              borderWidth: 1,
+              borderColor: "rgba(241,245,249,0.5)",
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.08,
+              shadowRadius: 8,
+              elevation: 3,
+            }}
+          >
             <Pressable
               accessibilityLabel="Switch camera"
               accessibilityRole="button"
@@ -324,7 +459,7 @@ export default function CameraLandingScreen() {
                 updateSetting("cameraFacing", settings.cameraFacing === "front" ? "back" : "front");
                 setFace(null);
               }}
-              className="w-full h-full items-center justify-center rounded-full active:scale-95 transition-all"
+              className="w-full h-full items-center justify-center rounded-full"
             >
               <FlipIcon color="#0f172a" />
             </Pressable>
@@ -335,8 +470,21 @@ export default function CameraLandingScreen() {
               pointerEvents="none"
               entering={FadeInDown.duration(220)}
               exiting={FadeOutUp.duration(180)}
-              style={{ position: "absolute", left: 80, right: 80, top: insets.top + 16 }}
-              className="h-12 flex-row items-center gap-2 rounded-full border border-amber-200 bg-white/95 px-3 shadow-medium"
+              style={{
+                position: "absolute",
+                left: 80,
+                right: 80,
+                top: insets.top + 16,
+                backgroundColor: "rgba(255,255,255,0.95)",
+                borderWidth: 1,
+                borderColor: "#fde68a",
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.08,
+                shadowRadius: 8,
+                elevation: 3,
+              }}
+              className="h-12 flex-row items-center gap-2 rounded-full px-3"
             >
               <View className="w-2.5 h-2.5 rounded-full bg-amber-500" />
               <View className="flex-1 flex-row items-center gap-1.5">
@@ -357,27 +505,61 @@ export default function CameraLandingScreen() {
             paddingBottom: insets.bottom + 20,
             paddingTop: 24,
             paddingHorizontal: 24,
+            backgroundColor: "rgba(255,255,255,0.9)",
+            borderTopWidth: 1,
+            borderTopColor: "rgba(226,232,240,0.4)",
+            borderTopLeftRadius: 40,
+            borderTopRightRadius: 40,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.12,
+            shadowRadius: 20,
+            elevation: 10,
           }}
-          className="w-full bg-white/90 border-t border-slate-200/40 rounded-t-[40px] shadow-premium gap-4"
+          className="w-full gap-4"
         >
           <View className="flex-row items-center justify-between">
             <View className="flex-row items-center gap-3.5 flex-1 pr-3">
               <View
-                className={
-                  previewFace
-                    ? "w-11 h-11 rounded-2xl bg-success/10 items-center justify-center border border-success/20"
-                    : "w-11 h-11 rounded-2xl bg-primary/10 items-center justify-center border border-primary/10"
+                style={
+                  matchedStudent
+                    ? {
+                        width: 48, height: 48, borderRadius: 16,
+                        backgroundColor: "#10b981",
+                        alignItems: "center", justifyContent: "center",
+                        borderWidth: 1, borderColor: "#34d399",
+                        shadowColor: "#10b981", shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.3, shadowRadius: 6, elevation: 4,
+                      }
+                    : previewFace
+                      ? {
+                          width: 44, height: 44, borderRadius: 16,
+                          backgroundColor: "rgba(34,197,94,0.1)",
+                          alignItems: "center", justifyContent: "center",
+                          borderWidth: 1, borderColor: "rgba(34,197,94,0.2)",
+                        }
+                      : {
+                          width: 44, height: 44, borderRadius: 16,
+                          backgroundColor: "rgba(93,95,239,0.1)",
+                          alignItems: "center", justifyContent: "center",
+                          borderWidth: 1, borderColor: "rgba(93,95,239,0.1)",
+                        }
                 }
               >
-                <View
-                  className={
-                    previewFace
-                      ? "w-4 h-4 rounded-full bg-success"
-                      : "w-4 h-4 rounded-full bg-primary"
-                  }
-                >
-                  <View className="w-2 h-2 rounded-full bg-white m-auto" />
-                </View>
+                {matchedStudent ? (
+                  <Text className="text-white font-black text-base">
+                    {matchedStudent.initials}
+                  </Text>
+                ) : (
+                  <View
+                    style={{
+                      width: 16, height: 16, borderRadius: 8,
+                      backgroundColor: previewFace ? "#22c55e" : "#5d5fef",
+                    }}
+                  >
+                    <View className="w-2 h-2 rounded-full bg-white m-auto" />
+                  </View>
+                )}
               </View>
               <View className="flex-1">
                 <Text className="text-on-surface font-black text-base tracking-tight">
@@ -389,61 +571,39 @@ export default function CameraLandingScreen() {
                 >
                   {statusDescription}
                 </Text>
-                {/* DEBUG EMBEDDING POPUP BEGIN */}
-                {face?.embedding && (
-                  <Text
-                    style={{
-                      fontFamily: "monospace",
-                      fontSize: 10,
-                      color: "#10b981",
-                      marginTop: 6,
-                      lineHeight: 14,
-                    }}
-                    numberOfLines={2}
-                  >
-                    {face.processDurationMs}ms : [{face.embedding.map(v => Math.round(v * 100) / 100).join(", ")}]
-                  </Text>
-                )}
-                {/* DEBUG EMBEDDING POPUP END */}
               </View>
             </View>
             <View
-              className={
-                previewFace
-                  ? "bg-success/15 px-3 py-1.5 rounded-xl border border-success/20"
-                  : "bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20"
+              style={
+                matchedStudent
+                  ? {
+                      backgroundColor: "#d1fae5", paddingHorizontal: 14, paddingVertical: 8,
+                      borderRadius: 16, borderWidth: 1, borderColor: "#6ee7b7",
+                    }
+                  : previewFace
+                    ? {
+                        backgroundColor: "rgba(34,197,94,0.15)", paddingHorizontal: 12, paddingVertical: 6,
+                        borderRadius: 12, borderWidth: 1, borderColor: "rgba(34,197,94,0.2)",
+                      }
+                    : {
+                        backgroundColor: "rgba(93,95,239,0.1)", paddingHorizontal: 12, paddingVertical: 6,
+                        borderRadius: 12, borderWidth: 1, borderColor: "rgba(93,95,239,0.2)",
+                      }
               }
             >
               <Text
                 className={
-                  previewFace
-                    ? "text-[10px] font-black text-success uppercase tracking-wider"
-                    : "text-[10px] font-black text-primary uppercase tracking-wider"
+                  matchedStudent
+                    ? "text-xs font-black text-emerald-800 uppercase tracking-wider"
+                    : previewFace
+                      ? "text-[10px] font-black text-success uppercase tracking-wider"
+                      : "text-[10px] font-black text-primary uppercase tracking-wider"
                 }
               >
-                {previewFace ? "Tracking" : "Searching"}
+                {matchedStudent ? `✓ ${matchedStudent.similarity}% MATCH` : previewFace ? "Scanning" : "Searching"}
               </Text>
             </View>
           </View>
-
-          {previewFace && (smile || leftEye || rightEye) && (
-            <View className="flex-row gap-2 pt-1">
-              {smile && (
-                <View className="bg-slate-100 px-3 py-2 rounded-xl">
-                  <Text className="text-[10px] font-black text-on-surface-variant uppercase">
-                    Smile {smile}
-                  </Text>
-                </View>
-              )}
-              {leftEye && rightEye && (
-                <View className="bg-slate-100 px-3 py-2 rounded-xl">
-                  <Text className="text-[10px] font-black text-on-surface-variant uppercase">
-                    Eyes {leftEye} / {rightEye}
-                  </Text>
-                </View>
-              )}
-            </View>
-          )}
         </Animated.View>
       </View>
     </View>
