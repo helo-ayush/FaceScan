@@ -29,6 +29,7 @@ import { Icon } from "@/components/Icon";
 import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/LiveFaceCamera";
 import { AppSettings, useAppSettings } from "@/utils/settings";
 import { useFaceDetection } from "@infinitered/react-native-mlkit-face-detection";
+import { mapFaceToPreview } from "@/utils/faceBoxUtils";
 
 type PoseKey = "front" | "left45" | "right45";
 
@@ -293,7 +294,15 @@ export default function EnrollScreen() {
       console.warn("Camera photo capture error:", err);
     }
 
-    const embeddingVector = frozenFace.embedding || Array(512).fill(0).map(() => Math.random() * 0.1);
+    // CRITICAL: Never save a fake embedding. If the native pipeline hasn't
+    // produced a real embedding for this frame, block the capture and ask the
+    // user to retry rather than silently saving noise to the database.
+    if (!frozenFace.embedding || frozenFace.embedding.length === 0) {
+      setCapturingPhoto(false);
+      alert("Face embedding not ready. Please hold still and try again in a moment.");
+      return;
+    }
+    const embeddingVector = frozenFace.embedding;
 
     setPendingCapture({
       poseKey: currentStep.key,
@@ -396,40 +405,13 @@ export default function EnrollScreen() {
     }
   };
 
-  // Calculate face bounding box style on preview matching native ML Kit FaceOverlayView
-  const confirmedFaceBoxStyle = (() => {
-    if (!pendingCapture || !pendingCapture.face || !cameraLayout.width || !cameraLayout.height) return null;
-    const face = pendingCapture.face;
-    const viewW = cameraLayout.width;
-    const viewH = cameraLayout.height;
-
-    // Use exact frame dimensions or fallback to ML Kit 480x640 portrait sensor
-    const imageWidth = face.imageWidth && face.imageWidth > 0 ? face.imageWidth : 480;
-    const imageHeight = face.imageHeight && face.imageHeight > 0 ? face.imageHeight : 640;
-
-    // CameraFill scale matching native ML Kit FaceOverlayView
-    const scale = Math.max(viewW / imageWidth, viewH / imageHeight);
-    const renderedW = imageWidth * scale;
-    const renderedH = imageHeight * scale;
-    const offsetX = (viewW - renderedW) / 2;
-    const offsetY = (viewH - renderedH) / 2;
-
-    const isFront = settings.cameraFacing === "front";
-    const mappedLeft = isFront
-      ? viewW - (face.x * scale + offsetX) - (face.width * scale)
-      : face.x * scale + offsetX;
-    const mappedTop = face.y * scale + offsetY;
-    const mappedWidth = face.width * scale;
-    const mappedHeight = face.height * scale;
-
-    return {
-      position: "absolute" as const,
-      left: Math.max(0, mappedLeft),
-      top: Math.max(0, mappedTop),
-      width: Math.min(viewW, mappedWidth),
-      height: Math.min(viewH, mappedHeight),
-    };
-  })();
+  // Calculate face bounding box for the pose review screen.
+  // Uses the shared mapFaceToPreview helper with mirrored=false — the native
+  // module (CameraView.kt) already flips face.x for the front camera before
+  // emitting to JS, so no additional mirror is needed here.
+  const confirmedFaceBoxStyle = pendingCapture?.face
+    ? mapFaceToPreview(pendingCapture.face, cameraLayout, false)
+    : null;
 
   return (
     <View className="flex-1 bg-background relative">
@@ -597,7 +579,7 @@ export default function EnrollScreen() {
           <Text className="text-xs text-on-surface-variant mt-1.5 text-center px-4 leading-normal font-medium">
             {scanState === "done"
               ? "Front, Left 45°, and Right 45° face embedding vectors ready for enrollment."
-              : "Capture 3 face angles (Front, Left 45°, Right 45°) to register 512D recognition vectors."}
+              : "Capture 3 face angles (Front, Left 45°, Right 45°) to register 192D recognition vectors."}
           </Text>
 
           {/* Pose Badges */}
@@ -1085,7 +1067,7 @@ export default function EnrollScreen() {
 
                   <View style={{ backgroundColor: "#f1f5f9", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10 }}>
                     <Text style={{ color: "#475569", fontSize: 10, fontWeight: "800", fontFamily: "monospace" }}>
-                      512-D Ready
+                      192-D Ready
                     </Text>
                   </View>
                 </View>

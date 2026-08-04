@@ -24,11 +24,7 @@ import Animated, {
 
 import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/LiveFaceCamera";
 import { AppSettings, PERFORMANCE_PRESETS, useAppSettings } from "@/utils/settings";
-
-type PreviewLayout = {
-  width: number;
-  height: number;
-};
+import { mapFaceToPreview, PreviewLayout } from "@/utils/faceBoxUtils";
 
 type PreviewFace = {
   left: number;
@@ -113,7 +109,7 @@ function LoginIcon({ size = 20, color = "#0f172a" }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M15 3H7a2 2 0 00-2 2v14a2 2 0 00-2 2h8m4-9l-4-4m4 4l-4 4m4-4H9"
+        d="M15 3H7a2 2 0 00-2 2v14a2 2 0 002 2h8m4-9l-4-4m4 4l-4 4m4-4H9"
         stroke={color}
         strokeWidth="2.5"
         strokeLinecap="round"
@@ -121,39 +117,6 @@ function LoginIcon({ size = 20, color = "#0f172a" }) {
       />
     </Svg>
   );
-}
-
-/**
- * Camera previews use "cover" behaviour. Apply the same crop and front-camera
- * mirror to ML Kit's image-space coordinates before drawing the React Native box.
- */
-function mapFaceToPreview(
-  face: RealtimeFace,
-  preview: PreviewLayout,
-  mirrored: boolean,
-): PreviewFace | null {
-  if (!face.imageWidth || !face.imageHeight || !preview.width || !preview.height) {
-    return null;
-  }
-
-  const scale = Math.max(
-    preview.width / face.imageWidth,
-    preview.height / face.imageHeight,
-  );
-  const renderedWidth = face.imageWidth * scale;
-  const renderedHeight = face.imageHeight * scale;
-  const offsetX = (preview.width - renderedWidth) / 2;
-  const offsetY = (preview.height - renderedHeight) / 2;
-  const width = face.width * scale;
-  const height = face.height * scale;
-  const sourceLeft = face.x * scale + offsetX;
-
-  return {
-    left: mirrored ? preview.width - sourceLeft - width : sourceLeft,
-    top: face.y * scale + offsetY,
-    width,
-    height,
-  };
 }
 
 type LightingWarning = {
@@ -220,10 +183,15 @@ function calcL2Distance(a?: number[] | null, b?: number[] | null): number {
   return Math.sqrt(sumSq);
 }
 
-// Stretches FaceNet L2 distance into a clean percentage score with >40% margin gap between genuine vs impostor
+// Maps MobileFaceNet L2 distance (on L2-normalized 192-dim vectors) to a
+// percentage score. On unit vectors, L2 ranges [0, 2]. Genuine pairs typically
+// cluster around 0.6–0.9, impostors around 1.2–1.6. The quadratic curve below
+// compresses the range so that dist=0→100%, dist≈0.95→60%, dist≥1.50→0%.
+// NOTE: These numbers should be empirically re-verified on your enrolled
+// population once all students are re-enrolled with correct 192-dim embeddings.
 function distToMatchPercent(dist: number): number {
-  if (dist >= 1.20) return 0;
-  const ratio = dist / 1.20;
+  if (dist >= 1.50) return 0;
+  const ratio = dist / 1.50;
   const percent = (1 - ratio * ratio) * 100;
   return Math.max(0, Math.min(100, Math.round(percent)));
 }
@@ -291,7 +259,7 @@ export default function CameraLandingScreen() {
     let bestMatch: StudentRecord | null = null;
     let bestScore = -1;
     let minDistance = 999;
-    const thresholdPercent = 70; // 70% threshold (corresponds to Euclidean distance <= 0.80)
+    const thresholdPercent = 60; // 60% threshold for MobileFaceNet 192-dim (≈ L2 dist ≤ 0.95)
 
     for (const student of students) {
       const poses = student.faceEmbeddings || {};

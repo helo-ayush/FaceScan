@@ -100,7 +100,7 @@ export default function CameraLandingScreen() {
             },
             body: JSON.stringify({
               classId: "CLASS-9C",
-              embedding: Array(512).fill(0), // Sent mock vector placeholder
+              embedding: Array(192).fill(0), // Sent mock vector placeholder (192-dim MobileFaceNet)
             }),
           });
           const data = await response.json();
