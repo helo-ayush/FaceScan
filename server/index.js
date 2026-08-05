@@ -183,94 +183,63 @@ app.get("/api/students/:enrollmentNumber/stats", async (req, res) => {
   }
 });
 
-// Helper for 512D L2 Euclidean Distance calculations (FaceNet native metric)
-function calculateL2Distance(vecA, vecB) {
-  if (!vecA || !vecB || vecA.length !== vecB.length || vecA.length === 0) return 999;
-  let sumSq = 0;
-  for (let i = 0; i < vecA.length; i++) {
-    const diff = vecA[i] - vecB[i];
-    sumSq += diff * diff;
-  }
-  return Math.sqrt(sumSq);
-}
-
-function distToMatchPercent(dist) {
-  if (dist >= 1.20) return 0;
-  const ratio = dist / 1.20;
-  const percent = (1 - ratio * ratio) * 100;
-  return Math.max(0, Math.min(100, Math.round(percent)));
-}
-
-// Attendance checking scan endpoint
+// Attendance logging endpoint.
+//
+// Recognition happens entirely on-device: the app aligns the face, runs
+// MobileFaceNet, and applies the accept threshold + runner-up margin + temporal
+// consensus rules in utils/faceMatching.ts. The server used to re-run its own
+// match here with a *different* score curve and threshold, which meant the two
+// sides could disagree about what counted as a match. It now trusts the device's
+// decision and only records it, so there is a single source of truth.
 app.post("/api/attendance/scan", async (req, res) => {
-  const { classId, embedding, targetPose } = req.body;
+  const { enrollmentNumber, classId, similarity, margin, pose } = req.body;
+
+  if (!enrollmentNumber) {
+    return res.status(400).json({ success: false, message: "enrollmentNumber is required" });
+  }
+
   try {
-    const query = (classId && classId.trim() !== "") ? { classId: classId.trim() } : {};
-    const students = await Student.find(query);
-    if (students.length === 0) {
-      return res.status(404).json({ success: false, message: "No enrolled students found" });
+    const student = await Student.findOne({ enrollmentNumber });
+    if (!student) {
+      return res.status(404).json({ success: false, message: "Student not found" });
     }
 
-    let bestMatch = null;
-    let bestScore = -1;
-    const thresholdPercent = 70; // 70% match threshold (corresponds to Euclidean distance <= 0.80)
+    const today = new Date().toISOString().split("T")[0];
+    const targetClassId = student.classId || classId || "GENERAL";
 
-    for (const student of students) {
-      const poses = student.faceEmbeddings || {};
-      let targetVec;
+    let attendance = await AttendanceLog.findOne({
+      enrollmentNumber: student.enrollmentNumber,
+      classId: targetClassId,
+      date: today,
+    });
 
-      if (targetPose && poses[targetPose]) {
-        targetVec = poses[targetPose];
-      } else {
-        targetVec = poses.front;
-      }
+    // Already marked today: report it without creating a duplicate row.
+    const alreadyMarked = Boolean(attendance);
 
-      const dist = calculateL2Distance(embedding, targetVec);
-      const score = distToMatchPercent(dist);
-
-      if (score > bestScore) {
-        bestScore = score;
-        bestMatch = student;
-      }
-    }
-
-    if (bestMatch && bestScore >= thresholdPercent) {
-      const today = new Date().toISOString().split("T")[0];
-      const targetClassId = bestMatch.classId || classId || "GENERAL";
-      
-      let attendance = await AttendanceLog.findOne({
-        enrollmentNumber: bestMatch.enrollmentNumber,
+    if (!attendance) {
+      attendance = await AttendanceLog.create({
+        enrollmentNumber: student.enrollmentNumber,
         classId: targetClassId,
+        status: "present",
         date: today,
-      });
-
-      if (!attendance) {
-        attendance = await AttendanceLog.create({
-          enrollmentNumber: bestMatch.enrollmentNumber,
-          classId: targetClassId,
-          status: "present",
-          date: today,
-        });
-      }
-
-      return res.status(200).json({
-        success: true,
-        student: {
-          name: bestMatch.name,
-          id: bestMatch.enrollmentNumber,
-          course: targetClassId,
-          initials: bestMatch.name.split(" ").map(n => n[0]).join(""),
-        },
-        similarity: Math.round(maxSimilarity * 100) / 100,
-        similarityPercent: `${Math.round(maxSimilarity * 100)}%`
-      });
-    } else {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Face verification failed (profile match not found)",
-        maxSimilarity: maxSimilarity > -1 ? Math.round(maxSimilarity * 100) / 100 : 0
+        similarity: typeof similarity === "number" ? similarity : undefined,
+        margin: typeof margin === "number" ? margin : undefined,
+        pose: pose || undefined,
       });
     }
+
+    return res.status(200).json({
+      success: true,
+      alreadyMarked,
+      student: {
+        name: student.name,
+        id: student.enrollmentNumber,
+        course: targetClassId,
+        initials: student.name.split(" ").map((n) => n[0]).join(""),
+      },
+      similarity: typeof similarity === "number" ? Math.round(similarity * 1000) / 1000 : null,
+      margin: typeof margin === "number" ? Math.round(margin * 1000) / 1000 : null,
+    });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

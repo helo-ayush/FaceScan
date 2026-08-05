@@ -83,47 +83,28 @@ export default function CameraLandingScreen() {
     course: string;
     initials: string;
   } | null>(null);
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
-  // Simulate scanning loop
+  // Simulate scanning loop.
+  //
+  // Face recognition runs entirely in the native pipeline (ML Kit alignment +
+  // MobileFaceNet on-device), so the web build cannot produce a real embedding.
+  // This screen is a layout preview only: it used to POST a zero vector to the
+  // attendance endpoint, which could never match anything and now would be
+  // rejected outright, since that endpoint only records decisions made on-device.
   useEffect(() => {
-
     let timer: NodeJS.Timeout;
 
     if (scanState === "scanning") {
-      timer = setTimeout(async () => {
-        try {
-          const response = await fetch(`${apiUrl}/api/attendance/scan`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              classId: "CLASS-9C",
-              embedding: Array(192).fill(0), // Sent mock vector placeholder (192-dim MobileFaceNet)
-            }),
-          });
-          const data = await response.json();
-          if (response.ok && data.success) {
-            setMatchedStudent(data.student);
-            setScanState("matched");
-            AppSettings.haptic("success");
-          } else {
-            setScanState("scanning");
-          }
-        } catch (err) {
-          console.error("Attendance scan connection error:", err);
-          // Fallback matching to keep local dev preview operational
-          setMatchedStudent({
-            name: "Himanshu",
-            id: "ENR-9001",
-            course: "Class 9th C",
-            initials: "H"
-          });
-          setScanState("matched");
-          AppSettings.haptic("success");
-        }
-      }, 4000); // Scan for 4 seconds, then match
+      timer = setTimeout(() => {
+        setMatchedStudent({
+          name: "Himanshu",
+          id: "ENR-9001",
+          course: "Class 9th C",
+          initials: "H",
+        });
+        setScanState("matched");
+        AppSettings.haptic("success");
+      }, 4000); // Scan for 4 seconds, then show the sample result
     } else {
       timer = setTimeout(() => {
         setScanState("scanning");

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LayoutChangeEvent, StyleSheet } from "react-native";
 import { PERFORMANCE_PRESETS, PerformanceMode, SCANNING_PERFORMANCE_PRESETS, ScanningPerformanceMode } from "@/utils/settings";
+import { signedAngle } from "@/utils/faceMatching";
 import {
   CameraView,
   FaceDetectionResult,
@@ -201,8 +202,11 @@ export function LiveFaceCamera({
         previewBase64: lightingFace.normalization?.previewBase64 ?? null,
         embedding: lightingFace.normalization?.embedding ?? null,
         processDurationMs: lightingFace.normalization?.processDurationMs ?? null,
-        yawAngle: (largest as any).yawAngle ?? (largest as any).headEulerAngleY ?? null,
-        rollAngle: (largest as any).rollAngle ?? (largest as any).headEulerAngleZ ?? null,
+        // The native detector mirrors front-camera angles into a 0..360 range,
+        // so a left turn arrives as 335 rather than -25. Normalize to signed
+        // degrees here, once, so every consumer sees a sane value.
+        yawAngle: signedAngle((largest as any).yawAngle ?? (largest as any).headEulerAngleY),
+        rollAngle: signedAngle((largest as any).rollAngle ?? (largest as any).headEulerAngleZ),
       });
     },
     [onFaceChange, onLightingChange, performanceMode, scheduleFaceClear, size.height, size.width],
