@@ -13,6 +13,10 @@ type LogEntry = {
   id: string;
   course: string;
   time: string;
+  /** Raw DB instant, ISO string. When present, `time` (server-UTC-formatted)
+   *  is ignored and the time is formatted on THIS device instead — the server
+   *  runs in UTC on Render, which made every log read 5.5h behind for IST. */
+  timestamp?: string;
   status: "present" | "absent";
   date?: string;
 };
@@ -21,6 +25,22 @@ const STATUS_CONFIG = {
   present: { bg: "bg-success-light border-success/15", text: "text-success" },
   absent: { bg: "bg-error-light border-error/15", text: "text-error" },
 } as const;
+
+/**
+ * Formats a log's time in the PHONE's timezone.
+ *
+ * The server used to format this string itself, but Node's
+ * `toLocaleTimeString` uses the *server's* zone — UTC on Render — so a scan at
+ * 6:30 PM IST displayed as 01:00 PM. The API now also returns the raw
+ * `timestamp`; prefer it and fall back to the legacy string only for rows
+ * served by an older backend.
+ */
+function formatLogTime(log: LogEntry): string {
+  if (!log.timestamp) return log.time;
+  const at = new Date(log.timestamp);
+  if (Number.isNaN(at.getTime())) return log.time;
+  return at.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
 
 export default function LogsScreen() {
   const [logsList, setLogsList] = useState<LogEntry[]>([]);
@@ -41,16 +61,18 @@ export default function LogsScreen() {
   
   const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
+  /** YYYY-MM-DD from the phone's local calendar, never UTC. */
+  function localDateStr(d: Date): string {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
   function fetchLogs(dateObj: Date, mode: "day" | "range", start: Date, end: Date) {
     setLoadingLogs(true);
     let url = "";
     if (mode === "day") {
-      const dateStr = dateObj.toISOString().split("T")[0];
-      url = `${apiUrl}/api/attendance/logs?date=${dateStr}`;
+      url = `${apiUrl}/api/attendance/logs?date=${localDateStr(dateObj)}`;
     } else {
-      const startStr = start.toISOString().split("T")[0];
-      const endStr = end.toISOString().split("T")[0];
-      url = `${apiUrl}/api/attendance/logs?startDate=${startStr}&endDate=${endStr}`;
+      url = `${apiUrl}/api/attendance/logs?startDate=${localDateStr(start)}&endDate=${localDateStr(end)}`;
     }
 
     fetch(url)
@@ -290,7 +312,7 @@ export default function LogsScreen() {
                   </Text>
                 </View>
                 <View className="items-end gap-1.5">
-                  <Text className="text-xs font-bold text-on-surface-variant">{l.time}</Text>
+                  <Text className="text-xs font-bold text-on-surface-variant">{formatLogTime(l)}</Text>
                   <View className={`px-2.5 py-0.5 rounded-full border ${STATUS_CONFIG[l.status]?.bg || "bg-slate-100"}`}>
                     <Text className={`text-[9px] font-extrabold uppercase tracking-wide ${STATUS_CONFIG[l.status]?.text || "text-slate-500"}`}>
                       {l.status}
