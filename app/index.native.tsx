@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Image,
   LayoutChangeEvent,
@@ -25,6 +25,18 @@ import Animated, {
 import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/LiveFaceCamera";
 import { AppSettings, PERFORMANCE_PRESETS, useAppSettings } from "@/utils/settings";
 import { mapFaceToPreview, PreviewLayout } from "@/utils/faceBoxUtils";
+import {
+  checkFrameQuality,
+  ConsensusTracker,
+  decideFrame,
+  MatchableStudent,
+  MATCH_TUNING,
+  scoreFrame,
+  similarityToDisplayPercent,
+  type ScoredFrame,
+} from "@/utils/faceMatching";
+import { Calibration } from "@/utils/calibration";
+import { CalibrationPanel } from "@/components/CalibrationPanel";
 
 type PreviewFace = {
   left: number;
@@ -161,40 +173,9 @@ function probabilityText(value: number | null) {
   return value === null ? null : `${Math.round(value * 100)}%`;
 }
 
-type StudentRecord = {
+type StudentRecord = MatchableStudent & {
   _id: string;
-  name: string;
-  enrollmentNumber: string;
-  classId: string;
-  faceEmbeddings?: {
-    front?: number[];
-    left45?: number[];
-    right45?: number[];
-  };
 };
-
-function calcL2Distance(a?: number[] | null, b?: number[] | null): number {
-  if (!a || !b || a.length === 0 || b.length === 0 || a.length !== b.length) return 999;
-  let sumSq = 0;
-  for (let i = 0; i < a.length; i++) {
-    const diff = a[i] - b[i];
-    sumSq += diff * diff;
-  }
-  return Math.sqrt(sumSq);
-}
-
-// Maps MobileFaceNet L2 distance (on L2-normalized 192-dim vectors) to a
-// percentage score. On unit vectors, L2 ranges [0, 2]. Genuine pairs typically
-// cluster around 0.6–0.9, impostors around 1.2–1.6. The quadratic curve below
-// compresses the range so that dist=0→100%, dist≈0.95→60%, dist≥1.50→0%.
-// NOTE: These numbers should be empirically re-verified on your enrolled
-// population once all students are re-enrolled with correct 192-dim embeddings.
-function distToMatchPercent(dist: number): number {
-  if (dist >= 1.50) return 0;
-  const ratio = dist / 1.50;
-  const percent = (1 - ratio * ratio) * 100;
-  return Math.max(0, Math.min(100, Math.round(percent)));
-}
 
 export default function CameraLandingScreen() {
   const insets = useSafeAreaInsets();
@@ -221,11 +202,17 @@ export default function CameraLandingScreen() {
   } | null>(null);
   const [isMatchLocked, setIsMatchLocked] = useState(false);
 
-  // 3-Frame Consensus State: prevents single-frame noise spikes
-  const [consensusCandidate, setConsensusCandidate] = useState<{
-    id: string;
-    count: number;
-  } | null>(null);
+  // Sliding-window consensus: the same student must win several of the most
+  // recent frames before attendance is marked.
+  const consensusRef = useRef(new ConsensusTracker());
+
+  // Why the current frame was rejected, surfaced in the UI so a student can see
+  // whether to hold still, move into better light, or face the camera.
+  const [rejectReason, setRejectReason] = useState<string | null>(null);
+
+  // Most recent scored frame, reused for the live readout so the roster is not
+  // scanned twice per frame.
+  const [lastScored, setLastScored] = useState<{ scored: ScoredFrame; yaw: number } | null>(null);
 
   const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
@@ -248,88 +235,80 @@ export default function CameraLandingScreen() {
     };
   }, []);
 
-  // Real-time Pose-Aware Euclidean Distance search with 3-frame consensus
+  // Pose-aware cosine search, gated on frame quality, an absolute similarity
+  // floor, a margin over the closest *other* student, and temporal consensus.
   useEffect(() => {
-    if (isMatchLocked || !face || !face.embedding || face.embedding.length === 0) {
+    if (isMatchLocked || !face) return;
+
+    const quality = checkFrameQuality(face);
+    if (!quality.ok) {
+      // A poor frame is not evidence either way — drop it without letting it
+      // break an otherwise good consensus run.
+      setRejectReason(quality.reason);
+      setLastScored(null);
       return;
     }
 
-    const liveEmbedding = face.embedding;
+    const liveEmbedding = face.embedding as number[];
     const yaw = face.yawAngle ?? 0;
-    let bestMatch: StudentRecord | null = null;
-    let bestScore = -1;
-    let minDistance = 999;
-    const thresholdPercent = 60; // 60% threshold for MobileFaceNet 192-dim (≈ L2 dist ≤ 0.95)
+    const scored = scoreFrame(liveEmbedding, students, yaw);
+    setLastScored({ scored, yaw });
+    Calibration.record(scored, yaw);
 
-    for (const student of students) {
-      const poses = student.faceEmbeddings || {};
-      let targetVec: number[] | undefined;
-
-      // Pose-Aware Routing based on 15° yaw angle threshold
-      if (Math.abs(yaw) <= 15) {
-        targetVec = poses.front;
-      } else if (yaw < -15) {
-        targetVec = poses.left45;
-      } else {
-        targetVec = poses.right45;
-      }
-
-      const dist = calcL2Distance(liveEmbedding, targetVec);
-      const score = distToMatchPercent(dist);
-
-      if (score > bestScore) {
-        bestScore = score;
-        minDistance = dist;
-        bestMatch = student;
-      }
+    // While calibrating, this screen is a measurement instrument rather than an
+    // attendance terminal: keep scoring and recording every frame, but never
+    // lock the UI or mark attendance. Otherwise a capture run would be
+    // interrupted for 3.5 seconds each time the current (unproven) thresholds
+    // happen to fire, and the recorded distribution would be full of gaps.
+    if (Calibration.isEnabled) {
+      setRejectReason(null);
+      return;
     }
 
-    if (bestMatch && bestScore >= thresholdPercent) {
-      const candidateId = bestMatch._id || bestMatch.enrollmentNumber;
-      const currentCount = consensusCandidate?.id === candidateId ? consensusCandidate.count + 1 : 1;
-      
-      setConsensusCandidate({ id: candidateId, count: currentCount });
-
-      // Require 2 consecutive matching frames to confirm (temporal consensus)
-      if (currentCount >= 2) {
-        setIsMatchLocked(true);
-        AppSettings.haptic("success");
-        setConsensusCandidate(null);
-
-        const matchDetails = {
-          name: bestMatch.name,
-          enrollmentNumber: bestMatch.enrollmentNumber,
-          classId: bestMatch.classId,
-          similarity: bestScore,
-          initials: bestMatch.name.split(" ").map((n) => n[0]).join(""),
-        };
-
-        setMatchedStudent(matchDetails);
-
-        // Record attendance log on server database
-        fetch(`${apiUrl}/api/attendance/scan`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            classId: bestMatch.classId,
-            embedding: liveEmbedding,
-            targetPose: Math.abs(yaw) <= 15 ? "front" : yaw < -15 ? "left45" : "right45",
-          }),
-        }).catch((err) => console.error("Error logging attendance:", err));
-
-        // Lock match display for 3.5 seconds before resuming scanning
-        setTimeout(() => {
-          setMatchedStudent(null);
-          setIsMatchLocked(false);
-        }, 3500);
-      }
-    } else {
-      setConsensusCandidate(null);
-      if (bestMatch && bestScore > 0) {
-        console.log(`[FaceScan] Below threshold: ${bestMatch.name} → ${bestScore}% (dist: ${minDistance.toFixed(2)}, need ≥70%)`);
-      }
+    const decision = decideFrame(scored);
+    if (!decision.accept) {
+      setRejectReason(decision.reason);
+      consensusRef.current.push(null);
+      return;
     }
-  }, [face, students, isMatchLocked, consensusCandidate]);
+
+    setRejectReason(null);
+    const { candidate } = decision;
+    const confirmedId = consensusRef.current.push(candidate.studentId);
+    if (!confirmedId) return;
+
+    // Confirmed: lock the UI, mark attendance, then resume scanning.
+    const student = candidate.student;
+    setIsMatchLocked(true);
+    AppSettings.haptic("success");
+    consensusRef.current.reset();
+
+    setMatchedStudent({
+      name: student.name,
+      enrollmentNumber: student.enrollmentNumber,
+      classId: student.classId,
+      similarity: similarityToDisplayPercent(candidate.similarity),
+      initials: student.name.split(" ").map((n) => n[0]).join(""),
+    });
+
+    // The device has already decided; the server only records the result.
+    fetch(`${apiUrl}/api/attendance/scan`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        enrollmentNumber: student.enrollmentNumber,
+        classId: student.classId,
+        similarity: candidate.similarity,
+        margin: scored.margin,
+        pose: candidate.pose,
+      }),
+    }).catch((err) => console.error("Error logging attendance:", err));
+
+    setTimeout(() => {
+      setMatchedStudent(null);
+      setIsMatchLocked(false);
+    }, 3500);
+  }, [face, students, isMatchLocked]);
 
   const previewFace = useMemo(
     () =>
@@ -363,45 +342,38 @@ export default function CameraLandingScreen() {
         ? "Face detected — Matching..."
         : "Looking for a face";
 
-  // Compute live pose-aware similarity score for live status UI display
+  // Live readout derived from the frame the matcher already scored, so the
+  // roster is not searched a second time per frame.
   const liveSimilarity = useMemo(() => {
-    if (!face || !face.embedding || face.embedding.length === 0 || students.length === 0) return null;
-    const yaw = face.yawAngle ?? 0;
-    const activePose = Math.abs(yaw) <= 15 ? "Front" : yaw < -15 ? "Left45" : "Right45";
-
-    let bestScore = -1;
-    let bestName = "";
-    for (const student of students) {
-      const poses = student.faceEmbeddings || {};
-      let targetVec: number[] | undefined;
-
-      if (Math.abs(yaw) <= 15) {
-        targetVec = poses.front;
-      } else if (yaw < -15) {
-        targetVec = poses.left45;
-      } else {
-        targetVec = poses.right45;
-      }
-
-      const dist = calcL2Distance(face.embedding, targetVec);
-      const score = distToMatchPercent(dist);
-
-      if (score > bestScore) {
-        bestScore = score;
-        bestName = student.name;
-      }
-    }
-    return bestScore > 0 ? { name: bestName, score: bestScore, activePose, yaw: Math.round(yaw) } : null;
-  }, [face, students]);
+    if (!lastScored) return null;
+    const { scored, yaw } = lastScored;
+    if (!scored.best) return null;
+    return {
+      name: scored.best.student.name,
+      score: similarityToDisplayPercent(scored.best.similarity),
+      cosine: scored.best.similarity,
+      margin: scored.margin,
+      activePose: scored.pose,
+      yaw: Math.round(yaw),
+      /** True when the winner cleared the floor but not the runner-up margin. */
+      ambiguous:
+        scored.best.similarity >= MATCH_TUNING.acceptSimilarity &&
+        scored.margin < MATCH_TUNING.marginOverRunnerUp,
+    };
+  }, [lastScored]);
 
   const statusDescription = error
     ? "Restart the development build and check camera permission."
     : matchedStudent
       ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId}`
       : previewFace && liveSimilarity
-        ? `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} • ${liveSimilarity.yaw}°) → ${liveSimilarity.score}%`
+        ? liveSimilarity.ambiguous
+          ? `Too close to call — ${liveSimilarity.name} vs others (margin ${liveSimilarity.margin.toFixed(2)})`
+          : `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} • ${liveSimilarity.yaw}°) → cos ${liveSimilarity.cosine.toFixed(3)} · margin ${liveSimilarity.margin.toFixed(2)}`
         : previewFace
-          ? "Searching enrolled student embeddings database..."
+          ? rejectReason
+            ? `Hold on — ${rejectReason}`
+            : "Searching enrolled student embeddings database..."
           : "Point camera at an enrolled student's face.";
 
   if (!permission) {
@@ -643,6 +615,10 @@ export default function CameraLandingScreen() {
             </View>
           </View>
         </Animated.View>
+
+        {__DEV__ && (
+          <CalibrationPanel topOffset={insets.top + 76} students={students} />
+        )}
       </View>
     </View>
   );

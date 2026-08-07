@@ -9,7 +9,6 @@ import {
   Image,
   StyleSheet,
   LayoutChangeEvent,
-  ActivityIndicator,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -30,8 +29,52 @@ import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/Liv
 import { AppSettings, useAppSettings } from "@/utils/settings";
 import { useFaceDetection } from "@infinitered/react-native-mlkit-face-detection";
 import { mapFaceToPreview } from "@/utils/faceBoxUtils";
+import {
+  averageEmbeddings,
+  checkFrameQuality,
+  cosineSimilarity,
+  poseCaptureGuidance,
+  sampleCohesion,
+  signedAngle,
+  type PoseKey,
+} from "@/utils/faceMatching";
 
-type PoseKey = "front" | "left45" | "right45";
+/**
+ * How many distinct, quality-checked frames to average into each pose template.
+ * A single frame carries whatever noise that instant had; averaging several and
+ * re-normalizing produces a centroid that sits much closer to the true identity,
+ * which is what widens the gap between the right person and a lookalike.
+ */
+const SAMPLES_PER_POSE = 6;
+
+/**
+ * Give up on a burst if no new sample is accepted within this window. The timer
+ * restarts on every accepted sample, so a slow-but-progressing capture is never
+ * cut off — only a genuinely stuck one.
+ */
+const BURST_TIMEOUT_MS = 15000;
+
+/**
+ * Consecutive good frames in the target pose before capture starts on its own.
+ * Holding a 45-degree turn while reaching for a shutter button moves your head,
+ * so the capture starts itself once the pose is steady.
+ */
+const AUTO_CAPTURE_HOLD_FRAMES = 3;
+
+/**
+ * Minimum mean pairwise similarity within a pose's samples. If the frames
+ * disagree this much with each other, the pose drifted mid-capture or the crops
+ * were poor, and averaging them would produce a blurred, less discriminative
+ * template.
+ */
+const MIN_SAMPLE_COHESION = 0.75;
+
+/**
+ * Frames closer than this to an already-accepted sample add no new information.
+ * The native pipeline re-emits its cached embedding on throttled frames, so
+ * without this check a burst could average the same vector several times over.
+ */
+const MAX_DUPLICATE_SIMILARITY = 0.9995;
 
 type PoseStep = {
   key: PoseKey;
@@ -164,7 +207,21 @@ export default function EnrollScreen() {
     embedding: number[];
     face: RealtimeFace;
     uri: string | null;
+    /** How many frames were averaged into `embedding`. */
+    sampleCount: number;
+    /** Mean pairwise similarity of those frames — higher is a tighter capture. */
+    cohesion: number;
   } | null>(null);
+
+  // Burst capture progress. Samples accumulate in a ref because they are fed by
+  // the camera callback and must not trigger a re-render per frame.
+  const burstSamplesRef = useRef<number[][]>([]);
+  const burstActiveRef = useRef(false);
+  // Lets the scanner close/reset handlers (declared above the burst logic) abort
+  // an in-flight burst without a forward reference.
+  const cancelBurstRef = useRef<(() => void) | null>(null);
+  const [burstProgress, setBurstProgress] = useState(0);
+  const [burstHint, setBurstHint] = useState<string | null>(null);
 
   // Wiggle animation for warning banner
   const warningX = useSharedValue(0);
@@ -228,6 +285,7 @@ export default function EnrollScreen() {
 
   const closeScanner = () => {
     AppSettings.haptic("light");
+    cancelBurstRef.current?.();
     setPendingCapture(null);
     setCapturingPhoto(false);
     setScannerVisible(false);
@@ -235,6 +293,8 @@ export default function EnrollScreen() {
 
   const handleResetCaptures = () => {
     AppSettings.haptic("medium");
+    cancelBurstRef.current?.();
+    setCapturingPhoto(false);
     setScanState("idle");
     setCapturedEmbeddings({
       front: null,
@@ -247,6 +307,193 @@ export default function EnrollScreen() {
 
   const currentStep = POSE_STEPS[currentStepIndex];
   const activeWarning = getLightingWarning(currentFace, currentLighting);
+
+  // Live pose readout, so the person can see what the device thinks their head
+  // is doing instead of guessing why capture will not start.
+  const liveQuality = currentFace ? checkFrameQuality(currentFace) : null;
+  const liveQualityReason = liveQuality && !liveQuality.ok ? liveQuality.reason : null;
+  const liveGuidance = currentFace
+    ? poseCaptureGuidance(currentFace.yawAngle ?? 0, currentStep.key)
+    : null;
+  const liveYaw = currentFace ? signedAngle(currentFace.yawAngle) : null;
+  const poseReady = Boolean(liveQuality?.ok && liveGuidance?.inBand);
+  const poseMessage = !currentFace
+    ? "Position your face in the frame"
+    : liveQualityReason
+      ? liveQualityReason
+      : liveGuidance && !liveGuidance.inBand
+        ? liveGuidance.hint
+        : "Hold still — starting capture";
+
+  const cancelBurst = useCallback(() => {
+    burstActiveRef.current = false;
+    burstSamplesRef.current = [];
+    setBurstProgress(0);
+    setBurstHint(null);
+  }, []);
+
+  const startBurst = useCallback(() => {
+    burstSamplesRef.current = [];
+    burstActiveRef.current = true;
+    setBurstProgress(0);
+    setBurstHint(null);
+    setCapturingPhoto(true);
+  }, []);
+
+  cancelBurstRef.current = cancelBurst;
+
+  /**
+   * Accepts or rejects a single live frame as a sample for the pose being
+   * captured. Returns a hint describing why a frame was skipped, so the student
+   * gets told what to fix instead of the burst silently stalling.
+   */
+  const evaluateSample = useCallback(
+    (face: RealtimeFace, expectedPose: PoseKey): { accepted: boolean; hint: string | null } => {
+      const quality = checkFrameQuality(face);
+      if (!quality.ok) return { accepted: false, hint: quality.reason };
+
+      // The frame must actually be in the pose we are capturing, otherwise a
+      // frontal frame could end up inside the left45 template and blur it. The
+      // band is wide and the hint says which way to move, so this guides the
+      // person into position instead of just refusing frames.
+      const guidance = poseCaptureGuidance(face.yawAngle ?? 0, expectedPose);
+      if (!guidance.inBand) {
+        return { accepted: false, hint: guidance.hint };
+      }
+
+      const embedding = face.embedding as number[];
+      const previous = burstSamplesRef.current;
+      if (previous.length > 0) {
+        const last = previous[previous.length - 1];
+        if (cosineSimilarity(embedding, last) >= MAX_DUPLICATE_SIMILARITY) {
+          // Same cached embedding re-emitted on a throttled frame — not new data.
+          return { accepted: false, hint: null };
+        }
+      }
+
+      return { accepted: true, hint: null };
+    },
+    [],
+  );
+
+  // Feeds live frames into the active burst until enough distinct, good samples
+  // are collected, then averages them into one centroid template.
+  useEffect(() => {
+    if (!burstActiveRef.current || !currentFace) return;
+
+    const { accepted, hint } = evaluateSample(currentFace, currentStep.key);
+    setBurstHint(hint);
+    if (!accepted) return;
+
+    burstSamplesRef.current = [...burstSamplesRef.current, [...(currentFace.embedding as number[])]];
+    const collected = burstSamplesRef.current.length;
+    setBurstProgress(collected);
+    AppSettings.haptic("light");
+
+    if (collected < SAMPLES_PER_POSE) return;
+
+    // Burst complete — build the centroid.
+    burstActiveRef.current = false;
+    const samples = burstSamplesRef.current;
+    const cohesion = sampleCohesion(samples);
+    const centroid = averageEmbeddings(samples);
+
+    if (!centroid) {
+      cancelBurst();
+      alert("Could not build a face template from this capture. Please try again.");
+      return;
+    }
+
+    if (cohesion < MIN_SAMPLE_COHESION) {
+      // The frames disagreed too much; averaging them would weaken the template.
+      cancelBurst();
+      AppSettings.haptic("error");
+      alert(
+        "The captured frames varied too much (likely movement or changing light). " +
+          "Please hold still and capture this pose again.",
+      );
+      return;
+    }
+
+    const frozenFace: RealtimeFace = {
+      ...currentFace,
+      embedding: centroid,
+    };
+
+    const previewUri = frozenFace.previewBase64
+      ? frozenFace.previewBase64.startsWith("data:")
+        ? frozenFace.previewBase64
+        : `data:image/jpeg;base64,${frozenFace.previewBase64}`
+      : null;
+
+    setPendingCapture({
+      poseKey: currentStep.key,
+      embedding: centroid,
+      face: frozenFace,
+      uri: previewUri,
+      sampleCount: samples.length,
+      cohesion,
+    });
+
+    burstSamplesRef.current = [];
+    setBurstProgress(0);
+    setBurstHint(null);
+    setCapturingPhoto(false);
+    AppSettings.haptic("success");
+  }, [currentFace, currentStep.key, evaluateSample, cancelBurst]);
+
+  // Starts the burst on its own once the pose has been held steady, so nobody
+  // has to hold a 45-degree turn while hunting for the shutter button. The
+  // shutter still works for anyone who prefers to trigger it manually.
+  const holdFramesRef = useRef(0);
+  useEffect(() => {
+    if (!scannerVisible || capturingPhoto || pendingCapture || !currentFace) {
+      holdFramesRef.current = 0;
+      return;
+    }
+    if (settings.strictLightingCheck && activeWarning) {
+      holdFramesRef.current = 0;
+      return;
+    }
+
+    const { accepted } = evaluateSample(currentFace, currentStep.key);
+    if (!accepted) {
+      holdFramesRef.current = 0;
+      return;
+    }
+
+    holdFramesRef.current += 1;
+    if (holdFramesRef.current >= AUTO_CAPTURE_HOLD_FRAMES) {
+      holdFramesRef.current = 0;
+      AppSettings.haptic("medium");
+      startBurst();
+    }
+  }, [
+    currentFace,
+    currentStep.key,
+    scannerVisible,
+    capturingPhoto,
+    pendingCapture,
+    activeWarning,
+    settings.strictLightingCheck,
+    evaluateSample,
+    startBurst,
+  ]);
+
+  // Abandon a burst that cannot gather a new usable frame in time. Keyed on
+  // burstProgress so the clock restarts with every accepted sample — a slow but
+  // advancing capture is fine, a stalled one is not.
+  useEffect(() => {
+    if (!capturingPhoto) return;
+    const timer = setTimeout(() => {
+      if (!burstActiveRef.current) return;
+      cancelBurst();
+      setCapturingPhoto(false);
+      AppSettings.haptic("error");
+      alert("Could not capture enough clear frames. Please check lighting, hold still, and try again.");
+    }, BURST_TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, [capturingPhoto, burstProgress, cancelBurst]);
 
   const handleManualCapture = async () => {
     if (capturingPhoto || pendingCapture) return;
@@ -262,56 +509,18 @@ export default function EnrollScreen() {
       return;
     }
 
-    AppSettings.haptic("medium");
-    setCapturingPhoto(true);
-
-    // Freeze real-time face state at shutter tap millisecond (matches native FaceOverlayView 1-to-1)
-    const frozenFace: RealtimeFace = {
-      ...currentFace,
-      embedding: currentFace.embedding ? [...currentFace.embedding] : null,
-    };
-
-    let photoUri: string | null = null;
-
-    // 1. Instant preview base64 fallback (0ms)
-    if (frozenFace.previewBase64) {
-      photoUri = frozenFace.previewBase64.startsWith("data:")
-        ? frozenFace.previewBase64
-        : `data:image/jpeg;base64,${frozenFace.previewBase64}`;
-    }
-
-    // 2. Ultra-fast snapshot photo capture (~40ms)
-    try {
-      const photo = await cameraHandleRef.current?.takePictureAsync({
-        quality: 0.5,
-        skipProcessing: true,
-      });
-
-      if (photo?.uri) {
-        photoUri = photo.uri;
-      }
-    } catch (err) {
-      console.warn("Camera photo capture error:", err);
-    }
-
     // CRITICAL: Never save a fake embedding. If the native pipeline hasn't
-    // produced a real embedding for this frame, block the capture and ask the
-    // user to retry rather than silently saving noise to the database.
-    if (!frozenFace.embedding || frozenFace.embedding.length === 0) {
-      setCapturingPhoto(false);
+    // produced a real embedding yet, block the capture and ask the user to retry
+    // rather than silently saving noise to the database.
+    if (!currentFace.embedding || currentFace.embedding.length === 0) {
       alert("Face embedding not ready. Please hold still and try again in a moment.");
       return;
     }
-    const embeddingVector = frozenFace.embedding;
 
-    setPendingCapture({
-      poseKey: currentStep.key,
-      embedding: embeddingVector,
-      face: frozenFace,
-      uri: photoUri,
-    });
+    AppSettings.haptic("medium");
 
-    setCapturingPhoto(false);
+    // Start collecting a burst; the effect above averages it into a template.
+    startBurst();
   };
 
   const handleConfirmPose = () => {
@@ -579,7 +788,7 @@ export default function EnrollScreen() {
           <Text className="text-xs text-on-surface-variant mt-1.5 text-center px-4 leading-normal font-medium">
             {scanState === "done"
               ? "Front, Left 45°, and Right 45° face embedding vectors ready for enrollment."
-              : "Capture 3 face angles (Front, Left 45°, Right 45°) to register 192D recognition vectors."}
+              : "Capture 3 face angles (Front, Left 45°, Right 45°) to register 512D recognition vectors."}
           </Text>
 
           {/* Pose Badges */}
@@ -930,6 +1139,50 @@ export default function EnrollScreen() {
                   </View>
                 </View>
 
+                {/* Live pose status — shows whether the head is currently in the
+                    band this step needs, and which way to move if not. */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: 12,
+                    backgroundColor: poseReady ? "#ecfdf5" : "#f8fafc",
+                    borderWidth: 1,
+                    borderColor: poseReady ? "#a7f3d0" : "#e2e8f0",
+                    borderRadius: 14,
+                    paddingHorizontal: 12,
+                    paddingVertical: 9,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: 4,
+                      backgroundColor: poseReady ? "#10b981" : "#f59e0b",
+                      marginRight: 8,
+                    }}
+                  />
+                  <Text
+                    style={{
+                      flex: 1,
+                      color: poseReady ? "#047857" : "#475569",
+                      fontSize: 12,
+                      fontWeight: "700",
+                    }}
+                    numberOfLines={1}
+                  >
+                    {capturingPhoto
+                      ? burstHint
+                        ? burstHint
+                        : `Capturing ${burstProgress}/${SAMPLES_PER_POSE}…`
+                      : poseMessage}
+                  </Text>
+                  <Text style={{ color: "#94a3b8", fontSize: 11, fontWeight: "800", fontFamily: "monospace" }}>
+                    {liveYaw === null ? "--°" : `${Math.round(liveYaw)}°`}
+                  </Text>
+                </View>
+
                 {/* Step progress dots */}
                 <View style={{ flexDirection: "row", marginTop: 14, gap: 6 }}>
                   {POSE_STEPS.map((step, idx) => {
@@ -998,12 +1251,30 @@ export default function EnrollScreen() {
                     }}
                   >
                     {capturingPhoto ? (
-                      <ActivityIndicator size="small" color="#ffffff" />
+                      <Text style={{ color: "#ffffff", fontWeight: "800", fontSize: 15 }}>
+                        {burstProgress}/{SAMPLES_PER_POSE}
+                      </Text>
                     ) : (
                       <Icon name="camera" size={26} color="#ffffff" />
                     )}
                   </View>
                 </Pressable>
+
+                {/* Burst capture guidance — tells the student what to fix when
+                    frames are being rejected instead of stalling silently. */}
+                {capturingPhoto && (
+                  <Text
+                    style={{
+                      marginTop: 10,
+                      color: burstHint ? "#fbbf24" : "#e2e8f0",
+                      fontSize: 12,
+                      fontWeight: "700",
+                      textAlign: "center",
+                    }}
+                  >
+                    {burstHint ? `Hold on — ${burstHint}` : "Hold still, capturing samples…"}
+                  </Text>
+                )}
               </View>
             </View>
           )}
@@ -1060,14 +1331,15 @@ export default function EnrollScreen() {
                         {POSE_STEPS.find((s) => s.key === pendingCapture.poseKey)?.title}
                       </Text>
                       <Text style={{ color: "#059669", fontSize: 11, fontWeight: "700", marginTop: 1 }}>
-                        Face Detection Successful
+                        Averaged {pendingCapture.sampleCount} samples · cohesion{" "}
+                        {pendingCapture.cohesion.toFixed(3)}
                       </Text>
                     </View>
                   </View>
 
                   <View style={{ backgroundColor: "#f1f5f9", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10 }}>
                     <Text style={{ color: "#475569", fontSize: 10, fontWeight: "800", fontFamily: "monospace" }}>
-                      192-D Ready
+                      512-D Ready
                     </Text>
                   </View>
                 </View>

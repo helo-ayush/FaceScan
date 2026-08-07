@@ -21,6 +21,19 @@ const AttendanceLogSchema = new mongoose.Schema({
   date: {
     type: String, // YYYY-MM-DD
     required: true,
+  },
+  // Audit trail for the on-device decision that produced this row. Keeping the
+  // cosine score and the gap over the runner-up makes it possible to review how
+  // confident each accepted match actually was, and to re-tune thresholds later.
+  similarity: {
+    type: Number,
+  },
+  margin: {
+    type: Number,
+  },
+  pose: {
+    type: String,
+    enum: ['front', 'left45', 'right45'],
   }
 });
 
