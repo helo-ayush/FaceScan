@@ -788,7 +788,7 @@ export default function EnrollScreen() {
           <Text className="text-xs text-on-surface-variant mt-1.5 text-center px-4 leading-normal font-medium">
             {scanState === "done"
               ? "Front, Left 45°, and Right 45° face embedding vectors ready for enrollment."
-              : "Capture 3 face angles (Front, Left 45°, Right 45°) to register 192D recognition vectors."}
+              : "Capture 3 face angles (Front, Left 45°, Right 45°) to register 512D recognition vectors."}
           </Text>
 
           {/* Pose Badges */}
@@ -1339,7 +1339,7 @@ export default function EnrollScreen() {
 
                   <View style={{ backgroundColor: "#f1f5f9", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10 }}>
                     <Text style={{ color: "#475569", fontSize: 10, fontWeight: "800", fontFamily: "monospace" }}>
-                      192-D Ready
+                      512-D Ready
                     </Text>
                   </View>
                 </View>

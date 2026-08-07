@@ -28,42 +28,66 @@ export type MatchableStudent = {
 /**
  * Decision thresholds, in cosine-similarity space (-1..1).
  *
- * Measured, not guessed. Set from a two-subject calibration recording (112
- * distinct embeddings, one genuine subject and one sibling impostor):
+ * Measured from a two-subject calibration recording on the current pipeline
+ * (ArcFace `w600k_mbf`, 512-dim, with the `norm_crop` alignment template),
+ * 2042 comparisons across both subjects and all three poses, deliberately
+ * including varied and uneven lighting:
  *
- *   genuine   min 0.567  p05 0.751  median 0.902  max 0.971
- *   impostor  min 0.380  median 0.643  p95 0.786  max 0.826
+ *   genuine   min 0.717  p05 0.760  median 0.831  max 0.891
+ *   impostor  min 0.299  median 0.428  p95 0.491  max 0.515
  *
- * The distributions OVERLAP: the impostor's best frame (0.826) beats the genuine
- * 5th percentile (0.751), so no absolute floor can separate two real faces on
- * this model. That is why the two thresholds have different jobs, and why
- * `acceptSimilarity` must not be mistaken for the safety net:
+ * The distributions DO NOT overlap: the worst genuine frame (0.717) beats the
+ * best impostor frame (0.515) by 0.202, and no wrong person ranked first in any
+ * frame. This is a change in kind from the previous pipeline, where the two
+ * overlapped by 0.035 and only the margin test prevented false accepts.
  *
- *   - `acceptSimilarity` rejects people who are not enrolled at all.
- *   - `marginOverRunnerUp` rejects the wrong *enrolled* person. This is the one
- *     doing the real work against siblings and lookalikes.
+ * The two thresholds still have different jobs:
  *
- * In the recording the impostor never ranked first; his closest frame trailed by
- * 0.092, at a side pose (yaw -39) where his score climbed to 0.826 while the
- * genuine score held at 0.918. A 0.10 margin rejects that frame and every other
- * one near it, at a cost of ~8% of genuine frames — which the consensus window
- * absorbs without the user noticing.
+ *   - `acceptSimilarity` rejects people who are not enrolled at all. With a
+ *     single enrolled student it is the ONLY protection, because the margin
+ *     test has no runner-up to compare against.
+ *   - `marginOverRunnerUp` rejects the wrong *enrolled* person.
  *
- * Re-measure after any change to enrollment, alignment, or the embedding model.
+ * Re-measure with `scripts/analyze-calibration.js` after any change to the
+ * embedding model, the alignment template, or enrollment.
  */
 export const MATCH_TUNING = {
   /**
-   * Absolute floor the best candidate must clear. Set just under the genuine
-   * 5th percentile (0.751). Raising it further is blocked by weak enrollments
-   * rather than by impostors — at 0.82 a poorly enrolled subject loses over a
-   * third of their own frames while the impostor ceiling is still 0.826.
+   * Absolute floor the best candidate must clear.
+   *
+   * This guards against people who are NOT enrolled. It does nothing against
+   * the wrong *enrolled* person — a sibling scanning their own face clears any
+   * floor legitimately, and `marginOverRunnerUp` is what stops them being
+   * matched to someone else.
+   *
+   * Set at 0.66, which keeps 100% of the measured genuine frames (the worst was
+   * 0.717) while sitting well above the impostor range. It is deliberately not
+   * fitted just under the genuine 5th percentile (0.760): uneven lighting is
+   * what drives genuine scores down, the recording's weakest frames came from
+   * exactly that, and 0.057 of buffer below the worst measured frame leaves
+   * room for lighting worse than has been tested.
+   *
+   * Why not lower, at the midpoint of the measured gap (0.62)? Because the
+   * impostor ceiling grows with roster size. The recording had two people, so a
+   * stranger got one draw at resembling someone; in a class of 40 they get 40.
+   * Extrapolating the measured impostor tail (mean 0.426, sd 0.049) puts a
+   * 1-in-100 unlucky stranger at ~0.595 against a 40-person roster, which 0.62
+   * would clear by only 0.025.
    */
-  acceptSimilarity: 0.75,
+  acceptSimilarity: 0.66,
   /**
-   * How far the winner must beat the closest different student. Set above the
-   * largest measured impostor near-miss (0.092).
+   * How far the winner must beat the closest different student.
+   *
+   * The smallest measured margin was 0.263, but that is from a two-person
+   * enrollment and does not generalize: with a full class the runner-up is the
+   * nearest of many rather than the nearest of one, so margins compress. Set
+   * well below the measured value so class growth does not start rejecting
+   * genuine frames, while still far above any observed ambiguity.
+   *
+   * Revisit this once a realistically sized class is enrolled — it is the
+   * threshold most sensitive to roster size.
    */
-  marginOverRunnerUp: 0.1,
+  marginOverRunnerUp: 0.15,
   /** Frames that must agree, inside the `consensusWindow` most recent frames. */
   consensusRequired: 3,
   consensusWindow: 4,
@@ -78,6 +102,20 @@ export const MATCH_TUNING = {
   /** Usable face brightness window (0-255). */
   minFaceBrightness: 66,
   maxFaceBrightness: 222,
+  /**
+   * Similarity that the on-screen percentage treats as full confidence.
+   *
+   * Set to the measured genuine 5th percentile (0.760). A frame at or above
+   * this is statistically indistinguishable from a normal correct match, so
+   * showing anything less than 100% would misrepresent it.
+   *
+   * This exists because scaling against a perfect 1.0 is wrong for ArcFace:
+   * genuine pairs top out around 0.89, so 1.0 is unreachable and every correct
+   * match displayed as mediocre. A genuine frame under uneven lighting (0.717,
+   * the worst ever measured, and still 0.202 clear of the best impostor) showed
+   * as 53% and read as a near-failure when it was nothing of the sort.
+   */
+  displayFullConfidence: 0.76,
 };
 
 /** Cosine similarity of two L2-normalized vectors. Returns -1 when unusable. */
@@ -363,12 +401,25 @@ export class ConsensusTracker {
 
 /**
  * Cosine -> percentage, for display only. Never feed this back into a decision;
- * the thresholds above are the source of truth. Maps `acceptSimilarity` to 0%
- * and a perfect match to 100% so the number on screen tracks the real headroom.
+ * the thresholds above are the source of truth.
+ *
+ * Maps `acceptSimilarity` to 0% and `displayFullConfidence` to 100%, NOT a
+ * perfect 1.0. ArcFace genuine pairs measured on this pipeline top out at 0.891,
+ * so scaling against 1.0 made every correct match read as mediocre — a solid
+ * frame showed as 82% and a dimly lit but perfectly safe one as 53%, which reads
+ * as a near-miss when it is actually 0.202 clear of the best impostor.
+ *
+ * Note that a well-separated system SHOULD show mostly 100% for the right person
+ * and 0% for everyone else. That is what clean separation looks like on a
+ * confidence readout; it is not the bar being broken. Watch raw cosine in the
+ * calibration panel when you need the underlying number.
  */
 export function similarityToDisplayPercent(similarity: number): number {
   const floor = MATCH_TUNING.acceptSimilarity;
-  const scaled = ((similarity - floor) / (1 - floor)) * 100;
+  const ceiling = MATCH_TUNING.displayFullConfidence;
+  // A later threshold edit could collapse the range; don't emit NaN for it.
+  if (ceiling <= floor) return similarity >= floor ? 100 : 0;
+  const scaled = ((similarity - floor) / (ceiling - floor)) * 100;
   return Math.max(0, Math.min(100, Math.round(scaled)));
 }
 

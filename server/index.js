@@ -12,6 +12,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/facescan";
 
+/**
+ * The embedding model currently in the app's native pipeline. Stamped onto every
+ * enrollment so stale templates can be detected after a model swap rather than
+ * silently scoring as noise. Bump this whenever the .tflite asset changes, and
+ * re-enroll — templates from different models are not comparable.
+ */
+const EMBEDDING_MODEL = "w600k_mbf";
+
 if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
   console.warn("Admin login env vars are missing. Check server/.env and how the backend is started.");
 }
@@ -82,7 +90,20 @@ app.post("/api/classes", async (req, res) => {
 app.get("/api/students", async (req, res) => {
   try {
     const students = await Student.find();
-    res.status(200).json({ success: true, students });
+    // Strip templates that were produced by a different embedding model. They
+    // are not comparable to live frames and would score as noise (~0 cosine)
+    // against the student's own face, so leaving them in place would make that
+    // student silently unrecognizable. The student stays in the roster with
+    // `needsReEnrollment` set, so the UI can prompt instead of failing quietly.
+    const safe = students.map((student) => {
+      const doc = student.toObject();
+      if (doc.embeddingModel !== EMBEDDING_MODEL) {
+        doc.faceEmbeddings = { front: [], left45: [], right45: [] };
+        doc.needsReEnrollment = true;
+      }
+      return doc;
+    });
+    res.status(200).json({ success: true, students: safe });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -97,6 +118,7 @@ app.post("/api/students/enroll", async (req, res) => {
       enrollmentNumber,
       classId,
       faceEmbeddings,
+      embeddingModel: EMBEDDING_MODEL,
     });
     res.status(201).json({ success: true, student: newStudent });
   } catch (err) {
