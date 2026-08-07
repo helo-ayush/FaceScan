@@ -403,6 +403,12 @@ export class ConsensusTracker {
  * Cosine -> percentage, for display only. Never feed this back into a decision;
  * the thresholds above are the source of truth.
  *
+ * NOT currently wired to the scan UI, deliberately. The match card used to show
+ * this as "N% MATCH" and it read as fabricated data: because the scale saturates
+ * at `displayFullConfidence`, 96% of genuine frames displayed as exactly 100%,
+ * which is not a number any real face produces. The card now shows raw cosine.
+ * If you re-introduce this, label it "confidence", never "similarity".
+ *
  * Maps `acceptSimilarity` to 0% and `displayFullConfidence` to 100%, NOT a
  * perfect 1.0. ArcFace genuine pairs measured on this pipeline top out at 0.891,
  * so scaling against 1.0 made every correct match read as mediocre — a solid

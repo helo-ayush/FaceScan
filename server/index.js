@@ -213,8 +213,14 @@ app.get("/api/students/:enrollmentNumber/stats", async (req, res) => {
 // match here with a *different* score curve and threshold, which meant the two
 // sides could disagree about what counted as a match. It now trusts the device's
 // decision and only records it, so there is a single source of truth.
+/** YYYY-MM-DD, validated. Anything else is ignored so a bad client cannot
+ *  write rows onto an arbitrary date. */
+function validLocalDate(value) {
+  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : null;
+}
+
 app.post("/api/attendance/scan", async (req, res) => {
-  const { enrollmentNumber, classId, similarity, margin, pose } = req.body;
+  const { enrollmentNumber, classId, similarity, margin, pose, localDate } = req.body;
 
   if (!enrollmentNumber) {
     return res.status(400).json({ success: false, message: "enrollmentNumber is required" });
@@ -226,7 +232,11 @@ app.post("/api/attendance/scan", async (req, res) => {
       return res.status(404).json({ success: false, message: "Student not found" });
     }
 
-    const today = new Date().toISOString().split("T")[0];
+    // The phone's local date, not the server's. `toISOString()` is always UTC,
+    // so an evening scan in IST (UTC+5:30) was being filed under tomorrow —
+    // the row then never appeared in "today's" logs. Fall back to server time
+    // only if the client did not send one.
+    const today = validLocalDate(localDate) || new Date().toISOString().split("T")[0];
     const targetClassId = student.classId || classId || "GENERAL";
 
     let attendance = await AttendanceLog.findOne({
@@ -287,6 +297,11 @@ app.get("/api/attendance/logs", async (req, res) => {
           id: l.enrollmentNumber,
           name: student ? student.name : "Unknown Student",
           course: course ? `${course.code} - ${course.name}` : l.classId,
+          // Formatted on the DEVICE, not here. `toLocaleTimeString` on the
+          // server uses the server's timezone — on Render that is UTC, so every
+          // log read 5:30 behind for an IST user. Send the raw instant and let
+          // the phone render it in whatever zone the phone is in.
+          timestamp: l.timestamp,
           time: new Date(l.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           status: l.status,
           date: l.date

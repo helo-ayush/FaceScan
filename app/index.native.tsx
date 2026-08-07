@@ -3,8 +3,10 @@ import {
   Image,
   LayoutChangeEvent,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from "react-native";
 import { router } from "expo-router";
@@ -16,11 +18,13 @@ import Animated, {
   FadeInDown,
   FadeInUp,
   FadeOutUp,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/LiveFaceCamera";
 import { AppSettings, PERFORMANCE_PRESETS, useAppSettings } from "@/utils/settings";
@@ -32,7 +36,6 @@ import {
   MatchableStudent,
   MATCH_TUNING,
   scoreFrame,
-  similarityToDisplayPercent,
   type ScoredFrame,
 } from "@/utils/faceMatching";
 import { Calibration } from "@/utils/calibration";
@@ -197,10 +200,108 @@ export default function CameraLandingScreen() {
     name: string;
     enrollmentNumber: string;
     classId: string;
-    similarity: number;
+    /**
+     * Raw cosine, NOT a percentage. The model outputs an embedding; cosine is
+     * the measured angle between two of them. The percentage scale that used
+     * to be shown here was a rescaling with hand-picked endpoints, and because
+     * 96% of genuine frames sat above the top anchor they all displayed as
+     * exactly 100% — a number no real pair of face images produces.
+     * Measured genuine range on this pipeline: 0.717-0.891.
+     */
+    cosine: number;
     initials: string;
+    /**
+     * Whether the server accepted the attendance row. Recognition happens
+     * on-device, so a match can succeed while the POST fails — showing only
+     * the match made a network outage look like a successful mark, which is
+     * how "everyone still absent after a lot of scans" happens with no error
+     * anywhere on screen.
+     */
+    sync: "pending" | "saved" | "duplicate" | "failed";
+    syncDetail?: string;
   } | null>(null);
   const [isMatchLocked, setIsMatchLocked] = useState(false);
+
+  // --- Session log: in-memory only, lost when the app closes ---
+  type SessionMark = {
+    name: string;
+    enrollmentNumber: string;
+    classId: string;
+    cosine: number;
+    at: number; // Date.now()
+  };
+  const [sessionLog, setSessionLog] = useState<SessionMark[]>([]);
+
+  // Draggable shelf: starts at a comfortable collapsed height showing status,
+  // expands to screen-height * 0.75 to reveal the session log.
+  const shelfTranslateY = useSharedValue(0);
+  const [sheetExpanded, setSheetExpanded] = useState(false);
+  const { height: screenH } = useWindowDimensions();
+  const SHELF_COLLAPSED_HEIGHT = 128 + insets.bottom;
+  const SHELF_EXPANDED_EXTRA = Math.max(0, screenH * 0.75 - SHELF_COLLAPSED_HEIGHT);
+  const SHELF_SNAP_DURATION = 240;
+
+  // Pause scanning while the shelf is expanded so faces are not matched into
+  // an obstructed view.
+  const scanningPaused = sheetExpanded;
+
+  /** Where the shelf was when the current drag began. */
+  const shelfDragStart = useSharedValue(0);
+
+  const openShelf = () => {
+    AppSettings.haptic("light");
+    shelfTranslateY.value = withTiming(SHELF_EXPANDED_EXTRA, {
+      duration: SHELF_SNAP_DURATION,
+      easing: Easing.out(Easing.cubic),
+    });
+    setSheetExpanded(true);
+  };
+
+  const closeShelf = () => {
+    AppSettings.haptic("light");
+    shelfTranslateY.value = withTiming(0, {
+      duration: SHELF_SNAP_DURATION,
+      easing: Easing.out(Easing.cubic),
+    });
+    setSheetExpanded(false);
+  };
+
+  const shelfPanGesture = Gesture.Pan()
+    .minDistance(2)
+    .onStart(() => {
+      shelfDragStart.value = shelfTranslateY.value;
+    })
+    .onUpdate((e) => {
+      // `translationY` is cumulative from the gesture start, so it must be
+      // applied to the position at start — not added to the live value, which
+      // would compound every frame. Dragging UP is negative, and up means
+      // "open", hence the subtraction.
+      const next = shelfDragStart.value - e.translationY;
+      shelfTranslateY.value = Math.max(0, Math.min(SHELF_EXPANDED_EXTRA, next));
+    })
+    .onEnd((e) => {
+      // A fast flick should win over position, so a short decisive swipe opens
+      // or closes without requiring a long drag. Slow upward drags use a low
+      // opening threshold, while an open shelf resists accidental collapse.
+      const flickUp = e.velocityY < -500;
+      const flickDown = e.velocityY > 500;
+      const startedExpanded = shelfDragStart.value > SHELF_EXPANDED_EXTRA / 2;
+      const snapThreshold = SHELF_EXPANDED_EXTRA * (startedExpanded ? 0.72 : 0.18);
+      const shouldOpen = flickUp || (!flickDown && shelfTranslateY.value > snapThreshold);
+
+      shelfTranslateY.value = withTiming(shouldOpen ? SHELF_EXPANDED_EXTRA : 0, {
+        duration: SHELF_SNAP_DURATION,
+        easing: Easing.out(Easing.cubic),
+      });
+      runOnJS(setSheetExpanded)(shouldOpen);
+    });
+
+  // The shelf grows upward: it is anchored to the bottom, and `height` is what
+  // animates. Translating it instead would slide the card off the top of the
+  // screen rather than revealing the log underneath it.
+  const shelfAnimatedStyle = useAnimatedStyle(() => ({
+    height: SHELF_COLLAPSED_HEIGHT + shelfTranslateY.value,
+  }));
 
   // Sliding-window consensus: the same student must win several of the most
   // recent frames before attendance is marked.
@@ -238,7 +339,9 @@ export default function CameraLandingScreen() {
   // Pose-aware cosine search, gated on frame quality, an absolute similarity
   // floor, a margin over the closest *other* student, and temporal consensus.
   useEffect(() => {
-    if (isMatchLocked || !face) return;
+    // Pause matching while the shelf is open — a face in the background should
+    // not trigger attendance when the user is scrolling through the log.
+    if (scanningPaused || isMatchLocked || !face) return;
 
     const quality = checkFrameQuality(face);
     if (!quality.ok) {
@@ -287,8 +390,9 @@ export default function CameraLandingScreen() {
       name: student.name,
       enrollmentNumber: student.enrollmentNumber,
       classId: student.classId,
-      similarity: similarityToDisplayPercent(candidate.similarity),
+      cosine: candidate.similarity,
       initials: student.name.split(" ").map((n) => n[0]).join(""),
+      sync: "pending",
     });
 
     // The device has already decided; the server only records the result.
@@ -301,8 +405,42 @@ export default function CameraLandingScreen() {
         similarity: candidate.similarity,
         margin: scored.margin,
         pose: candidate.pose,
+        // Send the phone's real local date so the server does not file this
+        // under tomorrow (the server's `toISOString()` is UTC).
+        // `toISOString()` would be UTC too — wrong for the same reason.
+        // Build it from local calendar components.
+        localDate: (() => {
+          const now = new Date();
+          return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        })(),
       }),
-    }).catch((err) => console.error("Error logging attendance:", err));
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setMatchedStudent((prev) =>
+            prev ? { ...prev, sync: data.alreadyMarked ? "duplicate" : "saved" } : null
+          );
+          // Only push to the session log when the server accepted the row.
+          if (!data.alreadyMarked) {
+            setSessionLog((prev) => [
+              { name: student.name, enrollmentNumber: student.enrollmentNumber, classId: student.classId, cosine: candidate.similarity, at: Date.now() },
+              ...prev,
+            ]);
+          }
+        } else {
+          console.error("Server rejected attendance:", data);
+          setMatchedStudent((prev) =>
+            prev ? { ...prev, sync: "failed", syncDetail: data.message || "Server rejected" } : null
+          );
+        }
+      })
+      .catch((err) => {
+        console.error("Attendance POST failed:", err);
+        setMatchedStudent((prev) =>
+          prev ? { ...prev, sync: "failed", syncDetail: "Network error" } : null
+        );
+      });
 
     setTimeout(() => {
       setMatchedStudent(null);
@@ -333,7 +471,6 @@ export default function CameraLandingScreen() {
     );
     return () => clearTimeout(timer);
   }, [lightingWarningKey]);
-
   const statusTitle = error
     ? "Detector unavailable"
     : matchedStudent
@@ -350,7 +487,6 @@ export default function CameraLandingScreen() {
     if (!scored.best) return null;
     return {
       name: scored.best.student.name,
-      score: similarityToDisplayPercent(scored.best.similarity),
       cosine: scored.best.similarity,
       margin: scored.margin,
       activePose: scored.pose,
@@ -361,11 +497,14 @@ export default function CameraLandingScreen() {
         scored.margin < MATCH_TUNING.marginOverRunnerUp,
     };
   }, [lastScored]);
-
   const statusDescription = error
     ? "Restart the development build and check camera permission."
     : matchedStudent
-      ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId}`
+      ? matchedStudent.sync === "failed"
+        ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nAttendance NOT saved — ${matchedStudent.syncDetail || "check server"}`
+        : matchedStudent.sync === "pending"
+          ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nSaving attendance...`
+          : `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}`
       : previewFace && liveSimilarity
         ? liveSimilarity.ambiguous
           ? `Too close to call — ${liveSimilarity.name} vs others (margin ${liveSimilarity.margin.toFixed(2)})`
@@ -419,7 +558,17 @@ export default function CameraLandingScreen() {
         onPreviewLayout={handleCameraLayout}
       />
 
-      <View className="absolute inset-0 justify-between">
+      {/* Tap-outside-to-collapse. Only mounted while the shelf is open so it
+          never intercepts taps on the header buttons during normal scanning. */}
+      {sheetExpanded && (
+        <Pressable
+          style={StyleSheet.absoluteFillObject}
+          onPress={closeShelf}
+          accessibilityLabel="Collapse attendance log"
+        />
+      )}
+
+      <View className="absolute inset-0 justify-between" pointerEvents="box-none">
         <Animated.View
           entering={FadeInUp.delay(200).duration(500)}
           style={{ paddingTop: insets.top + 16, paddingHorizontal: 24 }}
@@ -509,26 +658,45 @@ export default function CameraLandingScreen() {
           )}
         </Animated.View>
 
-        <Animated.View
-          entering={FadeInDown.delay(100).duration(600)}
-          style={{
-            paddingBottom: insets.bottom + 20,
-            paddingTop: 24,
-            paddingHorizontal: 24,
-            backgroundColor: "rgba(255,255,255,0.9)",
-            borderTopWidth: 1,
-            borderTopColor: "rgba(226,232,240,0.4)",
-            borderTopLeftRadius: 40,
-            borderTopRightRadius: 40,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: -4 },
-            shadowOpacity: 0.12,
-            shadowRadius: 20,
-            elevation: 10,
-          }}
-          className="w-full gap-4"
-        >
-          <View className="flex-row items-center justify-between">
+        <GestureDetector gesture={shelfPanGesture}>
+          <Animated.View
+            entering={FadeInDown.delay(100).duration(600)}
+            style={[
+              {
+                paddingBottom: insets.bottom + 20,
+                paddingTop: 8,
+                paddingHorizontal: 20,
+                backgroundColor: "rgba(248,250,252,0.98)",
+                borderTopWidth: 1,
+                borderTopColor: "rgba(226,232,240,0.4)",
+                borderTopLeftRadius: 32,
+                borderTopRightRadius: 32,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: -4 },
+                shadowOpacity: 0.12,
+                shadowRadius: 20,
+                elevation: 10,
+                overflow: "hidden",
+              },
+              shelfAnimatedStyle,
+            ]}
+            className="w-full gap-4"
+          >
+            {/* Drag handle — the visual affordance for the whole gesture. */}
+            <Pressable
+              onPress={() => (sheetExpanded ? closeShelf() : openShelf())}
+              hitSlop={12}
+              className="items-center justify-center"
+              style={{ height: 32, marginTop: -6, marginHorizontal: -20 }}
+            >
+              <View
+                style={{
+                  width: 44, height: 5, borderRadius: 999,
+                  backgroundColor: sheetExpanded ? "#818cf8" : "#cbd5e1",
+                }}
+              />
+            </Pressable>
+          <View className="flex-row items-center justify-between" style={{ minHeight: 56, paddingTop: 2, paddingBottom: 2 }}>
             <View className="flex-row items-center gap-3.5 flex-1 pr-3">
               <View
                 style={
@@ -543,13 +711,13 @@ export default function CameraLandingScreen() {
                       }
                     : previewFace
                       ? {
-                          width: 44, height: 44, borderRadius: 16,
+                          width: 48, height: 48, borderRadius: 16,
                           backgroundColor: "rgba(34,197,94,0.1)",
                           alignItems: "center", justifyContent: "center",
                           borderWidth: 1, borderColor: "rgba(34,197,94,0.2)",
                         }
                       : {
-                          width: 44, height: 44, borderRadius: 16,
+                          width: 48, height: 48, borderRadius: 16,
                           backgroundColor: "rgba(93,95,239,0.1)",
                           alignItems: "center", justifyContent: "center",
                           borderWidth: 1, borderColor: "rgba(93,95,239,0.1)",
@@ -571,13 +739,14 @@ export default function CameraLandingScreen() {
                   </View>
                 )}
               </View>
-              <View className="flex-1">
-                <Text className="text-on-surface font-black text-base tracking-tight">
+              <View className="flex-1" style={{ minHeight: 54, justifyContent: "center" }}>
+                <Text className="text-on-surface font-black text-base tracking-tight" numberOfLines={1}>
                   {statusTitle}
                 </Text>
                 <Text
                   className="text-xs text-on-surface-variant font-bold mt-0.5"
                   numberOfLines={2}
+                  style={{ minHeight: 32, lineHeight: 16 }}
                 >
                   {statusDescription}
                 </Text>
@@ -586,17 +755,22 @@ export default function CameraLandingScreen() {
             <View
               style={
                 matchedStudent
-                  ? {
-                      backgroundColor: "#d1fae5", paddingHorizontal: 14, paddingVertical: 8,
-                      borderRadius: 16, borderWidth: 1, borderColor: "#6ee7b7",
-                    }
+                  ? matchedStudent.sync === "failed"
+                    ? {
+                        backgroundColor: "#fee2e2", minWidth: 92, maxWidth: 124, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
+                        borderRadius: 16, borderWidth: 1, borderColor: "#fca5a5",
+                      }
+                    : {
+                        backgroundColor: "#d1fae5", minWidth: 92, maxWidth: 124, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
+                        borderRadius: 16, borderWidth: 1, borderColor: "#6ee7b7",
+                      }
                   : previewFace
                     ? {
-                        backgroundColor: "rgba(34,197,94,0.15)", paddingHorizontal: 12, paddingVertical: 6,
+                        backgroundColor: "rgba(34,197,94,0.12)", minWidth: 92, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
                         borderRadius: 12, borderWidth: 1, borderColor: "rgba(34,197,94,0.2)",
                       }
                     : {
-                        backgroundColor: "rgba(93,95,239,0.1)", paddingHorizontal: 12, paddingVertical: 6,
+                        backgroundColor: "rgba(93,95,239,0.08)", minWidth: 92, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
                         borderRadius: 12, borderWidth: 1, borderColor: "rgba(93,95,239,0.2)",
                       }
               }
@@ -604,17 +778,82 @@ export default function CameraLandingScreen() {
               <Text
                 className={
                   matchedStudent
-                    ? "text-xs font-black text-emerald-800 uppercase tracking-wider"
+                    ? matchedStudent.sync === "failed"
+                      ? "text-xs font-black text-red-700 uppercase tracking-wider"
+                      : "text-xs font-black text-emerald-800 uppercase tracking-wider"
                     : previewFace
                       ? "text-[10px] font-black text-success uppercase tracking-wider"
                       : "text-[10px] font-black text-primary uppercase tracking-wider"
                 }
               >
-                {matchedStudent ? `✓ ${matchedStudent.similarity}% MATCH` : previewFace ? "Scanning" : "Searching"}
+                {matchedStudent
+                  ? matchedStudent.sync === "pending"
+                    ? "Saving"
+                    : matchedStudent.sync === "saved"
+                      ? "Marked"
+                      : matchedStudent.sync === "duplicate"
+                        ? "Already marked"
+                        : "Not saved"
+                  : previewFace
+                    ? "Scanning"
+                    : "Searching"}
               </Text>
             </View>
           </View>
+
+            {/* Session log — appears when the shelf is dragged up. In-memory
+                only: cleared every time the app restarts. */}
+            <View style={{ maxHeight: SHELF_EXPANDED_EXTRA, borderTopWidth: 1, borderTopColor: "#e2e8f0", paddingTop: 16 }}>
+              <View className="flex-row items-center justify-between mb-2">
+                <Text className="text-base font-black text-on-surface tracking-tight">
+                  Today's attendance
+                </Text>
+                <View className="px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100">
+                  <Text className="text-[10px] font-extrabold text-primary">
+                    {sessionLog.length} marked
+                  </Text>
+                </View>
+              </View>
+              {sessionLog.length === 0 ? (
+                <View className="items-center rounded-3xl border border-indigo-100 bg-indigo-50 px-5 py-6 mt-2">
+                  <View className="h-11 w-11 items-center justify-center rounded-2xl bg-white border border-indigo-100 mb-3">
+                    <View className="h-4 w-4 rounded-full border-[5px] border-primary" />
+                  </View>
+                  <Text className="text-sm font-black text-on-surface tracking-tight">Ready for the first scan</Text>
+                  <Text className="text-xs font-semibold text-on-surface-variant text-center leading-4 mt-1">
+                    Keep a face inside the frame. Successful attendance marks will appear here.
+                  </Text>
+                </View>
+              ) : (
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  {sessionLog.map((m) => (
+                    <View
+                      key={`${m.enrollmentNumber}-${m.at}`}
+                      className="flex-row items-center justify-between rounded-2xl bg-white border border-slate-100 px-4 py-3 mb-2"
+                    >
+                      <View className="flex-1 pr-3">
+                        <Text className="font-bold text-on-surface text-sm tracking-tight">
+                          {m.name}
+                        </Text>
+                        <Text className="text-[11px] font-semibold text-on-surface-variant mt-0.5">
+                          {m.enrollmentNumber} • {m.classId}
+                        </Text>
+                      </View>
+                      <View className="items-end gap-0.5">
+                        <Text className="text-xs font-bold text-on-surface-variant">
+                          {new Date(m.at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                        </Text>
+                        <Text className="text-[10px] font-bold text-emerald-700">
+                          {m.cosine.toFixed(3)}
+                        </Text>
+                      </View>
+                    </View>
+                  ))}
+                </ScrollView>
+              )}
+            </View>
         </Animated.View>
+        </GestureDetector>
 
         {__DEV__ && (
           <CalibrationPanel topOffset={insets.top + 76} students={students} />
