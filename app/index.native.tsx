@@ -21,6 +21,7 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
+  withRepeat,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
@@ -236,10 +237,12 @@ export default function CameraLandingScreen() {
   // expands to screen-height * 0.75 to reveal the session log.
   const shelfTranslateY = useSharedValue(0);
   const [sheetExpanded, setSheetExpanded] = useState(false);
-  const { height: screenH } = useWindowDimensions();
+  const { height: screenH, width: screenW } = useWindowDimensions();
   const SHELF_COLLAPSED_HEIGHT = 128 + insets.bottom;
   const SHELF_EXPANDED_EXTRA = Math.max(0, screenH * 0.75 - SHELF_COLLAPSED_HEIGHT);
   const SHELF_SNAP_DURATION = 240;
+  const livenessPillWidth = Math.min(screenW - 48, 336);
+  const livenessSpinnerRotation = useSharedValue(0);
 
   // Pause scanning while the shelf is expanded so faces are not matched into
   // an obstructed view.
@@ -305,8 +308,20 @@ export default function CameraLandingScreen() {
   // The liveness pill is tethered to the shelf's top edge, so it rises with
   // the expandable status bar instead of floating over its content.
   const livenessPillAnimatedStyle = useAnimatedStyle(() => ({
-    bottom: SHELF_COLLAPSED_HEIGHT + shelfTranslateY.value + 12,
+    bottom: SHELF_COLLAPSED_HEIGHT + shelfTranslateY.value + 8,
   }));
+  const livenessSpinnerAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${livenessSpinnerRotation.value}deg` }],
+  }));
+
+  useEffect(() => {
+    livenessSpinnerRotation.value = 0;
+    livenessSpinnerRotation.value = withRepeat(
+      withTiming(360, { duration: 820, easing: Easing.linear }),
+      -1,
+      false,
+    );
+  }, [livenessSpinnerRotation]);
 
   // Sliding-window consensus: the same student must win several of the most
   // recent frames before attendance is marked.
@@ -476,40 +491,37 @@ export default function CameraLandingScreen() {
   const livenessPill = useMemo(() => {
     if (!settings.antiSpoofingEnabled || !previewFace || !face) return null;
 
-    const progress = Math.min(Math.max(face.livenessSamples, 0) / 3, 1);
     const lightingWarning = getLightingWarning(face, lighting);
-    if (face.isLive === false) {
+    const attackProbability = Math.max(face.livenessPrintProb ?? 0, face.livenessReplayProb ?? 0);
+    const looksLikeAttack =
+      face.isLive !== true &&
+      attackProbability >= 0.65 &&
+      attackProbability > (face.livenessScore ?? 0);
+
+    if (face.isLive === false || looksLikeAttack) {
       return {
-        title: lightingWarning ? "Lighting may affect verification" : "Face is not real",
-        detail: lightingWarning
-          ? `${lightingWarning.message}. Improve lighting and retry.`
-          : "Verification failed",
-        frames: null,
-        progress: 1,
+        title: lightingWarning ? "Improve lighting — retrying" : "Face not real — retrying",
+        loading: true,
         color: "#ef4444",
-        track: "rgba(254,226,226,0.92)",
-        surface: "rgba(255,255,255,0.97)",
+        tint: "rgba(239,68,68,0.08)",
+        surface: "rgba(255,255,255,0.98)",
       };
     }
     if (face.isLive === true) {
       return {
         title: "Face verified",
-        detail: null,
-        frames: null,
-        progress: 1,
+        loading: false,
         color: "#10b981",
-        track: "rgba(209,250,229,0.92)",
-        surface: "rgba(255,255,255,0.97)",
+        tint: "rgba(16,185,129,0.10)",
+        surface: "rgba(255,255,255,0.98)",
       };
     }
     return {
       title: "Verifying face",
-      detail: null,
-      frames: `${Math.min(face.livenessSamples, 3)}/3`,
-      progress,
+      loading: true,
       color: "#5d5fef",
-      track: "rgba(224,231,255,0.94)",
-      surface: "rgba(255,255,255,0.97)",
+      tint: "rgba(93,95,239,0.10)",
+      surface: "rgba(255,255,255,0.98)",
     };
   }, [face, lighting, previewFace, settings.antiSpoofingEnabled]);
 
@@ -723,62 +735,78 @@ export default function CameraLandingScreen() {
             style={[
               {
                 position: "absolute",
-                left: 20,
-                right: 20,
-                minHeight: 60,
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                borderRadius: 24,
+                left: (screenW - livenessPillWidth) / 2,
+                width: livenessPillWidth,
+                minHeight: 48,
+                paddingLeft: 18,
+                paddingRight: 12,
+                paddingVertical: 8,
+                borderRadius: 999,
                 backgroundColor: livenessPill.surface,
                 borderWidth: 1,
-                borderColor: `${livenessPill.color}33`,
-                shadowColor: livenessPill.color,
+                borderColor: `${livenessPill.color}1A`,
+                shadowColor: "#0f172a",
                 shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.16,
-                shadowRadius: 12,
+                shadowOpacity: 0.08,
+                shadowRadius: 14,
                 elevation: 8,
+                zIndex: 30,
               },
               livenessPillAnimatedStyle,
             ]}
           >
-            <View className="flex-row items-center gap-3">
-              <View
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 16,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: livenessPill.track,
-                }}
-              >
-                <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: livenessPill.color }} />
-              </View>
-              <View className="flex-1">
-                <Text className="text-sm font-black text-on-surface" numberOfLines={1}>
-                  {livenessPill.title}
-                </Text>
-                {livenessPill.detail && (
-                  <Text className="text-[11px] font-semibold text-on-surface-variant mt-0.5" numberOfLines={1}>
-                    {livenessPill.detail}
-                  </Text>
-                )}
-              </View>
-              {livenessPill.frames && (
-                <Text className="text-xs font-black" style={{ color: livenessPill.color }}>
-                  {livenessPill.frames}
-                </Text>
+            <View className="flex-row items-center justify-between gap-3">
+              <Text className="flex-1 text-sm font-black text-on-surface" numberOfLines={1} style={{ letterSpacing: 0 }}>
+                {livenessPill.title}
+              </Text>
+              {livenessPill.loading ? (
+                <View
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: livenessPill.tint,
+                  }}
+                >
+                  <Animated.View
+                    style={[
+                      {
+                        width: 18,
+                        height: 18,
+                        borderRadius: 9,
+                        borderWidth: 2,
+                        borderColor: `${livenessPill.color}30`,
+                        borderTopColor: livenessPill.color,
+                        borderRightColor: livenessPill.color,
+                      },
+                      livenessSpinnerAnimatedStyle,
+                    ]}
+                  />
+                </View>
+              ) : (
+                <View
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: livenessPill.tint,
+                  }}
+                >
+                  <Svg width={15} height={15} viewBox="0 0 24 24" fill="none">
+                    <Path
+                      d="M20 6 9 17l-5-5"
+                      stroke={livenessPill.color}
+                      strokeWidth={3}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </Svg>
+                </View>
               )}
-            </View>
-            <View style={{ height: 6, marginTop: 10, borderRadius: 999, overflow: "hidden", backgroundColor: livenessPill.track }}>
-              <View
-                style={{
-                  height: "100%",
-                  width: `${Math.max(livenessPill.progress * 100, 4)}%`,
-                  borderRadius: 999,
-                  backgroundColor: livenessPill.color,
-                }}
-              />
             </View>
           </Animated.View>
         )}

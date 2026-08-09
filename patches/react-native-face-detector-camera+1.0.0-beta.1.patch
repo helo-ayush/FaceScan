@@ -2125,10 +2125,10 @@ index 1c75f18..1f9724e 100644
  
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt
 new file mode 100644
-index 0000000..eb8933a
+index 0000000..a09d198
 --- /dev/null
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt
-@@ -0,0 +1,769 @@
+@@ -0,0 +1,765 @@
 +package com.facedetectorcamera.pipeline
 +
 +import android.graphics.Bitmap
@@ -2753,7 +2753,7 @@ index 0000000..eb8933a
 +        // Explicit reset triggers: tracking ID change, spatial distance jump > 100px, or timeout > 500ms
 +        val idChanged = trackingId != null && trackingId != lastTrackingId
 +        val distanceJumped = lastFaceCenter?.let { hypot((currentCenter.x - it.x).toDouble(), (currentCenter.y - it.y).toDouble()) > 100 } ?: false
-+        val timedOut = now - lastLivenessMillis > 800L
++        val timedOut = currentStatus != LivenessStatus.LIVE_CONFIRMED && now - lastLivenessMillis > 800L
 +
 +        if (idChanged || distanceJumped || timedOut) {
 +            livenessResults.clear()
@@ -2763,10 +2763,17 @@ index 0000000..eb8933a
 +        }
 +        lastFaceCenter = currentCenter
 +
++        // Once two positive samples confirm liveness, hand the face straight
++        // to recognition and stop spending CPU on more PAD inference. A new
++        // face or a large movement above resets this state.
++        if (currentStatus == LivenessStatus.LIVE_CONFIRMED) {
++            lastLivenessMillis = now
++        }
++
 +        var scoreUpdated = false
 +        var latestResult: AntiSpoofResult? = null
 +
-+        if (now - lastLivenessMillis >= LIVENESS_INTERVAL_MS) {
++        if (currentStatus != LivenessStatus.LIVE_CONFIRMED && now - lastLivenessMillis >= LIVENESS_INTERVAL_MS) {
 +            lastLivenessMillis = now
 +            val antiPixels = cropStage.processAntiSpoof(
 +                FaceCropInput(imageProxy, imageRotationDegrees, alignment, faceBounds)
@@ -2804,32 +2811,21 @@ index 0000000..eb8933a
 +        val avgAttack = maxOf(avgPrint, avgReplay)
 +
 +        val isLive: Boolean?
-+        if (samplesCount >= REQUIRED_LIVE_SAMPLES) {
-+            // A failed verdict is sticky for the current continuous face. It
-+            // resets when the person leaves the view or a new face is tracked,
-+            // preventing an attack from briefly showing failure then flipping
-+            // to a green result on the next rolling window.
-+            if (currentStatus == LivenessStatus.SPOOF_CONFIRMED) {
-+                isLive = false
-+            } else if (
++        if (currentStatus == LivenessStatus.LIVE_CONFIRMED) {
++            isLive = true
++        } else if (samplesCount >= REQUIRED_LIVE_SAMPLES) {
++            if (
 +                liveCount >= REQUIRED_LIVE_SAMPLES &&
 +                avgLive >= LIVE_THRESHOLD &&
 +                avgLive - avgAttack >= LIVE_MARGIN
 +            ) {
 +                currentStatus = LivenessStatus.LIVE_CONFIRMED
 +                isLive = true
-+            } else if (
-+                attackCount >= REQUIRED_ATTACK_SAMPLES &&
-+                avgAttack >= ATTACK_THRESHOLD &&
-+                avgAttack - avgLive >= ATTACK_MARGIN
-+            ) {
-+                currentStatus = LivenessStatus.SPOOF_CONFIRMED
-+                isLive = false
 +            } else {
-+                // With the complete short window available, an inconclusive
-+                // result remains in progress. Only strong attack evidence is
-+                // a failed verdict; this prevents an unnecessary red flash
-+                // while a real face's final sample is still being processed.
++                // Do not stop on a fake/inconclusive result. Clear this short
++                // attempt and keep sampling every 100 ms until two positive
++                // frames arrive together.
++                livenessResults.clear()
 +                currentStatus = LivenessStatus.ACQUIRING
 +                isLive = null
 +            }
@@ -2888,14 +2884,14 @@ index 0000000..eb8933a
 +    }
 +
 +    private companion object {
-+        const val LIVENESS_INTERVAL_MS = 120L
++        const val LIVENESS_INTERVAL_MS = 100L
 +        const val LIVE_THRESHOLD = 0.80f
 +        const val LIVE_MARGIN = 0.35f
 +        const val ATTACK_THRESHOLD = 0.65f
 +        const val ATTACK_MARGIN = 0.25f
-+        const val REQUIRED_LIVE_SAMPLES = 3
-+        const val REQUIRED_ATTACK_SAMPLES = 3
-+        const val MAX_LIVENESS_SAMPLES = 3
++        const val REQUIRED_LIVE_SAMPLES = 2
++        const val REQUIRED_ATTACK_SAMPLES = 2
++        const val MAX_LIVENESS_SAMPLES = 2
 +    }
 +}
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/records/CameraRecords.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/records/CameraRecords.kt

@@ -25,6 +25,8 @@ export type RealtimeFace = {
   embedding: number[] | null;
   processDurationMs: number | null;
   livenessScore: number | null;
+  livenessPrintProb?: number | null;
+  livenessReplayProb?: number | null;
   livenessDurationMs: number | null;
   livenessSamples: number;
   isLive: boolean | null;
