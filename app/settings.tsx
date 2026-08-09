@@ -255,6 +255,24 @@ export default function SettingsScreen() {
               </View>
             </Pressable>
 
+            <Pressable
+              onPress={() => {
+                triggerHaptic("light");
+                updateSetting("antiSpoofingEnabled", !settings.antiSpoofingEnabled);
+              }}
+              className="p-5 flex-row items-center justify-between border-b border-slate-100 active:bg-surface-muted/50"
+            >
+              <View className="flex-1 pr-4">
+                <Text className="font-bold text-on-surface text-base">Passive Anti-Spoofing</Text>
+                <Text className="text-xs text-on-surface-variant mt-1">
+                  Require passive liveness verification before enrollment and attendance matching. Keep enabled for normal use.
+                </Text>
+              </View>
+              <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.antiSpoofingEnabled ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
+                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
+              </View>
+            </Pressable>
+
             {/* Haptic Feedback Toggle */}
             <Pressable
               onPress={() => {

@@ -349,6 +349,15 @@ export default function EnrollScreen() {
    */
   const evaluateSample = useCallback(
     (face: RealtimeFace, expectedPose: PoseKey): { accepted: boolean; hint: string | null } => {
+      // Enrollment creates the permanent identity template. Never create one
+      // from a presentation that the existing passive liveness pipeline has
+      // not confirmed, otherwise a screen/print can be enrolled as a person.
+      if (settings.antiSpoofingEnabled && face.isLive !== true) {
+        return {
+          accepted: false,
+          hint: face.isLive === false ? "Possible spoof detected" : "Checking liveness — hold still",
+        };
+      }
       const quality = checkFrameQuality(face);
       if (!quality.ok) return { accepted: false, hint: quality.reason };
 
@@ -373,7 +382,7 @@ export default function EnrollScreen() {
 
       return { accepted: true, hint: null };
     },
-    [],
+    [settings.antiSpoofingEnabled],
   );
 
   // Feeds live frames into the active burst until enough distinct, good samples

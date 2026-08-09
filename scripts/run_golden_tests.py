@@ -6,7 +6,7 @@ import tensorflow as tf
 def safe_print(text):
     print(text.encode('ascii', errors='replace').decode('ascii'))
 
-def run_tflite_inference(bgr_01_crop):
+def run_tflite_inference(bgr_255_crop):
     tflite_path = os.path.join(os.getcwd(), "android", "app", "src", "main", "assets", "minifasnetv2_80.tflite")
     if not os.path.exists(tflite_path):
         raise FileNotFoundError(f"TFLite asset missing: {tflite_path}")
@@ -16,7 +16,10 @@ def run_tflite_inference(bgr_01_crop):
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
 
-    input_data = np.expand_dims(bgr_01_crop, axis=0).astype(np.float32)
+    # Android's AntiSpoofStage passes OpenCV-order BGR floats on the original
+    # byte scale (0..255). Keeping this harness on the exact same contract is
+    # essential: a 0..1 test can pass while the shipped app is misprocessed.
+    input_data = np.expand_dims(bgr_255_crop, axis=0).astype(np.float32)
     interpreter.set_tensor(input_details[0]['index'], input_data)
     interpreter.invoke()
     logits = interpreter.get_tensor(output_details[0]['index'])[0]
@@ -44,7 +47,7 @@ def test_golden_contract_rules():
     safe_print("  [PASS] Tensor contract metadata (1x80x80x3 float32 -> 1x3 float32)")
 
     # 2. Numerical safety & range test
-    dummy_bgr = np.random.uniform(0.0, 1.0, (80, 80, 3)).astype(np.float32)
+    dummy_bgr = np.random.uniform(0.0, 255.0, (80, 80, 3)).astype(np.float32)
     logits, probs = run_tflite_inference(dummy_bgr)
 
     assert not np.isnan(logits).any(), "NaN found in logits"

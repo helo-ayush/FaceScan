@@ -233,7 +233,10 @@ export type QualityVerdict = { ok: true } | { ok: false; reason: string };
  * are the main source of score noise, and noise is what lets an impostor spike
  * above the threshold on a lucky frame.
  */
-export function checkFrameQuality(face: QualitySignals): QualityVerdict {
+export function checkFrameQuality(
+  face: QualitySignals,
+  options: { requireGoodLighting?: boolean } = {},
+): QualityVerdict {
   if (!face.embedding || face.embedding.length === 0) {
     return { ok: false, reason: "no embedding yet" };
   }
@@ -254,7 +257,7 @@ export function checkFrameQuality(face: QualitySignals): QualityVerdict {
   }
 
   const brightness = face.faceBrightness;
-  if (brightness !== null) {
+  if (options.requireGoodLighting !== false && brightness !== null) {
     if (brightness < MATCH_TUNING.minFaceBrightness) return { ok: false, reason: "face too dim" };
     if (brightness > MATCH_TUNING.maxFaceBrightness) return { ok: false, reason: "face overexposed" };
   }

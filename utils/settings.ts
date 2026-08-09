@@ -51,6 +51,7 @@ export interface SettingsConfig {
   scanningPerformance: ScanningPerformanceMode;
   smoothFaceBox: boolean;
   strictLightingCheck: boolean;
+  antiSpoofingEnabled: boolean;
 }
 
 export const defaultSettings: SettingsConfig = {
@@ -64,6 +65,7 @@ export const defaultSettings: SettingsConfig = {
   scanningPerformance: "standard",
   smoothFaceBox: true,
   strictLightingCheck: true,
+  antiSpoofingEnabled: true,
 };
 
 let memorySettings: SettingsConfig = { ...defaultSettings };

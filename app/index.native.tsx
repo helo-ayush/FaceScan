@@ -302,6 +302,11 @@ export default function CameraLandingScreen() {
   const shelfAnimatedStyle = useAnimatedStyle(() => ({
     height: SHELF_COLLAPSED_HEIGHT + shelfTranslateY.value,
   }));
+  // The liveness pill is tethered to the shelf's top edge, so it rises with
+  // the expandable status bar instead of floating over its content.
+  const livenessPillAnimatedStyle = useAnimatedStyle(() => ({
+    bottom: SHELF_COLLAPSED_HEIGHT + shelfTranslateY.value + 12,
+  }));
 
   // Sliding-window consensus: the same student must win several of the most
   // recent frames before attendance is marked.
@@ -343,30 +348,19 @@ export default function CameraLandingScreen() {
     // not trigger attendance when the user is scrolling through the log.
     if (scanningPaused || isMatchLocked || !face) return;
 
-    // Lighting failures are inconclusive, not spoof evidence. Keep attendance
-    // blocked, but ask the user to correct the scene instead of showing a
-    // misleading spoof verdict.
-    const activeLightingWarning = getLightingWarning(face, lighting);
-    if (activeLightingWarning) {
-      setRejectReason(activeLightingWarning.message);
-      setLastScored(null);
-      return;
-    }
-
-    // Identity may be prepared after the first promising PAD frame, but no
-    // scoring or attendance is allowed until native three-frame liveness wins.
-    if (face.isLive !== true) {
-      setRejectReason(
-        face.isLive === false
-          ? "Possible spoof detected — attendance blocked"
-          : `Checking liveness… ${Math.min(face.livenessSamples, 3)}/3`,
-      );
+    // Passive liveness is shown in its own floating progress pill. Keep this
+    // gate separate from the matching status bar so the scan UI stays calm.
+    if (settings.antiSpoofingEnabled && face.isLive !== true) {
+      setRejectReason(null);
       setLastScored(null);
       if (face.isLive === false) consensusRef.current.reset();
       return;
     }
 
-    const quality = checkFrameQuality(face);
+    // Lighting is still surfaced as guidance, but it must not block an
+    // otherwise verified student from attendance matching. Enrollment keeps
+    // the default strict brightness check.
+    const quality = checkFrameQuality(face, { requireGoodLighting: false });
     if (!quality.ok) {
       // A poor frame is not evidence either way — drop it without letting it
       // break an otherwise good consensus run.
@@ -469,7 +463,7 @@ export default function CameraLandingScreen() {
       setMatchedStudent(null);
       setIsMatchLocked(false);
     }, 3500);
-  }, [face, lighting, students, isMatchLocked]);
+  }, [face, lighting, students, isMatchLocked, settings.antiSpoofingEnabled]);
 
   const previewFace = useMemo(
     () =>
@@ -478,6 +472,46 @@ export default function CameraLandingScreen() {
         : null,
     [face, previewLayout],
   );
+
+  const livenessPill = useMemo(() => {
+    if (!settings.antiSpoofingEnabled || !previewFace || !face) return null;
+
+    const progress = Math.min(Math.max(face.livenessSamples, 0) / 3, 1);
+    const lightingWarning = getLightingWarning(face, lighting);
+    if (face.isLive === false) {
+      return {
+        title: lightingWarning ? "Lighting may affect verification" : "Face is not real",
+        detail: lightingWarning
+          ? `${lightingWarning.message}. Improve lighting and retry.`
+          : "Verification failed",
+        frames: null,
+        progress: 1,
+        color: "#ef4444",
+        track: "rgba(254,226,226,0.92)",
+        surface: "rgba(255,255,255,0.97)",
+      };
+    }
+    if (face.isLive === true) {
+      return {
+        title: "Face verified",
+        detail: null,
+        frames: null,
+        progress: 1,
+        color: "#10b981",
+        track: "rgba(209,250,229,0.92)",
+        surface: "rgba(255,255,255,0.97)",
+      };
+    }
+    return {
+      title: "Verifying face",
+      detail: null,
+      frames: `${Math.min(face.livenessSamples, 3)}/3`,
+      progress,
+      color: "#5d5fef",
+      track: "rgba(224,231,255,0.94)",
+      surface: "rgba(255,255,255,0.97)",
+    };
+  }, [face, lighting, previewFace, settings.antiSpoofingEnabled]);
 
   const handleCameraLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -680,6 +714,74 @@ export default function CameraLandingScreen() {
             </Animated.View>
           )}
         </Animated.View>
+
+        {livenessPill && (
+          <Animated.View
+            pointerEvents="none"
+            entering={FadeInDown.duration(220)}
+            exiting={FadeOutUp.duration(180)}
+            style={[
+              {
+                position: "absolute",
+                left: 20,
+                right: 20,
+                minHeight: 60,
+                paddingHorizontal: 16,
+                paddingVertical: 12,
+                borderRadius: 24,
+                backgroundColor: livenessPill.surface,
+                borderWidth: 1,
+                borderColor: `${livenessPill.color}33`,
+                shadowColor: livenessPill.color,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.16,
+                shadowRadius: 12,
+                elevation: 8,
+              },
+              livenessPillAnimatedStyle,
+            ]}
+          >
+            <View className="flex-row items-center gap-3">
+              <View
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: livenessPill.track,
+                }}
+              >
+                <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: livenessPill.color }} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-sm font-black text-on-surface" numberOfLines={1}>
+                  {livenessPill.title}
+                </Text>
+                {livenessPill.detail && (
+                  <Text className="text-[11px] font-semibold text-on-surface-variant mt-0.5" numberOfLines={1}>
+                    {livenessPill.detail}
+                  </Text>
+                )}
+              </View>
+              {livenessPill.frames && (
+                <Text className="text-xs font-black" style={{ color: livenessPill.color }}>
+                  {livenessPill.frames}
+                </Text>
+              )}
+            </View>
+            <View style={{ height: 6, marginTop: 10, borderRadius: 999, overflow: "hidden", backgroundColor: livenessPill.track }}>
+              <View
+                style={{
+                  height: "100%",
+                  width: `${Math.max(livenessPill.progress * 100, 4)}%`,
+                  borderRadius: 999,
+                  backgroundColor: livenessPill.color,
+                }}
+              />
+            </View>
+          </Animated.View>
+        )}
 
         <GestureDetector gesture={shelfPanGesture}>
           <Animated.View
