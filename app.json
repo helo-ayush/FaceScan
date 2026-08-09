@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Attendance Companion",
-    "slug": "facew-mobile",
+    "name": "ScanAttend",
+    "slug": "scanattend",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
-    "scheme": "facewmobile",
+    "scheme": "scanattend",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -33,7 +33,7 @@
       [
         "react-native-face-detector-camera",
         {
-          "cameraPermission": "Allow Attendance Companion to use the camera for face detection."
+          "cameraPermission": "Allow ScanAttend to use the camera for face detection."
         }
       ]
     ]
