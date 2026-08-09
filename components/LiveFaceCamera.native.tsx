@@ -32,6 +32,15 @@ export type RealtimeFace = {
   previewBase64: string | null;
   embedding: number[] | null;
   processDurationMs: number | null;
+  livenessScore: number | null;
+  livenessPrintProb?: number | null;
+  livenessReplayProb?: number | null;
+  livenessRawLogits?: number[] | null;
+  livenessSelectedClass?: number | null;
+  livenessStatus?: string | null;
+  livenessDurationMs: number | null;
+  livenessSamples: number;
+  isLive: boolean | null;
   yawAngle: number | null;
   rollAngle: number | null;
 };
@@ -178,6 +187,15 @@ export function LiveFaceCamera({
           previewBase64?: string;
           embedding?: number[];
           processDurationMs?: number;
+          livenessScore?: number;
+          livenessPrintProb?: number;
+          livenessReplayProb?: number;
+          livenessRawLogits?: number[];
+          livenessSelectedClass?: number;
+          livenessStatus?: string;
+          livenessDurationMs?: number;
+          livenessSamples?: number;
+          isLive?: boolean;
         };
       };
       onFaceChange({
@@ -202,6 +220,15 @@ export function LiveFaceCamera({
         previewBase64: lightingFace.normalization?.previewBase64 ?? null,
         embedding: lightingFace.normalization?.embedding ?? null,
         processDurationMs: lightingFace.normalization?.processDurationMs ?? null,
+        livenessScore: lightingFace.normalization?.livenessScore ?? null,
+        livenessPrintProb: lightingFace.normalization?.livenessPrintProb ?? null,
+        livenessReplayProb: lightingFace.normalization?.livenessReplayProb ?? null,
+        livenessRawLogits: lightingFace.normalization?.livenessRawLogits ?? null,
+        livenessSelectedClass: lightingFace.normalization?.livenessSelectedClass ?? null,
+        livenessStatus: lightingFace.normalization?.livenessStatus ?? null,
+        livenessDurationMs: lightingFace.normalization?.livenessDurationMs ?? null,
+        livenessSamples: lightingFace.normalization?.livenessSamples ?? 0,
+        isLive: lightingFace.normalization?.isLive ?? null,
         // The native detector mirrors front-camera angles into a 0..360 range,
         // so a left turn arrives as 335 rather than -25. Normalize to signed
         // degrees here, once, so every consumer sees a sane value.

@@ -343,6 +343,29 @@ export default function CameraLandingScreen() {
     // not trigger attendance when the user is scrolling through the log.
     if (scanningPaused || isMatchLocked || !face) return;
 
+    // Lighting failures are inconclusive, not spoof evidence. Keep attendance
+    // blocked, but ask the user to correct the scene instead of showing a
+    // misleading spoof verdict.
+    const activeLightingWarning = getLightingWarning(face, lighting);
+    if (activeLightingWarning) {
+      setRejectReason(activeLightingWarning.message);
+      setLastScored(null);
+      return;
+    }
+
+    // Identity may be prepared after the first promising PAD frame, but no
+    // scoring or attendance is allowed until native three-frame liveness wins.
+    if (face.isLive !== true) {
+      setRejectReason(
+        face.isLive === false
+          ? "Possible spoof detected — attendance blocked"
+          : `Checking liveness… ${Math.min(face.livenessSamples, 3)}/3`,
+      );
+      setLastScored(null);
+      if (face.isLive === false) consensusRef.current.reset();
+      return;
+    }
+
     const quality = checkFrameQuality(face);
     if (!quality.ok) {
       // A poor frame is not evidence either way — drop it without letting it
@@ -446,7 +469,7 @@ export default function CameraLandingScreen() {
       setMatchedStudent(null);
       setIsMatchLocked(false);
     }, 3500);
-  }, [face, students, isMatchLocked]);
+  }, [face, lighting, students, isMatchLocked]);
 
   const previewFace = useMemo(
     () =>

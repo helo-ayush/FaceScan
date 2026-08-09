@@ -253,14 +253,6 @@ export function checkFrameQuality(face: QualitySignals): QualityVerdict {
     return { ok: false, reason: "head tilted — straighten up" };
   }
 
-  const { leftEyeOpenProbability: left, rightEyeOpenProbability: right } = face;
-  if (
-    (left !== null && left < MATCH_TUNING.minEyeOpenProbability) ||
-    (right !== null && right < MATCH_TUNING.minEyeOpenProbability)
-  ) {
-    return { ok: false, reason: "eyes closed" };
-  }
-
   const brightness = face.faceBrightness;
   if (brightness !== null) {
     if (brightness < MATCH_TUNING.minFaceBrightness) return { ok: false, reason: "face too dim" };

@@ -24,6 +24,10 @@ export type RealtimeFace = {
   previewBase64: string | null;
   embedding: number[] | null;
   processDurationMs: number | null;
+  livenessScore: number | null;
+  livenessDurationMs: number | null;
+  livenessSamples: number;
+  isLive: boolean | null;
   yawAngle: number | null;
   rollAngle: number | null;
 };
