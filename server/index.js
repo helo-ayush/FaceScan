@@ -1,12 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const crypto = require("crypto");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const Class = require("./models/Class");
 const Student = require("./models/Student");
 const AttendanceLog = require("./models/AttendanceLog");
+const SyncConflictLog = require("./models/SyncConflictLog");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,7 +28,8 @@ if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
 
 // Enable CORS for frontend app
 app.use(cors());
-app.use(express.json());
+// 50 MB limit — class packages with full embedding payloads can be large.
+app.use(express.json({ limit: "50mb" }));
 
 // Health check endpoint
 app.get("/", (req, res) => {
@@ -120,6 +123,8 @@ app.post("/api/students/enroll", async (req, res) => {
       faceEmbeddings,
       embeddingModel: EMBEDDING_MODEL,
     });
+    // Bump the class's updatedAt so devices know to re-download the package.
+    await Class.updateOne({ classId }, { $set: { updatedAt: new Date() } });
     res.status(201).json({ success: true, student: newStudent });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
@@ -154,6 +159,15 @@ app.delete("/api/students/:enrollmentNumber", async (req, res) => {
     }
 
     await AttendanceLog.deleteMany({ enrollmentNumber });
+
+    // Bump the class's updatedAt so devices re-download the package and stop
+    // recognizing a student who was removed from the roster.
+    if (deletedStudent.classId) {
+      await Class.updateOne(
+        { classId: deletedStudent.classId },
+        { $set: { updatedAt: new Date() } }
+      );
+    }
 
     res.status(200).json({ success: true, message: "Student deleted successfully" });
   } catch (err) {
@@ -220,7 +234,7 @@ function validLocalDate(value) {
 }
 
 app.post("/api/attendance/scan", async (req, res) => {
-  const { enrollmentNumber, classId, similarity, margin, pose, localDate } = req.body;
+  const { enrollmentNumber, classId, similarity, margin, pose, localDate, capturedAt, deviceId } = req.body;
 
   if (!enrollmentNumber) {
     return res.status(400).json({ success: false, message: "enrollmentNumber is required" });
@@ -239,26 +253,26 @@ app.post("/api/attendance/scan", async (req, res) => {
     const today = validLocalDate(localDate) || new Date().toISOString().split("T")[0];
     const targetClassId = student.classId || classId || "GENERAL";
 
-    let attendance = await AttendanceLog.findOne({
-      enrollmentNumber: student.enrollmentNumber,
-      classId: targetClassId,
-      date: today,
-    });
+    // Atomic upsert: the compound unique index on (enrollmentNumber, classId, date)
+    // prevents duplicates at the database level.
+    const result = await AttendanceLog.updateOne(
+      { enrollmentNumber: student.enrollmentNumber, classId: targetClassId, date: today },
+      {
+        $setOnInsert: {
+          status: "present",
+          timestamp: capturedAt ? new Date(capturedAt) : new Date(),
+          capturedAt: capturedAt ? new Date(capturedAt) : new Date(),
+          deviceId: deviceId || "direct",
+          syncedAt: new Date(),
+          similarity: typeof similarity === "number" ? similarity : undefined,
+          margin: typeof margin === "number" ? margin : undefined,
+          pose: pose || undefined,
+        },
+      },
+      { upsert: true }
+    );
 
-    // Already marked today: report it without creating a duplicate row.
-    const alreadyMarked = Boolean(attendance);
-
-    if (!attendance) {
-      attendance = await AttendanceLog.create({
-        enrollmentNumber: student.enrollmentNumber,
-        classId: targetClassId,
-        status: "present",
-        date: today,
-        similarity: typeof similarity === "number" ? similarity : undefined,
-        margin: typeof margin === "number" ? margin : undefined,
-        pose: pose || undefined,
-      });
-    }
+    const alreadyMarked = result.upsertedCount === 0;
 
     return res.status(200).json({
       success: true,
@@ -320,6 +334,223 @@ app.get("/api/attendance/logs", async (req, res) => {
         absent: absentCount || Math.max(0, totalStudents - presentCount),
       }
     });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ─── Sync API Routes ─────────────────────────────────────────────────────────
+// These routes are the server half of the offline-first sync engine. The device
+// always writes to a local queue first, then attemptSync() pushes records here.
+
+/**
+ * POST /api/sync/attendance — Atomic attendance upsert.
+ *
+ * First-sync-wins: if a record already exists for (enrollmentNumber, classId,
+ * date), the new one is silently dropped and an info-severity conflict log
+ * entry is created. This is the expected behavior when two devices both scan
+ * the same student, or a student walks past the camera twice.
+ */
+app.post("/api/sync/attendance", async (req, res) => {
+  const { enrollmentNumber, classId, date, capturedAt, deviceId, similarity, margin, pose } = req.body;
+
+  if (!enrollmentNumber || !classId || !date || !capturedAt || !deviceId) {
+    return res.status(400).json({
+      success: false,
+      message: "enrollmentNumber, classId, date, capturedAt, and deviceId are all required.",
+    });
+  }
+
+  try {
+    // Check if the student still exists. If they were deleted (cascade-delete
+    // policy), treat it as a resolved outcome, not an error — §6.3, edge #1.
+    const student = await Student.findOne({ enrollmentNumber });
+    if (!student) {
+      return res.status(200).json({
+        success: true,
+        resolved: "student_deleted",
+        message: "Student no longer exists server-side; record dropped.",
+      });
+    }
+
+    const result = await AttendanceLog.updateOne(
+      { enrollmentNumber, classId, date },
+      {
+        $setOnInsert: {
+          status: "present",
+          timestamp: new Date(capturedAt),
+          capturedAt: new Date(capturedAt),
+          similarity: typeof similarity === "number" ? similarity : undefined,
+          margin: typeof margin === "number" ? margin : undefined,
+          pose: pose || undefined,
+          deviceId,
+          syncedAt: new Date(),
+        },
+      },
+      { upsert: true }
+    );
+
+    if (result.upsertedCount === 0) {
+      // Already marked — expected, not an error.
+      await SyncConflictLog.create({
+        type: "attendance_already_marked",
+        enrollmentNumber,
+        classId,
+        deviceId,
+        message: `Attendance for ${enrollmentNumber} in ${classId} on ${date} was already recorded. This device's record was dropped.`,
+        severity: "info",
+      });
+      return res.status(200).json({ success: true, alreadyMarked: true });
+    }
+
+    return res.status(200).json({ success: true, alreadyMarked: false });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * POST /api/sync/enrollment — Create-or-conflict enrollment.
+ *
+ * Server-wins on conflict: if the enrollment number already exists, the local
+ * enrollment is discarded and a needs_attention conflict log is created for
+ * the teacher to resolve manually.
+ */
+app.post("/api/sync/enrollment", async (req, res) => {
+  const { enrollmentNumber, name, classId, faceEmbeddings, embeddingModel, deviceId } = req.body;
+
+  if (!enrollmentNumber || !name || !classId || !faceEmbeddings || !deviceId) {
+    return res.status(400).json({
+      success: false,
+      message: "enrollmentNumber, name, classId, faceEmbeddings, and deviceId are all required.",
+    });
+  }
+
+  try {
+    await Student.create({
+      enrollmentNumber,
+      name,
+      classId,
+      faceEmbeddings,
+      embeddingModel: embeddingModel || EMBEDDING_MODEL,
+    });
+    // Bump the class so devices re-download the package with the new student.
+    await Class.updateOne({ classId }, { $set: { updatedAt: new Date() } });
+    return res.status(201).json({ success: true, created: true });
+  } catch (err) {
+    if (err.code === 11000) {
+      // Mongo duplicate key — enrollment number already taken.
+      await SyncConflictLog.create({
+        type: "enrollment_number_conflict",
+        enrollmentNumber,
+        classId,
+        deviceId,
+        message: `Enrollment number ${enrollmentNumber} already exists — local enrollment discarded.`,
+        severity: "needs_attention",
+      });
+      return res.status(200).json({
+        success: true,
+        created: false,
+        conflict: "enrollment_number_conflict",
+        message: `Enrollment number ${enrollmentNumber} already exists.`,
+      });
+    }
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/classes/:classId/package — Full class embedding package for offline scanning.
+ *
+ * Returns a manifest with all students and their embeddings, plus a SHA-256
+ * checksum the device verifies before trusting the package.
+ */
+app.get("/api/classes/:classId/package", async (req, res) => {
+  const { classId } = req.params;
+  try {
+    const cls = await Class.findOne({ classId });
+    if (!cls) {
+      return res.status(404).json({ success: false, message: "Class not found" });
+    }
+
+    const students = await Student.find({ classId });
+
+    // Strip students with a different embedding model — their templates are
+    // not comparable to the live frames the device will produce.
+    const safeStudents = students
+      .filter((s) => s.embeddingModel === EMBEDDING_MODEL)
+      .map((s) => ({
+        enrollmentNumber: s.enrollmentNumber,
+        name: s.name,
+        faceEmbeddings: s.faceEmbeddings,
+        updatedAt: s.updatedAt,
+      }));
+
+    const studentsJson = JSON.stringify(safeStudents);
+    const checksum = crypto.createHash("sha256").update(studentsJson).digest("hex");
+
+    const manifest = {
+      classId: cls.classId,
+      className: cls.name,
+      generatedAt: new Date().toISOString(),
+      embeddingModel: EMBEDDING_MODEL,
+      schemaVersion: 1,
+      classUpdatedAt: cls.updatedAt ? cls.updatedAt.toISOString() : cls.createdAt.toISOString(),
+      checksum,
+      students: safeStudents,
+    };
+
+    return res.status(200).json(manifest);
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * POST /api/sync/conflict-log — Persist device-side conflict log entries.
+ *
+ * Accepts an array of conflict entries from a device so they're visible in the
+ * admin dashboard without checking each phone individually.
+ */
+app.post("/api/sync/conflict-log", async (req, res) => {
+  const { entries } = req.body;
+  if (!Array.isArray(entries) || entries.length === 0) {
+    return res.status(400).json({ success: false, message: "entries array is required." });
+  }
+
+  try {
+    await SyncConflictLog.insertMany(
+      entries.map((e) => ({
+        type: e.type,
+        enrollmentNumber: e.enrollmentNumber,
+        classId: e.classId,
+        deviceId: e.deviceId,
+        message: e.message,
+        severity: e.severity,
+        createdAt: e.createdAt ? new Date(e.createdAt) : new Date(),
+      }))
+    );
+    return res.status(200).json({ success: true, count: entries.length });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/sync/conflicts — Retrieve conflict log entries for admin dashboard.
+ */
+app.get("/api/sync/conflicts", async (req, res) => {
+  const { classId, deviceId, severity } = req.query;
+  try {
+    const filter = {};
+    if (classId) filter.classId = classId;
+    if (deviceId) filter.deviceId = deviceId;
+    if (severity) filter.severity = severity;
+
+    const conflicts = await SyncConflictLog.find(filter)
+      .sort({ createdAt: -1 })
+      .limit(200);
+    return res.status(200).json({ success: true, conflicts });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

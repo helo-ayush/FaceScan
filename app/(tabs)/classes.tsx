@@ -5,6 +5,7 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { Icon } from "@/components/Icon";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { AppSettings } from "@/utils/settings";
+import { downloadClassPackage, getDownloadedClasses, type DownloadedClassInfo } from "@/utils/classPackageStore";
 
 type ClassItem = {
   id: string;
@@ -40,6 +41,9 @@ export default function ClassesScreen() {
   const [classNameInput, setClassNameInput] = useState("");
   const [classCodeInput, setClassCodeInput] = useState("");
   const [classIdInput, setClassIdInput] = useState("");
+  const [downloadingClassId, setDownloadingClassId] = useState<string | null>(null);
+  const [downloadedClasses, setDownloadedClasses] = useState<DownloadedClassInfo[]>([]);
+  const [downloadResult, setDownloadResult] = useState<{ classId: string; message: string; success: boolean } | null>(null);
   const [isCreatingClass, setIsCreatingClass] = useState(false);
 
   useEffect(() => {
@@ -129,8 +133,44 @@ export default function ClassesScreen() {
   useFocusEffect(
     useCallback(() => {
       fetchClasses();
+      loadDownloadedClasses();
     }, [])
   );
+
+  async function loadDownloadedClasses() {
+    try {
+      const classes = await getDownloadedClasses();
+      setDownloadedClasses(classes);
+    } catch (err) {
+      console.warn('Failed to load downloaded classes:', err);
+    }
+  }
+
+  async function handleDownloadPackage(classId: string) {
+    AppSettings.haptic('medium');
+    setDownloadingClassId(classId);
+    setDownloadResult(null);
+    try {
+      const manifest = await downloadClassPackage(apiUrl, classId);
+      setDownloadResult({
+        classId,
+        message: `Downloaded ${manifest.students.length} students`,
+        success: true,
+      });
+      AppSettings.haptic('success');
+      await loadDownloadedClasses();
+    } catch (err: any) {
+      setDownloadResult({
+        classId,
+        message: err?.message || 'Download failed',
+        success: false,
+      });
+      AppSettings.haptic('heavy');
+    } finally {
+      setDownloadingClassId(null);
+      setTimeout(() => setDownloadResult(null), 4000);
+    }
+  }
 
   async function handleDeleteClass(classId: string) {
     AppSettings.haptic("heavy");
@@ -424,10 +464,43 @@ export default function ClassesScreen() {
                       })}
                     </View>
 
+                    {/* Download Embeddings Button */}
+                    <Pressable
+                      onPress={() => handleDownloadPackage(c.id)}
+                      disabled={downloadingClassId === c.id}
+                      className="mt-4 w-full py-3.5 rounded-2xl bg-indigo-50 border border-indigo-200 items-center justify-center flex-row gap-2 active:scale-98 transition-all"
+                      style={{ opacity: downloadingClassId === c.id ? 0.6 : 1 }}
+                    >
+                      <Icon name="download" size={16} color="#5d5fef" />
+                      <Text className="text-primary font-extrabold text-xs tracking-wide">
+                        {downloadingClassId === c.id
+                          ? 'Downloading...'
+                          : (() => {
+                              const info = downloadedClasses.find((d) => d.classId === c.id);
+                              if (info) {
+                                const mins = Math.floor((Date.now() - new Date(info.downloadedAt).getTime()) / 60000);
+                                if (mins < 1) return `Re-download (just now)`;
+                                if (mins < 60) return `Re-download (${mins}m ago)`;
+                                const hrs = Math.floor(mins / 60);
+                                if (hrs < 24) return `Re-download (${hrs}h ago)`;
+                                return `Re-download (${Math.floor(hrs / 24)}d ago)`;
+                              }
+                              return 'Download Embeddings for Offline';
+                            })()}
+                      </Text>
+                    </Pressable>
+                    {downloadResult && downloadResult.classId === c.id && (
+                      <View className={`mt-2 px-4 py-2 rounded-xl ${downloadResult.success ? 'bg-emerald-50 border border-emerald-200' : 'bg-red-50 border border-red-200'}`}>
+                        <Text className={`text-xs font-bold ${downloadResult.success ? 'text-emerald-700' : 'text-red-700'}`}>
+                          {downloadResult.message}
+                        </Text>
+                      </View>
+                    )}
+
                     {/* Delete Class Action Button */}
                     <Pressable
                       onPress={() => requestDeleteClass(c.id, c.title)}
-                      className="mt-4 w-full py-3.5 rounded-2xl bg-error-light border border-error/15 items-center justify-center flex-row gap-2 active:scale-98 transition-all animate-fade-in"
+                      className="mt-3 w-full py-3.5 rounded-2xl bg-error-light border border-error/15 items-center justify-center flex-row gap-2 active:scale-98 transition-all animate-fade-in"
                     >
                       <Icon name="delete" size={16} color="#ef4444" />
                       <Text className="text-error font-extrabold text-xs tracking-wide">

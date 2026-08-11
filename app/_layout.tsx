@@ -8,6 +8,9 @@ import { useFonts, Nunito_400Regular, Nunito_600SemiBold, Nunito_700Bold, Nunito
 import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-reanimated";
 
 import { AppSettings } from "@/utils/settings";
+import { SyncProvider } from "@/utils/SyncProvider";
+
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
 // Disable Reanimated's strict mode warnings (triggered intentionally by NativeWind v4 styling)
 configureReanimatedLogger({
@@ -34,8 +37,10 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <StatusBar style="dark" />
-        <Stack screenOptions={{ headerShown: false }} />
+        <SyncProvider apiUrl={API_URL}>
+          <StatusBar style="dark" />
+          <Stack screenOptions={{ headerShown: false }} />
+        </SyncProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

@@ -38,6 +38,8 @@ import {
   signedAngle,
   type PoseKey,
 } from "@/utils/faceMatching";
+import { useSyncEngine } from "@/utils/SyncProvider";
+import { insertPendingEnrollment } from "@/utils/localDb";
 
 /**
  * How many distinct, quality-checked frames to average into each pose template.
@@ -153,6 +155,7 @@ export default function EnrollScreen() {
   const navigation = useNavigation();
   const { settings, updateSetting } = useAppSettings();
   const faceDetector = useFaceDetection();
+  const { triggerSync } = useSyncEngine();
 
   const cameraHandleRef = useRef<any>(null);
 
@@ -585,39 +588,34 @@ export default function EnrollScreen() {
     AppSettings.haptic("medium");
 
     try {
-      const response = await fetch(`${apiUrl}/api/students/enroll`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: studentName.trim(),
-          enrollmentNumber: enrollmentId.trim(),
-          classId: selectedClassId,
-          faceEmbeddings: {
-            front: capturedEmbeddings.front,
-            left45: capturedEmbeddings.left45,
-            right45: capturedEmbeddings.right45,
-          },
+      // ── Offline-first: write to local queue, then trigger sync ──
+      await insertPendingEnrollment({
+        enrollmentNumber: enrollmentId.trim(),
+        name: studentName.trim(),
+        classId: selectedClassId,
+        embeddingsJson: JSON.stringify({
+          front: capturedEmbeddings.front,
+          left45: capturedEmbeddings.left45,
+          right45: capturedEmbeddings.right45,
         }),
+        embeddingModel: 'w600k_mbf',
+        capturedAt: new Date().toISOString(),
       });
 
-      const data = await response.json();
-      if (response.ok && data.success) {
-        AppSettings.haptic("success");
-        setToastMessage("Student Registered Successfully!");
-        setToastVisible(true);
-        setStudentName("");
-        setEnrollmentId("");
-        setScanState("idle");
-        setCapturedEmbeddings({ front: null, left45: null, right45: null });
-        setTimeout(() => setToastVisible(false), 2400);
-      } else {
-        alert(data.error || "Enrollment failed");
-      }
+      AppSettings.haptic("success");
+      setToastMessage("Student Registered Successfully!");
+      setToastVisible(true);
+      setStudentName("");
+      setEnrollmentId("");
+      setScanState("idle");
+      setCapturedEmbeddings({ front: null, left45: null, right45: null });
+      setTimeout(() => setToastVisible(false), 2400);
+
+      // Trigger sync to push the enrollment to the server when online.
+      triggerSync();
     } catch (err) {
       console.error(err);
-      alert("Unable to connect to enrollment server");
+      alert("Failed to save enrollment locally");
     } finally {
       setSubmitting(false);
     }

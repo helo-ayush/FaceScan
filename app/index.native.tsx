@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   Image,
   LayoutChangeEvent,
@@ -41,6 +41,14 @@ import {
 } from "@/utils/faceMatching";
 import { Calibration } from "@/utils/calibration";
 import { CalibrationPanel } from "@/components/CalibrationPanel";
+import { useSyncEngine } from "@/utils/SyncProvider";
+import { insertPendingAttendance } from "@/utils/localDb";
+import {
+  getDownloadedClasses,
+  loadClassPackage,
+  type DownloadedClassInfo,
+  type ClassPackageManifest,
+} from "@/utils/classPackageStore";
 
 type PreviewFace = {
   left: number;
@@ -206,22 +214,27 @@ export default function CameraLandingScreen() {
      * the measured angle between two of them. The percentage scale that used
      * to be shown here was a rescaling with hand-picked endpoints, and because
      * 96% of genuine frames sat above the top anchor they all displayed as
-     * exactly 100% — a number no real pair of face images produces.
+     * exactly 100% â€” a number no real pair of face images produces.
      * Measured genuine range on this pipeline: 0.717-0.891.
      */
     cosine: number;
     initials: string;
     /**
-     * Whether the server accepted the attendance row. Recognition happens
-     * on-device, so a match can succeed while the POST fails — showing only
-     * the match made a network outage look like a successful mark, which is
-     * how "everyone still absent after a lot of scans" happens with no error
-     * anywhere on screen.
+     * Whether the attendance was queued/synced. With offline-first, the local
+     * write always succeeds immediately â€” "pending" means queued locally,
+     * "saved" means the sync engine confirmed it with the server.
      */
     sync: "pending" | "saved" | "duplicate" | "failed";
     syncDetail?: string;
   } | null>(null);
   const [isMatchLocked, setIsMatchLocked] = useState(false);
+
+  // --- Sync engine & class package state ---
+  const { status: syncStatus, triggerSync, scanSessionStart, scanSessionEnd } = useSyncEngine();
+  const [downloadedClasses, setDownloadedClasses] = useState<DownloadedClassInfo[]>([]);
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
+  const [activePackage, setActivePackage] = useState<ClassPackageManifest | null>(null);
+  const [showClassPicker, setShowClassPicker] = useState(false);
 
   // --- Session log: in-memory only, lost when the app closes ---
   type SessionMark = {
@@ -276,7 +289,7 @@ export default function CameraLandingScreen() {
     })
     .onUpdate((e) => {
       // `translationY` is cumulative from the gesture start, so it must be
-      // applied to the position at start — not added to the live value, which
+      // applied to the position at start â€” not added to the live value, which
       // would compound every frame. Dragging UP is negative, and up means
       // "open", hence the subtraction.
       const next = shelfDragStart.value - e.translationY;
@@ -337,29 +350,70 @@ export default function CameraLandingScreen() {
 
   const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
-  // Fetch enrolled students roster on mount
-  useEffect(() => {
-    let isMounted = true;
-    fetch(`${apiUrl}/api/students`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted && data.success && Array.isArray(data.students)) {
-          setStudents(data.students);
-        }
-      })
-      .catch((err) => {
-        console.log("Unable to fetch student roster for local matching:", err);
-      });
+  // Load downloaded class list on mount and when coming back from admin.
+  const refreshDownloadedClasses = useCallback(async () => {
+    try {
+      const classes = await getDownloadedClasses();
+      setDownloadedClasses(classes);
+      // Auto-select the first class if none selected yet.
+      if (classes.length > 0 && !selectedClassId) {
+        setSelectedClassId(classes[0].classId);
+      }
+    } catch (err) {
+      console.warn('Failed to load downloaded classes:', err);
+    }
+  }, [selectedClassId]);
 
+  useEffect(() => {
+    refreshDownloadedClasses();
+  }, []);
+
+  // Load the selected class package's students into the matching roster.
+  useEffect(() => {
+    if (!selectedClassId) {
+      setStudents([]);
+      setActivePackage(null);
+      return;
+    }
+
+    let mounted = true;
+    (async () => {
+      const manifest = await loadClassPackage(selectedClassId);
+      if (!mounted) return;
+      if (manifest) {
+        setActivePackage(manifest);
+        // Convert package students to the StudentRecord shape the matcher expects.
+        const roster: StudentRecord[] = manifest.students.map((s) => ({
+          _id: s.enrollmentNumber,
+          name: s.name,
+          enrollmentNumber: s.enrollmentNumber,
+          classId: manifest.classId,
+          faceEmbeddings: s.faceEmbeddings,
+          embeddingModel: manifest.embeddingModel,
+          updatedAt: s.updatedAt,
+        }));
+        setStudents(roster);
+      } else {
+        setStudents([]);
+        setActivePackage(null);
+      }
+    })();
+
+    return () => { mounted = false; };
+  }, [selectedClassId]);
+
+  // Notify sync engine about scanning session lifecycle (Â§7.4).
+  useEffect(() => {
+    scanSessionStart();
     return () => {
-      isMounted = false;
+      scanSessionEnd();
     };
   }, []);
 
   // Pose-aware cosine search, gated on frame quality, an absolute similarity
   // floor, a margin over the closest *other* student, and temporal consensus.
   useEffect(() => {
-    // Pause matching while the shelf is open — a face in the background should
+    // Pause matching while the shelf is open â€” a face in the background should
     // not trigger attendance when the user is scrolling through the log.
     if (scanningPaused || isMatchLocked || !face) return;
 
@@ -377,7 +431,7 @@ export default function CameraLandingScreen() {
     // the default strict brightness check.
     const quality = checkFrameQuality(face, { requireGoodLighting: false });
     if (!quality.ok) {
-      // A poor frame is not evidence either way — drop it without letting it
+      // A poor frame is not evidence either way â€” drop it without letting it
       // break an otherwise good consensus run.
       setRejectReason(quality.reason);
       setLastScored(null);
@@ -427,58 +481,51 @@ export default function CameraLandingScreen() {
       sync: "pending",
     });
 
-    // The device has already decided; the server only records the result.
-    fetch(`${apiUrl}/api/attendance/scan`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        enrollmentNumber: student.enrollmentNumber,
-        classId: student.classId,
-        similarity: candidate.similarity,
-        margin: scored.margin,
-        pose: candidate.pose,
-        // Send the phone's real local date so the server does not file this
-        // under tomorrow (the server's `toISOString()` is UTC).
-        // `toISOString()` would be UTC too — wrong for the same reason.
-        // Build it from local calendar components.
-        localDate: (() => {
-          const now = new Date();
-          return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-        })(),
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setMatchedStudent((prev) =>
-            prev ? { ...prev, sync: data.alreadyMarked ? "duplicate" : "saved" } : null
-          );
-          // Only push to the session log when the server accepted the row.
-          if (!data.alreadyMarked) {
-            setSessionLog((prev) => [
-              { name: student.name, enrollmentNumber: student.enrollmentNumber, classId: student.classId, cosine: candidate.similarity, at: Date.now() },
-              ...prev,
-            ]);
-          }
-        } else {
-          console.error("Server rejected attendance:", data);
-          setMatchedStudent((prev) =>
-            prev ? { ...prev, sync: "failed", syncDetail: data.message || "Server rejected" } : null
-          );
-        }
-      })
-      .catch((err) => {
-        console.error("Attendance POST failed:", err);
+    // â”€â”€ Offline-first: write to local queue, then trigger sync â”€â”€
+    const now = new Date();
+    const localDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+    insertPendingAttendance({
+      enrollmentNumber: student.enrollmentNumber,
+      classId: student.classId,
+      capturedAt: now.toISOString(),
+      localDate,
+      similarity: candidate.similarity,
+      margin: scored.margin,
+      pose: candidate.pose,
+    }).then((inserted) => {
+      if (inserted) {
+        // New record queued â€” add to session log and trigger sync.
         setMatchedStudent((prev) =>
-          prev ? { ...prev, sync: "failed", syncDetail: "Network error" } : null
+          prev ? { ...prev, sync: "saved" } : null
         );
-      });
+        setSessionLog((prev) => [
+          { name: student.name, enrollmentNumber: student.enrollmentNumber, classId: student.classId, cosine: candidate.similarity, at: Date.now() },
+          ...prev,
+        ]);
+      } else {
+        // Local dedupe caught it â€” same student already queued today.
+        setMatchedStudent((prev) =>
+          prev ? { ...prev, sync: "duplicate" } : null
+        );
+      }
+      // Trigger sync (it's safe to call even if network is down â€” it just
+      // skips if it can't reach the server). We call scanSessionEnd/Start
+      // around it so the single attendance push goes through without being
+      // suppressed by the scanning guard.
+      triggerSync();
+    }).catch((err) => {
+      console.error("Failed to queue attendance locally:", err);
+      setMatchedStudent((prev) =>
+        prev ? { ...prev, sync: "failed", syncDetail: "Local DB error" } : null
+      );
+    });
 
     setTimeout(() => {
       setMatchedStudent(null);
       setIsMatchLocked(false);
     }, 3500);
-  }, [face, lighting, students, isMatchLocked, settings.antiSpoofingEnabled]);
+  }, [face, lighting, students, isMatchLocked, settings.antiSpoofingEnabled, triggerSync]);
 
   const previewFace = useMemo(
     () =>
@@ -500,7 +547,7 @@ export default function CameraLandingScreen() {
 
     if (face.isLive === false || looksLikeAttack) {
       return {
-        title: lightingWarning ? "Improve lighting — retrying" : "Face not real — retrying",
+        title: lightingWarning ? "Improve lighting â€” retrying" : "Face not real â€” retrying",
         loading: true,
         color: "#ef4444",
         tint: "rgba(239,68,68,0.08)",
@@ -545,7 +592,7 @@ export default function CameraLandingScreen() {
     : matchedStudent
       ? matchedStudent.name
       : previewFace
-        ? "Face detected — Matching..."
+        ? "Face detected â€” Matching..."
         : "Looking for a face";
 
   // Live readout derived from the frame the matcher already scored, so the
@@ -570,19 +617,35 @@ export default function CameraLandingScreen() {
     ? "Restart the development build and check camera permission."
     : matchedStudent
       ? matchedStudent.sync === "failed"
-        ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nAttendance NOT saved — ${matchedStudent.syncDetail || "check server"}`
+        ? `${matchedStudent.enrollmentNumber} â€¢ ${matchedStudent.classId} â€¢ cos ${matchedStudent.cosine.toFixed(3)}\nAttendance NOT saved â€” ${matchedStudent.syncDetail || "check server"}`
         : matchedStudent.sync === "pending"
-          ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nSaving attendance...`
-          : `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}`
+          ? `${matchedStudent.enrollmentNumber} â€¢ ${matchedStudent.classId} â€¢ cos ${matchedStudent.cosine.toFixed(3)}\nSaving attendance...`
+          : `${matchedStudent.enrollmentNumber} â€¢ ${matchedStudent.classId} â€¢ cos ${matchedStudent.cosine.toFixed(3)}`
       : previewFace && liveSimilarity
         ? liveSimilarity.ambiguous
-          ? `Too close to call — ${liveSimilarity.name} vs others (margin ${liveSimilarity.margin.toFixed(2)})`
-          : `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} • ${liveSimilarity.yaw}°) → cos ${liveSimilarity.cosine.toFixed(3)} · margin ${liveSimilarity.margin.toFixed(2)}`
+          ? `Too close to call â€” ${liveSimilarity.name} vs others (margin ${liveSimilarity.margin.toFixed(2)})`
+          : `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} â€¢ ${liveSimilarity.yaw}Â°) â†’ cos ${liveSimilarity.cosine.toFixed(3)} Â· margin ${liveSimilarity.margin.toFixed(2)}`
         : previewFace
           ? rejectReason
-            ? `Hold on — ${rejectReason}`
+            ? `Hold on â€” ${rejectReason}`
             : "Searching enrolled student embeddings database..."
-          : "Point camera at an enrolled student's face.";
+          : downloadedClasses.length === 0
+            ? "Download embeddings from the admin panel to start scanning."
+            : "Point camera at an enrolled student's face.";
+
+  // Staleness display for the active package.
+  const packageStaleness = useMemo(() => {
+    if (!selectedClassId || downloadedClasses.length === 0) return null;
+    const info = downloadedClasses.find((c) => c.classId === selectedClassId);
+    if (!info) return null;
+    const downloadedMs = Date.now() - new Date(info.downloadedAt).getTime();
+    const mins = Math.floor(downloadedMs / 60000);
+    if (mins < 1) return 'Downloaded just now';
+    if (mins < 60) return `Downloaded ${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `Downloaded ${hours}h ago`;
+    return `Downloaded ${Math.floor(hours / 24)}d ago`;
+  }, [selectedClassId, downloadedClasses]);
 
   if (!permission) {
     return (
@@ -664,6 +727,29 @@ export default function CameraLandingScreen() {
             >
               <LoginIcon color="#0f172a" />
             </Pressable>
+            {/* Sync pending badge */}
+            {syncStatus.pendingCount > 0 && (
+              <View
+                style={{
+                  position: 'absolute',
+                  top: -2,
+                  right: -2,
+                  backgroundColor: '#f59e0b',
+                  borderRadius: 10,
+                  minWidth: 20,
+                  height: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 4,
+                  borderWidth: 2,
+                  borderColor: '#fff',
+                }}
+              >
+                <Text style={{ color: '#fff', fontSize: 10, fontWeight: '900' }}>
+                  {syncStatus.pendingCount}
+                </Text>
+              </View>
+            )}
           </View>
 
           <View
@@ -692,6 +778,43 @@ export default function CameraLandingScreen() {
               <FlipIcon color="#0f172a" />
             </Pressable>
           </View>
+
+          {/* Class selector pill â€” between top buttons */}
+          {activePackage && (
+            <Pressable
+              onPress={() => {
+                AppSettings.haptic('light');
+                setShowClassPicker(true);
+              }}
+              style={{
+                position: 'absolute',
+                left: 72,
+                right: 72,
+                top: insets.top + 24,
+                backgroundColor: 'rgba(255,255,255,0.95)',
+                borderRadius: 999,
+                paddingHorizontal: 14,
+                paddingVertical: 8,
+                borderWidth: 1,
+                borderColor: 'rgba(93,95,239,0.15)',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.08,
+                shadowRadius: 8,
+                elevation: 3,
+                alignItems: 'center',
+              }}
+            >
+              <Text style={{ fontSize: 12, fontWeight: '900', color: '#0f172a' }} numberOfLines={1}>
+                {activePackage.className}
+              </Text>
+              {packageStaleness && (
+                <Text style={{ fontSize: 9, fontWeight: '700', color: '#64748b', marginTop: 1 }}>
+                  {packageStaleness} â€¢ {activePackage.students.length} students
+                </Text>
+              )}
+            </Pressable>
+          )}
 
           {displayedLightingWarning && (
             <Animated.View
@@ -835,7 +958,7 @@ export default function CameraLandingScreen() {
             ]}
             className="w-full gap-4"
           >
-            {/* Drag handle — the visual affordance for the whole gesture. */}
+            {/* Drag handle â€” the visual affordance for the whole gesture. */}
             <Pressable
               onPress={() => (sheetExpanded ? closeShelf() : openShelf())}
               hitSlop={12}
@@ -954,7 +1077,7 @@ export default function CameraLandingScreen() {
             </View>
           </View>
 
-            {/* Session log — appears when the shelf is dragged up. In-memory
+            {/* Session log â€” appears when the shelf is dragged up. In-memory
                 only: cleared every time the app restarts. */}
             <View style={{ maxHeight: SHELF_EXPANDED_EXTRA, borderTopWidth: 1, borderTopColor: "#e2e8f0", paddingTop: 16 }}>
               <View className="flex-row items-center justify-between mb-2">
@@ -989,7 +1112,7 @@ export default function CameraLandingScreen() {
                           {m.name}
                         </Text>
                         <Text className="text-[11px] font-semibold text-on-surface-variant mt-0.5">
-                          {m.enrollmentNumber} • {m.classId}
+                          {m.enrollmentNumber} â€¢ {m.classId}
                         </Text>
                       </View>
                       <View className="items-end gap-0.5">
@@ -1012,6 +1135,98 @@ export default function CameraLandingScreen() {
           <CalibrationPanel topOffset={insets.top + 76} students={students} />
         )}
       </View>
+
+      {/* Class picker modal overlay */}
+      {showClassPicker && (
+        <Pressable
+          style={[
+            StyleSheet.absoluteFillObject,
+            { backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', paddingHorizontal: 32, zIndex: 100 },
+          ]}
+          onPress={() => setShowClassPicker(false)}
+        >
+          <Pressable
+            onPress={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: '#f8fafc',
+              borderRadius: 24,
+              paddingVertical: 20,
+              paddingHorizontal: 20,
+              maxHeight: screenH * 0.5,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.15,
+              shadowRadius: 24,
+              elevation: 12,
+            }}
+          >
+            <Text style={{ fontSize: 16, fontWeight: '900', color: '#0f172a', marginBottom: 16 }}>
+              Select Class
+            </Text>
+            {downloadedClasses.length === 0 ? (
+              <View style={{ alignItems: 'center', paddingVertical: 24 }}>
+                <Text style={{ fontSize: 13, fontWeight: '700', color: '#64748b', textAlign: 'center' }}>
+                  No classes downloaded yet.{'\n'}Go to the admin panel â†’ Classes to download embeddings.
+                </Text>
+              </View>
+            ) : (
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {downloadedClasses.map((cls) => {
+                  const isSelected = cls.classId === selectedClassId;
+                  const dlMs = Date.now() - new Date(cls.downloadedAt).getTime();
+                  const dlMins = Math.floor(dlMs / 60000);
+                  let staleTxt = 'Just now';
+                  if (dlMins >= 60 * 24) staleTxt = `${Math.floor(dlMins / (60 * 24))}d ago`;
+                  else if (dlMins >= 60) staleTxt = `${Math.floor(dlMins / 60)}h ago`;
+                  else if (dlMins >= 1) staleTxt = `${dlMins}m ago`;
+
+                  return (
+                    <Pressable
+                      key={cls.classId}
+                      onPress={() => {
+                        AppSettings.haptic('light');
+                        setSelectedClassId(cls.classId);
+                        setShowClassPicker(false);
+                      }}
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        backgroundColor: isSelected ? 'rgba(93,95,239,0.08)' : '#fff',
+                        borderWidth: 1,
+                        borderColor: isSelected ? 'rgba(93,95,239,0.3)' : '#e2e8f0',
+                        borderRadius: 16,
+                        paddingHorizontal: 16,
+                        paddingVertical: 14,
+                        marginBottom: 8,
+                      }}
+                    >
+                      <View style={{ flex: 1, paddingRight: 12 }}>
+                        <Text style={{ fontSize: 14, fontWeight: '800', color: '#0f172a' }}>
+                          {cls.className}
+                        </Text>
+                        <Text style={{ fontSize: 11, fontWeight: '600', color: '#64748b', marginTop: 2 }}>
+                          {cls.studentCount} students â€¢ Downloaded {staleTxt}
+                        </Text>
+                      </View>
+                      {isSelected && (
+                        <View style={{
+                          width: 24, height: 24, borderRadius: 12,
+                          backgroundColor: '#5d5fef', alignItems: 'center', justifyContent: 'center',
+                        }}>
+                          <Svg width={12} height={12} viewBox="0 0 24 24" fill="none">
+                            <Path d="M20 6 9 17l-5-5" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+                          </Svg>
+                        </View>
+                      )}
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+            )}
+          </Pressable>
+        </Pressable>
+      )}
     </View>
   );
 }
@@ -1044,3 +1259,4 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
 });
+
