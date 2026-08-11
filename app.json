@@ -36,7 +36,8 @@
           "cameraPermission": "Allow ScanAttend to use the camera for face detection."
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-secure-store"
     ]
   }
 }

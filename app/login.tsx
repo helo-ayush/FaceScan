@@ -5,6 +5,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import { AppSettings } from "@/utils/settings";
+import { useAdminAuth } from "@/utils/AdminAuthProvider";
+import { rememberOfflineAdminCredentials, verifyOfflineAdminCredentials } from "@/utils/adminAuth";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -13,6 +15,8 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [offlineAccess, setOfflineAccess] = useState(false);
+  const { unlockAdmin } = useAdminAuth();
 
   const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -37,7 +41,9 @@ export default function LoginScreen() {
       const data = await response.json();
 
       if (response.ok && data.success) {
+        await rememberOfflineAdminCredentials(username, password);
         AppSettings.haptic("success");
+        unlockAdmin();
         // Auth success, push to admin dashboard tabs
         router.replace("/(tabs)/dashboard");
       } else {
@@ -45,9 +51,17 @@ export default function LoginScreen() {
         setErrorMsg(data.message || "Invalid credentials");
       }
     } catch (err) {
-      AppSettings.haptic("error");
-      console.error(err);
-      setErrorMsg("Unable to connect to authentication server");
+      const acceptedOffline = await verifyOfflineAdminCredentials(username, password);
+      if (acceptedOffline) {
+        AppSettings.haptic("success");
+        setOfflineAccess(true);
+        unlockAdmin();
+        router.replace("/(tabs)/dashboard");
+      } else {
+        AppSettings.haptic("error");
+        console.error(err);
+        setErrorMsg("Offline access is available only after a successful online login on this device.");
+      }
     } finally {
       setLoading(false);
     }
@@ -85,7 +99,7 @@ export default function LoginScreen() {
           </View>
           <Text className="text-2xl font-bold text-on-surface tracking-tight">Admin Login</Text>
           <Text className="text-xs text-on-surface-variant mt-1 font-medium text-center">
-            Identify yourself to access the administration panel
+            Enter your credentials every time you open the administration panel
           </Text>
         </View>
 
@@ -93,6 +107,13 @@ export default function LoginScreen() {
           <View className="bg-error-light border border-error/15 p-3.5 rounded-2xl flex-row items-center gap-3">
             <Icon name="error" size={18} color="#ef4444" />
             <Text className="text-error font-bold text-xs flex-1">{errorMsg}</Text>
+          </View>
+        ) : null}
+
+        {offlineAccess ? (
+          <View className="bg-amber-50 border border-amber-200 p-3.5 rounded-2xl flex-row items-center gap-3">
+            <Icon name="cloud_off" size={18} color="#b45309" />
+            <Text className="text-amber-800 font-bold text-xs flex-1">Offline Admin access verified on this device. New changes will sync automatically.</Text>
           </View>
         ) : null}
 

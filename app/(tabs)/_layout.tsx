@@ -1,8 +1,26 @@
 import React from "react";
-import { Tabs } from "expo-router";
+import { Tabs, useFocusEffect, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
+import { useAdminAuth } from "@/utils/AdminAuthProvider";
 
 export default function TabsLayout() {
+  const router = useRouter();
+  const { isAdminUnlocked, lockAdmin } = useAdminAuth();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!isAdminUnlocked) {
+        router.replace("/login");
+        return;
+      }
+      // Tabs may switch freely. Leaving the entire Admin group locks it, so a
+      // fresh username/password entry is always required on the next visit.
+      return () => lockAdmin();
+    }, [isAdminUnlocked, lockAdmin, router])
+  );
+
+  if (!isAdminUnlocked) return null;
+
   return (
     <Tabs
       screenOptions={{

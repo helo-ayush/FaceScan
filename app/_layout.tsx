@@ -9,6 +9,7 @@ import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-rean
 
 import { AppSettings } from "@/utils/settings";
 import { SyncProvider } from "@/utils/SyncProvider";
+import { AdminAuthProvider } from "@/utils/AdminAuthProvider";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
@@ -38,8 +39,10 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <SyncProvider apiUrl={API_URL}>
-          <StatusBar style="dark" />
-          <Stack screenOptions={{ headerShown: false }} />
+          <AdminAuthProvider>
+            <StatusBar style="dark" />
+            <Stack screenOptions={{ headerShown: false }} />
+          </AdminAuthProvider>
         </SyncProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
