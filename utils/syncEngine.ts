@@ -1,4 +1,5 @@
 import { AppState, AppStateStatus } from 'react-native';
+import NetInfo, { NetInfoSubscription } from '@react-native-community/netinfo';
 import {
   getUnsyncedAttendance,
   getUnsyncedEnrollment,
@@ -6,6 +7,8 @@ import {
   markAttendanceSynced,
   markEnrollmentSynced,
   markConflictsSynced,
+  markAttendanceFailed,
+  markEnrollmentFailed,
   getPendingCount,
 } from './localDb';
 import { getDownloadedClasses, downloadClassPackage, isPackageStale } from './classPackageStore';
@@ -18,6 +21,9 @@ export type SyncStatus = {
   pendingCount: number;
   lastSyncAt: string | null;
   lastError: string | null;
+  isOnline: boolean | null;
+  lastServerContactAt: string | null;
+  lastSyncStartedAt: string | null;
 };
 
 type SyncListener = (status: SyncStatus) => void;
@@ -28,9 +34,13 @@ let isSyncing = false;
 let pendingCount = 0;
 let lastSyncAt: string | null = null;
 let lastError: string | null = null;
+let isOnline: boolean | null = null;
+let lastServerContactAt: string | null = null;
+let lastSyncStartedAt: string | null = null;
 let apiUrl: string = '';
 let backgroundIntervalId: ReturnType<typeof setInterval> | null = null;
 let appStateSubscription: { remove(): void } | null = null;
+let networkSubscription: NetInfoSubscription | null = null;
 
 /** Set of listeners notified on every status change. */
 const listeners = new Set<SyncListener>();
@@ -58,6 +68,14 @@ export function initSyncEngine(serverApiUrl: string): void {
     }
   });
 
+  networkSubscription = NetInfo.addEventListener((state) => {
+    const online = Boolean(state.isConnected && state.isInternetReachable !== false);
+    const wasOffline = isOnline === false;
+    isOnline = online;
+    emitStatus();
+    if (online && wasOffline && !scanningSessionActive) void attemptSync();
+  });
+
   // Safety-net interval: every 2 minutes.
   backgroundIntervalId = setInterval(() => {
     if (!scanningSessionActive) {
@@ -82,6 +100,8 @@ export function teardownSyncEngine(): void {
     clearInterval(backgroundIntervalId);
     backgroundIntervalId = null;
   }
+  networkSubscription?.();
+  networkSubscription = null;
 }
 
 // ─── Scanning session guard (§7.4) ──────────────────────────────────────────
@@ -99,7 +119,7 @@ export function notifyScanSessionStart(): void {
  */
 export function notifyScanSessionEnd(): void {
   scanningSessionActive = false;
-  attemptSync();
+  void attemptSync(true);
 }
 
 // ─── Status listeners ────────────────────────────────────────────────────────
@@ -112,7 +132,17 @@ export function addSyncListener(fn: SyncListener): () => void {
 }
 
 export function getSyncStatus(): SyncStatus {
-  return { isSyncing, pendingCount, lastSyncAt, lastError };
+  return { isSyncing, pendingCount, lastSyncAt, lastError, isOnline, lastServerContactAt, lastSyncStartedAt };
+}
+
+function noteServerContact(): void {
+  isOnline = true;
+  lastServerContactAt = new Date().toISOString();
+}
+
+function noteSyncFailure(message: string): void {
+  lastError = message;
+  emitStatus();
 }
 
 function emitStatus(): void {
@@ -144,16 +174,19 @@ async function refreshPendingCount(): Promise<void> {
  * Uses a simple boolean lock to prevent concurrent runs. If already running,
  * returns immediately (the in-progress run will pick up any new records).
  */
-export async function attemptSync(): Promise<void> {
+export async function attemptSync(force = false): Promise<void> {
   if (isSyncing) return;
   if (!apiUrl) return;
   if (scanningSessionActive) return;
+  if (isOnline === false && !force) return;
 
   isSyncing = true;
   lastError = null;
+  lastSyncStartedAt = new Date().toISOString();
   emitStatus();
 
   const deviceId = await getOrCreateDeviceId();
+  const serverContactAtRunStart = lastServerContactAt;
 
   try {
     // 1. Drain attendance queue
@@ -168,7 +201,9 @@ export async function attemptSync(): Promise<void> {
     // 4. Check for stale class packages
     await refreshStalePackages();
 
-    lastSyncAt = new Date().toISOString();
+    if (lastServerContactAt && lastServerContactAt !== serverContactAtRunStart) {
+      lastSyncAt = new Date().toISOString();
+    }
   } catch (err: any) {
     lastError = err?.message || 'Sync failed';
     console.warn('[syncEngine] attemptSync error:', err);
@@ -199,9 +234,11 @@ async function syncAttendance(deviceId: string): Promise<void> {
         }),
       });
 
+      noteServerContact();
       if (!res.ok) {
-        // 5xx or other server error — leave unsynced, try next time.
-        console.warn(`[syncEngine] Attendance sync failed for row ${row.id}: HTTP ${res.status}`);
+        const error = `Attendance upload failed (HTTP ${res.status})`;
+        await markAttendanceFailed(row.id, error);
+        noteSyncFailure(error);
         continue;
       }
 
@@ -212,7 +249,10 @@ async function syncAttendance(deviceId: string): Promise<void> {
         await markAttendanceSynced(row.id);
       }
     } catch (err) {
-      // Network error — leave unsynced.
+      const error = 'Cannot reach the server. Attendance will retry automatically.';
+      await markAttendanceFailed(row.id, error);
+      isOnline = false;
+      noteSyncFailure(error);
       console.warn(`[syncEngine] Attendance sync network error for row ${row.id}:`, err);
       break; // If network is down, don't try remaining rows.
     }
@@ -239,8 +279,11 @@ async function syncEnrollment(deviceId: string): Promise<void> {
         }),
       });
 
+      noteServerContact();
       if (!res.ok) {
-        console.warn(`[syncEngine] Enrollment sync failed for row ${row.id}: HTTP ${res.status}`);
+        const error = `Registration upload failed (HTTP ${res.status})`;
+        await markEnrollmentFailed(row.id, error);
+        noteSyncFailure(error);
         continue;
       }
 
@@ -250,6 +293,10 @@ async function syncEnrollment(deviceId: string): Promise<void> {
         await markEnrollmentSynced(row.id);
       }
     } catch (err) {
+      const error = 'Cannot reach the server. Registration will retry automatically.';
+      await markEnrollmentFailed(row.id, error);
+      isOnline = false;
+      noteSyncFailure(error);
       console.warn(`[syncEngine] Enrollment sync network error for row ${row.id}:`, err);
       break;
     }
@@ -279,6 +326,7 @@ async function syncConflictLog(): Promise<void> {
       }),
     });
 
+    noteServerContact();
     if (res.ok) {
       const data = await res.json();
       if (data.success) {
@@ -286,6 +334,8 @@ async function syncConflictLog(): Promise<void> {
       }
     }
   } catch (err) {
+    isOnline = false;
+    noteSyncFailure('Cannot reach the server. Conflict logs will retry automatically.');
     console.warn('[syncEngine] Conflict log sync error:', err);
   }
 }

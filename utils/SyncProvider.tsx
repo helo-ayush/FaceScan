@@ -17,7 +17,7 @@ type SyncContextValue = {
   /** Current sync status (pending count, syncing flag, etc.) */
   status: SyncStatus;
   /** Manually trigger a sync attempt. */
-  triggerSync: () => void;
+  triggerSync: () => Promise<void>;
   /** Notify the engine that a scanning session is active (suppress sync). */
   scanSessionStart: () => void;
   /** Notify the engine that a scanning session ended (resume & trigger sync). */
@@ -26,15 +26,18 @@ type SyncContextValue = {
   ready: boolean;
   /** The device's persistent UUID. */
   deviceId: string | null;
+  /** Server API URL. */
+  apiUrl: string;
 };
 
 const SyncContext = createContext<SyncContextValue>({
-  status: { isSyncing: false, pendingCount: 0, lastSyncAt: null, lastError: null },
-  triggerSync: () => {},
+  status: { isSyncing: false, pendingCount: 0, lastSyncAt: null, lastError: null, isOnline: null, lastServerContactAt: null, lastSyncStartedAt: null },
+  triggerSync: async () => {},
   scanSessionStart: () => {},
   scanSessionEnd: () => {},
   ready: false,
   deviceId: null,
+  apiUrl: '',
 });
 
 /**
@@ -62,6 +65,9 @@ export function SyncProvider({
     pendingCount: 0,
     lastSyncAt: null,
     lastError: null,
+    isOnline: null,
+    lastServerContactAt: null,
+    lastSyncStartedAt: null,
   });
   const [ready, setReady] = useState(false);
   const [deviceId, setDeviceId] = useState<string | null>(null);
@@ -110,11 +116,13 @@ export function SyncProvider({
     <SyncContext.Provider
       value={{
         status,
-        triggerSync: attemptSync,
+        // Manual taps are allowed to probe the server even if NetInfo is stale.
+        triggerSync: () => attemptSync(true),
         scanSessionStart: notifyScanSessionStart,
         scanSessionEnd: notifyScanSessionEnd,
         ready,
         deviceId,
+        apiUrl,
       }}
     >
       {children}

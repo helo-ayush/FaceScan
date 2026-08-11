@@ -60,6 +60,15 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="sync"
+        options={{
+          title: "Sync",
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="sync" size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

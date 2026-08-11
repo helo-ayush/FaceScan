@@ -12,6 +12,9 @@ export type PendingAttendanceRow = {
   margin: number | null;
   pose: string | null;
   synced: number;      // 0 or 1
+  retry_count: number;
+  last_error: string | null;
+  last_attempt_at: string | null;
 };
 
 export type PendingEnrollmentRow = {
@@ -23,6 +26,9 @@ export type PendingEnrollmentRow = {
   embedding_model: string;
   captured_at: string;
   synced: number;
+  retry_count: number;
+  last_error: string | null;
+  last_attempt_at: string | null;
 };
 
 export type ConflictLogLocalRow = {
@@ -35,6 +41,9 @@ export type ConflictLogLocalRow = {
   severity: string;
   created_at: string;
   synced: number;
+  retry_count: number;
+  last_error: string | null;
+  last_attempt_at: string | null;
 };
 
 // ─── Database singleton ──────────────────────────────────────────────────────
@@ -85,6 +94,26 @@ export async function initDb(): Promise<void> {
       synced INTEGER NOT NULL DEFAULT 0
     );
   `);
+
+  // Existing installs already have these tables, so add diagnostics as a
+  // lightweight forward-only migration. SQLite has no ADD COLUMN IF NOT EXISTS.
+  await addColumnIfMissing('pending_attendance', 'retry_count INTEGER NOT NULL DEFAULT 0');
+  await addColumnIfMissing('pending_attendance', 'last_error TEXT');
+  await addColumnIfMissing('pending_attendance', 'last_attempt_at TEXT');
+  await addColumnIfMissing('pending_enrollment', 'retry_count INTEGER NOT NULL DEFAULT 0');
+  await addColumnIfMissing('pending_enrollment', 'last_error TEXT');
+  await addColumnIfMissing('pending_enrollment', 'last_attempt_at TEXT');
+  await addColumnIfMissing('conflict_log_local', 'retry_count INTEGER NOT NULL DEFAULT 0');
+  await addColumnIfMissing('conflict_log_local', 'last_error TEXT');
+  await addColumnIfMissing('conflict_log_local', 'last_attempt_at TEXT');
+}
+
+async function addColumnIfMissing(table: string, definition: string): Promise<void> {
+  try {
+    await db?.execAsync(`ALTER TABLE ${table} ADD COLUMN ${definition}`);
+  } catch {
+    // Duplicate-column errors mean this app version has already migrated.
+  }
 }
 
 function getDb(): SQLite.SQLiteDatabase {
@@ -219,12 +248,18 @@ export async function getUnsyncedConflicts(): Promise<ConflictLogLocalRow[]> {
 
 export async function markAttendanceSynced(id: number): Promise<void> {
   const d = getDb();
-  await d.runAsync(`UPDATE pending_attendance SET synced = 1 WHERE id = ?`, [id]);
+  await d.runAsync(
+    `UPDATE pending_attendance SET synced = 1, last_error = NULL, last_attempt_at = ? WHERE id = ?`,
+    [new Date().toISOString(), id]
+  );
 }
 
 export async function markEnrollmentSynced(id: number): Promise<void> {
   const d = getDb();
-  await d.runAsync(`UPDATE pending_enrollment SET synced = 1 WHERE id = ?`, [id]);
+  await d.runAsync(
+    `UPDATE pending_enrollment SET synced = 1, last_error = NULL, last_attempt_at = ? WHERE id = ?`,
+    [new Date().toISOString(), id]
+  );
 }
 
 export async function markConflictsSynced(ids: number[]): Promise<void> {
@@ -234,6 +269,26 @@ export async function markConflictsSynced(ids: number[]): Promise<void> {
   await d.runAsync(
     `UPDATE conflict_log_local SET synced = 1 WHERE id IN (${placeholders})`,
     ids
+  );
+}
+
+export async function markAttendanceFailed(id: number, error: string): Promise<void> {
+  const d = getDb();
+  await d.runAsync(
+    `UPDATE pending_attendance
+     SET retry_count = retry_count + 1, last_error = ?, last_attempt_at = ?
+     WHERE id = ?`,
+    [error.slice(0, 300), new Date().toISOString(), id]
+  );
+}
+
+export async function markEnrollmentFailed(id: number, error: string): Promise<void> {
+  const d = getDb();
+  await d.runAsync(
+    `UPDATE pending_enrollment
+     SET retry_count = retry_count + 1, last_error = ?, last_attempt_at = ?
+     WHERE id = ?`,
+    [error.slice(0, 300), new Date().toISOString(), id]
   );
 }
 

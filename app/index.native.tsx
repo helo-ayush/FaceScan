@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   Image,
   LayoutChangeEvent,
@@ -9,7 +9,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCameraPermissions } from "react-native-face-detector-camera";
 import Svg, { Path } from "react-native-svg";
@@ -39,8 +39,6 @@ import {
   scoreFrame,
   type ScoredFrame,
 } from "@/utils/faceMatching";
-import { Calibration } from "@/utils/calibration";
-import { CalibrationPanel } from "@/components/CalibrationPanel";
 import { useSyncEngine } from "@/utils/SyncProvider";
 import { insertPendingAttendance } from "@/utils/localDb";
 import {
@@ -185,6 +183,16 @@ function probabilityText(value: number | null) {
   return value === null ? null : `${Math.round(value * 100)}%`;
 }
 
+function getClassInitials(name?: string | null): string {
+  if (!name) return "CL";
+  const cleaned = name.trim();
+  const parts = cleaned.split(/[\s-_]+/);
+  if (parts.length >= 2 && parts[0] && parts[1]) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return cleaned.slice(0, 2).toUpperCase();
+}
+
 type StudentRecord = MatchableStudent & {
   _id: string;
 };
@@ -214,14 +222,14 @@ export default function CameraLandingScreen() {
      * the measured angle between two of them. The percentage scale that used
      * to be shown here was a rescaling with hand-picked endpoints, and because
      * 96% of genuine frames sat above the top anchor they all displayed as
-     * exactly 100% â€” a number no real pair of face images produces.
+     * exactly 100% — a number no real pair of face images produces.
      * Measured genuine range on this pipeline: 0.717-0.891.
      */
     cosine: number;
     initials: string;
     /**
      * Whether the attendance was queued/synced. With offline-first, the local
-     * write always succeeds immediately â€” "pending" means queued locally,
+     * write always succeeds immediately — "pending" means queued locally,
      * "saved" means the sync engine confirmed it with the server.
      */
     sync: "pending" | "saved" | "duplicate" | "failed";
@@ -289,7 +297,7 @@ export default function CameraLandingScreen() {
     })
     .onUpdate((e) => {
       // `translationY` is cumulative from the gesture start, so it must be
-      // applied to the position at start â€” not added to the live value, which
+      // applied to the position at start — not added to the live value, which
       // would compound every frame. Dragging UP is negative, and up means
       // "open", hence the subtraction.
       const next = shelfDragStart.value - e.translationY;
@@ -403,17 +411,17 @@ export default function CameraLandingScreen() {
   }, [selectedClassId]);
 
   // Notify sync engine about scanning session lifecycle (Â§7.4).
-  useEffect(() => {
-    scanSessionStart();
-    return () => {
-      scanSessionEnd();
-    };
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      scanSessionStart();
+      return () => scanSessionEnd();
+    }, [scanSessionStart, scanSessionEnd])
+  );
 
   // Pose-aware cosine search, gated on frame quality, an absolute similarity
   // floor, a margin over the closest *other* student, and temporal consensus.
   useEffect(() => {
-    // Pause matching while the shelf is open â€” a face in the background should
+    // Pause matching while the shelf is open — a face in the background should
     // not trigger attendance when the user is scrolling through the log.
     if (scanningPaused || isMatchLocked || !face) return;
 
@@ -431,7 +439,7 @@ export default function CameraLandingScreen() {
     // the default strict brightness check.
     const quality = checkFrameQuality(face, { requireGoodLighting: false });
     if (!quality.ok) {
-      // A poor frame is not evidence either way â€” drop it without letting it
+      // A poor frame is not evidence either way — drop it without letting it
       // break an otherwise good consensus run.
       setRejectReason(quality.reason);
       setLastScored(null);
@@ -442,17 +450,6 @@ export default function CameraLandingScreen() {
     const yaw = face.yawAngle ?? 0;
     const scored = scoreFrame(liveEmbedding, students, yaw);
     setLastScored({ scored, yaw });
-    Calibration.record(scored, yaw);
-
-    // While calibrating, this screen is a measurement instrument rather than an
-    // attendance terminal: keep scoring and recording every frame, but never
-    // lock the UI or mark attendance. Otherwise a capture run would be
-    // interrupted for 3.5 seconds each time the current (unproven) thresholds
-    // happen to fire, and the recorded distribution would be full of gaps.
-    if (Calibration.isEnabled) {
-      setRejectReason(null);
-      return;
-    }
 
     const decision = decideFrame(scored);
     if (!decision.accept) {
@@ -481,7 +478,7 @@ export default function CameraLandingScreen() {
       sync: "pending",
     });
 
-    // â”€â”€ Offline-first: write to local queue, then trigger sync â”€â”€
+    // ——— Offline-first: write to local queue, then trigger sync ———
     const now = new Date();
     const localDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
@@ -495,7 +492,7 @@ export default function CameraLandingScreen() {
       pose: candidate.pose,
     }).then((inserted) => {
       if (inserted) {
-        // New record queued â€” add to session log and trigger sync.
+        // New record queued — add to session log and trigger sync.
         setMatchedStudent((prev) =>
           prev ? { ...prev, sync: "saved" } : null
         );
@@ -504,12 +501,12 @@ export default function CameraLandingScreen() {
           ...prev,
         ]);
       } else {
-        // Local dedupe caught it â€” same student already queued today.
+        // Local dedupe caught it — same student already queued today.
         setMatchedStudent((prev) =>
           prev ? { ...prev, sync: "duplicate" } : null
         );
       }
-      // Trigger sync (it's safe to call even if network is down â€” it just
+      // Trigger sync (it's safe to call even if network is down — it just
       // skips if it can't reach the server). We call scanSessionEnd/Start
       // around it so the single attendance push goes through without being
       // suppressed by the scanning guard.
@@ -547,7 +544,7 @@ export default function CameraLandingScreen() {
 
     if (face.isLive === false || looksLikeAttack) {
       return {
-        title: lightingWarning ? "Improve lighting â€” retrying" : "Face not real â€” retrying",
+        title: lightingWarning ? "Improve lighting — retrying" : "Face not real — retrying",
         loading: true,
         color: "#ef4444",
         tint: "rgba(239,68,68,0.08)",
@@ -592,7 +589,7 @@ export default function CameraLandingScreen() {
     : matchedStudent
       ? matchedStudent.name
       : previewFace
-        ? "Face detected â€” Matching..."
+        ? "Face detected — Matching..."
         : "Looking for a face";
 
   // Live readout derived from the frame the matcher already scored, so the
@@ -617,17 +614,17 @@ export default function CameraLandingScreen() {
     ? "Restart the development build and check camera permission."
     : matchedStudent
       ? matchedStudent.sync === "failed"
-        ? `${matchedStudent.enrollmentNumber} â€¢ ${matchedStudent.classId} â€¢ cos ${matchedStudent.cosine.toFixed(3)}\nAttendance NOT saved â€” ${matchedStudent.syncDetail || "check server"}`
+        ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nAttendance NOT saved — ${matchedStudent.syncDetail || "check server"}`
         : matchedStudent.sync === "pending"
-          ? `${matchedStudent.enrollmentNumber} â€¢ ${matchedStudent.classId} â€¢ cos ${matchedStudent.cosine.toFixed(3)}\nSaving attendance...`
-          : `${matchedStudent.enrollmentNumber} â€¢ ${matchedStudent.classId} â€¢ cos ${matchedStudent.cosine.toFixed(3)}`
+          ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nSaving attendance...`
+          : `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}`
       : previewFace && liveSimilarity
         ? liveSimilarity.ambiguous
-          ? `Too close to call â€” ${liveSimilarity.name} vs others (margin ${liveSimilarity.margin.toFixed(2)})`
-          : `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} â€¢ ${liveSimilarity.yaw}Â°) â†’ cos ${liveSimilarity.cosine.toFixed(3)} Â· margin ${liveSimilarity.margin.toFixed(2)}`
+          ? `Too close to call — ${liveSimilarity.name} vs others (margin ${liveSimilarity.margin.toFixed(2)})`
+          : `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} • ${liveSimilarity.yaw}°) → cos ${liveSimilarity.cosine.toFixed(3)} · margin ${liveSimilarity.margin.toFixed(2)}`
         : previewFace
           ? rejectReason
-            ? `Hold on â€” ${rejectReason}`
+            ? `Hold on — ${rejectReason}`
             : "Searching enrolled student embeddings database..."
           : downloadedClasses.length === 0
             ? "Download embeddings from the admin panel to start scanning."
@@ -704,7 +701,7 @@ export default function CameraLandingScreen() {
         <Animated.View
           entering={FadeInUp.delay(200).duration(500)}
           style={{ paddingTop: insets.top + 16, paddingHorizontal: 24 }}
-          className="flex-row justify-between items-center w-full"
+          className="flex-row justify-between items-start w-full"
         >
           <View
             className="w-12 h-12 rounded-full bg-white"
@@ -752,69 +749,94 @@ export default function CameraLandingScreen() {
             )}
           </View>
 
-          <View
-            className="w-12 h-12 rounded-full"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.9)",
-              borderWidth: 1,
-              borderColor: "rgba(241,245,249,0.5)",
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.08,
-              shadowRadius: 8,
-              elevation: 3,
-            }}
-          >
-            <Pressable
-              accessibilityLabel="Switch camera"
-              accessibilityRole="button"
-              onPress={() => {
-                triggerHaptic("light");
-                updateSetting("cameraFacing", settings.cameraFacing === "front" ? "back" : "front");
-                setFace(null);
-              }}
-              className="w-full h-full items-center justify-center rounded-full"
-            >
-              <FlipIcon color="#0f172a" />
-            </Pressable>
-          </View>
-
-          {/* Class selector pill â€” between top buttons */}
-          {activePackage && (
-            <Pressable
-              onPress={() => {
-                AppSettings.haptic('light');
-                setShowClassPicker(true);
-              }}
+          {/* Right side buttons column: Camera Flip + Circular Class Switcher below */}
+          <View className="items-center gap-3">
+            {/* 1. Camera Flip Button */}
+            <View
+              className="w-12 h-12 rounded-full"
               style={{
-                position: 'absolute',
-                left: 72,
-                right: 72,
-                top: insets.top + 24,
-                backgroundColor: 'rgba(255,255,255,0.95)',
-                borderRadius: 999,
-                paddingHorizontal: 14,
-                paddingVertical: 8,
+                backgroundColor: "rgba(255,255,255,0.9)",
                 borderWidth: 1,
-                borderColor: 'rgba(93,95,239,0.15)',
-                shadowColor: '#000',
+                borderColor: "rgba(241,245,249,0.5)",
+                shadowColor: "#000",
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.08,
                 shadowRadius: 8,
                 elevation: 3,
-                alignItems: 'center',
               }}
             >
-              <Text style={{ fontSize: 12, fontWeight: '900', color: '#0f172a' }} numberOfLines={1}>
-                {activePackage.className}
-              </Text>
-              {packageStaleness && (
-                <Text style={{ fontSize: 9, fontWeight: '700', color: '#64748b', marginTop: 1 }}>
-                  {packageStaleness} â€¢ {activePackage.students.length} students
+              <Pressable
+                accessibilityLabel="Switch camera"
+                accessibilityRole="button"
+                onPress={() => {
+                  triggerHaptic("light");
+                  updateSetting("cameraFacing", settings.cameraFacing === "front" ? "back" : "front");
+                  setFace(null);
+                }}
+                className="w-full h-full items-center justify-center rounded-full"
+              >
+                <FlipIcon color="#0f172a" />
+              </Pressable>
+            </View>
+
+            {/* 2. Circular Class Selector Button (directly below Camera Switch button) */}
+            <View
+              className="w-12 h-12 rounded-full"
+              style={{
+                backgroundColor: activePackage ? "#5d5fef" : "rgba(255,255,255,0.95)",
+                borderWidth: 1.5,
+                borderColor: activePackage ? "#4338ca" : "rgba(241,245,249,0.6)",
+                shadowColor: "#5d5fef",
+                shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: activePackage ? 0.35 : 0.08,
+                shadowRadius: 8,
+                elevation: 4,
+              }}
+            >
+              <Pressable
+                accessibilityLabel="Select class overview"
+                accessibilityRole="button"
+                onPress={() => {
+                  AppSettings.haptic("light");
+                  setShowClassPicker(true);
+                }}
+                className="w-full h-full items-center justify-center rounded-full"
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: "900",
+                    color: activePackage ? "#ffffff" : "#0f172a",
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  {activePackage ? getClassInitials(activePackage.className) : "??"}
                 </Text>
+              </Pressable>
+              {downloadedClasses.length > 0 && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: -2,
+                    right: -2,
+                    backgroundColor: activePackage ? "#10b981" : "#5d5fef",
+                    borderRadius: 8,
+                    minWidth: 18,
+                    height: 18,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    paddingHorizontal: 3,
+                    borderWidth: 2,
+                    borderColor: "#fff",
+                  }}
+                >
+                  <Text style={{ color: "#fff", fontSize: 9, fontWeight: "900" }}>
+                    {downloadedClasses.length}
+                  </Text>
+                </View>
               )}
-            </Pressable>
-          )}
+            </View>
+          </View>
 
           {displayedLightingWarning && (
             <Animated.View
@@ -958,7 +980,7 @@ export default function CameraLandingScreen() {
             ]}
             className="w-full gap-4"
           >
-            {/* Drag handle â€” the visual affordance for the whole gesture. */}
+            {/* Drag handle — the visual affordance for the whole gesture. */}
             <Pressable
               onPress={() => (sheetExpanded ? closeShelf() : openShelf())}
               hitSlop={12}
@@ -1077,7 +1099,7 @@ export default function CameraLandingScreen() {
             </View>
           </View>
 
-            {/* Session log â€” appears when the shelf is dragged up. In-memory
+            {/* Session log — appears when the shelf is dragged up. In-memory
                 only: cleared every time the app restarts. */}
             <View style={{ maxHeight: SHELF_EXPANDED_EXTRA, borderTopWidth: 1, borderTopColor: "#e2e8f0", paddingTop: 16 }}>
               <View className="flex-row items-center justify-between mb-2">
@@ -1112,7 +1134,7 @@ export default function CameraLandingScreen() {
                           {m.name}
                         </Text>
                         <Text className="text-[11px] font-semibold text-on-surface-variant mt-0.5">
-                          {m.enrollmentNumber} â€¢ {m.classId}
+                          {m.enrollmentNumber} • {m.classId}
                         </Text>
                       </View>
                       <View className="items-end gap-0.5">
@@ -1131,99 +1153,255 @@ export default function CameraLandingScreen() {
         </Animated.View>
         </GestureDetector>
 
-        {__DEV__ && (
-          <CalibrationPanel topOffset={insets.top + 76} students={students} />
-        )}
       </View>
 
-      {/* Class picker modal overlay */}
+      {/* Class Overview & Selection Popup Modal Overlay */}
       {showClassPicker && (
         <Pressable
           style={[
             StyleSheet.absoluteFillObject,
-            { backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', paddingHorizontal: 32, zIndex: 100 },
+            { backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, zIndex: 100 },
           ]}
           onPress={() => setShowClassPicker(false)}
         >
           <Pressable
             onPress={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: '#f8fafc',
-              borderRadius: 24,
-              paddingVertical: 20,
-              paddingHorizontal: 20,
-              maxHeight: screenH * 0.5,
+              width: '100%',
+              maxWidth: 420,
+              backgroundColor: '#ffffff',
+              borderRadius: 28,
+              paddingVertical: 22,
+              paddingHorizontal: 22,
+              maxHeight: screenH * 0.78,
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: 8 },
-              shadowOpacity: 0.15,
-              shadowRadius: 24,
-              elevation: 12,
+              shadowOffset: { width: 0, height: 12 },
+              shadowOpacity: 0.25,
+              shadowRadius: 32,
+              elevation: 16,
             }}
           >
-            <Text style={{ fontSize: 16, fontWeight: '900', color: '#0f172a', marginBottom: 16 }}>
-              Select Class
-            </Text>
-            {downloadedClasses.length === 0 ? (
-              <View style={{ alignItems: 'center', paddingVertical: 24 }}>
-                <Text style={{ fontSize: 13, fontWeight: '700', color: '#64748b', textAlign: 'center' }}>
-                  No classes downloaded yet.{'\n'}Go to the admin panel â†’ Classes to download embeddings.
-                </Text>
+            {/* Header Title & Close Button */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                <View style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(93,95,239,0.1)', alignItems: 'center', justifyContent: 'center' }}>
+                  <Text style={{ fontSize: 14, fontWeight: '900', color: '#5d5fef' }}>
+                    {activePackage ? getClassInitials(activePackage.className) : "CL"}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={{ fontSize: 16, fontWeight: '900', color: '#0f172a' }}>
+                    Class Overview
+                  </Text>
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: '#64748b' }}>
+                    Active scanning roster & packages
+                  </Text>
+                </View>
               </View>
-            ) : (
-              <ScrollView showsVerticalScrollIndicator={false}>
-                {downloadedClasses.map((cls) => {
-                  const isSelected = cls.classId === selectedClassId;
-                  const dlMs = Date.now() - new Date(cls.downloadedAt).getTime();
-                  const dlMins = Math.floor(dlMs / 60000);
-                  let staleTxt = 'Just now';
-                  if (dlMins >= 60 * 24) staleTxt = `${Math.floor(dlMins / (60 * 24))}d ago`;
-                  else if (dlMins >= 60) staleTxt = `${Math.floor(dlMins / 60)}h ago`;
-                  else if (dlMins >= 1) staleTxt = `${dlMins}m ago`;
 
-                  return (
-                    <Pressable
-                      key={cls.classId}
-                      onPress={() => {
-                        AppSettings.haptic('light');
-                        setSelectedClassId(cls.classId);
-                        setShowClassPicker(false);
-                      }}
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        backgroundColor: isSelected ? 'rgba(93,95,239,0.08)' : '#fff',
-                        borderWidth: 1,
-                        borderColor: isSelected ? 'rgba(93,95,239,0.3)' : '#e2e8f0',
-                        borderRadius: 16,
-                        paddingHorizontal: 16,
-                        paddingVertical: 14,
-                        marginBottom: 8,
-                      }}
-                    >
-                      <View style={{ flex: 1, paddingRight: 12 }}>
-                        <Text style={{ fontSize: 14, fontWeight: '800', color: '#0f172a' }}>
-                          {cls.className}
-                        </Text>
-                        <Text style={{ fontSize: 11, fontWeight: '600', color: '#64748b', marginTop: 2 }}>
-                          {cls.studentCount} students â€¢ Downloaded {staleTxt}
+              <Pressable
+                onPress={() => {
+                  AppSettings.haptic('light');
+                  setShowClassPicker(false);
+                }}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  backgroundColor: '#f1f5f9',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  alignSelf: 'flex-start',
+                }}
+              >
+                <Text style={{ fontSize: 14, fontWeight: '900', color: '#64748b' }}>✕</Text>
+              </Pressable>
+            </View>
+
+            <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 0 }}>
+              {/* Active Selected Class Detailed Card */}
+              {activePackage ? (
+                <View
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderWidth: 1.5,
+                    borderColor: 'rgba(93,95,239,0.2)',
+                    borderRadius: 22,
+                    padding: 16,
+                    marginBottom: 20,
+                    shadowColor: '#5d5fef',
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.06,
+                    shadowRadius: 12,
+                    elevation: 3,
+                  }}
+                >
+                  {/* Top Row: Avatar Initials + Class Name + Active Pill */}
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flex: 1 }}>
+                      <View
+                        style={{
+                          width: 44,
+                          height: 44,
+                          borderRadius: 16,
+                          backgroundColor: '#5d5fef',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          shadowColor: '#5d5fef',
+                          shadowOffset: { width: 0, height: 3 },
+                          shadowOpacity: 0.25,
+                          shadowRadius: 6,
+                          elevation: 4,
+                        }}
+                      >
+                        <Text style={{ fontSize: 18, fontWeight: '900', color: '#ffffff' }}>
+                          {getClassInitials(activePackage.className)}
                         </Text>
                       </View>
-                      {isSelected && (
-                        <View style={{
-                          width: 24, height: 24, borderRadius: 12,
-                          backgroundColor: '#5d5fef', alignItems: 'center', justifyContent: 'center',
-                        }}>
-                          <Svg width={12} height={12} viewBox="0 0 24 24" fill="none">
-                            <Path d="M20 6 9 17l-5-5" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
-                          </Svg>
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ fontSize: 16, fontWeight: '900', color: '#0f172a' }} numberOfLines={1}>
+                          {activePackage.className}
+                        </Text>
+                        <Text style={{ fontSize: 11, fontWeight: '700', color: '#64748b', marginTop: 1 }}>
+                          Selected Roster
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={{ backgroundColor: '#dcfce7', borderWidth: 1, borderColor: '#86efac', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 }}>
+                      <Text style={{ fontSize: 10, fontWeight: '900', color: '#166534' }}>
+                        ACTIVE
+                      </Text>
+                    </View>
+                  </View>
+
+                  {/* Minimal 3-Metric Stats Row */}
+                  <View style={{ flexDirection: 'row', gap: 8 }}>
+                    {/* 1. Students Enrolled */}
+                    <View style={{ flex: 1, backgroundColor: '#f8fafc', borderRadius: 16, paddingVertical: 12, paddingHorizontal: 6, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center' }}>
+                      <Text style={{ fontSize: 18, fontWeight: '900', color: '#0f172a' }}>
+                        {activePackage.students.length}
+                      </Text>
+                      <Text style={{ fontSize: 10, fontWeight: '700', color: '#64748b', marginTop: 2, textAlign: 'center' }}>
+                        Enrolled
+                      </Text>
+                    </View>
+
+                    {/* 2. Today's Attended */}
+                    <View style={{ flex: 1, backgroundColor: 'rgba(16,185,129,0.06)', borderRadius: 16, paddingVertical: 12, paddingHorizontal: 6, borderWidth: 1, borderColor: 'rgba(16,185,129,0.2)', alignItems: 'center' }}>
+                      <Text style={{ fontSize: 18, fontWeight: '900', color: '#10b981' }}>
+                        {sessionLog.filter((m) => m.classId === activePackage.classId).length}
+                      </Text>
+                      <Text style={{ fontSize: 10, fontWeight: '700', color: '#047857', marginTop: 2, textAlign: 'center' }}>
+                        Attended
+                      </Text>
+                    </View>
+
+                    {/* 3. Last Synced */}
+                    <View style={{ flex: 1, backgroundColor: '#f8fafc', borderRadius: 16, paddingVertical: 12, paddingHorizontal: 6, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center' }}>
+                      <Text style={{ fontSize: 12, fontWeight: '900', color: '#0f172a' }} numberOfLines={1}>
+                        {packageStaleness ? packageStaleness.replace('Downloaded ', '') : "Just now"}
+                      </Text>
+                      <Text style={{ fontSize: 10, fontWeight: '700', color: '#64748b', marginTop: 2, textAlign: 'center' }}>
+                        Last Synced
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ) : null}
+
+              {/* Downloaded Classes Picker Section */}
+              <View style={{ marginBottom: 4 }}>
+                <Text style={{ fontSize: 11, fontWeight: '900', color: '#475569', textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 10 }}>
+                  Available Class Packages ({downloadedClasses.length})
+                </Text>
+
+                {downloadedClasses.length === 0 ? (
+                  <View style={{ alignItems: 'center', paddingVertical: 24, backgroundColor: '#f8fafc', borderRadius: 16, borderWidth: 1, borderColor: '#e2e8f0' }}>
+                    <Text style={{ fontSize: 13, fontWeight: '700', color: '#64748b', textAlign: 'center', lineHeight: 20 }}>
+                      No class packages downloaded yet.{'\n'}
+                      Go to Admin Panel → Classes to download embeddings for offline scanning.
+                    </Text>
+                  </View>
+                ) : (
+                  downloadedClasses.map((cls) => {
+                    const isSelected = cls.classId === selectedClassId;
+                    const dlMs = Date.now() - new Date(cls.downloadedAt).getTime();
+                    const dlMins = Math.floor(dlMs / 60000);
+                    let staleTxt = 'Just now';
+                    if (dlMins >= 60 * 24) staleTxt = `${Math.floor(dlMins / (60 * 24))}d ago`;
+                    else if (dlMins >= 60) staleTxt = `${Math.floor(dlMins / 60)}h ago`;
+                    else if (dlMins >= 1) staleTxt = `${dlMins}m ago`;
+
+                    const initials = getClassInitials(cls.className);
+
+                    return (
+                      <Pressable
+                        key={cls.classId}
+                        onPress={() => {
+                          AppSettings.haptic('light');
+                          setSelectedClassId(cls.classId);
+                          setShowClassPicker(false);
+                        }}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          backgroundColor: isSelected ? 'rgba(93,95,239,0.08)' : '#ffffff',
+                          borderWidth: isSelected ? 1.5 : 1,
+                          borderColor: isSelected ? '#5d5fef' : '#e2e8f0',
+                          borderRadius: 16,
+                          paddingHorizontal: 14,
+                          paddingVertical: 12,
+                          marginBottom: 8,
+                        }}
+                      >
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flex: 1 }}>
+                          <View
+                            style={{
+                              width: 38,
+                              height: 38,
+                              borderRadius: 12,
+                              backgroundColor: isSelected ? '#5d5fef' : '#f1f5f9',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            <Text style={{ fontSize: 14, fontWeight: '900', color: isSelected ? '#ffffff' : '#475569' }}>
+                              {initials}
+                            </Text>
+                          </View>
+
+                          <View style={{ flex: 1 }}>
+                            <Text style={{ fontSize: 14, fontWeight: '800', color: '#0f172a' }}>
+                              {cls.className}
+                            </Text>
+                            <Text style={{ fontSize: 11, fontWeight: '600', color: '#64748b', marginTop: 2 }}>
+                              {cls.studentCount} students • Downloaded {staleTxt}
+                            </Text>
+                          </View>
                         </View>
-                      )}
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
-            )}
+
+                        {isSelected ? (
+                          <View style={{
+                            width: 24, height: 24, borderRadius: 12,
+                            backgroundColor: '#5d5fef', alignItems: 'center', justifyContent: 'center',
+                          }}>
+                            <Svg width={12} height={12} viewBox="0 0 24 24" fill="none">
+                              <Path d="M20 6 9 17l-5-5" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+                            </Svg>
+                          </View>
+                        ) : (
+                          <View style={{
+                            width: 24, height: 24, borderRadius: 12,
+                            borderWidth: 1.5, borderColor: '#cbd5e1',
+                          }} />
+                        )}
+                      </Pressable>
+                    );
+                  })
+                )}
+              </View>
+            </ScrollView>
           </Pressable>
         </Pressable>
       )}

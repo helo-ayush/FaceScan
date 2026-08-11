@@ -31,6 +31,12 @@ const ICON_MAP: Record<string, keyof typeof MaterialIcons.glyphMap> = {
   chevron_left: "chevron-left",
   chevron_right: "chevron-right",
   cancel: "cancel",
+  sync: "sync",
+  cloud_sync: "cloud-sync",
+  cloud_done: "cloud-done",
+  cloud_off: "cloud-off",
+  sync_problem: "sync-problem",
+  refresh: "refresh",
 };
 
 export function Icon({ name, size = 24, color = "#424656", className }: IconProps) {

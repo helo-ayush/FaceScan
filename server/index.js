@@ -63,6 +63,7 @@ app.get("/api/classes", async (req, res) => {
           id: c.classId,
           code: c.code,
           title: c.name,
+          updatedAt: c.updatedAt || c.createdAt,
           students: count,
           attendance: Math.min(attendanceRate, 100),
           roster: roster,
@@ -540,12 +541,15 @@ app.post("/api/sync/conflict-log", async (req, res) => {
  * GET /api/sync/conflicts — Retrieve conflict log entries for admin dashboard.
  */
 app.get("/api/sync/conflicts", async (req, res) => {
-  const { classId, deviceId, severity } = req.query;
+  const { classId, deviceId, severity, since } = req.query;
   try {
     const filter = {};
     if (classId) filter.classId = classId;
     if (deviceId) filter.deviceId = deviceId;
     if (severity) filter.severity = severity;
+    if (since && !Number.isNaN(new Date(since).getTime())) {
+      filter.createdAt = { $gte: new Date(since) };
+    }
 
     const conflicts = await SyncConflictLog.find(filter)
       .sort({ createdAt: -1 })

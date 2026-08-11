@@ -1,31 +1,50 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { useRouter, useFocusEffect } from "expo-router";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Icon } from "@/components/Icon";
+import { SkeletonBlock } from "@/components/ScreenSkeleton";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import { AppSettings } from "@/utils/settings";
+import { useSyncEngine } from "@/utils/SyncProvider";
 
 export default function DashboardScreen() {
   const router = useRouter();
-  const [stats, setStats] = useState({ present: 142, absent: 15 });
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
+  const { apiUrl, status: syncStatus } = useSyncEngine();
+  const [stats, setStats] = useState({ present: 0, absent: 0 });
+  const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null);
+  const [loadingOverview, setLoadingOverview] = useState(true);
+  const hasLoadedOverview = useRef(false);
 
-  function fetchStats() {
-    fetch(`${apiUrl}/api/attendance/logs`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.stats) {
-          setStats(data.stats);
-        }
-      })
-      .catch((err) => console.error("Error fetching dashboard statistics:", err));
-  }
+  const fetchStats = useCallback(async (showSkeleton = !hasLoadedOverview.current) => {
+    if (showSkeleton) setLoadingOverview(true);
+    if (syncStatus.isOnline === false) {
+      if (showSkeleton) setLoadingOverview(false);
+      return;
+    }
+    try {
+      const res = await fetch(`${apiUrl}/api/attendance/logs`);
+      const data = await res.json();
+      if (res.ok && data.stats) {
+        setStats(data.stats);
+        setLastUpdatedAt(new Date().toISOString());
+      }
+    } catch (err) {
+      console.warn("Dashboard data is unavailable; showing the last known values.", err);
+    } finally {
+      hasLoadedOverview.current = true;
+      if (showSkeleton) setLoadingOverview(false);
+    }
+  }, [apiUrl, syncStatus.isOnline]);
 
   useFocusEffect(
     useCallback(() => {
-      fetchStats();
-    }, [])
+      void fetchStats();
+      // Refresh only while this screen is visible. One minute keeps the
+      // overview current without competing with camera inference or battery.
+      const interval = setInterval(() => void fetchStats(false), 60_000);
+      return () => clearInterval(interval);
+    }, [fetchStats, syncStatus.lastSyncAt])
   );
 
   const formattedDate = new Date().toLocaleDateString(undefined, {
@@ -56,6 +75,13 @@ export default function DashboardScreen() {
           <Text className="text-sm text-on-surface-variant mt-2 font-medium">
             {formattedDate}
           </Text>
+          <Text className="text-xs text-on-surface-variant mt-1 font-semibold">
+            {syncStatus.isOnline === false
+              ? `Offline${lastUpdatedAt ? ` · Last server update ${new Date(lastUpdatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : ''}`
+              : lastUpdatedAt
+              ? `Updated ${new Date(lastUpdatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+              : 'Updating overview…'}
+          </Text>
         </Animated.View>
 
         {/* Overview Section */}
@@ -75,7 +101,7 @@ export default function DashboardScreen() {
                 </View>
               </View>
               <View className="mt-4">
-                <Text className="text-3xl font-black text-on-surface tracking-tight">{stats.present}</Text>
+                {loadingOverview ? <SkeletonBlock width={48} height={32} radius={8} /> : <Text className="text-3xl font-black text-on-surface tracking-tight">{stats.present}</Text>}
                 <Text className="text-xs font-bold text-on-surface-variant mt-1">Present</Text>
               </View>
             </View>
@@ -88,7 +114,7 @@ export default function DashboardScreen() {
                 </View>
               </View>
               <View className="mt-4">
-                <Text className="text-3xl font-black text-on-surface tracking-tight">{stats.absent}</Text>
+                {loadingOverview ? <SkeletonBlock width={48} height={32} radius={8} /> : <Text className="text-3xl font-black text-on-surface tracking-tight">{stats.absent}</Text>}
                 <Text className="text-xs font-bold text-on-surface-variant mt-1">Absent</Text>
               </View>
             </View>

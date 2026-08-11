@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { View, Text, ScrollView, Pressable, Modal, TextInput, LayoutAnimation, StyleSheet } from "react-native";
 import { useFocusEffect } from "expo-router";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Icon } from "@/components/Icon";
+import { SkeletonBlock } from "@/components/ScreenSkeleton";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { AppSettings } from "@/utils/settings";
 import { downloadClassPackage, getDownloadedClasses, type DownloadedClassInfo } from "@/utils/classPackageStore";
@@ -45,6 +46,8 @@ export default function ClassesScreen() {
   const [downloadedClasses, setDownloadedClasses] = useState<DownloadedClassInfo[]>([]);
   const [downloadResult, setDownloadResult] = useState<{ classId: string; message: string; success: boolean } | null>(null);
   const [isCreatingClass, setIsCreatingClass] = useState(false);
+  const [loadingClasses, setLoadingClasses] = useState(true);
+  const hasLoadedClasses = useRef(false);
 
   useEffect(() => {
     if (confirmDelete) {
@@ -118,6 +121,8 @@ export default function ClassesScreen() {
   }
 
   async function fetchClasses() {
+    const showSkeleton = !hasLoadedClasses.current;
+    if (showSkeleton) setLoadingClasses(true);
     try {
       const response = await fetch(`${apiUrl}/api/classes`);
       const data = await response.json();
@@ -127,6 +132,9 @@ export default function ClassesScreen() {
       }
     } catch (err) {
       console.error("Error fetching classes:", err);
+    } finally {
+      hasLoadedClasses.current = true;
+      if (showSkeleton) setLoadingClasses(false);
     }
   }
 
@@ -260,7 +268,17 @@ export default function ClassesScreen() {
           entering={FadeInUp.delay(200).duration(500)}
           className="gap-5"
         >
-          {classesList.map((c) => {
+          {loadingClasses ? (
+            <View className="gap-5">
+              {[0, 1, 2].map((item) => (
+                <View key={item} className="bg-surface border border-slate-100 rounded-3xl p-5">
+                  <View className="flex-row justify-between"><SkeletonBlock width="48%" height={18} radius={8} /><SkeletonBlock width={56} height={24} radius={12} /></View>
+                  <View className="mt-4"><SkeletonBlock height={12} radius={6} /></View>
+                  <View className="mt-2"><SkeletonBlock width="68%" height={12} radius={6} /></View>
+                </View>
+              ))}
+            </View>
+          ) : classesList.map((c) => {
             const open = openId === c.id;
             const attColor =
               c.attendance >= 90

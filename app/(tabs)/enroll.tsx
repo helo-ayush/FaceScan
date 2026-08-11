@@ -25,6 +25,7 @@ import Animated, {
 
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Icon } from "@/components/Icon";
+import { SkeletonBlock } from "@/components/ScreenSkeleton";
 import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/LiveFaceCamera";
 import { AppSettings, useAppSettings } from "@/utils/settings";
 import { useFaceDetection } from "@infinitered/react-native-mlkit-face-detection";
@@ -247,9 +248,13 @@ export default function EnrollScreen() {
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [loadingEnrollSetup, setLoadingEnrollSetup] = useState(true);
+  const hasLoadedEnrollSetup = useRef(false);
   const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
   function fetchEnrollClasses() {
+    const showSkeleton = !hasLoadedEnrollSetup.current;
+    if (showSkeleton) setLoadingEnrollSetup(true);
     fetch(`${apiUrl}/api/classes`)
       .then((res) => res.json())
       .then((data) => {
@@ -267,7 +272,11 @@ export default function EnrollScreen() {
           setSelectedClassId("");
         }
       })
-      .catch((err) => console.error("Error fetching classes on enroll:", err));
+      .catch((err) => console.error("Error fetching classes on enroll:", err))
+      .finally(() => {
+        hasLoadedEnrollSetup.current = true;
+        if (showSkeleton) setLoadingEnrollSetup(false);
+      });
   }
 
   useFocusEffect(
@@ -681,12 +690,13 @@ export default function EnrollScreen() {
                   <Text className="text-[9px] uppercase font-extrabold text-outline tracking-wider">
                     Assigned Course Class
                   </Text>
-                  <Text className="text-on-surface font-bold text-sm mt-0.5" numberOfLines={1}>
-                    {(() => {
-                      const selectedClass = classesList.find((c) => c.id === selectedClassId);
-                      return selectedClass ? `${selectedClass.code} • ${selectedClass.title}` : "Select a Course Class";
-                    })()}
-                  </Text>
+                  {loadingEnrollSetup ? <View className="mt-2"><SkeletonBlock width={150} height={14} radius={7} /></View> :
+                    <Text className="text-on-surface font-bold text-sm mt-0.5" numberOfLines={1}>
+                      {(() => {
+                        const selectedClass = classesList.find((c) => c.id === selectedClassId);
+                        return selectedClass ? `${selectedClass.code} • ${selectedClass.title}` : "Select a Course Class";
+                      })()}
+                    </Text>}
                 </View>
               </View>
               <View className="w-7 h-7 rounded-full items-center justify-center bg-slate-50 border border-slate-100">

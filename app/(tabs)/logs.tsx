@@ -56,6 +56,7 @@ export default function LogsScreen() {
   const [pickerStep, setPickerStep] = useState<"year" | "month" | "day">("day");
   
   const [loadingLogs, setLoadingLogs] = useState(false);
+  const hasLoadedLogs = useRef(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
   
@@ -67,7 +68,8 @@ export default function LogsScreen() {
   }
 
   function fetchLogs(dateObj: Date, mode: "day" | "range", start: Date, end: Date) {
-    setLoadingLogs(true);
+    const showSkeleton = !hasLoadedLogs.current;
+    if (showSkeleton) setLoadingLogs(true);
     let url = "";
     if (mode === "day") {
       url = `${apiUrl}/api/attendance/logs?date=${localDateStr(dateObj)}`;
@@ -86,7 +88,10 @@ export default function LogsScreen() {
         }
       })
       .catch((err) => console.error("Error fetching logs:", err))
-      .finally(() => setLoadingLogs(false));
+      .finally(() => {
+        hasLoadedLogs.current = true;
+        if (showSkeleton) setLoadingLogs(false);
+      });
   }
 
   useFocusEffect(
