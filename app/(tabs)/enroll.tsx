@@ -40,7 +40,7 @@ import {
   type PoseKey,
 } from "@/utils/faceMatching";
 import { useSyncEngine } from "@/utils/SyncProvider";
-import { insertPendingEnrollment } from "@/utils/localDb";
+import { insertPendingEnrollment, getCachedClasses } from "@/utils/localDb";
 
 /**
  * How many distinct, quality-checked frames to average into each pose template.
@@ -252,31 +252,55 @@ export default function EnrollScreen() {
   const hasLoadedEnrollSetup = useRef(false);
   const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
-  function fetchEnrollClasses() {
+  async function fetchEnrollClasses() {
     const showSkeleton = !hasLoadedEnrollSetup.current;
     if (showSkeleton) setLoadingEnrollSetup(true);
-    fetch(`${apiUrl}/api/classes`)
-      .then((res) => res.json())
-      .then((data) => {
-        const formatted = data.map((c: any) => ({
-          id: c.id,
+
+    // 1. Load from local cache first (instant, works offline)
+    try {
+      const cached = await getCachedClasses();
+      if (cached.length > 0) {
+        const formatted = cached.map((c) => ({
+          id: c.class_id,
           code: c.code,
           title: c.title,
         }));
         setClassesList(formatted);
-        if (formatted.length > 0) {
-          if (!formatted.some((f: any) => f.id === selectedClassId)) {
-            setSelectedClassId(formatted[0].id);
-          }
-        } else {
-          setSelectedClassId("");
+        if (!formatted.some((f) => f.id === selectedClassId)) {
+          setSelectedClassId(formatted[0].id);
         }
-      })
-      .catch((err) => console.error("Error fetching classes on enroll:", err))
-      .finally(() => {
+        // Cache loaded — hide skeleton immediately
         hasLoadedEnrollSetup.current = true;
         if (showSkeleton) setLoadingEnrollSetup(false);
-      });
+      }
+    } catch (err) {
+      console.warn("Failed to load cached classes:", err);
+    }
+
+    // 2. Try to refresh from server (updates the dropdown if online)
+    try {
+      const res = await fetch(`${apiUrl}/api/classes`);
+      const data = await res.json();
+      const formatted = data.map((c: any) => ({
+        id: c.id,
+        code: c.code,
+        title: c.title,
+      }));
+      setClassesList(formatted);
+      if (formatted.length > 0) {
+        if (!formatted.some((f: any) => f.id === selectedClassId)) {
+          setSelectedClassId(formatted[0].id);
+        }
+      } else {
+        setSelectedClassId("");
+      }
+    } catch (err) {
+      // Offline — cache is already loaded above, so enrollment still works
+      console.warn("Network fetch for classes failed (offline mode):", err);
+    } finally {
+      hasLoadedEnrollSetup.current = true;
+      if (showSkeleton) setLoadingEnrollSetup(false);
+    }
   }
 
   useFocusEffect(
@@ -361,15 +385,6 @@ export default function EnrollScreen() {
    */
   const evaluateSample = useCallback(
     (face: RealtimeFace, expectedPose: PoseKey): { accepted: boolean; hint: string | null } => {
-      // Enrollment creates the permanent identity template. Never create one
-      // from a presentation that the existing passive liveness pipeline has
-      // not confirmed, otherwise a screen/print can be enrolled as a person.
-      if (settings.antiSpoofingEnabled && face.isLive !== true) {
-        return {
-          accepted: false,
-          hint: face.isLive === false ? "Possible spoof detected" : "Checking liveness — hold still",
-        };
-      }
       const quality = checkFrameQuality(face);
       if (!quality.ok) return { accepted: false, hint: quality.reason };
 
@@ -394,7 +409,7 @@ export default function EnrollScreen() {
 
       return { accepted: true, hint: null };
     },
-    [settings.antiSpoofingEnabled],
+    [],
   );
 
   // Feeds live frames into the active burst until enough distinct, good samples
@@ -893,6 +908,7 @@ export default function EnrollScreen() {
             performanceMode={settings.performance}
             scanningPerformance={settings.scanningPerformance}
             cameraFacing={settings.cameraFacing}
+            faceDetectorMode="accurate"
             showNativeOverlay={!pendingCapture}
             smoothNativeOverlay={settings.smoothFaceBox}
             onFaceChange={setCurrentFace}

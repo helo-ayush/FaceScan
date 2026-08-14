@@ -59,6 +59,9 @@ export type LiveFaceCameraProps = {
   cameraFacing: "front" | "back";
   showNativeOverlay?: boolean;
   smoothNativeOverlay?: boolean;
+  /** ML Kit face detection accuracy mode. Defaults to "fast". Use "accurate"
+   *  for enrollment where precision matters more than latency. */
+  faceDetectorMode?: "fast" | "accurate";
   onCameraReady: () => void;
   onError: (message: string) => void;
   onPreviewLayout: (event: LayoutChangeEvent) => void;
@@ -76,6 +79,7 @@ export function LiveFaceCamera({
   cameraFacing,
   showNativeOverlay = true,
   smoothNativeOverlay = true,
+  faceDetectorMode = "fast",
   onCameraReady,
   onError,
   onPreviewLayout,
@@ -83,7 +87,7 @@ export function LiveFaceCamera({
   const [size, setSize] = useState({ width: 0, height: 0 });
   const faceDetectorSettings = useMemo(
     () => ({
-      mode: FaceDetectorMode.fast,
+      mode: faceDetectorMode === "accurate" ? FaceDetectorMode.accurate : FaceDetectorMode.fast,
       // Native step 2 uses ML Kit eye landmarks to build the alignment transform.
       detectLandmarks: FaceDetectorLandmarks.all,
       runClassifications: FaceDetectorClassifications.all,
@@ -93,7 +97,7 @@ export function LiveFaceCamera({
       minDetectionInterval: (PERFORMANCE_PRESETS[performanceMode] || PERFORMANCE_PRESETS.balanced).intervalMs,
       scanningIntervalMs: (SCANNING_PERFORMANCE_PRESETS[scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).intervalMs,
     }),
-    [performanceMode, scanningPerformance, showNativeOverlay, smoothNativeOverlay],
+    [performanceMode, scanningPerformance, showNativeOverlay, smoothNativeOverlay, faceDetectorMode],
   );
   const brightnessRef = useRef<Record<"frame" | "face" | "background" | "highlights", number | null>>({
     frame: null,

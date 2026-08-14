@@ -46,6 +46,16 @@ export type ConflictLogLocalRow = {
   last_attempt_at: string | null;
 };
 
+export type PendingStudentDeletionRow = {
+  enrollment_number: string;
+  class_id: string;
+  deleted_at: string;
+  synced: number;
+  retry_count: number;
+  last_error: string | null;
+  last_attempt_at: string | null;
+};
+
 // ─── Database singleton ──────────────────────────────────────────────────────
 
 let db: SQLite.SQLiteDatabase | null = null;
@@ -92,6 +102,23 @@ export async function initDb(): Promise<void> {
       severity TEXT NOT NULL DEFAULT 'info',
       created_at TEXT NOT NULL,
       synced INTEGER NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE IF NOT EXISTS cached_classes (
+      class_id TEXT PRIMARY KEY,
+      code TEXT NOT NULL,
+      title TEXT NOT NULL,
+      updated_at TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS pending_student_deletions (
+      enrollment_number TEXT PRIMARY KEY,
+      class_id TEXT NOT NULL DEFAULT '',
+      deleted_at TEXT NOT NULL,
+      synced INTEGER NOT NULL DEFAULT 0,
+      retry_count INTEGER NOT NULL DEFAULT 0,
+      last_error TEXT,
+      last_attempt_at TEXT
     );
   `);
 
@@ -237,6 +264,38 @@ export async function getUnsyncedEnrollment(): Promise<PendingEnrollmentRow[]> {
   );
 }
 
+/**
+ * Get all pending (unsynced) enrollments for a specific class so they can be
+ * matched offline immediately without waiting for a server round-trip.
+ */
+export async function getPendingEnrollmentsForClass(classId: string): Promise<PendingEnrollmentRow[]> {
+  const d = getDb();
+  return d.getAllAsync<PendingEnrollmentRow>(
+    `SELECT * FROM pending_enrollment WHERE class_id = ? AND synced = 0 ORDER BY id ASC`,
+    [classId]
+  );
+}
+
+/**
+ * Delete a rejected pending enrollment record (e.g. server conflict).
+ */
+export async function deletePendingEnrollment(id: number): Promise<void> {
+  const d = getDb();
+  await d.runAsync(`DELETE FROM pending_enrollment WHERE id = ?`, [id]);
+}
+
+/**
+ * Delete all unsynced attendance records for an enrollment number that failed
+ * or was rejected during enrollment sync.
+ */
+export async function deletePendingAttendanceByEnrollment(enrollmentNumber: string): Promise<void> {
+  const d = getDb();
+  await d.runAsync(
+    `DELETE FROM pending_attendance WHERE enrollment_number = ? AND synced = 0`,
+    [enrollmentNumber]
+  );
+}
+
 export async function getUnsyncedConflicts(): Promise<ConflictLogLocalRow[]> {
   const d = getDb();
   return d.getAllAsync<ConflictLogLocalRow>(
@@ -303,6 +362,7 @@ export async function getPendingCount(): Promise<number> {
     SELECT
       (SELECT COUNT(*) FROM pending_attendance WHERE synced = 0) +
       (SELECT COUNT(*) FROM pending_enrollment WHERE synced = 0) +
+      (SELECT COUNT(*) FROM pending_student_deletions WHERE synced = 0) +
       (SELECT COUNT(*) FROM conflict_log_local WHERE synced = 0) AS total
   `);
   return result?.total ?? 0;
@@ -316,5 +376,111 @@ export async function getTodaysAttendance(localDate: string): Promise<PendingAtt
   return d.getAllAsync<PendingAttendanceRow>(
     `SELECT * FROM pending_attendance WHERE local_date = ? ORDER BY id DESC`,
     [localDate]
+  );
+}
+
+// ─── Cached classes (offline enrollment support) ─────────────────────────────
+
+export type CachedClassRow = {
+  class_id: string;
+  code: string;
+  title: string;
+  updated_at: string | null;
+};
+
+/**
+ * Replace the entire cached class list atomically. Called by the sync engine
+ * whenever it successfully fetches `/api/classes` from the server.
+ */
+export async function replaceCachedClasses(
+  classes: Array<{ id: string; code: string; title: string; updatedAt?: string }>
+): Promise<void> {
+  const d = getDb();
+  await d.execAsync(`DELETE FROM cached_classes`);
+  for (const c of classes) {
+    await d.runAsync(
+      `INSERT OR REPLACE INTO cached_classes (class_id, code, title, updated_at) VALUES (?, ?, ?, ?)`,
+      [c.id, c.code, c.title, c.updatedAt ?? null]
+    );
+  }
+}
+
+/**
+ * Read the locally cached class list for the enrollment dropdown.
+ * Returns an empty array if no classes have been cached yet.
+ */
+export async function getCachedClasses(): Promise<CachedClassRow[]> {
+  const d = getDb();
+  return d.getAllAsync<CachedClassRow>(
+    `SELECT * FROM cached_classes ORDER BY code ASC`
+  );
+}
+
+// ─── Student deletion (offline immediate & sync support) ─────────────────────
+
+/**
+ * Record a student deletion locally:
+ * 1. Purges local pending enrollment if present.
+ * 2. Purges any unsynced attendance for this student.
+ * 3. Adds to pending_student_deletions table (synced = 0) so the rest of the app
+ *    filters them out instantly, and the sync engine can push the deletion when online.
+ */
+export async function recordOfflineStudentDeletion(
+  enrollmentNumber: string,
+  classId: string = ''
+): Promise<void> {
+  const d = getDb();
+  await d.runAsync(
+    `DELETE FROM pending_enrollment WHERE enrollment_number = ?`,
+    [enrollmentNumber]
+  );
+  await d.runAsync(
+    `DELETE FROM pending_attendance WHERE enrollment_number = ?`,
+    [enrollmentNumber]
+  );
+  await d.runAsync(
+    `INSERT OR REPLACE INTO pending_student_deletions
+       (enrollment_number, class_id, deleted_at, synced)
+     VALUES (?, ?, ?, 0)`,
+    [enrollmentNumber, classId, new Date().toISOString()]
+  );
+}
+
+/**
+ * Get all deleted enrollment numbers as a Set for instantaneous filtering across rosters.
+ */
+export async function getDeletedEnrollmentNumbers(): Promise<Set<string>> {
+  const d = getDb();
+  const rows = await d.getAllAsync<{ enrollment_number: string }>(
+    `SELECT enrollment_number FROM pending_student_deletions`
+  );
+  return new Set(rows.map((r) => r.enrollment_number));
+}
+
+/**
+ * Get pending student deletions that need to be synced to the backend server.
+ */
+export async function getUnsyncedStudentDeletions(): Promise<PendingStudentDeletionRow[]> {
+  const d = getDb();
+  return d.getAllAsync<PendingStudentDeletionRow>(
+    `SELECT * FROM pending_student_deletions WHERE synced = 0 ORDER BY deleted_at ASC`
+  );
+}
+
+export async function markStudentDeletionSynced(enrollmentNumber: string): Promise<void> {
+  const d = getDb();
+  await d.runAsync(
+    `UPDATE pending_student_deletions SET synced = 1 WHERE enrollment_number = ?`,
+    [enrollmentNumber]
+  );
+}
+
+export async function markStudentDeletionFailed(enrollmentNumber: string, error: string): Promise<void> {
+  const d = getDb();
+  await d.runAsync(
+    `UPDATE pending_student_deletions
+     SET retry_count = retry_count + 1, last_error = ?, last_attempt_at = ?
+     WHERE enrollment_number = ?`,
+    [error.slice(0, 300), new Date().toISOString(), enrollmentNumber]
   );
 }

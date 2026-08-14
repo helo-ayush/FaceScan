@@ -4,12 +4,19 @@ import {
   getUnsyncedAttendance,
   getUnsyncedEnrollment,
   getUnsyncedConflicts,
+  getUnsyncedStudentDeletions,
   markAttendanceSynced,
   markEnrollmentSynced,
   markConflictsSynced,
+  markStudentDeletionSynced,
   markAttendanceFailed,
   markEnrollmentFailed,
+  markStudentDeletionFailed,
   getPendingCount,
+  replaceCachedClasses,
+  deletePendingEnrollment,
+  deletePendingAttendanceByEnrollment,
+  insertLocalConflict,
 } from './localDb';
 import { getDownloadedClasses, downloadClassPackage, isPackageStale } from './classPackageStore';
 import { getOrCreateDeviceId } from './deviceId';
@@ -189,17 +196,23 @@ export async function attemptSync(force = false): Promise<void> {
   const serverContactAtRunStart = lastServerContactAt;
 
   try {
-    // 1. Drain attendance queue
-    await syncAttendance(deviceId);
+    // 1. Sync student deletions FIRST (so deleted students are purged on server)
+    await syncStudentDeletions();
 
-    // 2. Drain enrollment queue
+    // 2. Drain enrollment queue (so newly registered students exist on the server before their attendance is pushed)
     await syncEnrollment(deviceId);
 
-    // 3. Drain conflict log
+    // 3. Drain attendance queue
+    await syncAttendance(deviceId);
+
+    // 4. Drain conflict log
     await syncConflictLog();
 
-    // 4. Check for stale class packages
+    // 5. Check for stale class packages
     await refreshStalePackages();
+
+    // 6. Refresh local class cache for offline enrollment
+    await refreshClassCache();
 
     if (lastServerContactAt && lastServerContactAt !== serverContactAtRunStart) {
       lastSyncAt = new Date().toISOString();
@@ -210,6 +223,36 @@ export async function attemptSync(force = false): Promise<void> {
   } finally {
     isSyncing = false;
     await refreshPendingCount();
+  }
+}
+
+// ─── Student deletions sync ──────────────────────────────────────────────────
+
+async function syncStudentDeletions(): Promise<void> {
+  const rows = await getUnsyncedStudentDeletions();
+  for (const row of rows) {
+    try {
+      const res = await fetch(`${apiUrl}/api/students/${encodeURIComponent(row.enrollment_number)}`, {
+        method: 'DELETE',
+      });
+
+      noteServerContact();
+      if (res.ok || res.status === 404) {
+        // Success or already deleted on server — mark deletion synced
+        await markStudentDeletionSynced(row.enrollment_number);
+      } else {
+        const error = `Student deletion upload failed (HTTP ${res.status})`;
+        await markStudentDeletionFailed(row.enrollment_number, error);
+        noteSyncFailure(error);
+      }
+    } catch (err) {
+      const error = 'Cannot reach the server. Student deletion will retry automatically.';
+      await markStudentDeletionFailed(row.enrollment_number, error);
+      isOnline = false;
+      noteSyncFailure(error);
+      console.warn(`[syncEngine] Student deletion sync network error for ${row.enrollment_number}:`, err);
+      break;
+    }
   }
 }
 
@@ -289,8 +332,24 @@ async function syncEnrollment(deviceId: string): Promise<void> {
 
       const data = await res.json();
       if (data.success) {
-        // Success covers: created, or conflict (resolved by discarding).
-        await markEnrollmentSynced(row.id);
+        if (data.created === false || data.conflict) {
+          // Server rejected enrollment due to conflict (e.g. enrollment number collision)
+          // As required: delete the local pending student and delete all pending attendance for this student
+          console.warn(`[syncEngine] Enrollment conflict for ${row.enrollment_number}: ${data.message || 'Discarded'}`);
+          await deletePendingEnrollment(row.id);
+          await deletePendingAttendanceByEnrollment(row.enrollment_number);
+          await insertLocalConflict({
+            type: data.conflict || 'enrollment_number_conflict',
+            enrollmentNumber: row.enrollment_number,
+            classId: row.class_id,
+            deviceId,
+            message: data.message || `Enrollment number ${row.enrollment_number} already exists on server — local enrollment and attendance discarded.`,
+            severity: 'needs_attention',
+          });
+        } else {
+          // Success: created on server
+          await markEnrollmentSynced(row.id);
+        }
       }
     } catch (err) {
       const error = 'Cannot reach the server. Registration will retry automatically.';
@@ -374,5 +433,33 @@ async function refreshStalePackages(): Promise<void> {
     }
   } catch (err) {
     console.warn('[syncEngine] Package refresh error:', err);
+  }
+}
+
+// ─── Class cache refresh (offline enrollment) ────────────────────────────────
+
+/**
+ * Fetch the full class list from the server and cache it locally so the
+ * enrollment dropdown works even when the device is completely offline.
+ */
+async function refreshClassCache(): Promise<void> {
+  try {
+    const res = await fetch(`${apiUrl}/api/classes`);
+    if (!res.ok) return;
+
+    noteServerContact();
+    const serverClasses: Array<{ id: string; code: string; title: string; updatedAt?: string }> = await res.json();
+
+    await replaceCachedClasses(
+      serverClasses.map((c) => ({
+        id: c.id,
+        code: c.code,
+        title: c.title,
+        updatedAt: c.updatedAt,
+      }))
+    );
+  } catch (err) {
+    // Network down — keep existing cache, don't fail the sync.
+    console.warn('[syncEngine] Class cache refresh error:', err);
   }
 }

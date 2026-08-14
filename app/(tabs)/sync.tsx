@@ -11,6 +11,7 @@ import {
   getUnsyncedAttendance,
   getUnsyncedEnrollment,
   getUnsyncedConflicts,
+  getCachedClasses,
   type PendingAttendanceRow,
   type PendingEnrollmentRow,
 } from '@/utils/localDb';
@@ -79,6 +80,15 @@ export default function SyncScreen() {
   }, []);
 
   const loadClasses = useCallback(async () => {
+    try {
+      const cached = await getCachedClasses();
+      if (cached.length > 0) {
+        setClasses(cached.map((c) => ({ id: c.class_id, title: c.title, code: c.code, students: 0 })));
+      }
+    } catch {
+      // Ignore cache load error
+    }
+
     if (!apiUrl || status.isOnline === false) return;
     setCheckingClasses(true);
     try {

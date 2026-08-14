@@ -43,7 +43,9 @@ import { useSyncEngine } from "@/utils/SyncProvider";
 import { insertPendingAttendance } from "@/utils/localDb";
 import {
   getDownloadedClasses,
+  getAvailableClasses,
   loadClassPackage,
+  getUnifiedClassRoster,
   type DownloadedClassInfo,
   type ClassPackageManifest,
 } from "@/utils/classPackageStore";
@@ -217,21 +219,8 @@ export default function CameraLandingScreen() {
     name: string;
     enrollmentNumber: string;
     classId: string;
-    /**
-     * Raw cosine, NOT a percentage. The model outputs an embedding; cosine is
-     * the measured angle between two of them. The percentage scale that used
-     * to be shown here was a rescaling with hand-picked endpoints, and because
-     * 96% of genuine frames sat above the top anchor they all displayed as
-     * exactly 100% — a number no real pair of face images produces.
-     * Measured genuine range on this pipeline: 0.717-0.891.
-     */
     cosine: number;
     initials: string;
-    /**
-     * Whether the attendance was queued/synced. With offline-first, the local
-     * write always succeeds immediately — "pending" means queued locally,
-     * "saved" means the sync engine confirmed it with the server.
-     */
     sync: "pending" | "saved" | "duplicate" | "failed";
     syncDetail?: string;
   } | null>(null);
@@ -296,17 +285,10 @@ export default function CameraLandingScreen() {
       shelfDragStart.value = shelfTranslateY.value;
     })
     .onUpdate((e) => {
-      // `translationY` is cumulative from the gesture start, so it must be
-      // applied to the position at start — not added to the live value, which
-      // would compound every frame. Dragging UP is negative, and up means
-      // "open", hence the subtraction.
       const next = shelfDragStart.value - e.translationY;
       shelfTranslateY.value = Math.max(0, Math.min(SHELF_EXPANDED_EXTRA, next));
     })
     .onEnd((e) => {
-      // A fast flick should win over position, so a short decisive swipe opens
-      // or closes without requiring a long drag. Slow upward drags use a low
-      // opening threshold, while an open shelf resists accidental collapse.
       const flickUp = e.velocityY < -500;
       const flickDown = e.velocityY > 500;
       const startedExpanded = shelfDragStart.value > SHELF_EXPANDED_EXTRA / 2;
@@ -320,14 +302,9 @@ export default function CameraLandingScreen() {
       runOnJS(setSheetExpanded)(shouldOpen);
     });
 
-  // The shelf grows upward: it is anchored to the bottom, and `height` is what
-  // animates. Translating it instead would slide the card off the top of the
-  // screen rather than revealing the log underneath it.
   const shelfAnimatedStyle = useAnimatedStyle(() => ({
     height: SHELF_COLLAPSED_HEIGHT + shelfTranslateY.value,
   }));
-  // The liveness pill is tethered to the shelf's top edge, so it rises with
-  // the expandable status bar instead of floating over its content.
   const livenessPillAnimatedStyle = useAnimatedStyle(() => ({
     bottom: SHELF_COLLAPSED_HEIGHT + shelfTranslateY.value + 8,
   }));
@@ -358,46 +335,39 @@ export default function CameraLandingScreen() {
 
   const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
-  // Load downloaded class list on mount and when coming back from admin.
+  // Load available class list (downloaded packages + cached classes + pending enrollments).
   const refreshDownloadedClasses = useCallback(async () => {
     try {
-      const classes = await getDownloadedClasses();
+      const classes = await getAvailableClasses();
       setDownloadedClasses(classes);
       // Auto-select the first class if none selected yet.
       if (classes.length > 0 && !selectedClassId) {
         setSelectedClassId(classes[0].classId);
       }
     } catch (err) {
-      console.warn('Failed to load downloaded classes:', err);
+      console.warn('Failed to load available classes:', err);
     }
   }, [selectedClassId]);
 
-  useEffect(() => {
-    refreshDownloadedClasses();
-  }, []);
-
-  // Load the selected class package's students into the matching roster.
-  useEffect(() => {
-    if (!selectedClassId) {
+  const loadRosterForClass = useCallback(async (classId: string | null) => {
+    if (!classId) {
       setStudents([]);
       setActivePackage(null);
       return;
     }
 
-    let mounted = true;
-    (async () => {
-      const manifest = await loadClassPackage(selectedClassId);
-      if (!mounted) return;
-      if (manifest) {
-        setActivePackage(manifest);
-        // Convert package students to the StudentRecord shape the matcher expects.
-        const roster: StudentRecord[] = manifest.students.map((s) => ({
+    try {
+      const result = await getUnifiedClassRoster(classId);
+      if (result.manifest) {
+        setActivePackage(result.manifest);
+        // Convert package students + offline pending students to Matchable StudentRecord shape
+        const roster: StudentRecord[] = result.students.map((s) => ({
           _id: s.enrollmentNumber,
           name: s.name,
           enrollmentNumber: s.enrollmentNumber,
-          classId: manifest.classId,
+          classId: classId,
           faceEmbeddings: s.faceEmbeddings,
-          embeddingModel: manifest.embeddingModel,
+          embeddingModel: result.manifest?.embeddingModel || 'w600k_mbf',
           updatedAt: s.updatedAt,
         }));
         setStudents(roster);
@@ -405,17 +375,33 @@ export default function CameraLandingScreen() {
         setStudents([]);
         setActivePackage(null);
       }
-    })();
+    } catch (err) {
+      console.warn('Failed to load roster for class:', err);
+      setStudents([]);
+      setActivePackage(null);
+    }
+  }, []);
 
-    return () => { mounted = false; };
-  }, [selectedClassId]);
+  useEffect(() => {
+    refreshDownloadedClasses();
+  }, []);
 
-  // Notify sync engine about scanning session lifecycle (Â§7.4).
+  // Load the selected class package's students into the matching roster.
+  useEffect(() => {
+    loadRosterForClass(selectedClassId);
+  }, [selectedClassId, loadRosterForClass]);
+
+  // Notify sync engine about scanning session lifecycle (§7.4)
+  // and reload available classes + roster on screen focus (e.g. after enrolling a student offline).
   useFocusEffect(
     useCallback(() => {
       scanSessionStart();
+      refreshDownloadedClasses();
+      if (selectedClassId) {
+        loadRosterForClass(selectedClassId);
+      }
       return () => scanSessionEnd();
-    }, [scanSessionStart, scanSessionEnd])
+    }, [scanSessionStart, scanSessionEnd, refreshDownloadedClasses, selectedClassId, loadRosterForClass])
   );
 
   // Pose-aware cosine search, gated on frame quality, an absolute similarity
@@ -434,9 +420,6 @@ export default function CameraLandingScreen() {
       return;
     }
 
-    // Lighting is still surfaced as guidance, but it must not block an
-    // otherwise verified student from attendance matching. Enrollment keeps
-    // the default strict brightness check.
     const quality = checkFrameQuality(face, { requireGoodLighting: false });
     if (!quality.ok) {
       // A poor frame is not evidence either way — drop it without letting it
@@ -994,110 +977,111 @@ export default function CameraLandingScreen() {
                 }}
               />
             </Pressable>
-          <View className="flex-row items-center justify-between" style={{ minHeight: 56, paddingTop: 2, paddingBottom: 2 }}>
-            <View className="flex-row items-center gap-3.5 flex-1 pr-3">
+
+            <View className="flex-row items-center justify-between" style={{ minHeight: 56, paddingTop: 2, paddingBottom: 2 }}>
+              <View className="flex-row items-center gap-3.5 flex-1 pr-3">
+                <View
+                  style={
+                    matchedStudent
+                      ? {
+                          width: 48, height: 48, borderRadius: 16,
+                          backgroundColor: "#10b981",
+                          alignItems: "center", justifyContent: "center",
+                          borderWidth: 1, borderColor: "#34d399",
+                          shadowColor: "#10b981", shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: 0.3, shadowRadius: 6, elevation: 4,
+                        }
+                      : previewFace
+                        ? {
+                            width: 48, height: 48, borderRadius: 16,
+                            backgroundColor: "rgba(34,197,94,0.1)",
+                            alignItems: "center", justifyContent: "center",
+                            borderWidth: 1, borderColor: "rgba(34,197,94,0.2)",
+                          }
+                        : {
+                            width: 48, height: 48, borderRadius: 16,
+                            backgroundColor: "rgba(93,95,239,0.1)",
+                            alignItems: "center", justifyContent: "center",
+                            borderWidth: 1, borderColor: "rgba(93,95,239,0.1)",
+                          }
+                  }
+                >
+                  {matchedStudent ? (
+                    <Text className="text-white font-black text-base">
+                      {matchedStudent.initials}
+                    </Text>
+                  ) : (
+                    <View
+                      style={{
+                        width: 16, height: 16, borderRadius: 8,
+                        backgroundColor: previewFace ? "#22c55e" : "#5d5fef",
+                      }}
+                    >
+                      <View className="w-2 h-2 rounded-full bg-white m-auto" />
+                    </View>
+                  )}
+                </View>
+                <View className="flex-1" style={{ minHeight: 54, justifyContent: "center" }}>
+                  <Text className="text-on-surface font-black text-base tracking-tight" numberOfLines={1}>
+                    {statusTitle}
+                  </Text>
+                  <Text
+                    className="text-xs text-on-surface-variant font-bold mt-0.5"
+                    numberOfLines={2}
+                    style={{ minHeight: 32, lineHeight: 16 }}
+                  >
+                    {statusDescription}
+                  </Text>
+                </View>
+              </View>
               <View
                 style={
                   matchedStudent
-                    ? {
-                        width: 48, height: 48, borderRadius: 16,
-                        backgroundColor: "#10b981",
-                        alignItems: "center", justifyContent: "center",
-                        borderWidth: 1, borderColor: "#34d399",
-                        shadowColor: "#10b981", shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.3, shadowRadius: 6, elevation: 4,
-                      }
-                    : previewFace
+                    ? matchedStudent.sync === "failed"
                       ? {
-                          width: 48, height: 48, borderRadius: 16,
-                          backgroundColor: "rgba(34,197,94,0.1)",
-                          alignItems: "center", justifyContent: "center",
-                          borderWidth: 1, borderColor: "rgba(34,197,94,0.2)",
+                          backgroundColor: "#fee2e2", minWidth: 92, maxWidth: 124, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
+                          borderRadius: 16, borderWidth: 1, borderColor: "#fca5a5",
                         }
                       : {
-                          width: 48, height: 48, borderRadius: 16,
-                          backgroundColor: "rgba(93,95,239,0.1)",
-                          alignItems: "center", justifyContent: "center",
-                          borderWidth: 1, borderColor: "rgba(93,95,239,0.1)",
+                          backgroundColor: "#d1fae5", minWidth: 92, maxWidth: 124, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
+                          borderRadius: 16, borderWidth: 1, borderColor: "#6ee7b7",
+                        }
+                    : previewFace
+                      ? {
+                          backgroundColor: "rgba(34,197,94,0.12)", minWidth: 92, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
+                          borderRadius: 12, borderWidth: 1, borderColor: "rgba(34,197,94,0.2)",
+                        }
+                      : {
+                          backgroundColor: "rgba(93,95,239,0.08)", minWidth: 92, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
+                          borderRadius: 12, borderWidth: 1, borderColor: "rgba(93,95,239,0.2)",
                         }
                 }
               >
-                {matchedStudent ? (
-                  <Text className="text-white font-black text-base">
-                    {matchedStudent.initials}
-                  </Text>
-                ) : (
-                  <View
-                    style={{
-                      width: 16, height: 16, borderRadius: 8,
-                      backgroundColor: previewFace ? "#22c55e" : "#5d5fef",
-                    }}
-                  >
-                    <View className="w-2 h-2 rounded-full bg-white m-auto" />
-                  </View>
-                )}
-              </View>
-              <View className="flex-1" style={{ minHeight: 54, justifyContent: "center" }}>
-                <Text className="text-on-surface font-black text-base tracking-tight" numberOfLines={1}>
-                  {statusTitle}
-                </Text>
                 <Text
-                  className="text-xs text-on-surface-variant font-bold mt-0.5"
-                  numberOfLines={2}
-                  style={{ minHeight: 32, lineHeight: 16 }}
+                  className={
+                    matchedStudent
+                      ? matchedStudent.sync === "failed"
+                        ? "text-xs font-black text-red-700 uppercase tracking-wider"
+                        : "text-xs font-black text-emerald-800 uppercase tracking-wider"
+                      : previewFace
+                        ? "text-[10px] font-black text-success uppercase tracking-wider"
+                        : "text-[10px] font-black text-primary uppercase tracking-wider"
+                  }
                 >
-                  {statusDescription}
+                  {matchedStudent
+                    ? matchedStudent.sync === "pending"
+                      ? "Saving"
+                      : matchedStudent.sync === "saved"
+                        ? "Marked"
+                        : matchedStudent.sync === "duplicate"
+                          ? "Already marked"
+                          : "Not saved"
+                    : previewFace
+                      ? "Scanning"
+                      : "Searching"}
                 </Text>
               </View>
             </View>
-            <View
-              style={
-                matchedStudent
-                  ? matchedStudent.sync === "failed"
-                    ? {
-                        backgroundColor: "#fee2e2", minWidth: 92, maxWidth: 124, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
-                        borderRadius: 16, borderWidth: 1, borderColor: "#fca5a5",
-                      }
-                    : {
-                        backgroundColor: "#d1fae5", minWidth: 92, maxWidth: 124, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
-                        borderRadius: 16, borderWidth: 1, borderColor: "#6ee7b7",
-                      }
-                  : previewFace
-                    ? {
-                        backgroundColor: "rgba(34,197,94,0.12)", minWidth: 92, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
-                        borderRadius: 12, borderWidth: 1, borderColor: "rgba(34,197,94,0.2)",
-                      }
-                    : {
-                        backgroundColor: "rgba(93,95,239,0.08)", minWidth: 92, alignItems: "center", paddingHorizontal: 12, paddingVertical: 8,
-                        borderRadius: 12, borderWidth: 1, borderColor: "rgba(93,95,239,0.2)",
-                      }
-              }
-            >
-              <Text
-                className={
-                  matchedStudent
-                    ? matchedStudent.sync === "failed"
-                      ? "text-xs font-black text-red-700 uppercase tracking-wider"
-                      : "text-xs font-black text-emerald-800 uppercase tracking-wider"
-                    : previewFace
-                      ? "text-[10px] font-black text-success uppercase tracking-wider"
-                      : "text-[10px] font-black text-primary uppercase tracking-wider"
-                }
-              >
-                {matchedStudent
-                  ? matchedStudent.sync === "pending"
-                    ? "Saving"
-                    : matchedStudent.sync === "saved"
-                      ? "Marked"
-                      : matchedStudent.sync === "duplicate"
-                        ? "Already marked"
-                        : "Not saved"
-                  : previewFace
-                    ? "Scanning"
-                    : "Searching"}
-              </Text>
-            </View>
-          </View>
 
             {/* Session log — appears when the shelf is dragged up. In-memory
                 only: cleared every time the app restarts. */}
@@ -1150,9 +1134,8 @@ export default function CameraLandingScreen() {
                 </ScrollView>
               )}
             </View>
-        </Animated.View>
+          </Animated.View>
         </GestureDetector>
-
       </View>
 
       {/* Class Overview & Selection Popup Modal Overlay */}
@@ -1437,4 +1420,3 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
 });
-

@@ -1,5 +1,11 @@
 import * as FileSystem from 'expo-file-system';
 import * as Crypto from 'expo-crypto';
+import {
+  getPendingEnrollmentsForClass,
+  getCachedClasses,
+  getUnsyncedEnrollment,
+  getDeletedEnrollmentNumbers,
+} from './localDb';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -224,4 +230,189 @@ export function isPackageStale(
   serverUpdatedAt: string
 ): boolean {
   return localUpdatedAt !== serverUpdatedAt;
+}
+
+// ─── Unified Roster (Offline Matching Support) ───────────────────────────────
+
+/**
+ * Load the complete, unified student roster for a class.
+ * Combines students from the downloaded package with any locally pending (unsynced)
+ * enrollments, allowing offline scanning immediately after offline enrollment.
+ */
+export async function getUnifiedClassRoster(classId: string): Promise<{
+  manifest: ClassPackageManifest | null;
+  students: ClassPackageStudent[];
+  className: string;
+}> {
+  const manifest = await loadClassPackage(classId);
+  const pending = await getPendingEnrollmentsForClass(classId);
+  const deletedNumbers = await getDeletedEnrollmentNumbers();
+
+  // Map pending enrollment rows to ClassPackageStudent (excluding deleted students)
+  const pendingStudents: ClassPackageStudent[] = [];
+  for (const row of pending) {
+    if (deletedNumbers.has(row.enrollment_number)) continue;
+    try {
+      const embeddings = JSON.parse(row.embeddings_json);
+      pendingStudents.push({
+        enrollmentNumber: row.enrollment_number,
+        name: row.name,
+        faceEmbeddings: embeddings,
+        updatedAt: row.captured_at,
+      });
+    } catch {
+      // Invalid embeddings json, skip
+    }
+  }
+
+  if (manifest) {
+    // Start with manifest students (filtering out deleted), then merge pending students
+    const studentMap = new Map<string, ClassPackageStudent>();
+    for (const s of manifest.students) {
+      if (!deletedNumbers.has(s.enrollmentNumber)) {
+        studentMap.set(s.enrollmentNumber, s);
+      }
+    }
+    for (const s of pendingStudents) {
+      studentMap.set(s.enrollmentNumber, s);
+    }
+    const combinedStudents = Array.from(studentMap.values());
+    const combinedManifest: ClassPackageManifest = {
+      ...manifest,
+      students: combinedStudents,
+    };
+    return {
+      manifest: combinedManifest,
+      students: combinedStudents,
+      className: manifest.className,
+    };
+  }
+
+  // If no on-disk package exists, check cached_classes in SQLite
+  const cachedClasses = await getCachedClasses();
+  const cached = cachedClasses.find((c) => c.class_id === classId);
+  const className = cached ? `${cached.code} • ${cached.title}` : `Class ${classId}`;
+
+  if (pendingStudents.length > 0 || cached) {
+    const syntheticManifest: ClassPackageManifest = {
+      classId,
+      className,
+      generatedAt: new Date().toISOString(),
+      embeddingModel: APP_EMBEDDING_MODEL,
+      schemaVersion: SUPPORTED_SCHEMA_VERSION,
+      classUpdatedAt: cached?.updated_at || new Date().toISOString(),
+      checksum: '',
+      students: pendingStudents,
+    };
+    return {
+      manifest: syntheticManifest,
+      students: pendingStudents,
+      className,
+    };
+  }
+
+  return {
+    manifest: null,
+    students: [],
+    className: '',
+  };
+}
+
+/**
+ * Remove a student from a downloaded class package on disk immediately.
+ */
+export async function removeStudentFromClassPackage(
+  classId: string,
+  enrollmentNumber: string
+): Promise<void> {
+  try {
+    const manifest = await loadClassPackage(classId);
+    if (!manifest) return;
+    const remainingStudents = manifest.students.filter(
+      (s) => s.enrollmentNumber !== enrollmentNumber
+    );
+    if (remainingStudents.length === manifest.students.length) return;
+
+    const newChecksum = await computeChecksum(remainingStudents);
+    const updatedManifest: ClassPackageManifest = {
+      ...manifest,
+      checksum: newChecksum,
+      students: remainingStudents,
+    };
+    const path = packagePath(classId);
+    await FileSystem.writeAsStringAsync(path, JSON.stringify(updatedManifest));
+
+    const meta: DownloadedClassInfo = {
+      classId: manifest.classId,
+      className: manifest.className,
+      classUpdatedAt: manifest.classUpdatedAt,
+      downloadedAt: new Date().toISOString(),
+      studentCount: remainingStudents.length,
+      embeddingModel: manifest.embeddingModel,
+    };
+    await FileSystem.writeAsStringAsync(metaPath(classId), JSON.stringify(meta));
+  } catch (err) {
+    console.warn('Failed to prune student from class package on disk:', err);
+  }
+}
+
+/**
+ * List all available classes for scanning (combining downloaded packages,
+ * cached classes from SQLite, and classes with pending enrollments).
+ */
+export async function getAvailableClasses(): Promise<DownloadedClassInfo[]> {
+  const downloaded = await getDownloadedClasses();
+  const cached = await getCachedClasses();
+  const pending = await getUnsyncedEnrollment();
+
+  const classMap = new Map<string, DownloadedClassInfo>();
+
+  // 1. Add all downloaded classes
+  for (const d of downloaded) {
+    classMap.set(d.classId, { ...d });
+  }
+
+  // 2. Add cached classes that aren't already downloaded
+  for (const c of cached) {
+    if (!classMap.has(c.class_id)) {
+      classMap.set(c.class_id, {
+        classId: c.class_id,
+        className: `${c.code} • ${c.title}`,
+        classUpdatedAt: c.updated_at || new Date().toISOString(),
+        downloadedAt: new Date().toISOString(),
+        studentCount: 0,
+        embeddingModel: APP_EMBEDDING_MODEL,
+      });
+    }
+  }
+
+  // 3. Update studentCount by adding pending enrollments for each class
+  const pendingCountsByClass = new Map<string, number>();
+  for (const p of pending) {
+    pendingCountsByClass.set(
+      p.class_id,
+      (pendingCountsByClass.get(p.class_id) || 0) + 1
+    );
+  }
+
+  for (const [classId, count] of pendingCountsByClass.entries()) {
+    const existing = classMap.get(classId);
+    if (existing) {
+      classMap.set(classId, {
+        ...existing,
+        studentCount: existing.studentCount + count,
+      });
+    } else {
+      classMap.set(classId, {
+        classId,
+        className: `Class ${classId}`,
+        classUpdatedAt: new Date().toISOString(),
+        downloadedAt: new Date().toISOString(),
+        studentCount: count,
+        embeddingModel: APP_EMBEDDING_MODEL,
+      });
+    }
+  }
+
+  return Array.from(classMap.values());
 }

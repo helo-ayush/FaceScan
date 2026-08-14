@@ -6,7 +6,19 @@ import { Icon } from "@/components/Icon";
 import { SkeletonBlock } from "@/components/ScreenSkeleton";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { AppSettings } from "@/utils/settings";
-import { downloadClassPackage, getDownloadedClasses, type DownloadedClassInfo } from "@/utils/classPackageStore";
+import {
+  downloadClassPackage,
+  getDownloadedClasses,
+  removeStudentFromClassPackage,
+  type DownloadedClassInfo,
+} from "@/utils/classPackageStore";
+import {
+  getCachedClasses,
+  recordOfflineStudentDeletion,
+  getDeletedEnrollmentNumbers,
+  markStudentDeletionSynced,
+} from "@/utils/localDb";
+import { useSyncEngine } from "@/utils/SyncProvider";
 
 type ClassItem = {
   id: string;
@@ -18,6 +30,7 @@ type ClassItem = {
 };
 
 export default function ClassesScreen() {
+  const { triggerSync } = useSyncEngine();
   const [classesList, setClassesList] = useState<ClassItem[]>([]);
   const [openId, setOpenId] = useState<string | null>(null);
   const [openStudentId, setOpenStudentId] = useState<string | null>(null);
@@ -48,6 +61,7 @@ export default function ClassesScreen() {
   const [isCreatingClass, setIsCreatingClass] = useState(false);
   const [loadingClasses, setLoadingClasses] = useState(true);
   const hasLoadedClasses = useRef(false);
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
   useEffect(() => {
     if (confirmDelete) {
@@ -89,7 +103,6 @@ export default function ClassesScreen() {
       setIsCreatingClass(false);
     }
   }
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
 
   async function toggleStudentExpand(studentId: string) {
     AppSettings.haptic("light");
@@ -123,27 +136,57 @@ export default function ClassesScreen() {
   async function fetchClasses() {
     const showSkeleton = !hasLoadedClasses.current;
     if (showSkeleton) setLoadingClasses(true);
+
+    const deleted = await getDeletedEnrollmentNumbers();
+
+    // 1. Load from local cache first (instant, works offline)
+    try {
+      const cached = await getCachedClasses();
+      if (cached.length > 0) {
+        setClassesList((prev) =>
+          prev.length === 0
+            ? cached.map((c) => ({
+                id: c.class_id,
+                code: c.code,
+                title: c.title,
+                students: 0,
+                attendance: 0,
+                roster: [],
+              }))
+            : prev
+        );
+        if (!openId) {
+          setOpenId(cached[0].class_id);
+        }
+        hasLoadedClasses.current = true;
+        if (showSkeleton) setLoadingClasses(false);
+      }
+    } catch {
+      // Ignore local cache error
+    }
+
+    // 2. Try network fetch from server
     try {
       const response = await fetch(`${apiUrl}/api/classes`);
       const data = await response.json();
-      setClassesList(data);
-      if (data.length > 0 && !openId) {
-        setOpenId(data[0].id);
+      if (response.ok && Array.isArray(data)) {
+        const filteredData = data.map((c: any) => ({
+          ...c,
+          students: c.roster ? c.roster.filter((r: any) => !deleted.has(r.id)).length : 0,
+          roster: c.roster ? c.roster.filter((r: any) => !deleted.has(r.id)) : [],
+        }));
+        setClassesList(filteredData);
+        if (filteredData.length > 0 && !openId) {
+          setOpenId(filteredData[0].id);
+        }
       }
     } catch (err) {
-      console.error("Error fetching classes:", err);
+      console.warn("Network fetch for classes failed (offline mode):", err);
     } finally {
       hasLoadedClasses.current = true;
       if (showSkeleton) setLoadingClasses(false);
     }
   }
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchClasses();
-      loadDownloadedClasses();
-    }, [])
-  );
 
   async function loadDownloadedClasses() {
     try {
@@ -153,6 +196,13 @@ export default function ClassesScreen() {
       console.warn('Failed to load downloaded classes:', err);
     }
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchClasses();
+      loadDownloadedClasses();
+    }, [])
+  );
 
   async function handleDownloadPackage(classId: string) {
     AppSettings.haptic('medium');
@@ -202,20 +252,45 @@ export default function ClassesScreen() {
 
   async function handleDeleteStudent(enrollmentNumber: string) {
     AppSettings.haptic("heavy");
+
+    // Find classId for this student
+    const parentClass = classesList.find((c) =>
+      c.roster.some((r) => r.id === enrollmentNumber)
+    );
+    const classId = parentClass?.id || "";
+
+    // 1. Immediately record offline deletion and purge local pending records
+    await recordOfflineStudentDeletion(enrollmentNumber, classId);
+
+    // 2. Immediately remove from downloaded on-disk package if present
+    if (classId) {
+      await removeStudentFromClassPackage(classId, enrollmentNumber);
+    }
+
+    // 3. Immediately update UI state
+    setClassesList((prev) =>
+      prev.map((c) => ({
+        ...c,
+        students: c.roster.filter((r) => r.id !== enrollmentNumber).length,
+        roster: c.roster.filter((r) => r.id !== enrollmentNumber),
+      }))
+    );
+    AppSettings.haptic("success");
+
+    // 4. Trigger sync engine to push to server if online
+    triggerSync();
+
+    // 5. Also attempt direct API delete in the background
     try {
-      const response = await fetch(`${apiUrl}/api/students/${enrollmentNumber}`, {
+      const response = await fetch(`${apiUrl}/api/students/${encodeURIComponent(enrollmentNumber)}`, {
         method: "DELETE",
       });
-      const data = await response.json();
-      if (response.ok && data.success) {
-        AppSettings.haptic("success");
-        fetchClasses();
-      } else {
-        alert(data.message || "Failed to delete student");
+      if (response.ok || response.status === 404) {
+        await markStudentDeletionSynced(enrollmentNumber);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error connecting to server");
+      // Offline: deletion is safely queued in SQLite pending_student_deletions
+      console.log("Offline student deletion queued locally:", enrollmentNumber);
     }
   }
 
@@ -286,13 +361,6 @@ export default function ClassesScreen() {
                 : c.attendance >= 85
                 ? "text-warning"
                 : "text-error";
-
-            const attBg =
-              c.attendance >= 90
-                ? "bg-primary/10"
-                : c.attendance >= 85
-                ? "bg-warning/10"
-                : "bg-error/10";
 
             return (
               <View
