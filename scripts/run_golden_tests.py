@@ -6,8 +6,7 @@ import tensorflow as tf
 def safe_print(text):
     print(text.encode('ascii', errors='replace').decode('ascii'))
 
-def run_tflite_inference(bgr_255_crop):
-    tflite_path = os.path.join(os.getcwd(), "android", "app", "src", "main", "assets", "minifasnetv2_80.tflite")
+def run_tflite_inference(tflite_path, bgr_255_crop):
     if not os.path.exists(tflite_path):
         raise FileNotFoundError(f"TFLite asset missing: {tflite_path}")
 
@@ -29,11 +28,10 @@ def run_tflite_inference(bgr_255_crop):
     probs = exp_logits / np.sum(exp_logits)
     return logits, probs
 
-def test_golden_contract_rules():
-    safe_print("=== Running MiniFASNetV2 Golden Test Harness ===")
+def test_model_golden_contract(model_name, tflite_path):
+    safe_print(f"\n=== Running {model_name} Golden Test Harness ===")
 
     # 1. Contract metadata test
-    tflite_path = os.path.join(os.getcwd(), "android", "app", "src", "main", "assets", "minifasnetv2_80.tflite")
     interpreter = tf.lite.Interpreter(model_path=tflite_path)
     interpreter.allocate_tensors()
 
@@ -48,7 +46,7 @@ def test_golden_contract_rules():
 
     # 2. Numerical safety & range test
     dummy_bgr = np.random.uniform(0.0, 255.0, (80, 80, 3)).astype(np.float32)
-    logits, probs = run_tflite_inference(dummy_bgr)
+    logits, probs = run_tflite_inference(tflite_path, dummy_bgr)
 
     assert not np.isnan(logits).any(), "NaN found in logits"
     assert not np.isinf(logits).any(), "Inf found in logits"
@@ -58,8 +56,36 @@ def test_golden_contract_rules():
     # 3. Model outputs logit scale sanity test
     assert logits.shape == (3,), f"Logits output shape mismatch: {logits.shape}"
     safe_print("  [PASS] Logits output vector verified")
+    safe_print(f"  [PASS] {model_name} Golden Contract Verified!")
 
-    safe_print("\nAll MiniFASNetV2 Golden Contract Tests PASSED SUCCESSFULLY!")
+def test_ensemble_golden_contract():
+    safe_print("\n=== Testing Anti-Spoof Ensemble Combination Contract ===")
+    v2_path = os.path.join(os.getcwd(), "android", "app", "src", "main", "assets", "minifasnetv2_80.tflite")
+    v1se_path = os.path.join(os.getcwd(), "android", "app", "src", "main", "assets", "minifasnetv1se_80.tflite")
+
+    dummy_crop_27 = np.random.uniform(0.0, 255.0, (80, 80, 3)).astype(np.float32)
+    dummy_crop_40 = np.random.uniform(0.0, 255.0, (80, 80, 3)).astype(np.float32)
+
+    l27, p27 = run_tflite_inference(v2_path, dummy_crop_27)
+    l40, p40 = run_tflite_inference(v1se_path, dummy_crop_40)
+
+    avg_probs = (p27 + p40) / 2.0
+    assert avg_probs.shape == (3,)
+    assert np.isclose(np.sum(avg_probs), 1.0, atol=1e-4)
+    selected_class = int(np.argmax(avg_probs))
+    assert selected_class in (0, 1, 2)
+    safe_print(f"  [PASS] Ensemble averaging: p_live={avg_probs[1]:.4f}, p_print={avg_probs[0]:.4f}, p_replay={avg_probs[2]:.4f}, class={selected_class}")
+
+def test_golden_contract_rules():
+    v2_path = os.path.join(os.getcwd(), "android", "app", "src", "main", "assets", "minifasnetv2_80.tflite")
+    v1se_path = os.path.join(os.getcwd(), "android", "app", "src", "main", "assets", "minifasnetv1se_80.tflite")
+
+    test_model_golden_contract("MiniFASNetV2 (2.7x)", v2_path)
+    test_model_golden_contract("MiniFASNetV1SE (4.0x)", v1se_path)
+    test_ensemble_golden_contract()
+
+    safe_print("\nAll Anti-Spoof Ensemble Golden Contract Tests PASSED SUCCESSFULLY!")
 
 if __name__ == "__main__":
     test_golden_contract_rules()
+

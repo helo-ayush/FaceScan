@@ -27,6 +27,9 @@ export type RealtimeFace = {
   livenessScore: number | null;
   livenessPrintProb?: number | null;
   livenessReplayProb?: number | null;
+  livenessRawLogits?: number[] | null;
+  livenessSelectedClass?: number | null;
+  livenessStatus?: string | null;
   livenessDurationMs: number | null;
   livenessSamples: number;
   isLive: boolean | null;
@@ -41,6 +44,7 @@ export type RealtimeLighting = {
 
 export type LiveFaceCameraProps = {
   cameraRef?: React.RefObject<any>;
+  faceDetectorMode?: any;
   onFaceChange: (face: RealtimeFace | null) => void;
   onLightingChange: (lighting: RealtimeLighting) => void;
   performanceMode: PerformanceMode;

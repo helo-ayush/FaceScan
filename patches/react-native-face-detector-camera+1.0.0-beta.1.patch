@@ -1,3 +1,33 @@
+diff --git a/node_modules/react-native-face-detector-camera/android/.classpath b/node_modules/react-native-face-detector-camera/android/.classpath
+new file mode 100644
+index 0000000..0a3280e
+--- /dev/null
++++ b/node_modules/react-native-face-detector-camera/android/.classpath
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21/"/>
++	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
++	<classpathentry kind="output" path="bin/default"/>
++</classpath>
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/checksums/checksums.lock b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/checksums/checksums.lock
+new file mode 100644
+index 0000000..b51b71f
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/checksums/checksums.lock differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/dependencies-accessors/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/dependencies-accessors/gc.properties
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileChanges/last-build.bin b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileChanges/last-build.bin
+new file mode 100644
+index 0000000..f76dd23
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileChanges/last-build.bin differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileHashes/fileHashes.lock b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileHashes/fileHashes.lock
+new file mode 100644
+index 0000000..f34128f
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileHashes/fileHashes.lock differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/gc.properties
+new file mode 100644
+index 0000000..e69de29
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/checksums/checksums.lock b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/checksums/checksums.lock
 new file mode 100644
 index 0000000..ae529da
@@ -8,30 +38,78 @@ index 0000000..f76dd23
 Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileChanges/last-build.bin differ
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin
 new file mode 100644
-index 0000000..6cd6259
+index 0000000..a49b2b5
 Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin differ
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock
 new file mode 100644
-index 0000000..140e0e6
+index 0000000..8051f70
 Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock differ
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/gc.properties
 new file mode 100644
 index 0000000..e69de29
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock
 new file mode 100644
-index 0000000..0f19236
+index 0000000..f58eacd
 Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock differ
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties
 new file mode 100644
-index 0000000..69bd253
+index 0000000..37496e6
 --- /dev/null
 +++ b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties
 @@ -0,0 +1,2 @@
-+#Fri Aug 07 17:36:45 IST 2026
-+gradle.version=9.2.0
++#Sat Aug 15 01:40:14 IST 2026
++gradle.version=8.9
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/vcs-1/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/vcs-1/gc.properties
 new file mode 100644
 index 0000000..e69de29
+diff --git a/node_modules/react-native-face-detector-camera/android/.project b/node_modules/react-native-face-detector-camera/android/.project
+new file mode 100644
+index 0000000..595f579
+--- /dev/null
++++ b/node_modules/react-native-face-detector-camera/android/.project
+@@ -0,0 +1,34 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>react-native-face-detector-camera</name>
++	<comment>Project react-native-face-detector-camera created by Buildship.</comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.buildship.core.gradleprojectbuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
++	</natures>
++	<filteredResources>
++		<filter>
++			<id>1786387061667</id>
++			<name></name>
++			<type>30</type>
++			<matcher>
++				<id>org.eclipse.core.resources.regexFilterMatcher</id>
++				<arguments>node_modules|\.git|__CREATED_BY_JAVA_LANGUAGE_SERVER__</arguments>
++			</matcher>
++		</filter>
++	</filteredResources>
++</projectDescription>
+diff --git a/node_modules/react-native-face-detector-camera/android/.settings/org.eclipse.buildship.core.prefs b/node_modules/react-native-face-detector-camera/android/.settings/org.eclipse.buildship.core.prefs
+new file mode 100644
+index 0000000..1675490
+--- /dev/null
++++ b/node_modules/react-native-face-detector-camera/android/.settings/org.eclipse.buildship.core.prefs
+@@ -0,0 +1,2 @@
++connection.project.dir=../../../android
++eclipse.preferences.version=1
 diff --git a/node_modules/react-native-face-detector-camera/android/build.gradle b/node_modules/react-native-face-detector-camera/android/build.gradle
 index d1452b8..a61a2d7 100644
 --- a/node_modules/react-native-face-detector-camera/android/build.gradle
@@ -69,1140 +147,6 @@ index d1452b8..a61a2d7 100644
    api "androidx.exifinterface:exifinterface:1.3.6"
 +  implementation 'org.tensorflow:tensorflow-lite:2.14.0'
  }
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/0c09bd28eec6b1d32840e5bbfecd5531/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/0c09bd28eec6b1d32840e5bbfecd5531/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/0c09bd28eec6b1d32840e5bbfecd5531/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/0c09bd28eec6b1d32840e5bbfecd5531/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/0c09bd28eec6b1d32840e5bbfecd5531/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..5c86ebe
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/0c09bd28eec6b1d32840e5bbfecd5531/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/210fef513e58bebded0323bc28570567/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/210fef513e58bebded0323bc28570567/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/210fef513e58bebded0323bc28570567/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/210fef513e58bebded0323bc28570567/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/210fef513e58bebded0323bc28570567/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..d88f167
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/210fef513e58bebded0323bc28570567/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/2ae52916bd6f2d5d4f1877090abe0589/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/2ae52916bd6f2d5d4f1877090abe0589/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/2ae52916bd6f2d5d4f1877090abe0589/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/2ae52916bd6f2d5d4f1877090abe0589/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/2ae52916bd6f2d5d4f1877090abe0589/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..88ebd33
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/2ae52916bd6f2d5d4f1877090abe0589/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/3b6890d9b1deb70231aed1846bfd8798/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/3b6890d9b1deb70231aed1846bfd8798/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/3b6890d9b1deb70231aed1846bfd8798/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/3b6890d9b1deb70231aed1846bfd8798/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/3b6890d9b1deb70231aed1846bfd8798/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..8002239
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/3b6890d9b1deb70231aed1846bfd8798/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/3c14f2c312e874828ef246dfbfc43bbe/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/3c14f2c312e874828ef246dfbfc43bbe/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/3c14f2c312e874828ef246dfbfc43bbe/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/3c14f2c312e874828ef246dfbfc43bbe/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/3c14f2c312e874828ef246dfbfc43bbe/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..35fd0de
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/3c14f2c312e874828ef246dfbfc43bbe/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/4b33fcf86283f1bcd1a596ffdbf1af7f/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/4b33fcf86283f1bcd1a596ffdbf1af7f/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/4b33fcf86283f1bcd1a596ffdbf1af7f/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/4b33fcf86283f1bcd1a596ffdbf1af7f/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/4b33fcf86283f1bcd1a596ffdbf1af7f/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..f5267a4
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/4b33fcf86283f1bcd1a596ffdbf1af7f/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/4cd776a1ca2fef5cf5ecf5d47afce91c/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/4cd776a1ca2fef5cf5ecf5d47afce91c/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/4cd776a1ca2fef5cf5ecf5d47afce91c/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/4cd776a1ca2fef5cf5ecf5d47afce91c/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/4cd776a1ca2fef5cf5ecf5d47afce91c/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..7dfcd19
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/4cd776a1ca2fef5cf5ecf5d47afce91c/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/6bcae34e8496d67b25b32761bb6ae5d7/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/6bcae34e8496d67b25b32761bb6ae5d7/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/6bcae34e8496d67b25b32761bb6ae5d7/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/6bcae34e8496d67b25b32761bb6ae5d7/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/6bcae34e8496d67b25b32761bb6ae5d7/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..d221233
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/6bcae34e8496d67b25b32761bb6ae5d7/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/82708f2daea5e6b276f9dd7b140969f6/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/82708f2daea5e6b276f9dd7b140969f6/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/82708f2daea5e6b276f9dd7b140969f6/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/82708f2daea5e6b276f9dd7b140969f6/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/82708f2daea5e6b276f9dd7b140969f6/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..a8b022f
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/82708f2daea5e6b276f9dd7b140969f6/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/a6116c12e56c0473a3740bfb2fd7b8b7/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/a6116c12e56c0473a3740bfb2fd7b8b7/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/a6116c12e56c0473a3740bfb2fd7b8b7/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/a6116c12e56c0473a3740bfb2fd7b8b7/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/a6116c12e56c0473a3740bfb2fd7b8b7/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..ffb1c9a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/a6116c12e56c0473a3740bfb2fd7b8b7/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/b115d5f0b2cb2356cf7599cd7af9a2a6/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/b115d5f0b2cb2356cf7599cd7af9a2a6/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/b115d5f0b2cb2356cf7599cd7af9a2a6/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/b115d5f0b2cb2356cf7599cd7af9a2a6/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/b115d5f0b2cb2356cf7599cd7af9a2a6/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..cbcaddf
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/b115d5f0b2cb2356cf7599cd7af9a2a6/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/bdb2eaa08614069309a822dfdfeb98ef/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/bdb2eaa08614069309a822dfdfeb98ef/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/bdb2eaa08614069309a822dfdfeb98ef/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/bdb2eaa08614069309a822dfdfeb98ef/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/bdb2eaa08614069309a822dfdfeb98ef/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..2bc9f19
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/bdb2eaa08614069309a822dfdfeb98ef/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/cf675b16873c14b821207fe058394bbc/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/cf675b16873c14b821207fe058394bbc/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/cf675b16873c14b821207fe058394bbc/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/cf675b16873c14b821207fe058394bbc/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/cf675b16873c14b821207fe058394bbc/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..294f9e8
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/cf675b16873c14b821207fe058394bbc/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/dc0445c038052ed6cae6daa3ec0e5ad1/results.bin b/node_modules/react-native-face-detector-camera/android/build/.transforms/dc0445c038052ed6cae6daa3ec0e5ad1/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/.transforms/dc0445c038052ed6cae6daa3ec0e5ad1/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-face-detector-camera/android/build/.transforms/dc0445c038052ed6cae6daa3ec0e5ad1/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-face-detector-camera/android/build/.transforms/dc0445c038052ed6cae6daa3ec0e5ad1/transformed/classes/classes_dex/classes.dex
-new file mode 100644
-index 0000000..03ad992
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/.transforms/dc0445c038052ed6cae6daa3ec0e5ad1/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/generated/source/buildConfig/debug/com/facedetectorcamera/BuildConfig.java b/node_modules/react-native-face-detector-camera/android/build/generated/source/buildConfig/debug/com/facedetectorcamera/BuildConfig.java
-new file mode 100644
-index 0000000..81a5a0b
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/generated/source/buildConfig/debug/com/facedetectorcamera/BuildConfig.java
-@@ -0,0 +1,10 @@
-+/**
-+ * Automatically generated file. DO NOT MODIFY
-+ */
-+package com.facedetectorcamera;
-+
-+public final class BuildConfig {
-+  public static final boolean DEBUG = Boolean.parseBoolean("true");
-+  public static final String LIBRARY_PACKAGE_NAME = "com.facedetectorcamera";
-+  public static final String BUILD_TYPE = "debug";
-+}
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/AndroidManifest.xml b/node_modules/react-native-face-detector-camera/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/AndroidManifest.xml
-new file mode 100644
-index 0000000..265444f
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/AndroidManifest.xml
-@@ -0,0 +1,15 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-+    package="com.facedetectorcamera" >
-+
-+    <uses-sdk android:minSdkVersion="24" />
-+
-+    <uses-permission android:name="android.permission.CAMERA" />
-+
-+    <application>
-+        <meta-data
-+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-+            android:value="face" />
-+    </application>
-+
-+</manifest>
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/output-metadata.json b/node_modules/react-native-face-detector-camera/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/output-metadata.json
-new file mode 100644
-index 0000000..2f53d35
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/aapt_friendly_merged_manifests/debug/processDebugManifest/aapt/output-metadata.json
-@@ -0,0 +1,18 @@
-+{
-+  "version": 3,
-+  "artifactType": {
-+    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
-+    "kind": "Directory"
-+  },
-+  "applicationId": "com.facedetectorcamera",
-+  "variantName": "debug",
-+  "elements": [
-+    {
-+      "type": "SINGLE",
-+      "filters": [],
-+      "attributes": [],
-+      "outputFile": "AndroidManifest.xml"
-+    }
-+  ],
-+  "elementType": "File"
-+}
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/aar_metadata/debug/writeDebugAarMetadata/aar-metadata.properties b/node_modules/react-native-face-detector-camera/android/build/intermediates/aar_metadata/debug/writeDebugAarMetadata/aar-metadata.properties
-new file mode 100644
-index 0000000..1211b1e
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/aar_metadata/debug/writeDebugAarMetadata/aar-metadata.properties
-@@ -0,0 +1,6 @@
-+aarFormatVersion=1.0
-+aarMetadataVersion=1.0
-+minCompileSdk=1
-+minCompileSdkExtension=0
-+minAndroidGradlePluginVersion=1.0.0
-+coreLibraryDesugaringEnabled=false
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/annotation_processor_list/debug/javaPreCompileDebug/annotationProcessors.json b/node_modules/react-native-face-detector-camera/android/build/intermediates/annotation_processor_list/debug/javaPreCompileDebug/annotationProcessors.json
-new file mode 100644
-index 0000000..9e26dfe
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/annotation_processor_list/debug/javaPreCompileDebug/annotationProcessors.json
-@@ -0,0 +1 @@
-+{}
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar b/node_modules/react-native-face-detector-camera/android/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar
-new file mode 100644
-index 0000000..fd62d1f
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar b/node_modules/react-native-face-detector-camera/android/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar
-new file mode 100644
-index 0000000..dd9f07b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/intermediates/compile_r_class_jar/debug/generateDebugRFile/R.jar differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/compile_symbol_list/debug/generateDebugRFile/R.txt b/node_modules/react-native-face-detector-camera/android/build/intermediates/compile_symbol_list/debug/generateDebugRFile/R.txt
-new file mode 100644
-index 0000000..e69de29
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
-new file mode 100644
-index 0000000..537b125
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
-@@ -0,0 +1 @@
-+#Fri Jul 31 15:44:55 IST 2026
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
-new file mode 100644
-index 0000000..f45176e
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
-@@ -0,0 +1,2 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\build\generated\res\resValues\debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\build\generated\res\resValues\debug"/></dataSet><mergedItems/></merger>
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
-new file mode 100644
-index 0000000..03a889f
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
-@@ -0,0 +1,2 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\jniLibs"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\debug\jniLibs"/></dataSet></merger>
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/mergeDebugShaders/merger.xml b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
-new file mode 100644
-index 0000000..bc65a64
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
-@@ -0,0 +1,2 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\debug\shaders"/></dataSet></merger>
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/packageDebugAssets/merger.xml b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/packageDebugAssets/merger.xml
-new file mode 100644
-index 0000000..398428a
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/incremental/packageDebugAssets/merger.xml
-@@ -0,0 +1,2 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\assets"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\debug\assets"/></dataSet><dataSet config="generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\build\intermediates\shader_assets\debug\compileDebugShaders\out"/></dataSet></merger>
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/java_res/debug/processDebugJavaRes/out/META-INF/react-native-face-detector-camera_debug.kotlin_module b/node_modules/react-native-face-detector-camera/android/build/intermediates/java_res/debug/processDebugJavaRes/out/META-INF/react-native-face-detector-camera_debug.kotlin_module
-new file mode 100644
-index 0000000..68f7593
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/intermediates/java_res/debug/processDebugJavaRes/out/META-INF/react-native-face-detector-camera_debug.kotlin_module differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/facedetectorcamera/BuildConfig.class b/node_modules/react-native-face-detector-camera/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/facedetectorcamera/BuildConfig.class
-new file mode 100644
-index 0000000..5e47525
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/facedetectorcamera/BuildConfig.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt b/node_modules/react-native-face-detector-camera/android/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt
-new file mode 100644
-index 0000000..78ac5b8
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt
-@@ -0,0 +1,2 @@
-+R_DEF: Internal format may change without notice
-+local
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/manifest_merge_blame_file/debug/processDebugManifest/manifest-merger-blame-debug-report.txt b/node_modules/react-native-face-detector-camera/android/build/intermediates/manifest_merge_blame_file/debug/processDebugManifest/manifest-merger-blame-debug-report.txt
-new file mode 100644
-index 0000000..b415db4
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/manifest_merge_blame_file/debug/processDebugManifest/manifest-merger-blame-debug-report.txt
-@@ -0,0 +1,21 @@
-+1<?xml version="1.0" encoding="utf-8"?>
-+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-+3    package="com.facedetectorcamera" >
-+4
-+5    <uses-sdk android:minSdkVersion="24" />
-+6
-+7    <uses-permission android:name="android.permission.CAMERA" />
-+7-->C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:2:3-63
-+7-->C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:2:20-60
-+8
-+9    <application>
-+9-->C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:4:3-8:19
-+10        <meta-data
-+10-->C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:5:9-7:35
-+11            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-+11-->C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:6:13-70
-+12            android:value="face" />
-+12-->C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:7:13-33
-+13    </application>
-+14
-+15</manifest>
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml b/node_modules/react-native-face-detector-camera/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml
-new file mode 100644
-index 0000000..265444f
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml
-@@ -0,0 +1,15 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-+    package="com.facedetectorcamera" >
-+
-+    <uses-sdk android:minSdkVersion="24" />
-+
-+    <uses-permission android:name="android.permission.CAMERA" />
-+
-+    <application>
-+        <meta-data
-+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-+            android:value="face" />
-+    </application>
-+
-+</manifest>
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/navigation_json/debug/extractDeepLinksDebug/navigation.json b/node_modules/react-native-face-detector-camera/android/build/intermediates/navigation_json/debug/extractDeepLinksDebug/navigation.json
-new file mode 100644
-index 0000000..0637a08
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/navigation_json/debug/extractDeepLinksDebug/navigation.json
-@@ -0,0 +1 @@
-+[]
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/nested_resources_validation_report/debug/generateDebugResources/nestedResourcesValidationReport.txt b/node_modules/react-native-face-detector-camera/android/build/intermediates/nested_resources_validation_report/debug/generateDebugResources/nestedResourcesValidationReport.txt
-new file mode 100644
-index 0000000..08f4ebe
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/nested_resources_validation_report/debug/generateDebugResources/nestedResourcesValidationReport.txt
-@@ -0,0 +1 @@
-+0 Warning/Error
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/runtime_library_classes_jar/debug/bundleLibRuntimeToJarDebug/classes.jar b/node_modules/react-native-face-detector-camera/android/build/intermediates/runtime_library_classes_jar/debug/bundleLibRuntimeToJarDebug/classes.jar
-new file mode 100644
-index 0000000..c7da04a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/intermediates/runtime_library_classes_jar/debug/bundleLibRuntimeToJarDebug/classes.jar differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/intermediates/symbol_list_with_package_name/debug/generateDebugRFile/package-aware-r.txt b/node_modules/react-native-face-detector-camera/android/build/intermediates/symbol_list_with_package_name/debug/generateDebugRFile/package-aware-r.txt
-new file mode 100644
-index 0000000..ef55a7f
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/intermediates/symbol_list_with_package_name/debug/generateDebugRFile/package-aware-r.txt
-@@ -0,0 +1 @@
-+com.facedetectorcamera
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab
-new file mode 100644
-index 0000000..f3bf766
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream
-new file mode 100644
-index 0000000..7bd83ef
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len
-new file mode 100644
-index 0000000..fa3789c
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len
-new file mode 100644
-index 0000000..cf8a30a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at
-new file mode 100644
-index 0000000..da014f5
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i
-new file mode 100644
-index 0000000..b45daff
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab
-new file mode 100644
-index 0000000..ec04c94
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream
-new file mode 100644
-index 0000000..2a7e3c4
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len
-new file mode 100644
-index 0000000..b601cd5
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len
-new file mode 100644
-index 0000000..6ed8337
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at
-new file mode 100644
-index 0000000..5a554e3
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i
-new file mode 100644
-index 0000000..fad3d9d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab
-new file mode 100644
-index 0000000..8b09deb
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream
-new file mode 100644
-index 0000000..2a7e3c4
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len
-new file mode 100644
-index 0000000..b601cd5
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len
-new file mode 100644
-index 0000000..6ed8337
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at
-new file mode 100644
-index 0000000..8683722
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i
-new file mode 100644
-index 0000000..fad3d9d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab
-new file mode 100644
-index 0000000..6cb4b93
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream
-new file mode 100644
-index 0000000..3855f5d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len
-new file mode 100644
-index 0000000..9911af5
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len
-new file mode 100644
-index 0000000..ec8f944
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at
-new file mode 100644
-index 0000000..c273065
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i
-new file mode 100644
-index 0000000..2131657
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab
-new file mode 100644
-index 0000000..25316a9
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream
-new file mode 100644
-index 0000000..cf7e798
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len
-new file mode 100644
-index 0000000..4f5d755
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len
-new file mode 100644
-index 0000000..e5d59a2
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at
-new file mode 100644
-index 0000000..ef7bcb4
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i
-new file mode 100644
-index 0000000..df3b387
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab
-new file mode 100644
-index 0000000..3af1351
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream
-new file mode 100644
-index 0000000..6d0e9a4
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len
-new file mode 100644
-index 0000000..69ac1cb
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len
-new file mode 100644
-index 0000000..93a595b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at
-new file mode 100644
-index 0000000..1d49f50
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i
-new file mode 100644
-index 0000000..d478981
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab
-new file mode 100644
-index 0000000..25961ba
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream
-new file mode 100644
-index 0000000..d68cad3
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len
-new file mode 100644
-index 0000000..6e7ca96
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len
-new file mode 100644
-index 0000000..709f734
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values
-new file mode 100644
-index 0000000..e4a184b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at
-new file mode 100644
-index 0000000..5222826
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.s b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.s
-new file mode 100644
-index 0000000..e637b02
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.s
-@@ -0,0 +1 @@
-+ÈÈÝ¤Ý¤Ý¤õ·êŸêŸêŸÞ£Þ£Þ£Þ£Þ£
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i
-new file mode 100644
-index 0000000..947f07a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab
-new file mode 100644
-index 0000000..30efc9c
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream
-new file mode 100644
-index 0000000..62d7d8c
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len
-new file mode 100644
-index 0000000..fa3789c
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len
-new file mode 100644
-index 0000000..cf8a30a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at
-new file mode 100644
-index 0000000..40d9722
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i
-new file mode 100644
-index 0000000..85daa53
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab
-new file mode 100644
-index 0000000..23da915
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream
-new file mode 100644
-index 0000000..7d2d15d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len
-new file mode 100644
-index 0000000..bf327e2
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len
-new file mode 100644
-index 0000000..fd5292d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at
-new file mode 100644
-index 0000000..43aed23
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i
-new file mode 100644
-index 0000000..23a18c9
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab
-new file mode 100644
-index 0000000..5e7d59b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream
-new file mode 100644
-index 0000000..2b824ea
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len
-new file mode 100644
-index 0000000..b1dd365
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len
-new file mode 100644
-index 0000000..cf8a30a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at
-new file mode 100644
-index 0000000..d40db30
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i
-new file mode 100644
-index 0000000..51689f4
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/counters.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/counters.tab
-new file mode 100644
-index 0000000..703ad20
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/counters.tab
-@@ -0,0 +1,2 @@
-+29
-+0
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab
-new file mode 100644
-index 0000000..e0df5b0
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream
-new file mode 100644
-index 0000000..62d7d8c
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len
-new file mode 100644
-index 0000000..fa3789c
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len
-new file mode 100644
-index 0000000..cf8a30a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at
-new file mode 100644
-index 0000000..b70d3ef
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i
-new file mode 100644
-index 0000000..85daa53
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab
-new file mode 100644
-index 0000000..ecd2de0
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream
-new file mode 100644
-index 0000000..fa194ba
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len
-new file mode 100644
-index 0000000..a930d6b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len
-new file mode 100644
-index 0000000..fa43224
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at
-new file mode 100644
-index 0000000..cbdfba0
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i
-new file mode 100644
-index 0000000..20619a7
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len
-new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab
-new file mode 100644
-index 0000000..086a584
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream
-new file mode 100644
-index 0000000..f3f2170
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len
-new file mode 100644
-index 0000000..5ea664a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.len
-new file mode 100644
-index 0000000..add460b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values
-new file mode 100644
-index 0000000..45f575e
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at
-new file mode 100644
-index 0000000..533344d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.s b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.s
-new file mode 100644
-index 0000000..f69e6d4
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.s
-@@ -0,0 +1 @@
-+ÈNÏŠÐŒÞußmâ‡Ã.æ­òõÈÄÜŽó#ØŠÑ!óýˆäëîçÉÉâ¬×þênïÏïùÕ(
-\ No newline at end of file
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i
-new file mode 100644
-index 0000000..f003238
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len
-new file mode 100644
-index 0000000..4424406
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin
-new file mode 100644
-index 0000000..35c1012
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin
-new file mode 100644
-index 0000000..ca89147
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/local-state/build-history.bin b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/local-state/build-history.bin
-new file mode 100644
-index 0000000..06f441f
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/kotlin/compileDebugKotlin/local-state/build-history.bin differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/react-native-face-detector-camera/android/build/outputs/logs/manifest-merger-debug-report.txt
-new file mode 100644
-index 0000000..41984ed
---- /dev/null
-+++ b/node_modules/react-native-face-detector-camera/android/build/outputs/logs/manifest-merger-debug-report.txt
-@@ -0,0 +1,28 @@
-+-- Merging decision tree log ---
-+manifest
-+ADDED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:1:1-9:12
-+INJECTED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:1:1-9:12
-+	package
-+		INJECTED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml
-+	xmlns:android
-+		ADDED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:1:11-69
-+uses-permission#android.permission.CAMERA
-+ADDED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:2:3-63
-+	android:name
-+		ADDED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:2:20-60
-+application
-+ADDED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:4:3-8:19
-+meta-data#com.google.firebase.ml.vision.DEPENDENCIES
-+ADDED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:5:9-7:35
-+	android:value
-+		ADDED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:7:13-33
-+	android:name
-+		ADDED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml:6:13-70
-+uses-sdk
-+INJECTED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
-+INJECTED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml
-+INJECTED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml
-+	android:targetSdkVersion
-+		INJECTED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml
-+	android:minSdkVersion
-+		INJECTED from C:\Users\Ayush Kumar\Desktop\FaceC\node_modules\react-native-face-detector-camera\android\src\main\AndroidManifest.xml
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/react-native-face-detector-camera/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
-new file mode 100644
-index 0000000..132af10
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/META-INF/react-native-face-detector-camera_debug.kotlin_module b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/META-INF/react-native-face-detector-camera_debug.kotlin_module
-new file mode 100644
-index 0000000..68f7593
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/META-INF/react-native-face-detector-camera_debug.kotlin_module differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraExceptions$ImageCaptureFailed.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraExceptions$ImageCaptureFailed.class
-new file mode 100644
-index 0000000..f270161
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraExceptions$ImageCaptureFailed.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraExceptions.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraExceptions.class
-new file mode 100644
-index 0000000..db8a7dd
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraExceptions.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$Companion.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$Companion.class
-new file mode 100644
-index 0000000..bf6930f
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$Companion.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$1.class
-new file mode 100644
-index 0000000..c5ccf5d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$2.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$2.class
-new file mode 100644
-index 0000000..fb84004
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$2.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$4$1$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$4$1$1.class
-new file mode 100644
-index 0000000..ecba08a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$4$1$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$4$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$4$1.class
-new file mode 100644
-index 0000000..844b185
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$1$4$4$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$1.class
-new file mode 100644
-index 0000000..3640731
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$2.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$2.class
-new file mode 100644
-index 0000000..1b809f9
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$2.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$3.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$3.class
-new file mode 100644
-index 0000000..c1a8313
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$3.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$4.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$4.class
-new file mode 100644
-index 0000000..7b8d241
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$4.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$5.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$5.class
-new file mode 100644
-index 0000000..83e52a5
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$5.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$6.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$6.class
-new file mode 100644
-index 0000000..5c508d1
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$AsyncFunction$6.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$OnDestroy$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$OnDestroy$1.class
-new file mode 100644
-index 0000000..276a955
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$OnDestroy$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$View$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$View$1.class
-new file mode 100644
-index 0000000..4e409a8
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$$inlined$View$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$1.class
-new file mode 100644
-index 0000000..f48ca74
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$2.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$2.class
-new file mode 100644
-index 0000000..6961b7b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$2.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$3.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$3.class
-new file mode 100644
-index 0000000..fb0b317
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$3.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$4.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$4.class
-new file mode 100644
-index 0000000..09da586
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$4.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$5.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$5.class
-new file mode 100644
-index 0000000..b935ef2
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$AsyncFunctionWithPromise$5.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$OnViewDestroys$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$OnViewDestroys$1.class
-new file mode 100644
-index 0000000..09fcd00
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$OnViewDestroys$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$Prop$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$Prop$1.class
-new file mode 100644
-index 0000000..b6535cc
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$Prop$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$Prop$2.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$Prop$2.class
-new file mode 100644
-index 0000000..aa89709
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule$definition$lambda$7$lambda$6$$inlined$Prop$2.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule.class
-new file mode 100644
-index 0000000..24b4686
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModule.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModuleKt.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModuleKt.class
-new file mode 100644
-index 0000000..be03c29
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraModuleKt.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraMountErrorEvent.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraMountErrorEvent.class
-new file mode 100644
-index 0000000..baf3dca
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraMountErrorEvent.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$1.class
-new file mode 100644
-index 0000000..e96b7df
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$Companion.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$Companion.class
-new file mode 100644
-index 0000000..1141751
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$Companion.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$createImageAnalyzer$1$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$createImageAnalyzer$1$1.class
-new file mode 100644
-index 0000000..ac9fedc
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$createImageAnalyzer$1$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$freezePreview$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$freezePreview$1.class
-new file mode 100644
-index 0000000..13f8773
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$freezePreview$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$observeCameraState$1$WhenMappings.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$observeCameraState$1$WhenMappings.class
-new file mode 100644
-index 0000000..a134fca
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$observeCameraState$1$WhenMappings.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$observeCameraState$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$observeCameraState$1.class
-new file mode 100644
-index 0000000..8a7e722
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$observeCameraState$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$onFacesDetected$2.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$onFacesDetected$2.class
-new file mode 100644
-index 0000000..8e3c10b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$onFacesDetected$2.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$onPictureSaved$2.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$onPictureSaved$2.class
-new file mode 100644
-index 0000000..a3c8aff
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$onPictureSaved$2.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$releaseCamera$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$releaseCamera$1.class
-new file mode 100644
-index 0000000..a3d3f15
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$releaseCamera$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$sam$androidx_lifecycle_Observer$0.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$sam$androidx_lifecycle_Observer$0.class
-new file mode 100644
-index 0000000..2922e84
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$sam$androidx_lifecycle_Observer$0.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$takePicture$1$onCaptureSuccess$1$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$takePicture$1$onCaptureSuccess$1$1.class
-new file mode 100644
-index 0000000..e10c223
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$takePicture$1$onCaptureSuccess$1$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$takePicture$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$takePicture$1.class
-new file mode 100644
-index 0000000..7633737
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView$takePicture$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView.class
-new file mode 100644
-index 0000000..5be7e16
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraView.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraViewHelper.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraViewHelper.class
-new file mode 100644
-index 0000000..71960c3
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/CameraViewHelper.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/ExifTagsKt.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/ExifTagsKt.class
-new file mode 100644
-index 0000000..5bf0843
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/ExifTagsKt.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/FaceOverlayView.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/FaceOverlayView.class
-new file mode 100644
-index 0000000..8494bba
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/FaceOverlayView.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/FacesDetectedEvent.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/FacesDetectedEvent.class
-new file mode 100644
-index 0000000..5809093
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/FacesDetectedEvent.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/PictureOptions.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/PictureOptions.class
-new file mode 100644
-index 0000000..4b234c7
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/PictureOptions.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/PictureSavedEvent.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/PictureSavedEvent.class
-new file mode 100644
-index 0000000..752f163
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/PictureSavedEvent.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector$Companion.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector$Companion.class
-new file mode 100644
-index 0000000..5e5039e
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector$Companion.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector$analyze$1.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector$analyze$1.class
-new file mode 100644
-index 0000000..1ced808
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector$analyze$1.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector.class
-new file mode 100644
-index 0000000..0080f0a
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetector.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorSettings.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorSettings.class
-new file mode 100644
-index 0000000..3e6eeb2
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorSettings.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtils$LandmarkId.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtils$LandmarkId.class
-new file mode 100644
-index 0000000..6f0a9e9
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtils$LandmarkId.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtils.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtils.class
-new file mode 100644
-index 0000000..1da77b6
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtils.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtilsKt.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtilsKt.class
-new file mode 100644
-index 0000000..1bd9f88
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/FaceDetectorUtilsKt.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/LuminanceMetrics.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/LuminanceMetrics.class
-new file mode 100644
-index 0000000..fbd3148
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/facedetector/LuminanceMetrics.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/AntiSpoofResult.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/AntiSpoofResult.class
-new file mode 100644
-index 0000000..1af0699
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/AntiSpoofResult.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/AntiSpoofStage.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/AntiSpoofStage.class
-new file mode 100644
-index 0000000..c4be3d4
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/AntiSpoofStage.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceAlignment.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceAlignment.class
-new file mode 100644
-index 0000000..2149970
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceAlignment.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceCropInput.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceCropInput.class
-new file mode 100644
-index 0000000..f8f0c9d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceCropInput.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceEmbeddingStage.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceEmbeddingStage.class
-new file mode 100644
-index 0000000..11f9fdd
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FaceEmbeddingStage.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipeline$Companion.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipeline$Companion.class
-new file mode 100644
-index 0000000..18c0393
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipeline$Companion.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipeline.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipeline.class
-new file mode 100644
-index 0000000..57f1292
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipeline.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipelineFrame.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipelineFrame.class
-new file mode 100644
-index 0000000..897fd58
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipelineFrame.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipelineStage.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipelineStage.class
-new file mode 100644
-index 0000000..99bb3e0
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/FacePipelineStage.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LandmarkAlignmentStage$Companion.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LandmarkAlignmentStage$Companion.class
-new file mode 100644
-index 0000000..bbc5b0b
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LandmarkAlignmentStage$Companion.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LandmarkAlignmentStage.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LandmarkAlignmentStage.class
-new file mode 100644
-index 0000000..24bb5df
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LandmarkAlignmentStage.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LivenessStatus.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LivenessStatus.class
-new file mode 100644
-index 0000000..cdef5f5
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/LivenessStatus.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NativeFaceCropStage.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NativeFaceCropStage.class
-new file mode 100644
-index 0000000..1feb4ee
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NativeFaceCropStage.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NormalizedFaceCrop$Companion.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NormalizedFaceCrop$Companion.class
-new file mode 100644
-index 0000000..479a003
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NormalizedFaceCrop$Companion.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NormalizedFaceCrop.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NormalizedFaceCrop.class
-new file mode 100644
-index 0000000..3deb3d0
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/pipeline/NormalizedFaceCrop.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/records/CameraType$WhenMappings.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/records/CameraType$WhenMappings.class
-new file mode 100644
-index 0000000..9f29711
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/records/CameraType$WhenMappings.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/records/CameraType.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/records/CameraType.class
-new file mode 100644
-index 0000000..b21a39d
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/records/CameraType.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/PictureSavedDelegate.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/PictureSavedDelegate.class
-new file mode 100644
-index 0000000..76dae1f
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/PictureSavedDelegate.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPicture$resolve$2.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPicture$resolve$2.class
-new file mode 100644
-index 0000000..b5dc4fa
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPicture$resolve$2.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPicture.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPicture.class
-new file mode 100644
-index 0000000..1799868
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPicture.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPictureKt.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPictureKt.class
-new file mode 100644
-index 0000000..170b73c
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/tasks/ResolveTakenPictureKt.class differ
-diff --git a/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/utils/FileSystemUtils.class b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/utils/FileSystemUtils.class
-new file mode 100644
-index 0000000..c535f14
-Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/build/tmp/kotlin-classes/debug/com/facedetectorcamera/utils/FileSystemUtils.class differ
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraModule.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraModule.kt
 index b56f488..90f8aee 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraModule.kt
@@ -2125,10 +1069,10 @@ index 1c75f18..1f9724e 100644
  
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt
 new file mode 100644
-index 0000000..a09d198
+index 0000000..85d4a3f
 --- /dev/null
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt
-@@ -0,0 +1,765 @@
+@@ -0,0 +1,804 @@
 +package com.facedetectorcamera.pipeline
 +
 +import android.graphics.Bitmap
@@ -2393,10 +1337,7 @@ index 0000000..a09d198
 +        )
 +    }
 +
-+    /**
-+     * Produces MiniFASNetV2's 2.7x padded 80x80 crop.
-+     */
-+    fun processAntiSpoof(input: FaceCropInput): IntArray? {
++    fun processAntiSpoof(input: FaceCropInput, scale: Float): IntArray? {
 +        val bounds = input.faceBounds ?: return null
 +        if (bounds.width() <= 0 || bounds.height() <= 0) return null
 +
@@ -2419,7 +1360,7 @@ index 0000000..a09d198
 +        val orientedWidth = if (input.imageRotationDegrees == 90 || input.imageRotationDegrees == 270) rawHeight else rawWidth
 +        val orientedHeight = if (input.imageRotationDegrees == 90 || input.imageRotationDegrees == 270) rawWidth else rawHeight
 +        val scale = minOf(
-+            2.7f,
++            scale,
 +            (orientedWidth - 1f) / bounds.width(),
 +            (orientedHeight - 1f) / bounds.height()
 +        )
@@ -2603,16 +1544,16 @@ index 0000000..a09d198
 +    }
 +}
 +
-+class AntiSpoofStage(context: android.content.Context) {
++class AntiSpoofStage(context: android.content.Context, assetName: String) {
 +    private var interpreter: org.tensorflow.lite.Interpreter? = null
 +    private val inputBuffer = java.nio.ByteBuffer.allocateDirect(1 * 80 * 80 * 3 * 4)
 +        .apply { order(java.nio.ByteOrder.nativeOrder()) }
 +    private val outputBuffer = Array(1) { FloatArray(3) }
 +
 +    init {
-+        Log.d("FaceAntiSpoof", "BUILD_MARKER=antispoof-byte-scale-v4")
++        Log.d("FaceAntiSpoof", "BUILD_MARKER=antispoof-byte-scale-v4 asset=$assetName")
 +        try {
-+            val fd = context.assets.openFd("minifasnetv2_80.tflite")
++            val fd = context.assets.openFd(assetName)
 +            val model = java.io.FileInputStream(fd.fileDescriptor).channel.map(
 +                java.nio.channels.FileChannel.MapMode.READ_ONLY,
 +                fd.startOffset,
@@ -2626,10 +1567,10 @@ index 0000000..a09d198
 +            val outTensor = interpreter!!.getOutputTensor(0)
 +            Log.d(
 +                "FaceAntiSpoof",
-+                "STARTUP DIAGNOSTIC | Device: ${Build.MANUFACTURER} ${Build.MODEL} (Android ${Build.VERSION.RELEASE}) | Input Tensor: name=${inTensor.name()}, shape=${inTensor.shape().toList()}, type=${inTensor.dataType()} | Output Tensor: name=${outTensor.name()}, shape=${outTensor.shape().toList()}, type=${outTensor.dataType()}"
++                "STARTUP DIAGNOSTIC | Device: ${Build.MANUFACTURER} ${Build.MODEL} (Android ${Build.VERSION.RELEASE}) | Model: $assetName | Input Tensor: name=${inTensor.name()}, shape=${inTensor.shape().toList()}, type=${inTensor.dataType()} | Output Tensor: name=${outTensor.name()}, shape=${outTensor.shape().toList()}, type=${outTensor.dataType()}"
 +            )
 +        } catch (error: Exception) {
-+            Log.e("FaceAntiSpoof", "Failed to load anti-spoof model: ${error.message}", error)
++            Log.e("FaceAntiSpoof", "Failed to load anti-spoof model $assetName: ${error.message}", error)
 +        }
 +    }
 +
@@ -2638,7 +1579,7 @@ index 0000000..a09d198
 +        if (pixels.size != 80 * 80) return null
 +        inputBuffer.rewind()
 +
-+        // This converted MiniFASNetV2 asset expects float tensors on the
++        // This converted MiniFASNet asset expects float tensors on the
 +        // original byte scale. Keep OpenCV's BGR channel order and pass 0..255
 +        // values; dividing by 255 collapses real camera crops into class 2.
 +        for (pixel in pixels) {
@@ -2722,7 +1663,8 @@ index 0000000..a09d198
 +class FacePipeline(context: android.content.Context) {
 +    private val alignmentStage = LandmarkAlignmentStage()
 +    private val cropStage = NativeFaceCropStage()
-+    private val antiSpoofStage = AntiSpoofStage(context)
++    private val antiSpoofStageV2 = AntiSpoofStage(context, "minifasnetv2_80.tflite")
++    private val antiSpoofStageV1SE = AntiSpoofStage(context, "minifasnetv1se_80.tflite")
 +    private val embeddingStage = FaceEmbeddingStage(context)
 +    private var lastLivenessMillis = 0L
 +    private var lastEmbeddingMillis = 0L
@@ -2732,12 +1674,44 @@ index 0000000..a09d198
 +    private var lastTrackingId: Int? = null
 +    private var lastFaceCenter: android.graphics.PointF? = null
 +
-+    private val livenessResults = ArrayDeque<AntiSpoofResult>(4)
++    private val livenessResults = ArrayDeque<AntiSpoofResult>(MAX_LIVENESS_SAMPLES)
 +    private var currentStatus = LivenessStatus.NO_FACE
 +    private var lastNormalizationBundle: Bundle? = null
 +
 +    fun process(face: Face, imageWidth: Int, imageHeight: Int): FaceAlignment =
 +        alignmentStage.process(FacePipelineFrame(face, imageWidth, imageHeight))
++
++    /**
++     * Runs both crop scales against their respective models and averages the
++     * softmax outputs â€” mirrors `prediction += model.predict(...)` /
++     * `value = prediction[label] / 2` in MiniVision's reference test.py.
++     * Falls back to a single model's result if one crop is invalid (e.g. face
++     * near the frame edge at the wider 4.0x scale).
++     */
++    private fun ensembleAntiSpoof(input: FaceCropInput): AntiSpoofResult? {
++        val crop27 = cropStage.processAntiSpoof(input, scale = 2.7f)
++        val crop40 = cropStage.processAntiSpoof(input, scale = 4.0f)
++        val r27 = crop27?.let { antiSpoofStageV2.process(it) }
++        val r40 = crop40?.let { antiSpoofStageV1SE.process(it) }
++
++        return when {
++            r27 != null && r40 != null -> {
++                val avgProbs = FloatArray(3) { i -> (r27.probs[i] + r40.probs[i]) / 2f }
++                val selected = avgProbs.indices.maxByOrNull { avgProbs[it] } ?: 1
++                AntiSpoofResult(
++                    logits = r27.logits,
++                    probs = avgProbs,
++                    probPrint = avgProbs[0],
++                    probLive = avgProbs[1],
++                    probReplay = avgProbs[2],
++                    selectedClass = selected
++                )
++            }
++            r27 != null -> r27
++            r40 != null -> r40
++            else -> null
++        }
++    }
 +
 +    fun cropIfNeeded(
 +        imageProxy: ImageProxy,
@@ -2750,9 +1724,15 @@ index 0000000..a09d198
 +        val now = System.currentTimeMillis()
 +        val currentCenter = android.graphics.PointF(faceBounds.exactCenterX(), faceBounds.exactCenterY())
 +
-+        // Explicit reset triggers: tracking ID change, spatial distance jump > 100px, or timeout > 500ms
++        // Explicit reset triggers: tracking ID change, spatial distance jump > 100px,
++        // or 800ms with no update. Because SPOOF_CONFIRMED and LIVE_CONFIRMED both
++        // stop `lastLivenessMillis` from advancing (see `shouldSample` below), this
++        // same 800ms timeout doubles as the SPOOF_CONFIRMED display hold â€” no
++        // separate hold timer needed.
 +        val idChanged = trackingId != null && trackingId != lastTrackingId
-+        val distanceJumped = lastFaceCenter?.let { hypot((currentCenter.x - it.x).toDouble(), (currentCenter.y - it.y).toDouble()) > 100 } ?: false
++        val distanceJumped = lastFaceCenter?.let {
++            hypot((currentCenter.x - it.x).toDouble(), (currentCenter.y - it.y).toDouble()) > 100
++        } ?: false
 +        val timedOut = currentStatus != LivenessStatus.LIVE_CONFIRMED && now - lastLivenessMillis > 800L
 +
 +        if (idChanged || distanceJumped || timedOut) {
@@ -2763,9 +1743,6 @@ index 0000000..a09d198
 +        }
 +        lastFaceCenter = currentCenter
 +
-+        // Once two positive samples confirm liveness, hand the face straight
-+        // to recognition and stop spending CPU on more PAD inference. A new
-+        // face or a large movement above resets this state.
 +        if (currentStatus == LivenessStatus.LIVE_CONFIRMED) {
 +            lastLivenessMillis = now
 +        }
@@ -2773,74 +1750,80 @@ index 0000000..a09d198
 +        var scoreUpdated = false
 +        var latestResult: AntiSpoofResult? = null
 +
-+        if (currentStatus != LivenessStatus.LIVE_CONFIRMED && now - lastLivenessMillis >= LIVENESS_INTERVAL_MS) {
++        val shouldSample = currentStatus != LivenessStatus.LIVE_CONFIRMED &&
++            currentStatus != LivenessStatus.SPOOF_CONFIRMED &&
++            now - lastLivenessMillis >= LIVENESS_INTERVAL_MS
++
++        if (shouldSample) {
 +            lastLivenessMillis = now
-+            val antiPixels = cropStage.processAntiSpoof(
-+                FaceCropInput(imageProxy, imageRotationDegrees, alignment, faceBounds)
-+            )
-+            if (antiPixels != null) {
-+                val started = android.os.SystemClock.elapsedRealtimeNanos()
-+                val result = antiSpoofStage.process(antiPixels)
-+                lastLivenessDurationMs = (android.os.SystemClock.elapsedRealtimeNanos() - started) / 1_000_000L
-+                if (result != null) {
-+                    latestResult = result
-+                    if (livenessResults.size == MAX_LIVENESS_SAMPLES) livenessResults.removeFirst()
-+                    livenessResults.addLast(result)
-+                    scoreUpdated = true
-+                } else {
-+                    currentStatus = LivenessStatus.MODEL_ERROR
-+                }
++            val started = android.os.SystemClock.elapsedRealtimeNanos()
++            val result = ensembleAntiSpoof(FaceCropInput(imageProxy, imageRotationDegrees, alignment, faceBounds))
++            lastLivenessDurationMs = (android.os.SystemClock.elapsedRealtimeNanos() - started) / 1_000_000L
++            if (result != null) {
++                latestResult = result
++                if (livenessResults.size == MAX_LIVENESS_SAMPLES) livenessResults.removeFirst()
++                livenessResults.addLast(result)
++                scoreUpdated = true
 +            } else {
 +                currentStatus = LivenessStatus.INVALID_CROP
 +            }
 +        }
 +
-+        // Evaluate state machine based on recent samples
 +        val samplesCount = livenessResults.size
 +        val avgLive = if (samplesCount == 0) 0f else livenessResults.map { it.probLive }.average().toFloat()
 +        val avgPrint = if (samplesCount == 0) 0f else livenessResults.map { it.probPrint }.average().toFloat()
 +        val avgReplay = if (samplesCount == 0) 0f else livenessResults.map { it.probReplay }.average().toFloat()
++        val avgAttack = maxOf(avgPrint, avgReplay)
 +        val liveCount = livenessResults.count {
-+            it.probLive >= LIVE_THRESHOLD &&
-+                it.probLive - maxOf(it.probPrint, it.probReplay) >= LIVE_MARGIN
++            it.probLive >= LIVE_THRESHOLD && it.probLive - maxOf(it.probPrint, it.probReplay) >= LIVE_MARGIN
 +        }
 +        val attackCount = livenessResults.count {
 +            maxOf(it.probPrint, it.probReplay) >= ATTACK_THRESHOLD &&
 +                maxOf(it.probPrint, it.probReplay) - it.probLive >= ATTACK_MARGIN
 +        }
-+        val avgAttack = maxOf(avgPrint, avgReplay)
 +
 +        val isLive: Boolean?
-+        if (currentStatus == LivenessStatus.LIVE_CONFIRMED) {
-+            isLive = true
-+        } else if (samplesCount >= REQUIRED_LIVE_SAMPLES) {
-+            if (
-+                liveCount >= REQUIRED_LIVE_SAMPLES &&
++        when {
++            currentStatus == LivenessStatus.LIVE_CONFIRMED -> {
++                isLive = true
++            }
++            currentStatus == LivenessStatus.SPOOF_CONFIRMED -> {
++                // Holding for the UI to display "fake face detected" â€” recovers
++                // automatically via the `timedOut` reset above once 800ms pass
++                // without a new sample.
++                isLive = false
++            }
++            attackCount >= REQUIRED_ATTACK_SAMPLES &&
++                avgAttack >= ATTACK_THRESHOLD &&
++                avgAttack - avgLive >= ATTACK_MARGIN -> {
++                currentStatus = LivenessStatus.SPOOF_CONFIRMED
++                isLive = false
++            }
++            liveCount >= REQUIRED_LIVE_SAMPLES &&
 +                avgLive >= LIVE_THRESHOLD &&
-+                avgLive - avgAttack >= LIVE_MARGIN
-+            ) {
++                avgLive - avgAttack >= LIVE_MARGIN -> {
 +                currentStatus = LivenessStatus.LIVE_CONFIRMED
 +                isLive = true
-+            } else {
-+                // Do not stop on a fake/inconclusive result. Clear this short
-+                // attempt and keep sampling every 100 ms until two positive
-+                // frames arrive together.
++            }
++            samplesCount >= MAX_LIVENESS_SAMPLES -> {
++                // Window is genuinely full and still inconclusive â€” restart clean.
 +                livenessResults.clear()
 +                currentStatus = LivenessStatus.ACQUIRING
 +                isLive = null
 +            }
-+        } else {
-+            if (currentStatus != LivenessStatus.INVALID_CROP && currentStatus != LivenessStatus.MODEL_ERROR) {
-+                currentStatus = LivenessStatus.ACQUIRING
++            else -> {
++                // Still filling the window â€” do NOT clear, keep accumulating
++                // toward REQUIRED_LIVE_SAMPLES / REQUIRED_ATTACK_SAMPLES.
++                if (currentStatus != LivenessStatus.INVALID_CROP && currentStatus != LivenessStatus.MODEL_ERROR) {
++                    currentStatus = LivenessStatus.ACQUIRING
++                }
++                isLive = null
 +            }
-+            isLive = null
 +        }
 +
 +        var cropResult: NormalizedFaceCrop? = null
-+        // The JavaScript owner decides whether passive PAD is enforced. Keep
-+        // extracting the same identity embedding independently so the admin
-+        // switch can genuinely disable enforcement without changing face
-+        // recognition or waiting for a liveness result.
++        // Runs on its own clock, independent of liveness state â€” unchanged from
++        // existing behavior. This independence is what Phase 2 (JS side) relies on.
 +        if (now - lastEmbeddingMillis >= scanningIntervalMs) {
 +            lastEmbeddingMillis = now
 +            val identityCrop = cropStage.process(
@@ -2885,13 +1868,13 @@ index 0000000..a09d198
 +
 +    private companion object {
 +        const val LIVENESS_INTERVAL_MS = 100L
-+        const val LIVE_THRESHOLD = 0.80f
-+        const val LIVE_MARGIN = 0.35f
-+        const val ATTACK_THRESHOLD = 0.65f
-+        const val ATTACK_MARGIN = 0.25f
-+        const val REQUIRED_LIVE_SAMPLES = 2
-+        const val REQUIRED_ATTACK_SAMPLES = 2
-+        const val MAX_LIVENESS_SAMPLES = 2
++        const val LIVE_THRESHOLD = 0.80f      // starting point â€” recalibrate per Phase 3
++        const val LIVE_MARGIN = 0.35f         // starting point â€” recalibrate per Phase 3
++        const val ATTACK_THRESHOLD = 0.65f    // starting point â€” recalibrate per Phase 3
++        const val ATTACK_MARGIN = 0.25f       // starting point â€” recalibrate per Phase 3
++        const val REQUIRED_LIVE_SAMPLES = 3
++        const val REQUIRED_ATTACK_SAMPLES = 3
++        const val MAX_LIVENESS_SAMPLES = 5
 +    }
 +}
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/records/CameraRecords.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/records/CameraRecords.kt

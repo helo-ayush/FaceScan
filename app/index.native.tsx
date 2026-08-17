@@ -324,6 +324,11 @@ export default function CameraLandingScreen() {
   // Sliding-window consensus: the same student must win several of the most
   // recent frames before attendance is marked.
   const consensusRef = useRef(new ConsensusTracker());
+  const lockedCandidateRef = useRef<{
+    student: MatchableStudent;
+    similarity: number;
+    lockedAt: number;
+  } | null>(null);
 
   // Why the current frame was rejected, surfaced in the UI so a student can see
   // whether to hold still, move into better light, or face the camera.
@@ -411,15 +416,6 @@ export default function CameraLandingScreen() {
     // not trigger attendance when the user is scrolling through the log.
     if (scanningPaused || isMatchLocked || !face) return;
 
-    // Passive liveness is shown in its own floating progress pill. Keep this
-    // gate separate from the matching status bar so the scan UI stays calm.
-    if (settings.antiSpoofingEnabled && face.isLive !== true) {
-      setRejectReason(null);
-      setLastScored(null);
-      if (face.isLive === false) consensusRef.current.reset();
-      return;
-    }
-
     const quality = checkFrameQuality(face, { requireGoodLighting: false });
     if (!quality.ok) {
       // A poor frame is not evidence either way — drop it without letting it
@@ -444,67 +440,83 @@ export default function CameraLandingScreen() {
     setRejectReason(null);
     const { candidate } = decision;
     const confirmedId = consensusRef.current.push(candidate.studentId);
-    if (!confirmedId) return;
+    if (confirmedId && !lockedCandidateRef.current) {
+      lockedCandidateRef.current = {
+        student: candidate.student,
+        similarity: candidate.similarity,
+        lockedAt: Date.now(),
+      };
+    }
 
-    // Confirmed: lock the UI, mark attendance, then resume scanning.
-    const student = candidate.student;
-    setIsMatchLocked(true);
-    AppSettings.haptic("success");
-    consensusRef.current.reset();
+    if (lockedCandidateRef.current) {
+      if (!settings.antiSpoofingEnabled || face.isLive === true) {
+        const student = lockedCandidateRef.current.student;
+        const similarity = lockedCandidateRef.current.similarity;
+        lockedCandidateRef.current = null;
+        consensusRef.current.reset();
 
-    setMatchedStudent({
-      name: student.name,
-      enrollmentNumber: student.enrollmentNumber,
-      classId: student.classId,
-      cosine: candidate.similarity,
-      initials: student.name.split(" ").map((n) => n[0]).join(""),
-      sync: "pending",
-    });
+        setIsMatchLocked(true);
+        AppSettings.haptic("success");
 
-    // ——— Offline-first: write to local queue, then trigger sync ———
-    const now = new Date();
-    const localDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        setMatchedStudent({
+          name: student.name,
+          enrollmentNumber: student.enrollmentNumber,
+          classId: student.classId,
+          cosine: similarity,
+          initials: student.name.split(" ").map((n) => n[0]).join(""),
+          sync: "pending",
+        });
 
-    insertPendingAttendance({
-      enrollmentNumber: student.enrollmentNumber,
-      classId: student.classId,
-      capturedAt: now.toISOString(),
-      localDate,
-      similarity: candidate.similarity,
-      margin: scored.margin,
-      pose: candidate.pose,
-    }).then((inserted) => {
-      if (inserted) {
-        // New record queued — add to session log and trigger sync.
-        setMatchedStudent((prev) =>
-          prev ? { ...prev, sync: "saved" } : null
-        );
-        setSessionLog((prev) => [
-          { name: student.name, enrollmentNumber: student.enrollmentNumber, classId: student.classId, cosine: candidate.similarity, at: Date.now() },
-          ...prev,
-        ]);
-      } else {
-        // Local dedupe caught it — same student already queued today.
-        setMatchedStudent((prev) =>
-          prev ? { ...prev, sync: "duplicate" } : null
-        );
+        // ——— Offline-first: write to local queue, then trigger sync ———
+        const now = new Date();
+        const localDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+        insertPendingAttendance({
+          enrollmentNumber: student.enrollmentNumber,
+          classId: student.classId,
+          capturedAt: now.toISOString(),
+          localDate,
+          similarity: similarity,
+          margin: scored.margin,
+          pose: candidate.pose,
+        }).then((inserted) => {
+          if (inserted) {
+            // New record queued — add to session log and trigger sync.
+            setMatchedStudent((prev) =>
+              prev ? { ...prev, sync: "saved" } : null
+            );
+            setSessionLog((prev) => [
+              { name: student.name, enrollmentNumber: student.enrollmentNumber, classId: student.classId, cosine: similarity, at: Date.now() },
+              ...prev,
+            ]);
+          } else {
+            // Local dedupe caught it — same student already queued today.
+            setMatchedStudent((prev) =>
+              prev ? { ...prev, sync: "duplicate" } : null
+            );
+          }
+          triggerSync();
+        }).catch((err) => {
+          console.error("Failed to queue attendance locally:", err);
+          setMatchedStudent((prev) =>
+            prev ? { ...prev, sync: "failed", syncDetail: "Local DB error" } : null
+          );
+        });
+
+        setTimeout(() => {
+          setMatchedStudent(null);
+          setIsMatchLocked(false);
+        }, 3500);
+      } else if (
+        face.livenessStatus === "SPOOF_CONFIRMED" ||
+        Date.now() - lockedCandidateRef.current.lockedAt > 2000
+      ) {
+        // unlock: discard this candidate, resume active scanning
+        lockedCandidateRef.current = null;
+        consensusRef.current.reset();
       }
-      // Trigger sync (it's safe to call even if network is down — it just
-      // skips if it can't reach the server). We call scanSessionEnd/Start
-      // around it so the single attendance push goes through without being
-      // suppressed by the scanning guard.
-      triggerSync();
-    }).catch((err) => {
-      console.error("Failed to queue attendance locally:", err);
-      setMatchedStudent((prev) =>
-        prev ? { ...prev, sync: "failed", syncDetail: "Local DB error" } : null
-      );
-    });
-
-    setTimeout(() => {
-      setMatchedStudent(null);
-      setIsMatchLocked(false);
-    }, 3500);
+      // else: still waiting on liveness — do nothing further this tick
+    }
   }, [face, lighting, students, isMatchLocked, settings.antiSpoofingEnabled, triggerSync]);
 
   const previewFace = useMemo(
@@ -519,13 +531,9 @@ export default function CameraLandingScreen() {
     if (!settings.antiSpoofingEnabled || !previewFace || !face) return null;
 
     const lightingWarning = getLightingWarning(face, lighting);
-    const attackProbability = Math.max(face.livenessPrintProb ?? 0, face.livenessReplayProb ?? 0);
-    const looksLikeAttack =
-      face.isLive !== true &&
-      attackProbability >= 0.65 &&
-      attackProbability > (face.livenessScore ?? 0);
+    const spoofConfirmed = face.livenessStatus === "SPOOF_CONFIRMED";
 
-    if (face.isLive === false || looksLikeAttack) {
+    if (face.isLive === false || spoofConfirmed) {
       return {
         title: lightingWarning ? "Improve lighting — retrying" : "Face not real — retrying",
         loading: true,
@@ -540,6 +548,15 @@ export default function CameraLandingScreen() {
         loading: false,
         color: "#10b981",
         tint: "rgba(16,185,129,0.10)",
+        surface: "rgba(255,255,255,0.98)",
+      };
+    }
+    if (lockedCandidateRef.current != null && face.isLive !== true) {
+      return {
+        title: "Verifying it's really you…",
+        loading: true,
+        color: "#5d5fef",
+        tint: "rgba(93,95,239,0.10)",
         surface: "rgba(255,255,255,0.98)",
       };
     }
