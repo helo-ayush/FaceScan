@@ -1,0 +1,1283 @@
+--------- beginning of main
+08-19 23:12:16.939 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[75.4,11.6,23.8] range=[28..113,0..26,4..39] signature=320246840
+08-19 23:12:16.949 D/FaceAntiSpoof(20290): LOGITS: [-1.33, -1.35, 2.69] | PROBS: [c0=0.0174, c1(live)=0.0170, c2=0.9656] | argmax=2
+08-19 23:12:16.952 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[75.4,11.6,23.8] range=[28..113,0..26,4..39] signature=320246840
+08-19 23:12:16.964 D/FaceAntiSpoof(20290): LOGITS: [0.51, -0.21, -0.31] | PROBS: [c0=0.5192, c1(live)=0.2520, c2=0.2289] | argmax=0
+08-19 23:12:16.965 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.1345 print=0.2683 replay=0.5972 attack=0.5972 margin=-0.4627 argmax=2 v2Attack=0.9656 v1seAttack=0.5192 sameCrop=true
+08-19 23:12:16.978 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.5972/+0.14 PARALLAX=-/- MOIRE=0.7585/+0.09 SPECULAR=0.0000/+0.00 CHROMA=2.4447/+0.00 BEZEL=-/- | QUALITY eye=69.7 faceW=310 luma=39.5 sharp=1.475 yaw=27.2 pitch=1.1 roll=-5.1
+08-19 23:12:16.980 D/FaceAntiSpoof(20290): CADENCE | gap=478ms target=100ms inferMs=78 frame=480x640
+08-19 23:12:16.980 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=0.229 frame=+0.229 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:17.125 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=72.6 faceW=230 luma=207.3 sharp=0.131 yaw=0.5 pitch=11.0 roll=1.8
+08-19 23:12:17.125 D/FaceAntiSpoof(20290): CADENCE | gap=222ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:12:17.259 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=72.1 faceW=223 luma=145.9 sharp=0.067 yaw=0.1 pitch=13.6 roll=0.7
+08-19 23:12:17.259 D/FaceAntiSpoof(20290): CADENCE | gap=132ms target=100ms inferMs=4 frame=480x640 gated=HOLD_STILL
+08-19 23:12:17.390 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=72.4 faceW=221 luma=108.8 sharp=0.109 yaw=1.0 pitch=14.5 roll=-0.7
+08-19 23:12:17.391 D/FaceAntiSpoof(20290): CADENCE | gap=133ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 23:12:17.627 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=73.3 faceW=221 luma=105.7 sharp=0.105 yaw=1.5 pitch=14.8 roll=-1.2
+08-19 23:12:17.627 D/FaceAntiSpoof(20290): CADENCE | gap=236ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 23:12:17.841 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.3,120.9,106.8] range=[37..251,34..255,28..255] signature=-1946009093
+08-19 23:12:17.853 D/FaceAntiSpoof(20290): LOGITS: [-4.46, 3.12, 1.34] | PROBS: [c0=0.0004, c1(live)=0.8554, c2=0.1442] | argmax=1
+08-19 23:12:17.856 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.3,120.9,106.8] range=[37..251,34..255,28..255] signature=-1946009093
+08-19 23:12:17.866 D/FaceAntiSpoof(20290): LOGITS: [-5.96, 4.74, 1.21] | PROBS: [c0=0.0000, c1(live)=0.9715, c2=0.0285] | argmax=1
+08-19 23:12:17.867 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9135 print=0.0002 replay=0.0863 attack=0.0863 margin=0.8271 argmax=1 v2Attack=0.1442 v1seAttack=0.0285 sameCrop=true
+08-19 23:12:17.881 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0863/-1.39 PARALLAX=0.0223/+0.00 MOIRE=1.2284/+0.79 SPECULAR=0.0000/+0.00 CHROMA=7.3986/+0.00 BEZEL=0.4823/+0.00 | QUALITY eye=73.0 faceW=216 luma=108.6 sharp=0.143 yaw=1.9 pitch=13.5 roll=-2.1
+08-19 23:12:17.881 D/FaceAntiSpoof(20290): CADENCE | gap=190ms target=100ms inferMs=64 frame=480x640
+08-19 23:12:17.882 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.598 frame=-0.598 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:17.927 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=72.6 faceW=234 luma=120.6 sharp=0.106 yaw=2.9 pitch=10.2 roll=0.7
+08-19 23:12:17.927 D/FaceAntiSpoof(20290): CADENCE | gap=108ms target=100ms inferMs=4 frame=480x640 gated=HOLD_STILL
+08-19 23:12:18.136 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=73.4 faceW=235 luma=121.5 sharp=0.103 yaw=2.3 pitch=15.5 roll=0.9
+08-19 23:12:18.136 D/FaceAntiSpoof(20290): CADENCE | gap=210ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:12:18.292 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[127.4,120.5,107.6] range=[35..255,33..255,22..255] signature=-44376182
+08-19 23:12:18.298 D/FaceAntiSpoof(20290): LOGITS: [-4.65, 4.44, 0.20] | PROBS: [c0=0.0001, c1(live)=0.9857, c2=0.0142] | argmax=1
+08-19 23:12:18.301 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[127.4,120.5,107.6] range=[35..255,33..255,22..255] signature=-44376182
+08-19 23:12:18.307 D/FaceAntiSpoof(20290): LOGITS: [-4.60, 5.49, -0.90] | PROBS: [c0=0.0000, c1(live)=0.9983, c2=0.0017] | argmax=1
+08-19 23:12:18.307 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9920 print=0.0001 replay=0.0079 attack=0.0079 margin=0.9841 argmax=1 v2Attack=0.0142 v1seAttack=0.0017 sameCrop=true
+08-19 23:12:18.321 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0079/-1.63 PARALLAX=0.0133/+0.00 MOIRE=0.8518/+0.23 SPECULAR=0.0000/+0.00 CHROMA=7.4586/+0.00 BEZEL=0.5064/+0.00 | QUALITY eye=72.6 faceW=223 luma=102.5 sharp=0.232 yaw=2.6 pitch=15.1 roll=1.5
+08-19 23:12:18.323 D/FaceAntiSpoof(20290): CADENCE | gap=142ms target=100ms inferMs=46 frame=480x640
+08-19 23:12:18.323 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.907 frame=-1.398 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:18.459 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.1,118.8,105.6] range=[35..254,35..255,22..255] signature=-539413321
+08-19 23:12:18.467 D/FaceAntiSpoof(20290): LOGITS: [-5.63, 4.70, 0.93] | PROBS: [c0=0.0000, c1(live)=0.9776, c2=0.0224] | argmax=1
+08-19 23:12:18.470 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.1,118.8,105.6] range=[35..254,35..255,22..255] signature=-539413321
+08-19 23:12:18.476 D/FaceAntiSpoof(20290): LOGITS: [-4.27, 4.23, 0.04] | PROBS: [c0=0.0002, c1(live)=0.9849, c2=0.0149] | argmax=1
+08-19 23:12:18.477 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9812 print=0.0001 replay=0.0187 attack=0.0187 margin=0.9626 argmax=1 v2Attack=0.0224 v1seAttack=0.0149 sameCrop=true
+08-19 23:12:18.493 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0187/-1.59 PARALLAX=0.0142/+0.00 MOIRE=1.1344/+0.65 SPECULAR=0.0000/+0.00 CHROMA=7.1559/+0.00 BEZEL=0.5459/+0.00 | QUALITY eye=73.5 faceW=226 luma=100.7 sharp=0.144 yaw=1.5 pitch=14.8 roll=1.0
+08-19 23:12:18.494 D/FaceAntiSpoof(20290): CADENCE | gap=162ms target=100ms inferMs=56 frame=480x640
+08-19 23:12:18.494 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.564 frame=-0.942 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:18.679 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[124.1,115.7,102.1] range=[34..255,33..255,19..255] signature=-1151474809
+08-19 23:12:18.689 D/FaceAntiSpoof(20290): LOGITS: [-5.21, 5.40, -0.19] | PROBS: [c0=0.0000, c1(live)=0.9962, c2=0.0037] | argmax=1
+08-19 23:12:18.692 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[124.1,115.7,102.1] range=[34..255,33..255,19..255] signature=-1151474809
+08-19 23:12:18.698 D/FaceAntiSpoof(20290): LOGITS: [-4.71, 4.04, 0.67] | PROBS: [c0=0.0002, c1(live)=0.9668, c2=0.0330] | argmax=1
+08-19 23:12:18.699 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9815 print=0.0001 replay=0.0184 attack=0.0184 margin=0.9632 argmax=1 v2Attack=0.0037 v1seAttack=0.0330 sameCrop=true
+08-19 23:12:18.714 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0184/-1.59 PARALLAX=0.0100/+0.00 MOIRE=1.0339/+0.50 SPECULAR=0.0000/+0.00 CHROMA=7.0050/+0.00 BEZEL=0.5582/+0.00 | QUALITY eye=74.3 faceW=228 luma=100.6 sharp=0.187 yaw=1.8 pitch=16.6 roll=0.7
+08-19 23:12:18.715 D/FaceAntiSpoof(20290): CADENCE | gap=229ms target=100ms inferMs=50 frame=480x640
+08-19 23:12:18.716 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.273 frame=-1.094 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:18.853 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=73.0 faceW=218 luma=104.6 sharp=0.113 yaw=3.5 pitch=14.9 roll=0.5
+08-19 23:12:18.853 D/FaceAntiSpoof(20290): CADENCE | gap=185ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 23:12:18.985 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[132.0,123.1,110.7] range=[37..255,35..255,24..255] signature=840948997
+08-19 23:12:18.990 D/FaceAntiSpoof(20290): LOGITS: [-5.35, 5.45, -0.10] | PROBS: [c0=0.0000, c1(live)=0.9961, c2=0.0038] | argmax=1
+08-19 23:12:18.994 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[132.0,123.1,110.7] range=[37..255,35..255,24..255] signature=840948997
+08-19 23:12:19.000 D/FaceAntiSpoof(20290): LOGITS: [-4.12, 5.55, -1.43] | PROBS: [c0=0.0001, c1(live)=0.9990, c2=0.0009] | argmax=1
+08-19 23:12:19.000 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9976 print=0.0000 replay=0.0024 attack=0.0024 margin=0.9952 argmax=1 v2Attack=0.0038 v1seAttack=0.0009 sameCrop=true
+08-19 23:12:19.024 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0024/-1.64 PARALLAX=0.0095/+0.00 MOIRE=1.1214/+0.63 SPECULAR=0.0000/+0.00 CHROMA=7.1618/+0.00 BEZEL=0.4916/+0.00 | QUALITY eye=72.0 faceW=213 luma=104.8 sharp=0.164 yaw=3.2 pitch=15.1 roll=0.6
+08-19 23:12:19.025 D/FaceAntiSpoof(20290): CADENCE | gap=120ms target=100ms inferMs=55 frame=480x640
+08-19 23:12:19.026 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.793 frame=-1.011 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:19.228 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[131.6,122.9,110.9] range=[37..255,36..255,26..255] signature=-1767706574
+08-19 23:12:19.238 D/FaceAntiSpoof(20290): LOGITS: [-4.87, 4.91, -0.04] | PROBS: [c0=0.0001, c1(live)=0.9930, c2=0.0070] | argmax=1
+08-19 23:12:19.241 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[131.6,122.9,110.9] range=[37..255,36..255,26..255] signature=-1767706574
+08-19 23:12:19.251 D/FaceAntiSpoof(20290): LOGITS: [-4.51, 6.14, -1.64] | PROBS: [c0=0.0000, c1(live)=0.9996, c2=0.0004] | argmax=1
+08-19 23:12:19.252 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9963 print=0.0000 replay=0.0037 attack=0.0037 margin=0.9926 argmax=1 v2Attack=0.0070 v1seAttack=0.0004 sameCrop=true
+08-19 23:12:19.266 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0037/-1.64 PARALLAX=-/- MOIRE=0.6410/+0.00 SPECULAR=0.0000/+0.00 CHROMA=7.2019/+0.00 BEZEL=0.4919/+0.00 | QUALITY eye=72.0 faceW=214 luma=105.9 sharp=0.234 yaw=2.9 pitch=15.2 roll=0.9
+08-19 23:12:19.266 D/FaceAntiSpoof(20290): CADENCE | gap=245ms target=100ms inferMs=51 frame=480x640
+08-19 23:12:19.267 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.863 frame=-1.639 ticks=6 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:21.127 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=60.8 faceW=201 luma=135.9 sharp=0.097 yaw=1.3 pitch=5.2 roll=0.5
+08-19 23:12:21.127 D/FaceAntiSpoof(20290): CADENCE | gap=931ms target=100ms inferMs=16 frame=480x640 gated=HOLD_STILL
+08-19 23:12:21.320 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.1,126.5,114.7] range=[38..253,36..255,26..254] signature=1074080393
+08-19 23:12:21.332 D/FaceAntiSpoof(20290): LOGITS: [-3.01, 2.30, 0.70] | PROBS: [c0=0.0041, c1(live)=0.8287, c2=0.1672] | argmax=1
+08-19 23:12:21.335 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.1,126.5,114.7] range=[38..253,36..255,26..254] signature=1074080393
+08-19 23:12:21.345 D/FaceAntiSpoof(20290): LOGITS: [-4.23, 3.99, 0.24] | PROBS: [c0=0.0003, c1(live)=0.9766, c2=0.0231] | argmax=1
+08-19 23:12:21.346 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9026 print=0.0022 replay=0.0952 attack=0.0952 margin=0.8075 argmax=1 v2Attack=0.1672 v1seAttack=0.0231 sameCrop=true
+08-19 23:12:21.372 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0952/-1.36 PARALLAX=-/- MOIRE=1.7044/+1.51 SPECULAR=0.0000/+0.00 CHROMA=7.1629/+0.00 BEZEL=0.4444/+0.00 | QUALITY eye=59.2 faceW=195 luma=103.6 sharp=0.152 yaw=9.7 pitch=6.4 roll=3.2
+08-19 23:12:21.373 D/FaceAntiSpoof(20290): CADENCE | gap=179ms target=100ms inferMs=78 frame=480x640
+08-19 23:12:21.373 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=0.142 frame=+0.142 ticks=1 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:21.432 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[122.6,120.7,109.9] range=[37..245,33..252,32..247] signature=2044515726
+08-19 23:12:21.438 D/FaceAntiSpoof(20290): LOGITS: [-2.40, 2.94, -0.54] | PROBS: [c0=0.0046, c1(live)=0.9658, c2=0.0296] | argmax=1
+08-19 23:12:21.441 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[122.6,120.7,109.9] range=[37..245,33..252,32..247] signature=2044515726
+08-19 23:12:21.447 D/FaceAntiSpoof(20290): LOGITS: [-3.92, 4.49, -0.57] | PROBS: [c0=0.0002, c1(live)=0.9934, c2=0.0063] | argmax=1
+08-19 23:12:21.447 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9796 print=0.0024 replay=0.0180 attack=0.0180 margin=0.9616 argmax=1 v2Attack=0.0296 v1seAttack=0.0063 sameCrop=true
+08-19 23:12:21.461 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0180/-1.60 PARALLAX=-/- MOIRE=1.3337/+0.95 SPECULAR=0.0000/+0.00 CHROMA=6.7172/+0.00 BEZEL=0.4312/+0.00 | QUALITY eye=58.9 faceW=183 luma=92.7 sharp=0.181 yaw=7.3 pitch=8.1 roll=4.2
+08-19 23:12:21.462 D/FaceAntiSpoof(20290): CADENCE | gap=131ms target=100ms inferMs=41 frame=480x640
+08-19 23:12:21.462 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.525 frame=-0.646 ticks=2 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:21.626 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.0,118.3,107.3] range=[37..255,36..255,33..255] signature=472546450
+08-19 23:12:21.636 D/FaceAntiSpoof(20290): LOGITS: [-1.45, 2.70, -1.25] | PROBS: [c0=0.0152, c1(live)=0.9662, c2=0.0186] | argmax=1
+08-19 23:12:21.641 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.0,118.3,107.3] range=[37..255,36..255,33..255] signature=472546450
+08-19 23:12:21.652 D/FaceAntiSpoof(20290): LOGITS: [-2.82, 3.12, -0.30] | PROBS: [c0=0.0025, c1(live)=0.9659, c2=0.0316] | argmax=1
+08-19 23:12:21.652 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9660 print=0.0089 replay=0.0251 attack=0.0251 margin=0.9409 argmax=1 v2Attack=0.0186 v1seAttack=0.0316 sameCrop=true
+08-19 23:12:21.666 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0251/-1.57 PARALLAX=0.0147/+0.00 MOIRE=0.3506/+0.00 SPECULAR=0.0000/+0.00 CHROMA=6.6127/+0.00 BEZEL=0.4439/+0.00 | QUALITY eye=55.9 faceW=180 luma=91.4 sharp=0.141 yaw=7.4 pitch=5.4 roll=5.3
+08-19 23:12:21.667 D/FaceAntiSpoof(20290): CADENCE | gap=180ms target=100ms inferMs=64 frame=480x640
+08-19 23:12:21.667 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.021 frame=-1.575 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:21.733 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[122.7,119.8,108.5] range=[39..255,37..255,34..245] signature=1563404413
+08-19 23:12:21.744 D/FaceAntiSpoof(20290): LOGITS: [-2.41, 2.33, 0.08] | PROBS: [c0=0.0078, c1(live)=0.8972, c2=0.0950] | argmax=1
+08-19 23:12:21.750 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[122.7,119.7,108.5] range=[38..253,36..255,34..253] signature=-1092608137
+08-19 23:12:21.760 D/FaceAntiSpoof(20290): LOGITS: [-3.97, 4.51, -0.54] | PROBS: [c0=0.0002, c1(live)=0.9934, c2=0.0064] | argmax=1
+08-19 23:12:21.761 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9453 print=0.0040 replay=0.0507 attack=0.0507 margin=0.8946 argmax=1 v2Attack=0.0950 v1seAttack=0.0064 sameCrop=false
+08-19 23:12:21.774 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0507/-1.50 PARALLAX=0.0167/+0.00 MOIRE=0.7438/+0.07 SPECULAR=0.0000/+0.00 CHROMA=6.6423/+0.00 BEZEL=0.4440/+0.00 | QUALITY eye=55.2 faceW=177 luma=90.3 sharp=0.141 yaw=6.1 pitch=6.2 roll=4.8
+08-19 23:12:21.775 D/FaceAntiSpoof(20290): CADENCE | gap=117ms target=100ms inferMs=55 frame=480x640
+08-19 23:12:21.775 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.150 frame=-1.432 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:22.019 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.4,126.1,114.2] range=[43..253,38..255,36..253] signature=566133690
+08-19 23:12:22.029 D/FaceAntiSpoof(20290): LOGITS: [-3.60, 3.29, 0.30] | PROBS: [c0=0.0010, c1(live)=0.9513, c2=0.0477] | argmax=1
+08-19 23:12:22.032 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[129.9,125.8,114.0] range=[44..253,37..255,35..254] signature=1460607724
+08-19 23:12:22.044 D/FaceAntiSpoof(20290): LOGITS: [-4.86, 5.02, -0.16] | PROBS: [c0=0.0001, c1(live)=0.9944, c2=0.0056] | argmax=1
+08-19 23:12:22.045 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9728 print=0.0005 replay=0.0267 attack=0.0267 margin=0.9462 argmax=1 v2Attack=0.0477 v1seAttack=0.0056 sameCrop=false
+08-19 23:12:22.058 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0267/-1.57 PARALLAX=0.0142/+0.00 MOIRE=1.1544/+0.68 SPECULAR=0.0000/+0.00 CHROMA=6.6256/+0.00 BEZEL=0.4753/+0.00 | QUALITY eye=55.7 faceW=169 luma=97.2 sharp=0.150 yaw=5.8 pitch=5.3 roll=2.9
+08-19 23:12:22.059 D/FaceAntiSpoof(20290): CADENCE | gap=285ms target=100ms inferMs=54 frame=480x640
+08-19 23:12:22.059 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.566 frame=-0.888 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:22.126 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[136.4,132.0,119.7] range=[43..255,39..255,37..255] signature=-1989928960
+08-19 23:12:22.136 D/FaceAntiSpoof(20290): LOGITS: [-3.36, 2.74, 0.62] | PROBS: [c0=0.0020, c1(live)=0.8910, c2=0.1070] | argmax=1
+08-19 23:12:22.139 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[136.1,131.9,119.6] range=[44..255,40..255,35..255] signature=1570733145
+08-19 23:12:22.150 D/FaceAntiSpoof(20290): LOGITS: [-4.94, 4.90, 0.05] | PROBS: [c0=0.0001, c1(live)=0.9922, c2=0.0077] | argmax=1
+08-19 23:12:22.150 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9416 print=0.0010 replay=0.0574 attack=0.0574 margin=0.8843 argmax=1 v2Attack=0.1070 v1seAttack=0.0077 sameCrop=false
+08-19 23:12:22.163 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0574/-1.48 PARALLAX=0.0131/+0.00 MOIRE=1.2456/+0.82 SPECULAR=0.0000/+0.00 CHROMA=6.9400/+0.00 BEZEL=0.4634/+0.00 | QUALITY eye=55.6 faceW=171 luma=101.6 sharp=0.226 yaw=4.7 pitch=5.3 roll=2.4
+08-19 23:12:22.164 D/FaceAntiSpoof(20290): CADENCE | gap=110ms target=100ms inferMs=51 frame=480x640
+08-19 23:12:22.164 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.690 frame=-0.659 ticks=6 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:22.299 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[136.2,131.5,119.5] range=[44..255,39..255,35..255] signature=711165960
+08-19 23:12:22.309 D/FaceAntiSpoof(20290): LOGITS: [-3.41, 3.14, 0.27] | PROBS: [c0=0.0014, c1(live)=0.9450, c2=0.0537] | argmax=1
+08-19 23:12:22.312 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[136.0,131.4,119.5] range=[45..255,40..255,36..255] signature=1580052137
+08-19 23:12:22.324 D/FaceAntiSpoof(20290): LOGITS: [-5.65, 4.71, 0.94] | PROBS: [c0=0.0000, c1(live)=0.9774, c2=0.0226] | argmax=1
+08-19 23:12:22.324 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9612 print=0.0007 replay=0.0381 attack=0.0381 margin=0.9231 argmax=1 v2Attack=0.0537 v1seAttack=0.0226 sameCrop=false
+08-19 23:12:22.338 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0381/-1.54 PARALLAX=0.0134/+0.00 MOIRE=0.5537/+0.00 SPECULAR=0.0000/+0.00 CHROMA=6.9932/+0.00 BEZEL=0.4470/+0.00 | QUALITY eye=55.7 faceW=172 luma=100.2 sharp=0.256 yaw=4.4 pitch=5.6 roll=2.3
+08-19 23:12:22.339 D/FaceAntiSpoof(20290): CADENCE | gap=171ms target=100ms inferMs=54 frame=480x640
+08-19 23:12:22.340 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.673 frame=-1.536 ticks=7 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:24.422 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[190.6,178.7,160.7] range=[79..255,73..255,66..255] signature=-213221826
+08-19 23:12:24.434 D/FaceAntiSpoof(20290): LOGITS: [-4.33, 1.49, 2.83] | PROBS: [c0=0.0006, c1(live)=0.2070, c2=0.7924] | argmax=2
+08-19 23:12:24.437 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[190.6,178.7,160.7] range=[79..255,73..255,66..255] signature=-213221826
+08-19 23:12:24.448 D/FaceAntiSpoof(20290): LOGITS: [-5.70, 5.53, 0.17] | PROBS: [c0=0.0000, c1(live)=0.9953, c2=0.0047] | argmax=1
+08-19 23:12:24.449 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.6011 print=0.0003 replay=0.3985 attack=0.3985 margin=0.2026 argmax=1 v2Attack=0.7924 v1seAttack=0.0047 sameCrop=true
+08-19 23:12:24.463 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.3985/-0.45 PARALLAX=-/- MOIRE=1.3810/+1.02 SPECULAR=0.0363/+0.00 CHROMA=11.2935/+0.00 BEZEL=0.0000/+0.00 | QUALITY eye=63.3 faceW=190 luma=170.7 sharp=0.208 yaw=0.2 pitch=11.9 roll=1.2
+08-19 23:12:24.464 D/FaceAntiSpoof(20290): CADENCE | gap=618ms target=100ms inferMs=58 frame=480x640
+08-19 23:12:24.464 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=0.567 frame=+0.567 ticks=1 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:24.622 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=63.6 faceW=198 luma=117.7 sharp=0.109 yaw=-5.7 pitch=7.5 roll=0.7
+08-19 23:12:24.622 D/FaceAntiSpoof(20290): CADENCE | gap=213ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 23:12:24.801 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=64.0 faceW=205 luma=119.7 sharp=0.114 yaw=-17.5 pitch=5.6 roll=0.4
+08-19 23:12:24.802 D/FaceAntiSpoof(20290): CADENCE | gap=175ms target=100ms inferMs=7 frame=480x640 gated=HOLD_STILL
+08-19 23:12:24.964 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[114.9,107.4,93.4] range=[35..255,33..255,22..254] signature=-875994520
+08-19 23:12:24.979 D/FaceAntiSpoof(20290): LOGITS: [-5.87, 6.21, -0.34] | PROBS: [c0=0.0000, c1(live)=0.9986, c2=0.0014] | argmax=1
+08-19 23:12:24.983 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[114.9,107.4,93.4] range=[35..255,33..255,22..254] signature=-875994520
+08-19 23:12:24.995 D/FaceAntiSpoof(20290): LOGITS: [-5.68, 5.76, -0.09] | PROBS: [c0=0.0000, c1(live)=0.9971, c2=0.0029] | argmax=1
+08-19 23:12:24.996 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9978 print=0.0000 replay=0.0022 attack=0.0022 margin=0.9957 argmax=1 v2Attack=0.0014 v1seAttack=0.0029 sameCrop=true
+08-19 23:12:25.010 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0022/-1.64 PARALLAX=0.0068/+0.00 MOIRE=1.5534/+1.28 SPECULAR=0.0000/+0.00 CHROMA=8.9269/+0.00 BEZEL=0.4532/+0.00 | QUALITY eye=59.4 faceW=211 luma=109.9 sharp=0.147 yaw=-20.7 pitch=4.6 roll=-1.1
+08-19 23:12:25.010 D/FaceAntiSpoof(20290): CADENCE | gap=139ms target=100ms inferMs=75 frame=480x640
+08-19 23:12:25.011 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=0.119 frame=-0.363 ticks=2 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:25.251 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=60.5 faceW=202 luma=122.3 sharp=0.229 yaw=-36.0 pitch=1.6 roll=1.9
+08-19 23:12:25.251 D/FaceAntiSpoof(20290): CADENCE | gap=315ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:25.360 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=62.3 faceW=200 luma=123.5 sharp=0.242 yaw=-33.1 pitch=1.3 roll=2.0
+08-19 23:12:25.360 D/FaceAntiSpoof(20290): CADENCE | gap=102ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:25.465 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=62.4 faceW=199 luma=124.6 sharp=0.146 yaw=-32.2 pitch=1.7 roll=2.3
+08-19 23:12:25.466 D/FaceAntiSpoof(20290): CADENCE | gap=104ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:25.628 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=61.2 faceW=198 luma=124.7 sharp=0.233 yaw=-32.1 pitch=1.7 roll=2.2
+08-19 23:12:25.628 D/FaceAntiSpoof(20290): CADENCE | gap=168ms target=100ms inferMs=4 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:25.795 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.2,110.6,97.9] range=[34..252,34..255,20..255] signature=-215216218
+08-19 23:12:25.814 D/FaceAntiSpoof(20290): LOGITS: [-4.74, 4.98, -0.24] | PROBS: [c0=0.0001, c1(live)=0.9945, c2=0.0054] | argmax=1
+08-19 23:12:25.818 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.2,110.6,97.9] range=[34..252,34..255,20..255] signature=-215216218
+08-19 23:12:25.829 D/FaceAntiSpoof(20290): LOGITS: [-5.12, 6.47, -1.35] | PROBS: [c0=0.0000, c1(live)=0.9996, c2=0.0004] | argmax=1
+08-19 23:12:25.830 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9971 print=0.0000 replay=0.0029 attack=0.0029 margin=0.9942 argmax=1 v2Attack=0.0054 v1seAttack=0.0004 sameCrop=true
+08-19 23:12:25.846 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0029/-1.64 PARALLAX=0.0106/+0.00 MOIRE=1.2364/+0.80 SPECULAR=0.0000/+0.00 CHROMA=10.1043/+0.00 BEZEL=0.4186/+0.00 | QUALITY eye=62.1 faceW=203 luma=124.5 sharp=0.166 yaw=-26.4 pitch=1.9 roll=2.0
+08-19 23:12:25.847 D/FaceAntiSpoof(20290): CADENCE | gap=143ms target=100ms inferMs=78 frame=480x640
+08-19 23:12:25.847 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.736 frame=-0.837 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:25.904 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.2,110.5,97.9] range=[35..246,34..254,24..255] signature=627398405
+08-19 23:12:25.910 D/FaceAntiSpoof(20290): LOGITS: [-5.14, 5.28, -0.15] | PROBS: [c0=0.0000, c1(live)=0.9956, c2=0.0044] | argmax=1
+08-19 23:12:25.913 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.2,110.5,97.9] range=[35..246,34..254,24..255] signature=627398405
+08-19 23:12:25.918 D/FaceAntiSpoof(20290): LOGITS: [-4.83, 6.00, -1.16] | PROBS: [c0=0.0000, c1(live)=0.9992, c2=0.0008] | argmax=1
+08-19 23:12:25.919 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9974 print=0.0000 replay=0.0026 attack=0.0026 margin=0.9948 argmax=1 v2Attack=0.0044 v1seAttack=0.0008 sameCrop=true
+08-19 23:12:25.933 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0026/-1.64 PARALLAX=0.0134/+0.00 MOIRE=0.4274/+0.00 SPECULAR=0.0000/+0.00 CHROMA=10.1285/+0.00 BEZEL=0.4261/+0.00 | QUALITY eye=62.8 faceW=202 luma=123.9 sharp=0.183 yaw=-25.5 pitch=1.8 roll=1.8
+08-19 23:12:25.934 D/FaceAntiSpoof(20290): CADENCE | gap=126ms target=100ms inferMs=42 frame=480x640
+08-19 23:12:25.934 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.268 frame=-1.642 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:26.129 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.5,110.5,98.1] range=[36..249,35..255,25..255] signature=-1890666223
+08-19 23:12:26.139 D/FaceAntiSpoof(20290): LOGITS: [-4.53, 5.29, -0.77] | PROBS: [c0=0.0001, c1(live)=0.9976, c2=0.0023] | argmax=1
+08-19 23:12:26.143 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.5,110.5,98.1] range=[36..249,35..255,25..255] signature=-1890666223
+08-19 23:12:26.148 D/FaceAntiSpoof(20290): LOGITS: [-4.66, 5.52, -0.86] | PROBS: [c0=0.0000, c1(live)=0.9983, c2=0.0017] | argmax=1
+08-19 23:12:26.149 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9979 print=0.0000 replay=0.0020 attack=0.0020 margin=0.9959 argmax=1 v2Attack=0.0023 v1seAttack=0.0017 sameCrop=true
+08-19 23:12:26.163 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0020/-1.64 PARALLAX=0.0125/+0.00 MOIRE=0.2397/+0.00 SPECULAR=0.0000/+0.00 CHROMA=10.1599/+0.00 BEZEL=0.4287/+0.00 | QUALITY eye=64.0 faceW=202 luma=123.2 sharp=0.240 yaw=-23.9 pitch=2.9 roll=2.0
+08-19 23:12:26.164 D/FaceAntiSpoof(20290): CADENCE | gap=224ms target=100ms inferMs=48 frame=480x640
+08-19 23:12:26.164 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.572 frame=-1.644 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:26.292 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.7,110.6,98.3] range=[35..254,34..255,18..255] signature=-661629788
+08-19 23:12:26.302 D/FaceAntiSpoof(20290): LOGITS: [-5.06, 5.52, -0.47] | PROBS: [c0=0.0000, c1(live)=0.9975, c2=0.0025] | argmax=1
+08-19 23:12:26.305 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.7,110.6,98.3] range=[35..254,34..255,18..255] signature=-661629788
+08-19 23:12:26.315 D/FaceAntiSpoof(20290): LOGITS: [-5.40, 6.61, -1.21] | PROBS: [c0=0.0000, c1(live)=0.9996, c2=0.0004] | argmax=1
+08-19 23:12:26.316 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9985 print=0.0000 replay=0.0014 attack=0.0014 margin=0.9971 argmax=1 v2Attack=0.0025 v1seAttack=0.0004 sameCrop=true
+08-19 23:12:26.330 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0014/-1.65 PARALLAX=0.0122/+0.00 MOIRE=1.1161/+0.62 SPECULAR=0.0000/+0.00 CHROMA=9.9849/+0.00 BEZEL=0.4256/+0.00 | QUALITY eye=63.6 faceW=199 luma=122.1 sharp=0.152 yaw=-27.0 pitch=2.1 roll=2.5
+08-19 23:12:26.331 D/FaceAntiSpoof(20290): CADENCE | gap=163ms target=100ms inferMs=52 frame=480x640
+08-19 23:12:26.331 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.057 frame=-1.022 ticks=6 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:26.467 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[119.1,110.6,98.0] range=[35..248,35..254,25..255] signature=-1805495379
+08-19 23:12:26.483 D/FaceAntiSpoof(20290): LOGITS: [-3.94, 4.87, -0.93] | PROBS: [c0=0.0001, c1(live)=0.9969, c2=0.0030] | argmax=1
+08-19 23:12:26.486 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[119.1,110.6,98.0] range=[35..248,35..254,25..255] signature=-1805495379
+08-19 23:12:26.504 D/FaceAntiSpoof(20290): LOGITS: [-5.21, 6.61, -1.41] | PROBS: [c0=0.0000, c1(live)=0.9997, c2=0.0003] | argmax=1
+08-19 23:12:26.505 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9983 print=0.0001 replay=0.0017 attack=0.0017 margin=0.9966 argmax=1 v2Attack=0.0030 v1seAttack=0.0003 sameCrop=true
+08-19 23:12:26.523 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0017/-1.65 PARALLAX=0.0123/+0.00 MOIRE=0.2713/+0.00 SPECULAR=0.0000/+0.00 CHROMA=10.0318/+0.00 BEZEL=0.4128/+0.00 | QUALITY eye=61.9 faceW=198 luma=121.8 sharp=0.191 yaw=-26.6 pitch=3.1 roll=2.2
+08-19 23:12:26.524 D/FaceAntiSpoof(20290): CADENCE | gap=164ms target=100ms inferMs=80 frame=480x640
+08-19 23:12:26.524 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-5.094 frame=-1.645 ticks=7 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:28.367 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[168.5,137.0,132.2] range=[112..255,81..255,78..255] signature=2130339234
+08-19 23:12:28.375 D/FaceAntiSpoof(20290): LOGITS: [-2.26, 0.82, 1.44] | PROBS: [c0=0.0159, c1(live)=0.3428, c2=0.6414] | argmax=2
+08-19 23:12:28.379 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[168.3,136.9,132.4] range=[113..255,81..255,78..255] signature=-684756725
+08-19 23:12:28.384 D/FaceAntiSpoof(20290): LOGITS: [-1.92, 3.66, -1.74] | PROBS: [c0=0.0037, c1(live)=0.9918, c2=0.0045] | argmax=1
+08-19 23:12:28.385 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.6673 print=0.0098 replay=0.3229 attack=0.3229 margin=0.3444 argmax=1 v2Attack=0.6414 v1seAttack=0.0045 sameCrop=false
+08-19 23:12:28.399 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.3229/-0.68 PARALLAX=-/- MOIRE=0.9451/+0.37 SPECULAR=0.0000/+0.00 CHROMA=1.8112/+0.00 BEZEL=0.4221/+0.00 | QUALITY eye=56.0 faceW=173 luma=158.7 sharp=0.223 yaw=-10.7 pitch=15.4 roll=4.1
+08-19 23:12:28.400 D/FaceAntiSpoof(20290): CADENCE | gap=580ms target=100ms inferMs=45 frame=480x640
+08-19 23:12:28.400 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.314 frame=-0.314 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:28.595 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=67.8 faceW=214 luma=194.4 sharp=0.104 yaw=-3.8 pitch=10.3 roll=5.7
+08-19 23:12:28.595 D/FaceAntiSpoof(20290): CADENCE | gap=237ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:12:28.721 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[112.8,117.4,109.4] range=[36..232,36..240,33..242] signature=-1755506702
+08-19 23:12:28.771 D/FaceAntiSpoof(20290): LOGITS: [-4.64, 2.30, 2.34] | PROBS: [c0=0.0005, c1(live)=0.4901, c2=0.5094] | argmax=2
+08-19 23:12:28.774 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[112.8,117.4,109.4] range=[36..232,36..240,33..242] signature=-1755506702
+08-19 23:12:28.786 D/FaceAntiSpoof(20290): LOGITS: [-4.11, 2.54, 1.56] | PROBS: [c0=0.0009, c1(live)=0.7261, c2=0.2729] | argmax=1
+08-19 23:12:28.786 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.6081 print=0.0007 replay=0.3912 attack=0.3912 margin=0.2170 argmax=1 v2Attack=0.5094 v1seAttack=0.2729 sameCrop=true
+08-19 23:12:28.800 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.3912/-0.48 PARALLAX=0.0051/+0.00 MOIRE=0.6124/+0.00 SPECULAR=0.0000/+0.00 CHROMA=5.5495/+0.00 BEZEL=0.4787/+0.00 | QUALITY eye=62.8 faceW=208 luma=98.3 sharp=0.173 yaw=14.6 pitch=12.1 roll=4.9
+08-19 23:12:28.801 D/FaceAntiSpoof(20290): CADENCE | gap=104ms target=100ms inferMs=104 frame=480x640
+08-19 23:12:28.801 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.743 frame=-0.476 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:28.869 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[137.5,145.0,140.3] range=[45..255,50..255,51..255] signature=-972587692
+08-19 23:12:28.875 D/FaceAntiSpoof(20290): LOGITS: [-4.21, 4.73, -0.52] | PROBS: [c0=0.0001, c1(live)=0.9947, c2=0.0052] | argmax=1
+08-19 23:12:28.878 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[137.5,145.0,140.3] range=[45..255,50..255,51..255] signature=-972587692
+08-19 23:12:28.883 D/FaceAntiSpoof(20290): LOGITS: [-3.50, 2.72, 0.78] | PROBS: [c0=0.0017, c1(live)=0.8728, c2=0.1255] | argmax=1
+08-19 23:12:28.884 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9337 print=0.0009 replay=0.0653 attack=0.0653 margin=0.8684 argmax=1 v2Attack=0.0052 v1seAttack=0.1255 sameCrop=true
+08-19 23:12:28.900 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0653/-1.45 PARALLAX=0.0102/+0.00 MOIRE=2.4353/+2.00 SPECULAR=0.0000/+0.00 CHROMA=6.3964/+0.00 BEZEL=0.4495/+0.00 | QUALITY eye=53.2 faceW=213 luma=120.9 sharp=0.305 yaw=16.4 pitch=3.7 roll=0.5
+08-19 23:12:28.901 D/FaceAntiSpoof(20290): CADENCE | gap=151ms target=100ms inferMs=53 frame=480x640
+08-19 23:12:28.901 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.086 frame=+0.546 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:29.061 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=49.9 faceW=182 luma=85.6 sharp=0.987 yaw=43.7 pitch=6.3 roll=-2.6
+08-19 23:12:29.061 D/FaceAntiSpoof(20290): CADENCE | gap=206ms target=100ms inferMs=6 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:29.247 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=49.4 faceW=184 luma=92.8 sharp=0.608 yaw=42.6 pitch=3.9 roll=-2.9
+08-19 23:12:29.248 D/FaceAntiSpoof(20290): CADENCE | gap=186ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:29.349 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=50.3 faceW=185 luma=95.5 sharp=0.454 yaw=42.8 pitch=2.4 roll=-2.9
+08-19 23:12:29.349 D/FaceAntiSpoof(20290): CADENCE | gap=100ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:29.606 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=49.4 faceW=189 luma=91.4 sharp=0.802 yaw=42.6 pitch=3.4 roll=-2.5
+08-19 23:12:29.606 D/FaceAntiSpoof(20290): CADENCE | gap=256ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:29.754 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.0 faceW=192 luma=95.1 sharp=0.779 yaw=43.6 pitch=4.0 roll=-2.3
+08-19 23:12:29.754 D/FaceAntiSpoof(20290): CADENCE | gap=156ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:29.866 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.8 faceW=193 luma=100.0 sharp=0.750 yaw=41.2 pitch=3.0 roll=-1.5
+08-19 23:12:29.866 D/FaceAntiSpoof(20290): CADENCE | gap=106ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:29.970 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.3 faceW=193 luma=102.3 sharp=0.564 yaw=40.4 pitch=3.1 roll=-1.3
+08-19 23:12:29.970 D/FaceAntiSpoof(20290): CADENCE | gap=110ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:30.117 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.0 faceW=189 luma=102.0 sharp=0.566 yaw=40.3 pitch=3.3 roll=-1.2
+08-19 23:12:30.117 D/FaceAntiSpoof(20290): CADENCE | gap=146ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:30.234 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.3 faceW=191 luma=99.1 sharp=0.569 yaw=41.3 pitch=3.1 roll=-1.7
+08-19 23:12:30.234 D/FaceAntiSpoof(20290): CADENCE | gap=116ms target=100ms inferMs=4 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:30.382 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.9 faceW=190 luma=98.3 sharp=0.711 yaw=41.3 pitch=3.2 roll=-1.6
+08-19 23:12:30.382 D/FaceAntiSpoof(20290): CADENCE | gap=147ms target=100ms inferMs=6 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:30.611 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.3 faceW=187 luma=95.6 sharp=0.788 yaw=41.7 pitch=4.0 roll=-1.0
+08-19 23:12:30.612 D/FaceAntiSpoof(20290): CADENCE | gap=228ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:30.756 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.4 faceW=184 luma=93.6 sharp=1.029 yaw=41.3 pitch=3.2 roll=-1.0
+08-19 23:12:30.756 D/FaceAntiSpoof(20290): CADENCE | gap=150ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:30.902 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.4 faceW=185 luma=91.7 sharp=0.747 yaw=40.9 pitch=3.1 roll=-0.8
+08-19 23:12:30.902 D/FaceAntiSpoof(20290): CADENCE | gap=143ms target=100ms inferMs=5 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:31.006 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.3 faceW=187 luma=94.3 sharp=0.800 yaw=42.0 pitch=3.7 roll=-0.3
+08-19 23:12:31.006 D/FaceAntiSpoof(20290): CADENCE | gap=106ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:31.126 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.4 faceW=188 luma=95.7 sharp=1.012 yaw=41.8 pitch=2.8 roll=-0.9
+08-19 23:12:31.126 D/FaceAntiSpoof(20290): CADENCE | gap=116ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:31.242 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.1 faceW=188 luma=96.3 sharp=0.976 yaw=41.0 pitch=3.0 roll=-0.3
+08-19 23:12:31.242 D/FaceAntiSpoof(20290): CADENCE | gap=121ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:31.373 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.0 faceW=187 luma=97.4 sharp=0.749 yaw=41.1 pitch=3.3 roll=-0.7
+08-19 23:12:31.373 D/FaceAntiSpoof(20290): CADENCE | gap=130ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:31.479 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.7 faceW=186 luma=100.5 sharp=0.863 yaw=41.1 pitch=3.0 roll=-1.0
+08-19 23:12:31.479 D/FaceAntiSpoof(20290): CADENCE | gap=102ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:31.599 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.3 faceW=187 luma=97.0 sharp=0.821 yaw=41.8 pitch=3.2 roll=-0.6
+08-19 23:12:31.599 D/FaceAntiSpoof(20290): CADENCE | gap=123ms target=100ms inferMs=4 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:31.742 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=50.6 faceW=188 luma=92.7 sharp=1.082 yaw=41.1 pitch=4.8 roll=0.2
+08-19 23:12:31.742 D/FaceAntiSpoof(20290): CADENCE | gap=138ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:31.984 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.4 faceW=188 luma=92.2 sharp=1.024 yaw=41.6 pitch=3.8 roll=-0.0
+08-19 23:12:31.984 D/FaceAntiSpoof(20290): CADENCE | gap=249ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:32.123 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=50.9 faceW=186 luma=96.5 sharp=0.982 yaw=42.9 pitch=2.6 roll=-0.2
+08-19 23:12:32.123 D/FaceAntiSpoof(20290): CADENCE | gap=132ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:32.285 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.1 faceW=186 luma=98.5 sharp=0.838 yaw=41.4 pitch=3.8 roll=-0.1
+08-19 23:12:32.285 D/FaceAntiSpoof(20290): CADENCE | gap=169ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:32.790 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.9 faceW=186 luma=95.4 sharp=1.045 yaw=41.8 pitch=4.7 roll=-0.1
+08-19 23:12:32.790 D/FaceAntiSpoof(20290): CADENCE | gap=504ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:32.931 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.4 faceW=189 luma=92.6 sharp=0.720 yaw=41.8 pitch=3.4 roll=0.7
+08-19 23:12:32.931 D/FaceAntiSpoof(20290): CADENCE | gap=133ms target=100ms inferMs=10 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:33.030 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.2 faceW=188 luma=89.3 sharp=0.882 yaw=41.2 pitch=4.0 roll=1.0
+08-19 23:12:33.030 D/FaceAntiSpoof(20290): CADENCE | gap=108ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:33.160 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.2 faceW=194 luma=90.0 sharp=0.817 yaw=40.6 pitch=3.6 roll=1.0
+08-19 23:12:33.160 D/FaceAntiSpoof(20290): CADENCE | gap=130ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:33.333 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.9 faceW=194 luma=88.9 sharp=0.772 yaw=40.8 pitch=2.8 roll=1.2
+08-19 23:12:33.333 D/FaceAntiSpoof(20290): CADENCE | gap=162ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:33.435 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.7 faceW=194 luma=88.8 sharp=0.841 yaw=40.3 pitch=3.0 roll=0.9
+08-19 23:12:33.435 D/FaceAntiSpoof(20290): CADENCE | gap=107ms target=100ms inferMs=8 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:33.539 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.6 faceW=196 luma=91.9 sharp=0.847 yaw=39.4 pitch=2.8 roll=1.1
+08-19 23:12:33.539 D/FaceAntiSpoof(20290): CADENCE | gap=106ms target=100ms inferMs=3 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:33.717 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=54.4 faceW=187 luma=95.9 sharp=0.548 yaw=36.4 pitch=2.9 roll=1.6
+08-19 23:12:33.717 D/FaceAntiSpoof(20290): CADENCE | gap=174ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:33.853 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=55.3 faceW=186 luma=96.6 sharp=0.601 yaw=35.9 pitch=3.2 roll=1.6
+08-19 23:12:33.853 D/FaceAntiSpoof(20290): CADENCE | gap=134ms target=100ms inferMs=8 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:33.995 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=54.8 faceW=185 luma=96.6 sharp=0.543 yaw=29.9 pitch=4.3 roll=2.1
+08-19 23:12:33.996 D/FaceAntiSpoof(20290): CADENCE | gap=147ms target=100ms inferMs=6 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:34.104 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=55.5 faceW=186 luma=92.7 sharp=0.700 yaw=34.5 pitch=3.3 roll=1.8
+08-19 23:12:34.105 D/FaceAntiSpoof(20290): CADENCE | gap=113ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:34.238 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=56.0 faceW=192 luma=89.5 sharp=0.671 yaw=31.1 pitch=2.7 roll=2.1
+08-19 23:12:34.238 D/FaceAntiSpoof(20290): CADENCE | gap=128ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:34.421 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=54.7 faceW=192 luma=88.4 sharp=0.661 yaw=36.8 pitch=3.4 roll=1.9
+08-19 23:12:34.421 D/FaceAntiSpoof(20290): CADENCE | gap=175ms target=100ms inferMs=13 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:34.547 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=55.0 faceW=193 luma=86.6 sharp=0.574 yaw=37.6 pitch=2.8 roll=2.2
+08-19 23:12:34.547 D/FaceAntiSpoof(20290): CADENCE | gap=127ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:34.794 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=54.7 faceW=185 luma=86.4 sharp=0.490 yaw=29.1 pitch=4.0 roll=2.8
+08-19 23:12:34.794 D/FaceAntiSpoof(20290): CADENCE | gap=256ms target=100ms inferMs=6 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:34.936 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.8,131.6,121.6] range=[49..255,46..255,42..255] signature=-588609768
+08-19 23:12:34.947 D/FaceAntiSpoof(20290): LOGITS: [-5.37, 6.52, -1.15] | PROBS: [c0=0.0000, c1(live)=0.9995, c2=0.0005] | argmax=1
+08-19 23:12:34.950 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.8,131.6,121.6] range=[49..255,46..255,42..255] signature=-588609768
+08-19 23:12:34.961 D/FaceAntiSpoof(20290): LOGITS: [-4.45, 5.95, -1.50] | PROBS: [c0=0.0000, c1(live)=0.9994, c2=0.0006] | argmax=1
+08-19 23:12:34.962 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9995 print=0.0000 replay=0.0005 attack=0.0005 margin=0.9989 argmax=1 v2Attack=0.0005 v1seAttack=0.0006 sameCrop=true
+08-19 23:12:34.973 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0005/-1.65 PARALLAX=0.0119/+0.00 MOIRE=0.7251/+0.04 SPECULAR=0.0000/+0.00 CHROMA=5.5160/+0.00 BEZEL=0.4561/+0.00 | QUALITY eye=57.1 faceW=186 luma=87.1 sharp=0.369 yaw=26.1 pitch=4.2 roll=3.5
+08-19 23:12:34.975 D/FaceAntiSpoof(20290): CADENCE | gap=117ms target=100ms inferMs=69 frame=480x640
+08-19 23:12:34.975 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.684 frame=-1.611 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:35.032 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.9,131.9,122.1] range=[50..255,47..255,41..255] signature=-928185330
+08-19 23:12:35.043 D/FaceAntiSpoof(20290): LOGITS: [-5.45, 6.70, -1.26] | PROBS: [c0=0.0000, c1(live)=0.9996, c2=0.0004] | argmax=1
+08-19 23:12:35.045 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.9,131.9,122.1] range=[50..255,47..255,41..255] signature=-928185330
+08-19 23:12:35.056 D/FaceAntiSpoof(20290): LOGITS: [-4.88, 6.66, -1.78] | PROBS: [c0=0.0000, c1(live)=0.9998, c2=0.0002] | argmax=1
+08-19 23:12:35.056 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9997 print=0.0000 replay=0.0003 attack=0.0003 margin=0.9994 argmax=1 v2Attack=0.0004 v1seAttack=0.0002 sameCrop=true
+08-19 23:12:35.073 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0003/-1.65 PARALLAX=0.0091/+0.00 MOIRE=0.7118/+0.02 SPECULAR=0.0000/+0.00 CHROMA=5.5968/+0.00 BEZEL=0.4909/+0.00 | QUALITY eye=59.7 faceW=187 luma=86.8 sharp=0.281 yaw=21.4 pitch=4.7 roll=3.6
+08-19 23:12:35.074 D/FaceAntiSpoof(20290): CADENCE | gap=112ms target=100ms inferMs=56 frame=480x640
+08-19 23:12:35.074 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.063 frame=-1.632 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:35.169 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[132.8,129.5,119.9] range=[46..255,46..255,42..255] signature=-1261531692
+08-19 23:12:35.183 D/FaceAntiSpoof(20290): LOGITS: [-4.78, 5.36, -0.58] | PROBS: [c0=0.0000, c1(live)=0.9973, c2=0.0026] | argmax=1
+08-19 23:12:35.186 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[132.8,129.5,119.9] range=[46..255,46..255,42..255] signature=-1261531692
+08-19 23:12:35.201 D/FaceAntiSpoof(20290): LOGITS: [-4.50, 5.55, -1.05] | PROBS: [c0=0.0000, c1(live)=0.9986, c2=0.0014] | argmax=1
+08-19 23:12:35.202 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9980 print=0.0000 replay=0.0020 attack=0.0020 margin=0.9960 argmax=1 v2Attack=0.0026 v1seAttack=0.0014 sameCrop=true
+08-19 23:12:35.212 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0020/-1.64 PARALLAX=0.0118/+0.00 MOIRE=1.0903/+0.59 SPECULAR=0.0000/+0.00 CHROMA=5.6959/+0.00 BEZEL=0.5075/+0.00 | QUALITY eye=61.8 faceW=191 luma=82.7 sharp=0.386 yaw=9.9 pitch=7.7 roll=3.2
+08-19 23:12:35.213 D/FaceAntiSpoof(20290): CADENCE | gap=133ms target=100ms inferMs=62 frame=480x640
+08-19 23:12:35.213 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.662 frame=-1.059 ticks=6 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:35.336 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[131.5,128.4,119.7] range=[47..255,45..255,41..255] signature=615199781
+08-19 23:12:35.349 D/FaceAntiSpoof(20290): LOGITS: [-5.34, 6.87, -1.53] | PROBS: [c0=0.0000, c1(live)=0.9998, c2=0.0002] | argmax=1
+08-19 23:12:35.352 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[131.5,128.4,119.7] range=[47..255,45..255,41..255] signature=615199781
+08-19 23:12:35.368 D/FaceAntiSpoof(20290): LOGITS: [-4.67, 6.23, -1.55] | PROBS: [c0=0.0000, c1(live)=0.9996, c2=0.0004] | argmax=1
+08-19 23:12:35.369 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9997 print=0.0000 replay=0.0003 attack=0.0003 margin=0.9993 argmax=1 v2Attack=0.0002 v1seAttack=0.0004 sameCrop=true
+08-19 23:12:35.379 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0003/-1.65 PARALLAX=0.0112/+0.00 MOIRE=0.3977/+0.00 SPECULAR=0.0000/+0.00 CHROMA=5.7759/+0.00 BEZEL=0.4634/+0.00 | QUALITY eye=62.2 faceW=187 luma=87.7 sharp=0.303 yaw=6.8 pitch=5.7 roll=3.0
+08-19 23:12:35.380 D/FaceAntiSpoof(20290): CADENCE | gap=171ms target=100ms inferMs=58 frame=480x640
+08-19 23:12:35.380 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.762 frame=-1.649 ticks=7 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:42.539 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[234.5,230.3,224.7] range=[146..255,140..255,123..255] signature=1687525878
+08-19 23:12:42.550 D/FaceAntiSpoof(20290): LOGITS: [-6.02, 2.06, 3.96] | PROBS: [c0=0.0000, c1(live)=0.1303, c2=0.8696] | argmax=2
+08-19 23:12:42.552 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[234.5,230.3,224.7] range=[146..255,140..255,123..255] signature=1687525878
+08-19 23:12:42.564 D/FaceAntiSpoof(20290): LOGITS: [-4.85, 4.41, 0.45] | PROBS: [c0=0.0001, c1(live)=0.9812, c2=0.0187] | argmax=1
+08-19 23:12:42.565 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.5557 print=0.0001 replay=0.4442 attack=0.4442 margin=0.1116 argmax=1 v2Attack=0.8696 v1seAttack=0.0187 sameCrop=true
+08-19 23:12:42.575 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.4442/-0.32 PARALLAX=-/- MOIRE=1.5197/+1.23 SPECULAR=0.2706/+0.00 CHROMA=7.4670/+0.00 BEZEL=0.4406/+0.00 | QUALITY eye=66.8 faceW=201 luma=211.6 sharp=0.144 yaw=0.3 pitch=7.9 roll=3.4
+08-19 23:12:42.576 D/FaceAntiSpoof(20290): CADENCE | gap=1000ms target=100ms inferMs=57 frame=480x640
+08-19 23:12:42.577 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=0.912 frame=+0.912 ticks=1 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:42.733 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.5,128.0,119.2] range=[40..240,39..246,33..245] signature=-12431069
+08-19 23:12:42.743 D/FaceAntiSpoof(20290): LOGITS: [-4.01, 3.28, 0.73] | PROBS: [c0=0.0006, c1(live)=0.9270, c2=0.0724] | argmax=1
+08-19 23:12:42.746 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.5,128.0,119.2] range=[40..240,39..246,33..245] signature=-12431069
+08-19 23:12:42.755 D/FaceAntiSpoof(20290): LOGITS: [-5.22, 5.17, 0.05] | PROBS: [c0=0.0000, c1(live)=0.9940, c2=0.0059] | argmax=1
+08-19 23:12:42.756 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9605 print=0.0003 replay=0.0392 attack=0.0392 margin=0.9213 argmax=1 v2Attack=0.0724 v1seAttack=0.0059 sameCrop=true
+08-19 23:12:42.766 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0392/-1.53 PARALLAX=-/- MOIRE=0.8802/+0.27 SPECULAR=0.0000/+0.00 CHROMA=6.2769/+0.00 BEZEL=0.4233/+0.00 | QUALITY eye=62.7 faceW=189 luma=99.5 sharp=0.165 yaw=9.1 pitch=14.6 roll=0.6
+08-19 23:12:42.767 D/FaceAntiSpoof(20290): CADENCE | gap=200ms target=100ms inferMs=47 frame=480x640
+08-19 23:12:42.767 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.487 frame=-1.262 ticks=2 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:42.853 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[132.2,131.4,122.7] range=[42..247,41..254,37..253] signature=765236506
+08-19 23:12:42.859 D/FaceAntiSpoof(20290): LOGITS: [-3.91, 4.34, -0.44] | PROBS: [c0=0.0003, c1(live)=0.9914, c2=0.0084] | argmax=1
+08-19 23:12:42.862 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[132.2,131.4,122.7] range=[42..247,41..254,37..253] signature=765236506
+08-19 23:12:42.868 D/FaceAntiSpoof(20290): LOGITS: [-5.59, 5.24, 0.35] | PROBS: [c0=0.0000, c1(live)=0.9925, c2=0.0075] | argmax=1
+08-19 23:12:42.868 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9919 print=0.0001 replay=0.0079 attack=0.0079 margin=0.9840 argmax=1 v2Attack=0.0084 v1seAttack=0.0075 sameCrop=true
+08-19 23:12:42.876 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0079/-1.63 PARALLAX=-/- MOIRE=1.2415/+0.81 SPECULAR=0.0000/+0.00 CHROMA=6.2265/+0.00 BEZEL=0.4065/+0.00 | QUALITY eye=62.7 faceW=201 luma=101.8 sharp=0.285 yaw=9.9 pitch=16.9 roll=1.0
+08-19 23:12:42.877 D/FaceAntiSpoof(20290): CADENCE | gap=116ms target=100ms inferMs=41 frame=480x640
+08-19 23:12:42.877 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.228 frame=-0.814 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:42.984 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[134.5,133.6,124.7] range=[44..250,42..255,37..254] signature=609569645
+08-19 23:12:42.995 D/FaceAntiSpoof(20290): LOGITS: [-5.02, 5.66, -0.64] | PROBS: [c0=0.0000, c1(live)=0.9981, c2=0.0018] | argmax=1
+08-19 23:12:42.998 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[134.5,133.6,124.7] range=[44..250,42..255,37..254] signature=609569645
+08-19 23:12:43.009 D/FaceAntiSpoof(20290): LOGITS: [-4.70, 5.34, -0.64] | PROBS: [c0=0.0000, c1(live)=0.9974, c2=0.0025] | argmax=1
+08-19 23:12:43.010 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9978 print=0.0000 replay=0.0022 attack=0.0022 margin=0.9956 argmax=1 v2Attack=0.0018 v1seAttack=0.0025 sameCrop=true
+08-19 23:12:43.025 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0022/-1.64 PARALLAX=0.0081/+0.00 MOIRE=1.1859/+0.73 SPECULAR=0.0000/+0.00 CHROMA=6.1529/+0.00 BEZEL=0.4108/+0.00 | QUALITY eye=64.2 faceW=203 luma=103.7 sharp=0.318 yaw=11.2 pitch=15.2 roll=1.6
+08-19 23:12:43.026 D/FaceAntiSpoof(20290): CADENCE | gap=123ms target=100ms inferMs=66 frame=480x640
+08-19 23:12:43.026 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.958 frame=-0.915 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:43.091 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[134.4,133.1,124.0] range=[45..249,42..255,38..253] signature=-417445775
+08-19 23:12:43.101 D/FaceAntiSpoof(20290): LOGITS: [-4.62, 4.84, -0.22] | PROBS: [c0=0.0001, c1(live)=0.9936, c2=0.0063] | argmax=1
+08-19 23:12:43.104 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[134.4,133.1,124.0] range=[45..249,42..255,38..253] signature=-417445775
+08-19 23:12:43.114 D/FaceAntiSpoof(20290): LOGITS: [-5.19, 5.52, -0.33] | PROBS: [c0=0.0000, c1(live)=0.9971, c2=0.0029] | argmax=1
+08-19 23:12:43.114 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9954 print=0.0000 replay=0.0046 attack=0.0046 margin=0.9908 argmax=1 v2Attack=0.0063 v1seAttack=0.0029 sameCrop=true
+08-19 23:12:43.124 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0046/-1.64 PARALLAX=-/- MOIRE=0.9790/+0.42 SPECULAR=0.0000/+0.00 CHROMA=6.1407/+0.00 BEZEL=0.4169/+0.00 | QUALITY eye=64.5 faceW=202 luma=104.0 sharp=0.391 yaw=10.7 pitch=16.0 roll=1.7
+08-19 23:12:43.125 D/FaceAntiSpoof(20290): CADENCE | gap=119ms target=100ms inferMs=47 frame=480x640
+08-19 23:12:43.126 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.882 frame=-1.218 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:43.377 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[131.2,128.5,118.8] range=[42..249,39..254,37..251] signature=571841540
+08-19 23:12:43.383 D/FaceAntiSpoof(20290): LOGITS: [-4.82, 4.55, 0.27] | PROBS: [c0=0.0001, c1(live)=0.9862, c2=0.0137] | argmax=1
+08-19 23:12:43.386 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[131.2,128.5,118.8] range=[42..249,39..254,37..251] signature=571841540
+08-19 23:12:43.392 D/FaceAntiSpoof(20290): LOGITS: [-5.57, 5.06, 0.51] | PROBS: [c0=0.0000, c1(live)=0.9895, c2=0.0105] | argmax=1
+08-19 23:12:43.392 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9879 print=0.0001 replay=0.0121 attack=0.0121 margin=0.9758 argmax=1 v2Attack=0.0137 v1seAttack=0.0105 sameCrop=true
+08-19 23:12:43.401 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0121/-1.61 PARALLAX=0.0081/+0.00 MOIRE=1.4756/+1.16 SPECULAR=0.0000/+0.00 CHROMA=6.1439/+0.00 BEZEL=0.4022/+0.00 | QUALITY eye=64.8 faceW=191 luma=95.5 sharp=0.380 yaw=11.6 pitch=16.6 roll=0.7
+08-19 23:12:43.402 D/FaceAntiSpoof(20290): CADENCE | gap=284ms target=100ms inferMs=38 frame=480x640
+08-19 23:12:43.402 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.900 frame=-0.450 ticks=6 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:43.546 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[137.1,132.8,121.1] range=[44..255,40..255,36..255] signature=1280283086
+08-19 23:12:43.560 D/FaceAntiSpoof(20290): LOGITS: [-5.20, 5.04, 0.16] | PROBS: [c0=0.0000, c1(live)=0.9925, c2=0.0075] | argmax=1
+08-19 23:12:43.568 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[137.1,132.8,121.1] range=[44..255,40..255,36..255] signature=1280283086
+08-19 23:12:43.578 D/FaceAntiSpoof(20290): LOGITS: [-5.55, 5.85, -0.30] | PROBS: [c0=0.0000, c1(live)=0.9979, c2=0.0021] | argmax=1
+08-19 23:12:43.579 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9952 print=0.0000 replay=0.0048 attack=0.0048 margin=0.9904 argmax=1 v2Attack=0.0075 v1seAttack=0.0021 sameCrop=true
+08-19 23:12:43.589 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0048/-1.64 PARALLAX=0.0091/+0.00 MOIRE=1.1728/+0.71 SPECULAR=0.0000/+0.00 CHROMA=6.1389/+0.00 BEZEL=0.4103/+0.00 | QUALITY eye=65.9 faceW=194 luma=100.2 sharp=0.323 yaw=7.8 pitch=16.3 roll=2.2
+08-19 23:12:43.590 D/FaceAntiSpoof(20290): CADENCE | gap=155ms target=100ms inferMs=72 frame=480x640
+08-19 23:12:43.591 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.392 frame=-0.926 ticks=7 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:43.652 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[137.5,132.7,120.8] range=[46..254,41..255,34..255] signature=-1411939937
+08-19 23:12:43.658 D/FaceAntiSpoof(20290): LOGITS: [-4.83, 5.39, -0.56] | PROBS: [c0=0.0000, c1(live)=0.9974, c2=0.0026] | argmax=1
+08-19 23:12:43.661 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[137.5,132.7,120.8] range=[46..254,41..255,34..255] signature=-1411939937
+08-19 23:12:43.667 D/FaceAntiSpoof(20290): LOGITS: [-6.38, 5.73, 0.65] | PROBS: [c0=0.0000, c1(live)=0.9938, c2=0.0062] | argmax=1
+08-19 23:12:43.667 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9956 print=0.0000 replay=0.0044 attack=0.0044 margin=0.9912 argmax=1 v2Attack=0.0026 v1seAttack=0.0062 sameCrop=true
+08-19 23:12:43.676 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0044/-1.64 PARALLAX=0.0073/+0.00 MOIRE=1.2423/+0.81 SPECULAR=0.0000/+0.00 CHROMA=6.0716/+0.00 BEZEL=0.3900/+0.00 | QUALITY eye=67.8 faceW=197 luma=99.2 sharp=0.244 yaw=6.0 pitch=15.1 roll=1.8
+08-19 23:12:43.676 D/FaceAntiSpoof(20290): CADENCE | gap=122ms target=100ms inferMs=36 frame=480x640
+08-19 23:12:43.677 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.706 frame=-0.823 ticks=8 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:43.798 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.0,132.4,120.4] range=[45..255,41..255,35..253] signature=2000068370
+08-19 23:12:43.804 D/FaceAntiSpoof(20290): LOGITS: [-5.77, 5.48, 0.29] | PROBS: [c0=0.0000, c1(live)=0.9944, c2=0.0056] | argmax=1
+08-19 23:12:43.807 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.0,132.4,120.4] range=[45..255,41..255,35..253] signature=2000068370
+08-19 23:12:43.814 D/FaceAntiSpoof(20290): LOGITS: [-6.94, 6.06, 0.88] | PROBS: [c0=0.0000, c1(live)=0.9944, c2=0.0056] | argmax=1
+08-19 23:12:43.814 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9944 print=0.0000 replay=0.0056 attack=0.0056 margin=0.9888 argmax=1 v2Attack=0.0056 v1seAttack=0.0056 sameCrop=true
+08-19 23:12:43.823 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0056/-1.63 PARALLAX=0.0055/+0.00 MOIRE=1.7200/+1.53 SPECULAR=0.0000/+0.00 CHROMA=6.1852/+0.00 BEZEL=0.4045/+0.00 | QUALITY eye=69.5 faceW=217 luma=104.4 sharp=0.233 yaw=4.0 pitch=14.0 roll=2.7
+08-19 23:12:43.823 D/FaceAntiSpoof(20290): CADENCE | gap=147ms target=100ms inferMs=37 frame=480x640
+08-19 23:12:43.824 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.253 frame=-0.103 ticks=9 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:43.988 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[137.6,131.6,119.4] range=[45..255,41..255,33..254] signature=-1059717730
+08-19 23:12:43.998 D/FaceAntiSpoof(20290): LOGITS: [-5.77, 5.81, -0.04] | PROBS: [c0=0.0000, c1(live)=0.9971, c2=0.0029] | argmax=1
+08-19 23:12:44.001 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[137.6,131.6,119.4] range=[45..255,41..255,33..254] signature=-1059717730
+08-19 23:12:44.013 D/FaceAntiSpoof(20290): LOGITS: [-6.47, 6.71, -0.25] | PROBS: [c0=0.0000, c1(live)=0.9990, c2=0.0009] | argmax=1
+08-19 23:12:44.014 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9981 print=0.0000 replay=0.0019 attack=0.0019 margin=0.9962 argmax=1 v2Attack=0.0029 v1seAttack=0.0009 sameCrop=true
+08-19 23:12:44.024 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0019/-1.64 PARALLAX=0.0059/+0.00 MOIRE=0.9118/+0.32 SPECULAR=0.0000/+0.00 CHROMA=6.1830/+0.00 BEZEL=0.4155/+0.00 | QUALITY eye=69.6 faceW=218 luma=104.2 sharp=0.368 yaw=4.5 pitch=13.7 roll=2.8
+08-19 23:12:44.025 D/FaceAntiSpoof(20290): CADENCE | gap=174ms target=100ms inferMs=63 frame=480x640
+08-19 23:12:44.025 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.092 frame=-1.327 ticks=10 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:44.085 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.2,131.9,119.7] range=[46..255,40..255,35..252] signature=423703669
+08-19 23:12:44.103 D/FaceAntiSpoof(20290): LOGITS: [-6.59, 5.82, 0.76] | PROBS: [c0=0.0000, c1(live)=0.9937, c2=0.0063] | argmax=1
+08-19 23:12:44.106 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.2,131.9,119.7] range=[46..255,40..255,35..252] signature=423703669
+08-19 23:12:44.116 D/FaceAntiSpoof(20290): LOGITS: [-6.56, 5.86, 0.70] | PROBS: [c0=0.0000, c1(live)=0.9943, c2=0.0057] | argmax=1
+08-19 23:12:44.116 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9940 print=0.0000 replay=0.0060 attack=0.0060 margin=0.9880 argmax=1 v2Attack=0.0063 v1seAttack=0.0057 sameCrop=true
+08-19 23:12:44.126 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0060/-1.63 PARALLAX=0.0061/+0.00 MOIRE=1.6832/+1.47 SPECULAR=0.0000/+0.00 CHROMA=6.0570/+0.00 BEZEL=0.4293/+0.00 | QUALITY eye=68.6 faceW=219 luma=103.7 sharp=0.277 yaw=5.4 pitch=13.4 roll=2.6
+08-19 23:12:44.127 D/FaceAntiSpoof(20290): CADENCE | gap=103ms target=100ms inferMs=64 frame=480x640
+08-19 23:12:44.127 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.635 frame=-0.157 ticks=11 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:44.421 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.1,131.6,119.0] range=[45..255,40..255,32..253] signature=-1138076412
+08-19 23:12:44.433 D/FaceAntiSpoof(20290): LOGITS: [-6.07, 5.60, 0.46] | PROBS: [c0=0.0000, c1(live)=0.9941, c2=0.0059] | argmax=1
+08-19 23:12:44.435 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.1,131.6,119.0] range=[45..255,40..255,32..253] signature=-1138076412
+08-19 23:12:44.446 D/FaceAntiSpoof(20290): LOGITS: [-7.16, 7.02, 0.13] | PROBS: [c0=0.0000, c1(live)=0.9990, c2=0.0010] | argmax=1
+08-19 23:12:44.447 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9966 print=0.0000 replay=0.0034 attack=0.0034 margin=0.9931 argmax=1 v2Attack=0.0059 v1seAttack=0.0010 sameCrop=true
+08-19 23:12:44.457 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0034/-1.64 PARALLAX=0.0072/+0.00 MOIRE=0.9422/+0.36 SPECULAR=0.0000/+0.00 CHROMA=6.1424/+0.00 BEZEL=0.3877/+0.00 | QUALITY eye=69.1 faceW=208 luma=105.1 sharp=0.214 yaw=4.9 pitch=14.3 roll=1.9
+08-19 23:12:44.458 D/FaceAntiSpoof(20290): CADENCE | gap=343ms target=100ms inferMs=51 frame=480x640
+08-19 23:12:44.458 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.367 frame=-1.276 ticks=12 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:44.580 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=72.2 faceW=211 luma=101.4 sharp=0.128 yaw=4.3 pitch=14.0 roll=4.2
+08-19 23:12:44.581 D/FaceAntiSpoof(20290): CADENCE | gap=166ms target=100ms inferMs=8 frame=480x640 gated=HOLD_STILL
+08-19 23:12:44.744 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.5,121.0,108.6] range=[38..255,38..255,35..250] signature=378370658
+08-19 23:12:44.758 D/FaceAntiSpoof(20290): LOGITS: [-5.05, 4.73, 0.32] | PROBS: [c0=0.0001, c1(live)=0.9878, c2=0.0121] | argmax=1
+08-19 23:12:44.764 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.5,121.0,108.6] range=[38..255,38..255,35..250] signature=378370658
+08-19 23:12:44.783 D/FaceAntiSpoof(20290): LOGITS: [-5.60, 4.87, 0.72] | PROBS: [c0=0.0000, c1(live)=0.9844, c2=0.0155] | argmax=1
+08-19 23:12:44.783 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9861 print=0.0000 replay=0.0138 attack=0.0138 margin=0.9723 argmax=1 v2Attack=0.0121 v1seAttack=0.0155 sameCrop=true
+08-19 23:12:44.794 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0138/-1.61 PARALLAX=0.0342/+0.00 MOIRE=1.1612/+0.69 SPECULAR=0.0000/+0.00 CHROMA=6.2779/+0.00 BEZEL=0.4262/+0.00 | QUALITY eye=75.7 faceW=221 luma=99.3 sharp=0.204 yaw=3.3 pitch=15.5 roll=3.7
+08-19 23:12:44.796 D/FaceAntiSpoof(20290): CADENCE | gap=135ms target=100ms inferMs=84 frame=480x640
+08-19 23:12:44.796 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.628 frame=-0.917 ticks=13 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:46.949 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=75.1 faceW=215 luma=199.6 sharp=0.095 yaw=-1.9 pitch=8.9 roll=10.2
+08-19 23:12:46.949 D/FaceAntiSpoof(20290): CADENCE | gap=785ms target=100ms inferMs=4 frame=480x640 gated=HOLD_STILL
+08-19 23:12:47.115 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=68.5 faceW=235 luma=160.9 sharp=0.082 yaw=-27.3 pitch=5.7 roll=8.1
+08-19 23:12:47.115 D/FaceAntiSpoof(20290): CADENCE | gap=168ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:12:47.219 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=62.6 faceW=164 luma=125.5 sharp=0.285 yaw=-39.8 pitch=7.1 roll=6.4
+08-19 23:12:47.219 D/FaceAntiSpoof(20290): CADENCE | gap=104ms target=100ms inferMs=3 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:47.425 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=62.8 faceW=161 luma=115.8 sharp=0.257 yaw=-38.6 pitch=6.5 roll=8.3
+08-19 23:12:47.425 D/FaceAntiSpoof(20290): CADENCE | gap=198ms target=100ms inferMs=10 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:47.725 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[116.4,110.5,97.7] range=[30..255,32..255,26..254] signature=1386620591
+08-19 23:12:47.736 D/FaceAntiSpoof(20290): LOGITS: [-3.02, 3.17, -0.15] | PROBS: [c0=0.0020, c1(live)=0.9629, c2=0.0351] | argmax=1
+08-19 23:12:47.738 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[116.4,110.5,97.7] range=[30..255,32..255,26..254] signature=1386620591
+08-19 23:12:47.749 D/FaceAntiSpoof(20290): LOGITS: [-4.99, 4.65, 0.34] | PROBS: [c0=0.0001, c1(live)=0.9867, c2=0.0132] | argmax=1
+08-19 23:12:47.749 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9748 print=0.0010 replay=0.0242 attack=0.0242 margin=0.9507 argmax=1 v2Attack=0.0351 v1seAttack=0.0132 sameCrop=true
+08-19 23:12:47.759 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0242/-1.58 PARALLAX=0.0117/+0.00 MOIRE=1.1112/+0.62 SPECULAR=0.0000/+0.00 CHROMA=9.4893/+0.00 BEZEL=0.4917/+0.00 | QUALITY eye=75.8 faceW=234 luma=108.7 sharp=0.165 yaw=-21.0 pitch=4.1 roll=7.2
+08-19 23:12:47.760 D/FaceAntiSpoof(20290): CADENCE | gap=289ms target=100ms inferMs=55 frame=480x640
+08-19 23:12:47.761 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.961 frame=-0.961 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:47.912 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[123.8,116.9,104.2] range=[32..255,34..255,29..251] signature=-1081368887
+08-19 23:12:47.922 D/FaceAntiSpoof(20290): LOGITS: [-4.59, 4.44, 0.15] | PROBS: [c0=0.0001, c1(live)=0.9864, c2=0.0135] | argmax=1
+08-19 23:12:47.925 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[123.8,116.9,104.2] range=[32..255,34..255,29..251] signature=-1081368887
+08-19 23:12:47.935 D/FaceAntiSpoof(20290): LOGITS: [-3.55, 4.92, -1.37] | PROBS: [c0=0.0002, c1(live)=0.9979, c2=0.0019] | argmax=1
+08-19 23:12:47.936 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9921 print=0.0002 replay=0.0077 attack=0.0077 margin=0.9845 argmax=1 v2Attack=0.0135 v1seAttack=0.0019 sameCrop=true
+08-19 23:12:47.947 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0077/-1.63 PARALLAX=0.0113/+0.00 MOIRE=0.7847/+0.13 SPECULAR=0.0000/+0.00 CHROMA=9.3374/+0.00 BEZEL=0.4850/+0.00 | QUALITY eye=74.9 faceW=236 luma=115.0 sharp=0.144 yaw=-17.6 pitch=4.8 roll=5.0
+08-19 23:12:47.947 D/FaceAntiSpoof(20290): CADENCE | gap=161ms target=100ms inferMs=82 frame=480x640
+08-19 23:12:47.948 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.317 frame=-1.500 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:48.003 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[123.3,115.8,103.1] range=[30..254,32..255,30..253] signature=-508456000
+08-19 23:12:48.009 D/FaceAntiSpoof(20290): LOGITS: [-4.54, 5.15, -0.61] | PROBS: [c0=0.0001, c1(live)=0.9968, c2=0.0031] | argmax=1
+08-19 23:12:48.012 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[123.3,115.8,103.1] range=[30..254,32..255,30..253] signature=-508456000
+08-19 23:12:48.018 D/FaceAntiSpoof(20290): LOGITS: [-3.86, 5.44, -1.58] | PROBS: [c0=0.0001, c1(live)=0.9990, c2=0.0009] | argmax=1
+08-19 23:12:48.019 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9979 print=0.0001 replay=0.0020 attack=0.0020 margin=0.9959 argmax=1 v2Attack=0.0031 v1seAttack=0.0009 sameCrop=true
+08-19 23:12:48.026 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0020/-1.64 PARALLAX=0.0113/+0.00 MOIRE=1.0652/+0.55 SPECULAR=0.0000/+0.00 CHROMA=9.0050/+0.00 BEZEL=0.4969/+0.00 | QUALITY eye=75.8 faceW=236 luma=113.7 sharp=0.142 yaw=-11.8 pitch=8.6 roll=4.0
+08-19 23:12:48.027 D/FaceAntiSpoof(20290): CADENCE | gap=122ms target=100ms inferMs=39 frame=480x640
+08-19 23:12:48.027 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.065 frame=-1.096 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:48.127 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[123.5,115.2,102.5] range=[30..255,32..255,26..254] signature=1489821446
+08-19 23:12:48.143 D/FaceAntiSpoof(20290): LOGITS: [-4.28, 5.08, -0.81] | PROBS: [c0=0.0001, c1(live)=0.9972, c2=0.0027] | argmax=1
+08-19 23:12:48.146 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[123.5,115.2,102.5] range=[30..255,32..255,26..254] signature=1489821446
+08-19 23:12:48.156 D/FaceAntiSpoof(20290): LOGITS: [-4.34, 5.78, -1.45] | PROBS: [c0=0.0000, c1(live)=0.9992, c2=0.0007] | argmax=1
+08-19 23:12:48.156 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9982 print=0.0001 replay=0.0017 attack=0.0017 margin=0.9965 argmax=1 v2Attack=0.0027 v1seAttack=0.0007 sameCrop=true
+08-19 23:12:48.166 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0017/-1.64 PARALLAX=0.0108/+0.00 MOIRE=0.5583/+0.00 SPECULAR=0.0000/+0.00 CHROMA=8.9643/+0.00 BEZEL=0.4679/+0.00 | QUALITY eye=76.4 faceW=238 luma=115.1 sharp=0.202 yaw=-14.4 pitch=1.4 roll=3.3
+08-19 23:12:48.167 D/FaceAntiSpoof(20290): CADENCE | gap=127ms target=100ms inferMs=53 frame=480x640
+08-19 23:12:48.167 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.250 frame=-1.645 ticks=4 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:48.226 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=76.0 faceW=235 luma=113.8 sharp=0.134 yaw=-13.3 pitch=2.2 roll=3.4
+08-19 23:12:48.227 D/FaceAntiSpoof(20290): CADENCE | gap=103ms target=100ms inferMs=8 frame=480x640 gated=HOLD_STILL
+08-19 23:12:48.373 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.0,117.4,104.0] range=[31..255,33..255,24..255] signature=-2121739888
+08-19 23:12:48.390 D/FaceAntiSpoof(20290): LOGITS: [-5.10, 5.59, -0.49] | PROBS: [c0=0.0000, c1(live)=0.9977, c2=0.0023] | argmax=1
+08-19 23:12:48.393 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.0,117.4,104.0] range=[31..255,33..255,24..255] signature=-2121739888
+08-19 23:12:48.404 D/FaceAntiSpoof(20290): LOGITS: [-3.81, 5.39, -1.58] | PROBS: [c0=0.0001, c1(live)=0.9990, c2=0.0009] | argmax=1
+08-19 23:12:48.404 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9983 print=0.0001 replay=0.0016 attack=0.0016 margin=0.9967 argmax=1 v2Attack=0.0023 v1seAttack=0.0009 sameCrop=true
+08-19 23:12:48.415 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0016/-1.65 PARALLAX=0.0116/+0.00 MOIRE=0.7686/+0.10 SPECULAR=0.0000/+0.00 CHROMA=8.9873/+0.00 BEZEL=0.4761/+0.00 | QUALITY eye=76.1 faceW=234 luma=113.0 sharp=0.167 yaw=-11.1 pitch=5.4 roll=3.9
+08-19 23:12:48.416 D/FaceAntiSpoof(20290): CADENCE | gap=133ms target=100ms inferMs=65 frame=480x640
+08-19 23:12:48.416 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-5.155 frame=-1.542 ticks=5 corroborating=0 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:52.754 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=73.0 faceW=222 luma=162.0 sharp=0.133 yaw=-0.5 pitch=9.0 roll=6.6
+08-19 23:12:52.754 D/FaceAntiSpoof(20290): CADENCE | gap=1047ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 23:12:52.945 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[114.7,112.9,103.4] range=[34..255,34..255,33..244] signature=-1210770017
+08-19 23:12:52.951 D/FaceAntiSpoof(20290): LOGITS: [-4.51, 4.58, -0.07] | PROBS: [c0=0.0001, c1(live)=0.9904, c2=0.0095] | argmax=1
+08-19 23:12:52.954 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[114.7,112.9,103.4] range=[34..255,34..255,33..244] signature=-1210770017
+08-19 23:12:52.959 D/FaceAntiSpoof(20290): LOGITS: [-6.64, 7.18, -0.55] | PROBS: [c0=0.0000, c1(live)=0.9996, c2=0.0004] | argmax=1
+08-19 23:12:52.960 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9950 print=0.0001 replay=0.0050 attack=0.0050 margin=0.9900 argmax=1 v2Attack=0.0095 v1seAttack=0.0004 sameCrop=true
+08-19 23:12:52.967 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0050/-1.64 PARALLAX=-/- MOIRE=1.2063/+0.76 SPECULAR=0.0000/+0.00 CHROMA=5.9092/+0.00 BEZEL=0.4323/+0.00 | QUALITY eye=72.2 faceW=223 luma=85.1 sharp=0.154 yaw=12.8 pitch=9.3 roll=2.4
+08-19 23:12:52.969 D/FaceAntiSpoof(20290): CADENCE | gap=182ms target=100ms inferMs=35 frame=480x640
+08-19 23:12:52.969 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.876 frame=-0.876 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:53.147 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.2,128.3,118.1] range=[42..255,45..255,40..255] signature=1836322471
+08-19 23:12:53.154 D/FaceAntiSpoof(20290): LOGITS: [-5.44, 5.06, 0.38] | PROBS: [c0=0.0000, c1(live)=0.9908, c2=0.0092] | argmax=1
+08-19 23:12:53.158 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.2,128.3,118.1] range=[42..255,45..255,40..255] signature=1836322471
+08-19 23:12:53.164 D/FaceAntiSpoof(20290): LOGITS: [-7.03, 6.31, 0.72] | PROBS: [c0=0.0000, c1(live)=0.9963, c2=0.0037] | argmax=1
+08-19 23:12:53.165 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9935 print=0.0000 replay=0.0065 attack=0.0065 margin=0.9870 argmax=1 v2Attack=0.0092 v1seAttack=0.0037 sameCrop=true
+08-19 23:12:53.173 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0065/-1.63 PARALLAX=-/- MOIRE=1.1059/+0.61 SPECULAR=0.0049/+0.00 CHROMA=6.3806/+0.00 BEZEL=0.4419/+0.00 | QUALITY eye=75.4 faceW=231 luma=102.1 sharp=0.211 yaw=13.2 pitch=9.5 roll=1.8
+08-19 23:12:53.173 D/FaceAntiSpoof(20290): CADENCE | gap=177ms target=100ms inferMs=63 frame=480x640
+08-19 23:12:53.173 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.766 frame=-1.022 ticks=2 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:53.245 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[131.2,128.9,118.7] range=[43..255,46..255,43..255] signature=-659427020
+08-19 23:12:53.251 D/FaceAntiSpoof(20290): LOGITS: [-5.25, 5.72, -0.48] | PROBS: [c0=0.0000, c1(live)=0.9980, c2=0.0020] | argmax=1
+08-19 23:12:53.254 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[131.2,128.9,118.7] range=[43..255,46..255,43..255] signature=-659427020
+08-19 23:12:53.260 D/FaceAntiSpoof(20290): LOGITS: [-7.35, 6.36, 0.98] | PROBS: [c0=0.0000, c1(live)=0.9954, c2=0.0046] | argmax=1
+08-19 23:12:53.260 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9967 print=0.0000 replay=0.0033 attack=0.0033 margin=0.9934 argmax=1 v2Attack=0.0020 v1seAttack=0.0046 sameCrop=true
+08-19 23:12:53.268 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0033/-1.64 PARALLAX=-/- MOIRE=0.6358/+0.00 SPECULAR=0.0049/+0.00 CHROMA=6.3304/+0.00 BEZEL=0.4341/+0.00 | QUALITY eye=74.6 faceW=232 luma=100.1 sharp=0.309 yaw=12.3 pitch=10.0 roll=1.4
+08-19 23:12:53.268 D/FaceAntiSpoof(20290): CADENCE | gap=124ms target=100ms inferMs=35 frame=480x640
+08-19 23:12:53.269 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.141 frame=-1.640 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:53.459 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.7,125.7,115.1] range=[41..255,45..255,41..254] signature=221304926
+08-19 23:12:53.465 D/FaceAntiSpoof(20290): LOGITS: [-6.04, 6.75, -0.71] | PROBS: [c0=0.0000, c1(live)=0.9994, c2=0.0006] | argmax=1
+08-19 23:12:53.468 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.7,125.7,115.1] range=[41..255,45..255,41..254] signature=221304926
+08-19 23:12:53.473 D/FaceAntiSpoof(20290): LOGITS: [-7.07, 7.09, -0.02] | PROBS: [c0=0.0000, c1(live)=0.9992, c2=0.0008] | argmax=1
+08-19 23:12:53.474 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9993 print=0.0000 replay=0.0007 attack=0.0007 margin=0.9986 argmax=1 v2Attack=0.0006 v1seAttack=0.0008 sameCrop=true
+08-19 23:12:53.482 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0007/-1.65 PARALLAX=0.0099/+0.00 MOIRE=0.5418/+0.00 SPECULAR=0.0000/+0.00 CHROMA=6.2523/+0.00 BEZEL=0.4490/+0.00 | QUALITY eye=74.4 faceW=231 luma=97.5 sharp=0.191 yaw=11.3 pitch=8.6 roll=2.7
+08-19 23:12:53.482 D/FaceAntiSpoof(20290): CADENCE | gap=214ms target=100ms inferMs=35 frame=480x640
+08-19 23:12:53.483 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.318 frame=-1.648 ticks=4 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:53.606 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.7,122.4,111.2] range=[40..255,44..255,37..252] signature=512078838
+08-19 23:12:53.617 D/FaceAntiSpoof(20290): LOGITS: [-6.44, 5.71, 0.73] | PROBS: [c0=0.0000, c1(live)=0.9932, c2=0.0068] | argmax=1
+08-19 23:12:53.620 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.7,122.4,111.2] range=[40..255,44..255,37..252] signature=512078838
+08-19 23:12:53.629 D/FaceAntiSpoof(20290): LOGITS: [-7.59, 7.40, 0.19] | PROBS: [c0=0.0000, c1(live)=0.9993, c2=0.0007] | argmax=1
+08-19 23:12:53.629 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9962 print=0.0000 replay=0.0038 attack=0.0038 margin=0.9925 argmax=1 v2Attack=0.0068 v1seAttack=0.0007 sameCrop=true
+08-19 23:12:53.637 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0038/-1.64 PARALLAX=0.0086/+0.00 MOIRE=0.6731/+0.00 SPECULAR=0.0000/+0.00 CHROMA=6.2431/+0.00 BEZEL=0.4663/+0.00 | QUALITY eye=73.3 faceW=232 luma=94.3 sharp=0.170 yaw=12.9 pitch=5.4 roll=3.5
+08-19 23:12:53.638 D/FaceAntiSpoof(20290): CADENCE | gap=140ms target=100ms inferMs=50 frame=480x640
+08-19 23:12:53.638 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-5.309 frame=-1.639 ticks=5 corroborating=0 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:55.329 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=67.7 faceW=207 luma=197.7 sharp=0.137 yaw=5.5 pitch=6.3 roll=8.8
+08-19 23:12:55.330 D/FaceAntiSpoof(20290): CADENCE | gap=485ms target=100ms inferMs=4 frame=480x640 gated=HOLD_STILL
+08-19 23:12:55.427 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=63.5 faceW=194 luma=159.6 sharp=0.114 yaw=2.9 pitch=-0.3 roll=8.6
+08-19 23:12:55.427 D/FaceAntiSpoof(20290): CADENCE | gap=100ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:12:55.618 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[132.1,127.6,113.3] range=[47..254,44..255,38..249] signature=-272781034
+08-19 23:12:55.637 D/FaceAntiSpoof(20290): LOGITS: [-4.66, 4.88, -0.23] | PROBS: [c0=0.0001, c1(live)=0.9939, c2=0.0060] | argmax=1
+08-19 23:12:55.639 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[132.1,127.6,113.3] range=[47..254,44..255,38..249] signature=-272781034
+08-19 23:12:55.666 D/FaceAntiSpoof(20290): LOGITS: [-5.11, 4.09, 1.01] | PROBS: [c0=0.0001, c1(live)=0.9561, c2=0.0438] | argmax=1
+08-19 23:12:55.667 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9750 print=0.0001 replay=0.0249 attack=0.0249 margin=0.9501 argmax=1 v2Attack=0.0060 v1seAttack=0.0438 sameCrop=true
+08-19 23:12:55.686 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0249/-1.58 PARALLAX=0.0059/+0.00 MOIRE=1.7743/+1.61 SPECULAR=0.0000/+0.00 CHROMA=8.6841/+0.00 BEZEL=0.4601/+0.00 | QUALITY eye=59.1 faceW=192 luma=105.5 sharp=0.158 yaw=-20.7 pitch=1.7 roll=13.4
+08-19 23:12:55.688 D/FaceAntiSpoof(20290): CADENCE | gap=171ms target=100ms inferMs=92 frame=480x640
+08-19 23:12:55.688 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=0.036 frame=+0.036 ticks=1 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:55.768 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[125.4,120.7,106.2] range=[45..246,42..248,35..240] signature=1917534797
+08-19 23:12:55.784 D/FaceAntiSpoof(20290): LOGITS: [-3.64, 2.54, 1.10] | PROBS: [c0=0.0017, c1(live)=0.8076, c2=0.1907] | argmax=1
+08-19 23:12:55.788 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[125.4,120.7,106.2] range=[45..246,42..248,35..240] signature=1917534797
+08-19 23:12:55.799 D/FaceAntiSpoof(20290): LOGITS: [-5.65, 4.10, 1.55] | PROBS: [c0=0.0001, c1(live)=0.9272, c2=0.0727] | argmax=1
+08-19 23:12:55.800 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.8674 print=0.0009 replay=0.1317 attack=0.1317 margin=0.7357 argmax=1 v2Attack=0.1907 v1seAttack=0.0727 sameCrop=true
+08-19 23:12:55.809 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.1317/-1.25 PARALLAX=0.0057/+0.00 MOIRE=1.3422/+0.96 SPECULAR=0.0000/+0.00 CHROMA=7.2619/+0.00 BEZEL=0.8072/+0.00 | QUALITY eye=108.2 faceW=399 luma=75.6 sharp=0.252 yaw=-27.0 pitch=7.3 roll=-1.7
+08-19 23:12:55.810 D/FaceAntiSpoof(20290): CADENCE | gap=149ms target=100ms inferMs=65 frame=480x640
+08-19 23:12:55.811 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.261 frame=-0.292 ticks=2 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:55.911 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=59.8 faceW=169 luma=107.4 sharp=0.126 yaw=-12.3 pitch=2.7 roll=11.7
+08-19 23:12:55.911 D/FaceAntiSpoof(20290): CADENCE | gap=164ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:12:56.013 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=45.6 faceW=183 luma=90.6 sharp=0.483 yaw=41.9 pitch=7.7 roll=4.5
+08-19 23:12:56.013 D/FaceAntiSpoof(20290): CADENCE | gap=102ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:56.210 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=38.1 faceW=180 luma=102.3 sharp=0.667 yaw=51.5 pitch=3.3 roll=-1.5
+08-19 23:12:56.210 D/FaceAntiSpoof(20290): CADENCE | gap=190ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 23:12:56.313 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=43.0 faceW=186 luma=103.7 sharp=1.070 yaw=45.8 pitch=6.3 roll=-2.6
+08-19 23:12:56.313 D/FaceAntiSpoof(20290): CADENCE | gap=102ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 23:12:56.493 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=44.0 faceW=190 luma=98.2 sharp=1.023 yaw=45.1 pitch=4.0 roll=-0.3
+08-19 23:12:56.493 D/FaceAntiSpoof(20290): CADENCE | gap=179ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 23:12:56.628 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=42.1 faceW=182 luma=100.4 sharp=0.987 yaw=41.9 pitch=6.1 roll=-0.2
+08-19 23:12:56.628 D/FaceAntiSpoof(20290): CADENCE | gap=144ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 23:12:56.753 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=48.0 faceW=190 luma=98.9 sharp=0.918 yaw=42.9 pitch=5.7 roll=1.4
+08-19 23:12:56.754 D/FaceAntiSpoof(20290): CADENCE | gap=118ms target=100ms inferMs=8 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:56.910 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=48.1 faceW=190 luma=100.1 sharp=0.875 yaw=42.6 pitch=3.2 roll=1.2
+08-19 23:12:56.910 D/FaceAntiSpoof(20290): CADENCE | gap=153ms target=100ms inferMs=11 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:57.025 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=48.7 faceW=195 luma=98.3 sharp=0.559 yaw=40.1 pitch=4.0 roll=1.3
+08-19 23:12:57.025 D/FaceAntiSpoof(20290): CADENCE | gap=116ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:57.270 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.5 faceW=177 luma=94.8 sharp=0.330 yaw=31.6 pitch=4.4 roll=3.0
+08-19 23:12:57.270 D/FaceAntiSpoof(20290): CADENCE | gap=254ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:57.386 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.6 faceW=174 luma=102.4 sharp=0.262 yaw=28.3 pitch=2.9 roll=6.5
+08-19 23:12:57.386 D/FaceAntiSpoof(20290): CADENCE | gap=108ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:57.497 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.9 faceW=174 luma=103.5 sharp=0.380 yaw=28.1 pitch=2.3 roll=6.5
+08-19 23:12:57.497 D/FaceAntiSpoof(20290): CADENCE | gap=104ms target=100ms inferMs=16 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:57.646 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.6 faceW=174 luma=95.0 sharp=0.485 yaw=34.7 pitch=2.9 roll=6.1
+08-19 23:12:57.646 D/FaceAntiSpoof(20290): CADENCE | gap=161ms target=100ms inferMs=4 frame=480x640 gated=FACE_CAMERA
+08-19 23:12:57.774 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[129.4,122.8,108.9] range=[40..255,43..255,42..252] signature=-1758018966
+08-19 23:12:57.785 D/FaceAntiSpoof(20290): LOGITS: [-5.63, 5.02, 0.60] | PROBS: [c0=0.0000, c1(live)=0.9881, c2=0.0119] | argmax=1
+08-19 23:12:57.788 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[129.4,122.8,108.9] range=[40..255,43..255,42..252] signature=-1758018966
+08-19 23:12:57.798 D/FaceAntiSpoof(20290): LOGITS: [-4.48, 4.78, -0.30] | PROBS: [c0=0.0001, c1(live)=0.9937, c2=0.0062] | argmax=1
+08-19 23:12:57.799 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9909 print=0.0001 replay=0.0090 attack=0.0090 margin=0.9819 argmax=1 v2Attack=0.0119 v1seAttack=0.0062 sameCrop=true
+08-19 23:12:57.809 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0090/-1.62 PARALLAX=0.0173/+0.00 MOIRE=0.8265/+0.19 SPECULAR=0.0000/+0.00 CHROMA=6.3412/+0.00 BEZEL=0.5405/+0.00 | QUALITY eye=54.4 faceW=187 luma=92.0 sharp=0.412 yaw=23.4 pitch=0.1 roll=6.1
+08-19 23:12:57.810 D/FaceAntiSpoof(20290): CADENCE | gap=106ms target=100ms inferMs=62 frame=480x640
+08-19 23:12:57.810 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.655 frame=-1.433 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:57.868 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[125.8,119.9,105.6] range=[39..255,41..255,40..252] signature=379197510
+08-19 23:12:57.879 D/FaceAntiSpoof(20290): LOGITS: [-5.05, 4.88, 0.17] | PROBS: [c0=0.0000, c1(live)=0.9911, c2=0.0089] | argmax=1
+08-19 23:12:57.882 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[125.8,119.9,105.6] range=[39..255,41..255,40..252] signature=379197510
+08-19 23:12:57.949 D/FaceAntiSpoof(20290): LOGITS: [-4.41, 4.26, 0.14] | PROBS: [c0=0.0002, c1(live)=0.9838, c2=0.0160] | argmax=1
+08-19 23:12:57.949 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9875 print=0.0001 replay=0.0124 attack=0.0124 margin=0.9750 argmax=1 v2Attack=0.0089 v1seAttack=0.0160 sameCrop=true
+08-19 23:12:57.957 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0124/-1.61 PARALLAX=0.0173/+0.00 MOIRE=0.5391/+0.00 SPECULAR=0.0000/+0.00 CHROMA=6.2100/+0.00 BEZEL=0.5145/+0.00 | QUALITY eye=52.3 faceW=186 luma=88.8 sharp=0.583 yaw=23.8 pitch=0.2 roll=5.9
+08-19 23:12:57.958 D/FaceAntiSpoof(20290): CADENCE | gap=102ms target=100ms inferMs=108 frame=480x640
+08-19 23:12:57.958 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.019 frame=-1.613 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:58.020 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[129.9,123.5,110.2] range=[42..255,41..255,42..253] signature=-540621642
+08-19 23:12:58.031 D/FaceAntiSpoof(20290): LOGITS: [-5.64, 5.62, 0.02] | PROBS: [c0=0.0000, c1(live)=0.9963, c2=0.0037] | argmax=1
+08-19 23:12:58.034 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[129.9,123.5,110.2] range=[42..255,41..255,42..253] signature=-540621642
+08-19 23:12:58.044 D/FaceAntiSpoof(20290): LOGITS: [-4.88, 4.63, 0.26] | PROBS: [c0=0.0001, c1(live)=0.9875, c2=0.0125] | argmax=1
+08-19 23:12:58.045 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9919 print=0.0000 replay=0.0081 attack=0.0081 margin=0.9838 argmax=1 v2Attack=0.0037 v1seAttack=0.0125 sameCrop=true
+08-19 23:12:58.055 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0081/-1.63 PARALLAX=0.0174/+0.00 MOIRE=0.7976/+0.15 SPECULAR=0.0000/+0.00 CHROMA=6.3896/+0.00 BEZEL=0.5087/+0.00 | QUALITY eye=52.8 faceW=185 luma=92.8 sharp=0.427 yaw=24.0 pitch=-0.5 roll=6.0
+08-19 23:12:58.056 D/FaceAntiSpoof(20290): CADENCE | gap=154ms target=100ms inferMs=52 frame=480x640
+08-19 23:12:58.056 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.046 frame=-1.479 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:12:58.340 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.5,132.8,119.5] range=[47..255,49..255,46..253] signature=1119483937
+08-19 23:12:58.352 D/FaceAntiSpoof(20290): LOGITS: [-5.33, 6.05, -0.73] | PROBS: [c0=0.0000, c1(live)=0.9989, c2=0.0011] | argmax=1
+08-19 23:12:58.355 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.8,133.1,119.8] range=[46..255,50..255,46..253] signature=1538690514
+08-19 23:12:58.366 D/FaceAntiSpoof(20290): LOGITS: [-4.42, 4.25, 0.17] | PROBS: [c0=0.0002, c1(live)=0.9831, c2=0.0167] | argmax=1
+08-19 23:12:58.366 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9910 print=0.0001 replay=0.0089 attack=0.0089 margin=0.9821 argmax=1 v2Attack=0.0011 v1seAttack=0.0167 sameCrop=false
+08-19 23:12:58.377 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0089/-1.62 PARALLAX=0.0240/+0.00 MOIRE=0.8365/+0.20 SPECULAR=0.0000/+0.00 CHROMA=6.5100/+0.00 BEZEL=0.5007/+0.00 | QUALITY eye=54.0 faceW=175 luma=100.4 sharp=0.535 yaw=24.2 pitch=1.0 roll=6.0
+08-19 23:12:58.378 D/FaceAntiSpoof(20290): CADENCE | gap=324ms target=100ms inferMs=51 frame=480x640
+08-19 23:12:58.378 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.857 frame=-1.419 ticks=6 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:00.403 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[219.3,215.5,215.0] range=[59..255,59..255,63..255] signature=-328543249
+08-19 23:13:00.413 D/FaceAntiSpoof(20290): LOGITS: [-5.38, 2.27, 3.11] | PROBS: [c0=0.0001, c1(live)=0.3034, c2=0.6964] | argmax=2
+08-19 23:13:00.416 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[219.3,215.5,215.0] range=[59..255,59..255,63..255] signature=-328543249
+08-19 23:13:00.426 D/FaceAntiSpoof(20290): LOGITS: [-4.95, 3.30, 1.65] | PROBS: [c0=0.0002, c1(live)=0.8390, c2=0.1608] | argmax=1
+08-19 23:13:00.427 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.5712 print=0.0002 replay=0.4286 attack=0.4286 margin=0.1426 argmax=1 v2Attack=0.6964 v1seAttack=0.1608 sameCrop=true
+08-19 23:13:00.437 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.4286/-0.36 PARALLAX=-/- MOIRE=0.6717/+0.00 SPECULAR=0.2187/+0.00 CHROMA=5.6622/+0.00 BEZEL=0.4554/+0.00 | QUALITY eye=72.4 faceW=203 luma=175.4 sharp=0.187 yaw=9.9 pitch=19.0 roll=11.7
+08-19 23:13:00.438 D/FaceAntiSpoof(20290): CADENCE | gap=686ms target=100ms inferMs=50 frame=480x640
+08-19 23:13:00.438 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.364 frame=-0.364 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:00.589 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=69.1 faceW=222 luma=128.2 sharp=0.118 yaw=6.7 pitch=6.9 roll=7.6
+08-19 23:13:00.589 D/FaceAntiSpoof(20290): CADENCE | gap=198ms target=100ms inferMs=4 frame=480x640 gated=HOLD_STILL
+08-19 23:13:00.848 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=63.8 faceW=233 luma=139.5 sharp=0.085 yaw=4.1 pitch=11.5 roll=6.6
+08-19 23:13:00.848 D/FaceAntiSpoof(20290): CADENCE | gap=255ms target=100ms inferMs=6 frame=480x640 gated=HOLD_STILL
+08-19 23:13:01.032 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[120.6,122.5,114.6] range=[31..253,38..253,38..253] signature=-1793455354
+08-19 23:13:01.038 D/FaceAntiSpoof(20290): LOGITS: [-3.39, 3.09, 0.29] | PROBS: [c0=0.0014, c1(live)=0.9413, c2=0.0573] | argmax=1
+08-19 23:13:01.041 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[120.6,122.5,114.6] range=[31..253,38..253,38..253] signature=-1793455354
+08-19 23:13:01.046 D/FaceAntiSpoof(20290): LOGITS: [-4.10, 2.63, 1.47] | PROBS: [c0=0.0009, c1(live)=0.7609, c2=0.2381] | argmax=1
+08-19 23:13:01.047 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.8511 print=0.0012 replay=0.1477 attack=0.1477 margin=0.7034 argmax=1 v2Attack=0.0573 v1seAttack=0.2381 sameCrop=true
+08-19 23:13:01.054 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.1477/-1.21 PARALLAX=0.0129/+0.00 MOIRE=1.2657/+0.85 SPECULAR=0.0000/+0.00 CHROMA=5.4917/+0.00 BEZEL=0.4049/+0.00 | QUALITY eye=60.0 faceW=190 luma=94.2 sharp=0.172 yaw=6.8 pitch=14.3 roll=4.7
+08-19 23:13:01.055 D/FaceAntiSpoof(20290): CADENCE | gap=177ms target=100ms inferMs=37 frame=480x640
+08-19 23:13:01.055 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.668 frame=-0.358 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:01.139 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[120.1,121.8,114.4] range=[32..249,38..249,37..249] signature=-434169951
+08-19 23:13:01.153 D/FaceAntiSpoof(20290): LOGITS: [-2.87, 4.27, -1.40] | PROBS: [c0=0.0008, c1(live)=0.9958, c2=0.0034] | argmax=1
+08-19 23:13:01.156 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[120.1,121.8,114.4] range=[32..249,38..249,37..249] signature=-434169951
+08-19 23:13:01.176 D/FaceAntiSpoof(20290): LOGITS: [-3.12, 3.06, 0.05] | PROBS: [c0=0.0020, c1(live)=0.9511, c2=0.0470] | argmax=1
+08-19 23:13:01.178 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9734 print=0.0014 replay=0.0252 attack=0.0252 margin=0.9482 argmax=1 v2Attack=0.0034 v1seAttack=0.0470 sameCrop=true
+08-19 23:13:01.185 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0252/-1.57 PARALLAX=0.0161/+0.00 MOIRE=1.3216/+0.93 SPECULAR=0.0000/+0.00 CHROMA=5.5629/+0.00 BEZEL=0.3960/+0.00 | QUALITY eye=60.7 faceW=189 luma=93.3 sharp=0.212 yaw=7.1 pitch=13.7 roll=5.1
+08-19 23:13:01.186 D/FaceAntiSpoof(20290): CADENCE | gap=104ms target=100ms inferMs=63 frame=480x640
+08-19 23:13:01.187 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.210 frame=-0.642 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:01.232 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=58.7 faceW=187 luma=93.2 sharp=0.125 yaw=8.7 pitch=12.3 roll=7.4
+08-19 23:13:01.232 D/FaceAntiSpoof(20290): CADENCE | gap=108ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:01.430 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[125.6,126.0,118.3] range=[34..244,42..249,41..247] signature=-1365577354
+08-19 23:13:01.436 D/FaceAntiSpoof(20290): LOGITS: [-2.77, 3.28, -0.51] | PROBS: [c0=0.0023, c1(live)=0.9757, c2=0.0220] | argmax=1
+08-19 23:13:01.439 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[125.6,126.0,118.3] range=[34..244,42..249,41..247] signature=-1365577354
+08-19 23:13:01.444 D/FaceAntiSpoof(20290): LOGITS: [-4.23, 2.93, 1.30] | PROBS: [c0=0.0006, c1(live)=0.8354, c2=0.1640] | argmax=1
+08-19 23:13:01.445 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9055 print=0.0015 replay=0.0930 attack=0.0930 margin=0.8125 argmax=1 v2Attack=0.0220 v1seAttack=0.1640 sameCrop=true
+08-19 23:13:01.453 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0930/-1.37 PARALLAX=0.0140/+0.00 MOIRE=1.1937/+0.74 SPECULAR=0.0000/+0.00 CHROMA=5.3925/+0.00 BEZEL=0.3729/+0.00 | QUALITY eye=58.6 faceW=184 luma=96.9 sharp=0.228 yaw=8.3 pitch=16.4 roll=7.9
+08-19 23:13:01.454 D/FaceAntiSpoof(20290): CADENCE | gap=153ms target=100ms inferMs=70 frame=480x640
+08-19 23:13:01.454 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.659 frame=-0.630 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:01.495 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=60.0 faceW=193 luma=102.4 sharp=0.120 yaw=8.7 pitch=6.8 roll=6.8
+08-19 23:13:01.495 D/FaceAntiSpoof(20290): CADENCE | gap=109ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:01.658 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=61.3 faceW=193 luma=106.7 sharp=0.101 yaw=9.7 pitch=6.6 roll=8.4
+08-19 23:13:01.658 D/FaceAntiSpoof(20290): CADENCE | gap=162ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 23:13:01.789 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.0,136.0,126.6] range=[38..254,38..254,30..254] signature=237737638
+08-19 23:13:01.794 D/FaceAntiSpoof(20290): LOGITS: [-2.68, 3.51, -0.83] | PROBS: [c0=0.0020, c1(live)=0.9850, c2=0.0130] | argmax=1
+08-19 23:13:01.797 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[138.0,136.0,126.6] range=[38..254,38..254,30..254] signature=237737638
+08-19 23:13:01.803 D/FaceAntiSpoof(20290): LOGITS: [-5.10, 5.39, -0.29] | PROBS: [c0=0.0000, c1(live)=0.9965, c2=0.0034] | argmax=1
+08-19 23:13:01.804 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9908 print=0.0010 replay=0.0082 attack=0.0082 margin=0.9826 argmax=1 v2Attack=0.0130 v1seAttack=0.0034 sameCrop=true
+08-19 23:13:01.812 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0082/-1.63 PARALLAX=0.0121/+0.00 MOIRE=0.8313/+0.20 SPECULAR=0.0000/+0.00 CHROMA=5.2789/+0.00 BEZEL=0.4099/+0.00 | QUALITY eye=61.7 faceW=194 luma=103.7 sharp=0.270 yaw=10.7 pitch=9.8 roll=4.5
+08-19 23:13:01.812 D/FaceAntiSpoof(20290): CADENCE | gap=113ms target=100ms inferMs=44 frame=480x640
+08-19 23:13:01.813 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.838 frame=-1.429 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:01.917 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[139.2,136.7,127.3] range=[42..255,44..255,35..252] signature=1546426967
+08-19 23:13:01.928 D/FaceAntiSpoof(20290): LOGITS: [-3.54, 3.92, -0.38] | PROBS: [c0=0.0006, c1(live)=0.9862, c2=0.0133] | argmax=1
+08-19 23:13:01.931 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[139.2,136.7,127.3] range=[42..255,44..255,35..252] signature=1546426967
+08-19 23:13:01.944 D/FaceAntiSpoof(20290): LOGITS: [-5.28, 4.73, 0.54] | PROBS: [c0=0.0000, c1(live)=0.9850, c2=0.0150] | argmax=1
+08-19 23:13:01.945 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9856 print=0.0003 replay=0.0141 attack=0.0141 margin=0.9715 argmax=1 v2Attack=0.0133 v1seAttack=0.0150 sameCrop=true
+08-19 23:13:01.955 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0141/-1.61 PARALLAX=0.0110/+0.00 MOIRE=1.2823/+0.87 SPECULAR=0.0000/+0.00 CHROMA=5.2631/+0.00 BEZEL=0.3668/+0.00 | QUALITY eye=61.8 faceW=195 luma=99.9 sharp=0.222 yaw=10.9 pitch=9.1 roll=4.1
+08-19 23:13:01.956 D/FaceAntiSpoof(20290): CADENCE | gap=128ms target=100ms inferMs=60 frame=480x640
+08-19 23:13:01.957 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.147 frame=-0.734 ticks=6 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:02.013 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[139.4,136.4,126.8] range=[42..255,45..255,37..253] signature=-1136752437
+08-19 23:13:02.019 D/FaceAntiSpoof(20290): LOGITS: [-2.56, 3.32, -0.77] | PROBS: [c0=0.0027, c1(live)=0.9808, c2=0.0164] | argmax=1
+08-19 23:13:02.022 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[139.4,136.4,126.8] range=[42..255,45..255,37..253] signature=-1136752437
+08-19 23:13:02.027 D/FaceAntiSpoof(20290): LOGITS: [-4.99, 4.76, 0.23] | PROBS: [c0=0.0001, c1(live)=0.9892, c2=0.0108] | argmax=1
+08-19 23:13:02.028 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9850 print=0.0014 replay=0.0136 attack=0.0136 margin=0.9714 argmax=1 v2Attack=0.0164 v1seAttack=0.0108 sameCrop=true
+08-19 23:13:02.036 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0136/-1.61 PARALLAX=0.0121/+0.00 MOIRE=0.7152/+0.02 SPECULAR=0.0000/+0.00 CHROMA=5.3210/+0.00 BEZEL=0.3610/+0.00 | QUALITY eye=61.3 faceW=196 luma=98.6 sharp=0.389 yaw=11.2 pitch=12.3 roll=4.9
+08-19 23:13:02.037 D/FaceAntiSpoof(20290): CADENCE | gap=107ms target=100ms inferMs=35 frame=480x640
+08-19 23:13:02.037 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.261 frame=-1.586 ticks=7 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:02.149 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.0,131.4,121.9] range=[41..254,44..255,37..253] signature=15244479
+08-19 23:13:02.159 D/FaceAntiSpoof(20290): LOGITS: [-3.09, 3.88, -0.79] | PROBS: [c0=0.0009, c1(live)=0.9898, c2=0.0092] | argmax=1
+08-19 23:13:02.162 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.0,131.4,121.9] range=[41..254,44..255,37..253] signature=15244479
+08-19 23:13:02.172 D/FaceAntiSpoof(20290): LOGITS: [-5.21, 4.74, 0.47] | PROBS: [c0=0.0000, c1(live)=0.9861, c2=0.0138] | argmax=1
+08-19 23:13:02.172 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9880 print=0.0005 replay=0.0115 attack=0.0115 margin=0.9764 argmax=1 v2Attack=0.0092 v1seAttack=0.0138 sameCrop=true
+08-19 23:13:02.182 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0115/-1.62 PARALLAX=0.0122/+0.00 MOIRE=0.9146/+0.32 SPECULAR=0.0000/+0.00 CHROMA=5.3093/+0.00 BEZEL=0.3781/+0.00 | QUALITY eye=61.3 faceW=195 luma=94.9 sharp=0.338 yaw=11.2 pitch=10.9 roll=4.8
+08-19 23:13:02.183 D/FaceAntiSpoof(20290): CADENCE | gap=133ms target=100ms inferMs=47 frame=480x640
+08-19 23:13:02.183 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.915 frame=-1.293 ticks=8 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:03.965 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=65.2 faceW=210 luma=213.2 sharp=0.135 yaw=-11.1 pitch=14.6 roll=12.0
+08-19 23:13:03.965 D/FaceAntiSpoof(20290): CADENCE | gap=487ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 23:13:04.116 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[160.3,148.4,129.8] range=[56..255,56..255,36..255] signature=882391606
+08-19 23:13:04.126 D/FaceAntiSpoof(20290): LOGITS: [-3.62, 1.38, 2.24] | PROBS: [c0=0.0020, c1(live)=0.2977, c2=0.7003] | argmax=2
+08-19 23:13:04.129 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[160.3,148.4,129.8] range=[56..255,56..255,36..255] signature=882391606
+08-19 23:13:04.139 D/FaceAntiSpoof(20290): LOGITS: [-5.15, 5.87, -0.72] | PROBS: [c0=0.0000, c1(live)=0.9986, c2=0.0014] | argmax=1
+08-19 23:13:04.140 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.6482 print=0.0010 replay=0.3508 attack=0.3508 margin=0.2973 argmax=1 v2Attack=0.7003 v1seAttack=0.0014 sameCrop=true
+08-19 23:13:04.150 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.3508/-0.60 PARALLAX=-/- MOIRE=1.3328/+0.95 SPECULAR=0.0000/+0.00 CHROMA=10.6017/+0.00 BEZEL=0.4039/+0.00 | QUALITY eye=63.4 faceW=223 luma=143.1 sharp=0.153 yaw=-24.5 pitch=8.9 roll=7.0
+08-19 23:13:04.151 D/FaceAntiSpoof(20290): CADENCE | gap=142ms target=100ms inferMs=47 frame=480x640
+08-19 23:13:04.151 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=0.352 frame=+0.352 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:04.267 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[122.5,111.6,93.3] range=[34..246,35..250,22..245] signature=-1493919075
+08-19 23:13:04.273 D/FaceAntiSpoof(20290): LOGITS: [-4.39, 2.00, 2.39] | PROBS: [c0=0.0007, c1(live)=0.4027, c2=0.5966] | argmax=2
+08-19 23:13:04.276 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[122.5,111.6,93.3] range=[34..246,35..250,22..245] signature=-1493919075
+08-19 23:13:04.282 D/FaceAntiSpoof(20290): LOGITS: [-5.40, 4.66, 0.74] | PROBS: [c0=0.0000, c1(live)=0.9804, c2=0.0196] | argmax=1
+08-19 23:13:04.283 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.6915 print=0.0004 replay=0.3081 attack=0.3081 margin=0.3834 argmax=1 v2Attack=0.5966 v1seAttack=0.0196 sameCrop=true
+08-19 23:13:04.290 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.3081/-0.73 PARALLAX=-/- MOIRE=2.0322/+2.00 SPECULAR=0.0000/+0.00 CHROMA=9.9757/+0.00 BEZEL=0.4690/+0.00 | QUALITY eye=63.7 faceW=225 luma=109.8 sharp=0.190 yaw=-24.3 pitch=7.4 roll=5.4
+08-19 23:13:04.291 D/FaceAntiSpoof(20290): CADENCE | gap=151ms target=100ms inferMs=36 frame=480x640
+08-19 23:13:04.291 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=1.572 frame=+1.273 ticks=2 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:04.514 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=65.4 faceW=201 luma=118.2 sharp=0.109 yaw=-21.6 pitch=4.2 roll=7.4
+08-19 23:13:04.514 D/FaceAntiSpoof(20290): CADENCE | gap=253ms target=100ms inferMs=6 frame=480x640 gated=HOLD_STILL
+08-19 23:13:04.677 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=62.3 faceW=202 luma=116.5 sharp=0.133 yaw=-22.0 pitch=3.3 roll=7.4
+08-19 23:13:04.677 D/FaceAntiSpoof(20290): CADENCE | gap=164ms target=100ms inferMs=5 frame=480x640 gated=HOLD_STILL
+08-19 23:13:04.815 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=65.9 faceW=208 luma=117.4 sharp=0.116 yaw=-29.6 pitch=3.6 roll=6.7
+08-19 23:13:04.815 D/FaceAntiSpoof(20290): CADENCE | gap=134ms target=100ms inferMs=7 frame=480x640 gated=HOLD_STILL
+08-19 23:13:04.925 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=65.6 faceW=208 luma=115.8 sharp=0.130 yaw=-24.4 pitch=3.5 roll=5.8
+08-19 23:13:04.926 D/FaceAntiSpoof(20290): CADENCE | gap=112ms target=100ms inferMs=7 frame=480x640 gated=HOLD_STILL
+08-19 23:13:05.064 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.6,110.3,95.8] range=[34..255,36..255,27..250] signature=-22316807
+08-19 23:13:05.074 D/FaceAntiSpoof(20290): LOGITS: [-3.40, 3.12, 0.28] | PROBS: [c0=0.0014, c1(live)=0.9433, c2=0.0553] | argmax=1
+08-19 23:13:05.077 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.6,110.3,95.8] range=[34..255,36..255,27..250] signature=-22316807
+08-19 23:13:05.088 D/FaceAntiSpoof(20290): LOGITS: [-5.27, 4.23, 1.03] | PROBS: [c0=0.0001, c1(live)=0.9607, c2=0.0392] | argmax=1
+08-19 23:13:05.088 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9520 print=0.0007 replay=0.0473 attack=0.0473 margin=0.9047 argmax=1 v2Attack=0.0553 v1seAttack=0.0392 sameCrop=true
+08-19 23:13:05.103 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0473/-1.51 PARALLAX=0.0098/+0.00 MOIRE=0.8763/+0.26 SPECULAR=0.0000/+0.00 CHROMA=9.4300/+0.00 BEZEL=0.4945/+0.00 | QUALITY eye=67.5 faceW=206 luma=116.3 sharp=0.177 yaw=-24.7 pitch=3.4 roll=6.7
+08-19 23:13:05.104 D/FaceAntiSpoof(20290): CADENCE | gap=117ms target=100ms inferMs=67 frame=480x640
+08-19 23:13:05.104 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=0.092 frame=-1.244 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:05.281 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=65.2 faceW=197 luma=121.1 sharp=0.103 yaw=-23.1 pitch=3.3 roll=7.4
+08-19 23:13:05.281 D/FaceAntiSpoof(20290): CADENCE | gap=240ms target=100ms inferMs=5 frame=480x640 gated=HOLD_STILL
+08-19 23:13:05.523 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[123.2,113.5,99.5] range=[39..243,40..249,23..247] signature=1158552865
+08-19 23:13:05.534 D/FaceAntiSpoof(20290): LOGITS: [-3.27, 3.33, -0.07] | PROBS: [c0=0.0013, c1(live)=0.9663, c2=0.0324] | argmax=1
+08-19 23:13:05.537 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[123.2,113.5,99.5] range=[39..243,40..249,23..247] signature=1158552865
+08-19 23:13:05.548 D/FaceAntiSpoof(20290): LOGITS: [-5.62, 4.46, 1.16] | PROBS: [c0=0.0000, c1(live)=0.9642, c2=0.0358] | argmax=1
+08-19 23:13:05.548 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9652 print=0.0007 replay=0.0341 attack=0.0341 margin=0.9311 argmax=1 v2Attack=0.0324 v1seAttack=0.0358 sameCrop=true
+08-19 23:13:05.558 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0341/-1.55 PARALLAX=0.0099/+0.00 MOIRE=0.9333/+0.35 SPECULAR=0.0000/+0.00 CHROMA=9.2973/+0.00 BEZEL=0.4509/+0.00 | QUALITY eye=64.9 faceW=196 luma=117.1 sharp=0.202 yaw=-21.7 pitch=5.4 roll=6.7
+08-19 23:13:05.559 D/FaceAntiSpoof(20290): CADENCE | gap=221ms target=100ms inferMs=61 frame=480x640
+08-19 23:13:05.559 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.120 frame=-1.198 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:05.715 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[125.3,115.2,101.2] range=[38..247,40..252,23..250] signature=1593427611
+08-19 23:13:05.724 D/FaceAntiSpoof(20290): LOGITS: [-4.19, 4.92, -0.73] | PROBS: [c0=0.0001, c1(live)=0.9964, c2=0.0035] | argmax=1
+08-19 23:13:05.727 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[125.3,115.2,101.2] range=[38..247,40..252,23..250] signature=1593427611
+08-19 23:13:05.733 D/FaceAntiSpoof(20290): LOGITS: [-5.37, 5.85, -0.48] | PROBS: [c0=0.0000, c1(live)=0.9982, c2=0.0018] | argmax=1
+08-19 23:13:05.733 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9973 print=0.0001 replay=0.0026 attack=0.0026 margin=0.9947 argmax=1 v2Attack=0.0035 v1seAttack=0.0018 sameCrop=true
+08-19 23:13:05.741 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0026/-1.64 PARALLAX=0.0085/+0.00 MOIRE=0.7508/+0.08 SPECULAR=0.0000/+0.00 CHROMA=9.0240/+0.00 BEZEL=0.4354/+0.00 | QUALITY eye=64.8 faceW=192 luma=116.8 sharp=0.244 yaw=-16.0 pitch=8.7 roll=5.9
+08-19 23:13:05.742 D/FaceAntiSpoof(20290): CADENCE | gap=205ms target=100ms inferMs=40 frame=480x640
+08-19 23:13:05.742 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.517 frame=-1.566 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:05.901 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[124.4,113.9,100.3] range=[40..243,39..246,23..245] signature=-2072517563
+08-19 23:13:05.925 D/FaceAntiSpoof(20290): LOGITS: [-4.27, 4.08, 0.19] | PROBS: [c0=0.0002, c1(live)=0.9797, c2=0.0201] | argmax=1
+08-19 23:13:05.928 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[124.4,113.9,100.3] range=[40..243,39..246,23..245] signature=-2072517563
+08-19 23:13:05.942 D/FaceAntiSpoof(20290): LOGITS: [-4.94, 6.07, -1.14] | PROBS: [c0=0.0000, c1(live)=0.9992, c2=0.0007] | argmax=1
+08-19 23:13:05.943 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9895 print=0.0001 replay=0.0104 attack=0.0104 margin=0.9790 argmax=1 v2Attack=0.0201 v1seAttack=0.0007 sameCrop=true
+08-19 23:13:05.951 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0104/-1.62 PARALLAX=0.0080/+0.00 MOIRE=0.8004/+0.15 SPECULAR=0.0000/+0.00 CHROMA=8.7604/+0.00 BEZEL=0.4513/+0.00 | QUALITY eye=65.5 faceW=193 luma=115.9 sharp=0.223 yaw=-14.5 pitch=9.4 roll=5.7
+08-19 23:13:05.952 D/FaceAntiSpoof(20290): CADENCE | gap=162ms target=100ms inferMs=88 frame=480x640
+08-19 23:13:05.953 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.608 frame=-1.468 ticks=6 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:06.061 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[124.3,113.8,100.2] range=[39..246,39..248,24..247] signature=1989056800
+08-19 23:13:06.074 D/FaceAntiSpoof(20290): LOGITS: [-4.45, 3.75, 0.69] | PROBS: [c0=0.0003, c1(live)=0.9551, c2=0.0447] | argmax=1
+08-19 23:13:06.078 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[124.3,113.8,100.2] range=[39..246,39..248,24..247] signature=1989056800
+08-19 23:13:06.084 D/FaceAntiSpoof(20290): LOGITS: [-5.01, 6.15, -1.15] | PROBS: [c0=0.0000, c1(live)=0.9993, c2=0.0007] | argmax=1
+08-19 23:13:06.085 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9772 print=0.0001 replay=0.0227 attack=0.0227 margin=0.9545 argmax=1 v2Attack=0.0447 v1seAttack=0.0007 sameCrop=true
+08-19 23:13:06.093 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0227/-1.58 PARALLAX=0.0089/+0.00 MOIRE=1.0390/+0.51 SPECULAR=0.0000/+0.00 CHROMA=9.0695/+0.00 BEZEL=0.4334/+0.00 | QUALITY eye=65.6 faceW=199 luma=112.8 sharp=0.179 yaw=-13.6 pitch=8.5 roll=5.6
+08-19 23:13:06.094 D/FaceAntiSpoof(20290): CADENCE | gap=168ms target=100ms inferMs=62 frame=480x640
+08-19 23:13:06.094 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.140 frame=-1.074 ticks=7 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:06.148 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[124.2,113.4,99.7] range=[38..247,39..249,22..246] signature=-85367182
+08-19 23:13:06.160 D/FaceAntiSpoof(20290): LOGITS: [-4.56, 3.97, 0.58] | PROBS: [c0=0.0002, c1(live)=0.9672, c2=0.0326] | argmax=1
+08-19 23:13:06.163 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[124.2,113.4,99.7] range=[38..247,39..249,22..246] signature=-85367182
+08-19 23:13:06.174 D/FaceAntiSpoof(20290): LOGITS: [-5.37, 6.84, -1.47] | PROBS: [c0=0.0000, c1(live)=0.9997, c2=0.0002] | argmax=1
+08-19 23:13:06.174 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9835 print=0.0001 replay=0.0164 attack=0.0164 margin=0.9670 argmax=1 v2Attack=0.0326 v1seAttack=0.0002 sameCrop=true
+08-19 23:13:06.184 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0164/-1.60 PARALLAX=0.0087/+0.00 MOIRE=0.4055/+0.00 SPECULAR=0.0000/+0.00 CHROMA=8.9098/+0.00 BEZEL=0.4446/+0.00 | QUALITY eye=65.0 faceW=200 luma=112.5 sharp=0.179 yaw=-13.3 pitch=5.3 roll=5.6
+08-19 23:13:06.185 D/FaceAntiSpoof(20290): CADENCE | gap=102ms target=100ms inferMs=51 frame=480x640
+08-19 23:13:06.185 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-5.120 frame=-1.601 ticks=8 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:11.754 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[230.3,227.5,222.6] range=[135..255,133..255,137..255] signature=1980251808
+08-19 23:13:11.760 D/FaceAntiSpoof(20290): LOGITS: [-3.97, 1.88, 2.10] | PROBS: [c0=0.0013, c1(live)=0.4443, c2=0.5544] | argmax=2
+08-19 23:13:11.763 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[230.3,227.5,222.6] range=[135..255,133..255,137..255] signature=1980251808
+08-19 23:13:11.769 D/FaceAntiSpoof(20290): LOGITS: [-5.08, 4.95, 0.13] | PROBS: [c0=0.0000, c1(live)=0.9920, c2=0.0080] | argmax=1
+08-19 23:13:11.769 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.7181 print=0.0007 replay=0.2812 attack=0.2812 margin=0.4369 argmax=1 v2Attack=0.5544 v1seAttack=0.0080 sameCrop=true
+08-19 23:13:11.777 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.2812/-0.81 PARALLAX=-/- MOIRE=0.4022/+0.00 SPECULAR=0.2558/+0.00 CHROMA=6.3939/+0.00 BEZEL=0.4295/+0.00 | QUALITY eye=73.5 faceW=217 luma=194.5 sharp=0.181 yaw=6.8 pitch=17.3 roll=11.4
+08-19 23:13:11.778 D/FaceAntiSpoof(20290): CADENCE | gap=700ms target=100ms inferMs=39 frame=480x640
+08-19 23:13:11.778 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.806 frame=-0.806 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:11.901 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[161.9,160.2,153.4] range=[62..255,59..255,61..255] signature=476569895
+08-19 23:13:11.911 D/FaceAntiSpoof(20290): LOGITS: [-5.98, 3.70, 2.28] | PROBS: [c0=0.0001, c1(live)=0.8058, c2=0.1941] | argmax=1
+08-19 23:13:11.914 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[161.9,160.2,153.4] range=[62..255,59..255,61..255] signature=476569895
+08-19 23:13:11.924 D/FaceAntiSpoof(20290): LOGITS: [-4.59, 2.90, 1.69] | PROBS: [c0=0.0004, c1(live)=0.7694, c2=0.2301] | argmax=1
+08-19 23:13:11.925 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.7876 print=0.0002 replay=0.2121 attack=0.2121 margin=0.5755 argmax=1 v2Attack=0.1941 v1seAttack=0.2301 sameCrop=true
+08-19 23:13:11.934 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.2121/-1.01 PARALLAX=-/- MOIRE=0.9087/+0.31 SPECULAR=0.0043/+0.00 CHROMA=5.4781/+0.00 BEZEL=0.4362/+0.00 | QUALITY eye=73.2 faceW=230 luma=113.6 sharp=0.222 yaw=10.6 pitch=16.4 roll=11.6
+08-19 23:13:11.935 D/FaceAntiSpoof(20290): CADENCE | gap=149ms target=100ms inferMs=47 frame=480x640
+08-19 23:13:11.935 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.386 frame=-0.701 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:12.080 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.2,135.6,129.8] range=[43..255,47..255,38..255] signature=925692698
+08-19 23:13:12.093 D/FaceAntiSpoof(20290): LOGITS: [-5.96, 6.02, -0.06] | PROBS: [c0=0.0000, c1(live)=0.9977, c2=0.0023] | argmax=1
+08-19 23:13:12.096 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.5,135.9,130.1] range=[42..255,46..255,36..255] signature=-882212400
+08-19 23:13:12.106 D/FaceAntiSpoof(20290): LOGITS: [-4.38, 3.68, 0.70] | PROBS: [c0=0.0003, c1(live)=0.9513, c2=0.0484] | argmax=1
+08-19 23:13:12.107 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9745 print=0.0002 replay=0.0254 attack=0.0254 margin=0.9491 argmax=1 v2Attack=0.0023 v1seAttack=0.0484 sameCrop=false
+08-19 23:13:12.114 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0254/-1.57 PARALLAX=0.0087/+0.00 MOIRE=0.6299/+0.00 SPECULAR=0.0000/+0.00 CHROMA=4.5861/+0.00 BEZEL=0.4408/+0.00 | QUALITY eye=55.3 faceW=176 luma=93.6 sharp=0.227 yaw=25.4 pitch=7.1 roll=7.1
+08-19 23:13:12.115 D/FaceAntiSpoof(20290): CADENCE | gap=168ms target=100ms inferMs=58 frame=480x640
+08-19 23:13:12.115 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.752 frame=-1.574 ticks=3 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:12.167 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=49.1 faceW=147 luma=88.6 sharp=0.292 yaw=29.0 pitch=3.1 roll=1.7
+08-19 23:13:12.167 D/FaceAntiSpoof(20290): CADENCE | gap=107ms target=100ms inferMs=4 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:12.430 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=49.9 faceW=201 luma=87.1 sharp=0.404 yaw=42.4 pitch=4.6 roll=-2.8
+08-19 23:13:12.430 D/FaceAntiSpoof(20290): CADENCE | gap=261ms target=100ms inferMs=5 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:12.535 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=45.0 faceW=198 luma=96.6 sharp=1.029 yaw=46.0 pitch=0.6 roll=-6.5
+08-19 23:13:12.535 D/FaceAntiSpoof(20290): CADENCE | gap=109ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:12.652 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=45.3 faceW=197 luma=102.5 sharp=0.393 yaw=46.2 pitch=1.8 roll=-7.0
+08-19 23:13:12.653 D/FaceAntiSpoof(20290): CADENCE | gap=111ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:12.769 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=45.7 faceW=210 luma=99.4 sharp=0.739 yaw=46.1 pitch=3.0 roll=-7.6
+08-19 23:13:12.769 D/FaceAntiSpoof(20290): CADENCE | gap=114ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:12.916 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=46.7 faceW=211 luma=100.7 sharp=0.401 yaw=47.6 pitch=0.8 roll=-9.5
+08-19 23:13:12.916 D/FaceAntiSpoof(20290): CADENCE | gap=155ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:13.089 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=46.2 faceW=212 luma=100.3 sharp=0.582 yaw=47.8 pitch=1.4 roll=-8.6
+08-19 23:13:13.089 D/FaceAntiSpoof(20290): CADENCE | gap=165ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:13.192 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=45.6 faceW=211 luma=102.4 sharp=0.417 yaw=48.2 pitch=1.6 roll=-8.7
+08-19 23:13:13.192 D/FaceAntiSpoof(20290): CADENCE | gap=102ms target=100ms inferMs=10 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:13.321 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=45.1 faceW=203 luma=106.8 sharp=0.584 yaw=48.8 pitch=0.2 roll=-8.3
+08-19 23:13:13.321 D/FaceAntiSpoof(20290): CADENCE | gap=135ms target=100ms inferMs=6 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:13.513 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=47.5 faceW=201 luma=108.1 sharp=0.379 yaw=47.0 pitch=0.4 roll=-8.7
+08-19 23:13:13.513 D/FaceAntiSpoof(20290): CADENCE | gap=195ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:13.682 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=46.5 faceW=203 luma=107.1 sharp=0.547 yaw=46.9 pitch=-0.7 roll=-9.6
+08-19 23:13:13.682 D/FaceAntiSpoof(20290): CADENCE | gap=161ms target=100ms inferMs=8 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:13.821 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=44.2 faceW=206 luma=108.2 sharp=0.866 yaw=47.3 pitch=-0.2 roll=-8.9
+08-19 23:13:13.821 D/FaceAntiSpoof(20290): CADENCE | gap=138ms target=100ms inferMs=11 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:14.046 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.5 faceW=213 luma=106.1 sharp=0.612 yaw=40.1 pitch=1.0 roll=-5.2
+08-19 23:13:14.046 D/FaceAntiSpoof(20290): CADENCE | gap=234ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:14.198 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=53.0 faceW=214 luma=101.6 sharp=0.826 yaw=39.2 pitch=2.0 roll=-4.4
+08-19 23:13:14.198 D/FaceAntiSpoof(20290): CADENCE | gap=152ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:14.356 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=52.6 faceW=202 luma=99.0 sharp=0.800 yaw=43.7 pitch=0.8 roll=-3.8
+08-19 23:13:14.356 D/FaceAntiSpoof(20290): CADENCE | gap=158ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:14.527 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=51.1 faceW=201 luma=98.6 sharp=0.591 yaw=44.0 pitch=1.8 roll=-4.1
+08-19 23:13:14.527 D/FaceAntiSpoof(20290): CADENCE | gap=168ms target=100ms inferMs=6 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:14.698 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=54.6 faceW=204 luma=99.9 sharp=0.941 yaw=41.5 pitch=5.0 roll=-1.9
+08-19 23:13:14.698 D/FaceAntiSpoof(20290): CADENCE | gap=165ms target=100ms inferMs=11 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:14.818 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=54.8 faceW=200 luma=101.5 sharp=0.647 yaw=35.6 pitch=5.9 roll=-1.1
+08-19 23:13:14.818 D/FaceAntiSpoof(20290): CADENCE | gap=126ms target=100ms inferMs=5 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:14.956 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=55.8 faceW=203 luma=98.7 sharp=0.568 yaw=37.6 pitch=11.1 roll=0.7
+08-19 23:13:14.956 D/FaceAntiSpoof(20290): CADENCE | gap=142ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:15.061 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.9 faceW=207 luma=93.0 sharp=0.709 yaw=39.9 pitch=6.4 roll=-0.0
+08-19 23:13:15.061 D/FaceAntiSpoof(20290): CADENCE | gap=105ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:15.259 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.7 faceW=211 luma=86.8 sharp=0.638 yaw=40.5 pitch=5.0 roll=-0.8
+08-19 23:13:15.260 D/FaceAntiSpoof(20290): CADENCE | gap=185ms target=100ms inferMs=14 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:15.377 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.7 faceW=214 luma=86.7 sharp=0.686 yaw=39.0 pitch=4.8 roll=-0.6
+08-19 23:13:15.377 D/FaceAntiSpoof(20290): CADENCE | gap=125ms target=100ms inferMs=6 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:15.490 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.2 faceW=215 luma=89.9 sharp=0.463 yaw=39.5 pitch=4.3 roll=-0.3
+08-19 23:13:15.490 D/FaceAntiSpoof(20290): CADENCE | gap=113ms target=100ms inferMs=6 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:15.599 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.7 faceW=213 luma=90.6 sharp=0.464 yaw=39.4 pitch=4.0 roll=-0.2
+08-19 23:13:15.599 D/FaceAntiSpoof(20290): CADENCE | gap=114ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:15.835 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.6 faceW=205 luma=93.3 sharp=0.591 yaw=36.5 pitch=5.9 roll=0.7
+08-19 23:13:15.835 D/FaceAntiSpoof(20290): CADENCE | gap=231ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:15.972 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.0 faceW=202 luma=88.8 sharp=0.736 yaw=35.4 pitch=5.1 roll=1.6
+08-19 23:13:15.972 D/FaceAntiSpoof(20290): CADENCE | gap=133ms target=100ms inferMs=11 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:16.147 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.3 faceW=204 luma=82.2 sharp=1.007 yaw=39.3 pitch=4.2 roll=0.5
+08-19 23:13:16.147 D/FaceAntiSpoof(20290): CADENCE | gap=184ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:16.324 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=56.9 faceW=205 luma=85.2 sharp=0.724 yaw=39.2 pitch=3.3 roll=0.3
+08-19 23:13:16.324 D/FaceAntiSpoof(20290): CADENCE | gap=170ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:16.441 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.8 faceW=206 luma=90.0 sharp=0.858 yaw=39.0 pitch=3.8 roll=0.0
+08-19 23:13:16.441 D/FaceAntiSpoof(20290): CADENCE | gap=118ms target=100ms inferMs=8 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:16.594 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=59.5 faceW=206 luma=91.8 sharp=0.794 yaw=37.6 pitch=4.0 roll=-0.2
+08-19 23:13:16.594 D/FaceAntiSpoof(20290): CADENCE | gap=154ms target=100ms inferMs=8 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:16.753 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.3 faceW=207 luma=91.5 sharp=0.650 yaw=39.7 pitch=3.8 roll=-0.9
+08-19 23:13:16.753 D/FaceAntiSpoof(20290): CADENCE | gap=165ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:16.911 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=55.9 faceW=199 luma=92.1 sharp=0.571 yaw=35.3 pitch=4.2 roll=-0.2
+08-19 23:13:16.911 D/FaceAntiSpoof(20290): CADENCE | gap=150ms target=100ms inferMs=8 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:17.047 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=56.2 faceW=200 luma=92.2 sharp=0.968 yaw=40.2 pitch=2.7 roll=-0.5
+08-19 23:13:17.048 D/FaceAntiSpoof(20290): CADENCE | gap=135ms target=100ms inferMs=11 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:17.212 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.6 faceW=202 luma=85.4 sharp=0.952 yaw=38.7 pitch=2.5 roll=-0.7
+08-19 23:13:17.212 D/FaceAntiSpoof(20290): CADENCE | gap=170ms target=100ms inferMs=5 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:17.388 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=56.5 faceW=209 luma=93.2 sharp=0.684 yaw=40.6 pitch=2.9 roll=-0.2
+08-19 23:13:17.388 D/FaceAntiSpoof(20290): CADENCE | gap=172ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:17.516 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=55.9 faceW=210 luma=94.5 sharp=0.625 yaw=40.8 pitch=2.8 roll=-1.4
+08-19 23:13:17.516 D/FaceAntiSpoof(20290): CADENCE | gap=130ms target=100ms inferMs=8 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:17.799 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.6 faceW=210 luma=92.9 sharp=0.333 yaw=35.8 pitch=1.6 roll=-0.5
+08-19 23:13:17.799 D/FaceAntiSpoof(20290): CADENCE | gap=286ms target=100ms inferMs=4 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:17.957 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[142.2,138.2,127.8] range=[53..255,52..255,44..255] signature=701726942
+08-19 23:13:17.983 D/FaceAntiSpoof(20290): LOGITS: [-3.93, 5.70, -1.78] | PROBS: [c0=0.0001, c1(live)=0.9994, c2=0.0006] | argmax=1
+08-19 23:13:17.987 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[142.2,138.2,127.8] range=[53..255,52..255,44..255] signature=701726942
+08-19 23:13:17.999 D/FaceAntiSpoof(20290): LOGITS: [-5.61, 6.64, -1.03] | PROBS: [c0=0.0000, c1(live)=0.9995, c2=0.0005] | argmax=1
+08-19 23:13:17.999 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9995 print=0.0000 replay=0.0005 attack=0.0005 margin=0.9989 argmax=1 v2Attack=0.0006 v1seAttack=0.0005 sameCrop=true
+08-19 23:13:18.010 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0005/-1.65 PARALLAX=0.0116/+0.00 MOIRE=0.3305/+0.00 SPECULAR=0.0000/+0.00 CHROMA=5.8098/+0.00 BEZEL=0.5175/+0.00 | QUALITY eye=58.7 faceW=197 luma=97.4 sharp=0.325 yaw=27.7 pitch=-0.3 roll=0.2
+08-19 23:13:18.012 D/FaceAntiSpoof(20290): CADENCE | gap=134ms target=100ms inferMs=83 frame=480x640
+08-19 23:13:18.012 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.988 frame=-1.648 ticks=4 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:18.058 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[144.8,140.1,128.3] range=[54..255,56..255,50..255] signature=1628085323
+08-19 23:13:18.068 D/FaceAntiSpoof(20290): LOGITS: [-5.97, 6.37, -0.41] | PROBS: [c0=0.0000, c1(live)=0.9989, c2=0.0011] | argmax=1
+08-19 23:13:18.071 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[144.8,140.1,128.3] range=[54..255,56..255,50..255] signature=1628085323
+08-19 23:13:18.080 D/FaceAntiSpoof(20290): LOGITS: [-5.64, 7.21, -1.57] | PROBS: [c0=0.0000, c1(live)=0.9998, c2=0.0002] | argmax=1
+08-19 23:13:18.080 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9994 print=0.0000 replay=0.0006 attack=0.0006 margin=0.9987 argmax=1 v2Attack=0.0011 v1seAttack=0.0002 sameCrop=true
+08-19 23:13:18.088 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0006/-1.65 PARALLAX=0.0121/+0.00 MOIRE=0.9211/+0.33 SPECULAR=0.0000/+0.00 CHROMA=5.9385/+0.00 BEZEL=0.4729/+0.00 | QUALITY eye=57.1 faceW=186 luma=99.5 sharp=0.323 yaw=26.4 pitch=0.3 roll=0.7
+08-19 23:13:18.089 D/FaceAntiSpoof(20290): CADENCE | gap=117ms target=100ms inferMs=44 frame=480x640
+08-19 23:13:18.089 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.706 frame=-1.316 ticks=5 corroborating=0 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:20.260 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[225.9,221.0,212.9] range=[120..255,122..255,114..255] signature=-558696883
+08-19 23:13:20.271 D/FaceAntiSpoof(20290): LOGITS: [-5.03, 4.71, 0.32] | PROBS: [c0=0.0001, c1(live)=0.9877, c2=0.0122] | argmax=1
+08-19 23:13:20.274 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[225.9,221.0,212.9] range=[120..255,122..255,114..255] signature=-558696883
+08-19 23:13:20.285 D/FaceAntiSpoof(20290): LOGITS: [-6.24, 5.53, 0.70] | PROBS: [c0=0.0000, c1(live)=0.9921, c2=0.0079] | argmax=1
+08-19 23:13:20.286 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9899 print=0.0000 replay=0.0101 attack=0.0101 margin=0.9798 argmax=1 v2Attack=0.0122 v1seAttack=0.0079 sameCrop=true
+08-19 23:13:20.296 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0101/-1.62 PARALLAX=-/- MOIRE=0.8113/+0.17 SPECULAR=0.2057/+0.00 CHROMA=7.6691/+0.00 BEZEL=0.4651/+0.00 | QUALITY eye=78.6 faceW=240 luma=190.9 sharp=0.167 yaw=8.4 pitch=2.8 roll=10.4
+08-19 23:13:20.297 D/FaceAntiSpoof(20290): CADENCE | gap=539ms target=100ms inferMs=53 frame=480x640
+08-19 23:13:20.297 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.453 frame=-1.453 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:20.442 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=63.9 faceW=212 luma=98.2 sharp=0.108 yaw=15.3 pitch=-1.6 roll=6.2
+08-19 23:13:20.442 D/FaceAntiSpoof(20290): CADENCE | gap=196ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:20.572 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[116.3,109.6,93.8] range=[33..246,33..247,24..240] signature=-582663100
+08-19 23:13:20.588 D/FaceAntiSpoof(20290): LOGITS: [-4.53, 1.60, 2.92] | PROBS: [c0=0.0005, c1(live)=0.2105, c2=0.7891] | argmax=2
+08-19 23:13:20.590 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[116.3,109.6,93.8] range=[33..246,33..247,24..240] signature=-582663100
+08-19 23:13:20.602 D/FaceAntiSpoof(20290): LOGITS: [-4.28, 3.97, 0.31] | PROBS: [c0=0.0003, c1(live)=0.9745, c2=0.0253] | argmax=1
+08-19 23:13:20.602 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.5925 print=0.0004 replay=0.4072 attack=0.4072 margin=0.1853 argmax=1 v2Attack=0.7891 v1seAttack=0.0253 sameCrop=true
+08-19 23:13:20.612 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.4072/-0.43 PARALLAX=-/- MOIRE=1.0494/+0.52 SPECULAR=0.0000/+0.00 CHROMA=6.9796/+0.00 BEZEL=0.5862/+0.00 | QUALITY eye=60.0 faceW=202 luma=90.7 sharp=0.150 yaw=16.0 pitch=-2.5 roll=6.3
+08-19 23:13:20.615 D/FaceAntiSpoof(20290): CADENCE | gap=102ms target=100ms inferMs=72 frame=480x640
+08-19 23:13:20.615 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.139 frame=+0.096 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:20.656 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=56.1 faceW=180 luma=103.2 sharp=0.134 yaw=20.1 pitch=-2.9 roll=4.7
+08-19 23:13:20.656 D/FaceAntiSpoof(20290): CADENCE | gap=113ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:20.841 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.2,112.7,96.8] range=[31..252,36..254,34..246] signature=-1555399289
+08-19 23:13:20.853 D/FaceAntiSpoof(20290): LOGITS: [-5.97, 3.31, 2.65] | PROBS: [c0=0.0001, c1(live)=0.6595, c2=0.3404] | argmax=1
+08-19 23:13:20.857 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.2,112.7,96.8] range=[31..252,36..254,34..246] signature=-1555399289
+08-19 23:13:20.869 D/FaceAntiSpoof(20290): LOGITS: [-6.18, 4.48, 1.70] | PROBS: [c0=0.0000, c1(live)=0.9416, c2=0.0584] | argmax=1
+08-19 23:13:20.869 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.8005 print=0.0000 replay=0.1994 attack=0.1994 margin=0.6011 argmax=1 v2Attack=0.3404 v1seAttack=0.0584 sameCrop=true
+08-19 23:13:20.881 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.1994/-1.05 PARALLAX=0.0115/+0.00 MOIRE=0.7806/+0.12 SPECULAR=0.0000/+0.00 CHROMA=6.7343/+0.00 BEZEL=0.5628/+0.00 | QUALITY eye=56.2 faceW=179 luma=96.0 sharp=0.159 yaw=16.9 pitch=1.8 roll=2.7
+08-19 23:13:20.882 D/FaceAntiSpoof(20290): CADENCE | gap=162ms target=100ms inferMs=65 frame=480x640
+08-19 23:13:20.882 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.899 frame=-0.931 ticks=3 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:21.091 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.9,113.4,97.9] range=[31..253,33..254,32..248] signature=-902724770
+08-19 23:13:21.110 D/FaceAntiSpoof(20290): LOGITS: [-6.38, 3.43, 2.95] | PROBS: [c0=0.0000, c1(live)=0.6185, c2=0.3814] | argmax=1
+08-19 23:13:21.113 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.9,113.4,97.9] range=[31..253,33..254,32..248] signature=-902724770
+08-19 23:13:21.124 D/FaceAntiSpoof(20290): LOGITS: [-6.24, 5.14, 1.10] | PROBS: [c0=0.0000, c1(live)=0.9826, c2=0.0174] | argmax=1
+08-19 23:13:21.124 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.8006 print=0.0000 replay=0.1994 attack=0.1994 margin=0.6012 argmax=1 v2Attack=0.3814 v1seAttack=0.0174 sameCrop=true
+08-19 23:13:21.134 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.1994/-1.05 PARALLAX=0.0130/+0.00 MOIRE=1.1800/+0.72 SPECULAR=0.0000/+0.00 CHROMA=7.4053/+0.00 BEZEL=0.5702/+0.00 | QUALITY eye=56.4 faceW=190 luma=92.1 sharp=0.200 yaw=16.7 pitch=1.1 roll=1.3
+08-19 23:13:21.134 D/FaceAntiSpoof(20290): CADENCE | gap=261ms target=100ms inferMs=56 frame=480x640
+08-19 23:13:21.135 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.946 frame=-0.332 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:21.277 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.0,115.2,100.9] range=[29..254,33..255,30..253] signature=886387862
+08-19 23:13:21.293 D/FaceAntiSpoof(20290): LOGITS: [-6.84, 4.31, 2.53] | PROBS: [c0=0.0000, c1(live)=0.8554, c2=0.1446] | argmax=1
+08-19 23:13:21.296 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.0,115.2,100.9] range=[29..254,33..255,30..253] signature=886387862
+08-19 23:13:21.308 D/FaceAntiSpoof(20290): LOGITS: [-5.73, 3.25, 2.48] | PROBS: [c0=0.0001, c1(live)=0.6838, c2=0.3161] | argmax=1
+08-19 23:13:21.309 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.7696 print=0.0000 replay=0.2303 attack=0.2303 margin=0.5393 argmax=1 v2Attack=0.1446 v1seAttack=0.3161 sameCrop=true
+08-19 23:13:21.317 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.2303/-0.96 PARALLAX=0.0184/+0.00 MOIRE=0.7512/+0.08 SPECULAR=0.0000/+0.00 CHROMA=6.9498/+0.00 BEZEL=0.5512/+0.00 | QUALITY eye=54.2 faceW=191 luma=91.6 sharp=0.180 yaw=17.0 pitch=-1.0 roll=1.2
+08-19 23:13:21.318 D/FaceAntiSpoof(20290): CADENCE | gap=174ms target=100ms inferMs=64 frame=480x640
+08-19 23:13:21.318 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.536 frame=-0.882 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:21.492 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[119.6,113.6,100.0] range=[30..253,30..253,30..251] signature=1828631420
+08-19 23:13:21.502 D/FaceAntiSpoof(20290): LOGITS: [-6.22, 3.56, 2.66] | PROBS: [c0=0.0000, c1(live)=0.7110, c2=0.2889] | argmax=1
+08-19 23:13:21.505 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[119.6,113.6,100.0] range=[30..253,30..253,30..251] signature=1828631420
+08-19 23:13:21.515 D/FaceAntiSpoof(20290): LOGITS: [-6.10, 3.64, 2.46] | PROBS: [c0=0.0000, c1(live)=0.7638, c2=0.2361] | argmax=1
+08-19 23:13:21.515 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.7374 print=0.0000 replay=0.2625 attack=0.2625 margin=0.4749 argmax=1 v2Attack=0.2889 v1seAttack=0.2361 sameCrop=true
+08-19 23:13:21.525 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.2625/-0.86 PARALLAX=0.0126/+0.00 MOIRE=0.5915/+0.00 SPECULAR=0.0000/+0.00 CHROMA=6.8182/+0.00 BEZEL=0.5117/+0.00 | QUALITY eye=54.1 faceW=191 luma=91.6 sharp=0.254 yaw=19.4 pitch=-4.0 roll=0.4
+08-19 23:13:21.525 D/FaceAntiSpoof(20290): CADENCE | gap=226ms target=100ms inferMs=47 frame=480x640
+08-19 23:13:21.526 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.018 frame=-0.862 ticks=6 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:21.704 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[127.1,120.4,107.2] range=[43..254,42..253,37..249] signature=315829123
+08-19 23:13:21.714 D/FaceAntiSpoof(20290): LOGITS: [-6.61, 3.15, 3.46] | PROBS: [c0=0.0000, c1(live)=0.4224, c2=0.5776] | argmax=2
+08-19 23:13:21.717 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[127.1,120.4,107.2] range=[43..254,42..253,37..249] signature=315829123
+08-19 23:13:21.729 D/FaceAntiSpoof(20290): LOGITS: [-7.01, 3.01, 4.00] | PROBS: [c0=0.0000, c1(live)=0.2716, c2=0.7284] | argmax=2
+08-19 23:13:21.729 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.3470 print=0.0000 replay=0.6530 attack=0.6530 margin=-0.3061 argmax=2 v2Attack=0.5776 v1seAttack=0.7284 sameCrop=true
+08-19 23:13:21.739 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.6530/+0.31 PARALLAX=0.0126/+0.00 MOIRE=1.4324/+1.10 SPECULAR=0.0000/+0.00 CHROMA=6.4336/+0.00 BEZEL=0.5763/+0.00 | QUALITY eye=51.7 faceW=192 luma=98.0 sharp=0.186 yaw=27.7 pitch=-3.9 roll=-2.4
+08-19 23:13:21.740 D/FaceAntiSpoof(20290): CADENCE | gap=198ms target=100ms inferMs=63 frame=480x640
+08-19 23:13:21.741 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.158 frame=+1.408 ticks=7 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:21.800 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.5,124.3,111.5] range=[46..241,48..240,42..234] signature=-214197191
+08-19 23:13:21.807 D/FaceAntiSpoof(20290): LOGITS: [-5.36, 2.38, 2.97] | PROBS: [c0=0.0002, c1(live)=0.3565, c2=0.6433] | argmax=2
+08-19 23:13:21.810 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.5,124.3,111.5] range=[46..241,48..240,42..234] signature=-214197191
+08-19 23:13:21.816 D/FaceAntiSpoof(20290): LOGITS: [-5.08, 3.41, 1.67] | PROBS: [c0=0.0002, c1(live)=0.8500, c2=0.1499] | argmax=1
+08-19 23:13:21.816 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.6033 print=0.0002 replay=0.3966 attack=0.3966 margin=0.2067 argmax=1 v2Attack=0.6433 v1seAttack=0.1499 sameCrop=true
+08-19 23:13:21.824 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.3966/-0.46 PARALLAX=0.0142/+0.00 MOIRE=0.8939/+0.29 SPECULAR=0.0000/+0.00 CHROMA=6.1204/+0.00 BEZEL=0.5318/+0.00 | QUALITY eye=52.0 faceW=190 luma=97.3 sharp=0.186 yaw=19.3 pitch=-3.4 roll=3.4
+08-19 23:13:21.825 D/FaceAntiSpoof(20290): CADENCE | gap=111ms target=100ms inferMs=37 frame=480x640
+08-19 23:13:21.825 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.153 frame=-0.169 ticks=8 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:21.997 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[145.2,139.7,129.7] range=[60..225,56..225,50..230] signature=1593501067
+08-19 23:13:22.007 D/FaceAntiSpoof(20290): LOGITS: [-5.90, 3.98, 1.92] | PROBS: [c0=0.0000, c1(live)=0.8868, c2=0.1132] | argmax=1
+08-19 23:13:22.010 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[145.2,139.7,129.7] range=[60..225,56..225,50..230] signature=1593501067
+08-19 23:13:22.021 D/FaceAntiSpoof(20290): LOGITS: [-4.83, 3.41, 1.42] | PROBS: [c0=0.0002, c1(live)=0.8798, c2=0.1200] | argmax=1
+08-19 23:13:22.022 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.8833 print=0.0001 replay=0.1166 attack=0.1166 margin=0.7667 argmax=1 v2Attack=0.1132 v1seAttack=0.1200 sameCrop=true
+08-19 23:13:22.031 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.1166/-1.30 PARALLAX=0.0063/+0.00 MOIRE=0.8975/+0.30 SPECULAR=0.0000/+0.00 CHROMA=6.7079/+0.00 BEZEL=0.5643/+0.00 | QUALITY eye=67.8 faceW=224 luma=113.1 sharp=0.152 yaw=26.0 pitch=-15.2 roll=-8.0
+08-19 23:13:22.032 D/FaceAntiSpoof(20290): CADENCE | gap=194ms target=100ms inferMs=50 frame=480x640
+08-19 23:13:22.032 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.984 frame=-1.004 ticks=9 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:22.166 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=64.9 faceW=197 luma=101.0 sharp=0.335 yaw=34.3 pitch=21.1 roll=3.6
+08-19 23:13:22.166 D/FaceAntiSpoof(20290): CADENCE | gap=178ms target=100ms inferMs=5 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:22.308 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[158.3,156.0,149.7] range=[59..255,58..255,62..255] signature=440268342
+08-19 23:13:22.319 D/FaceAntiSpoof(20290): LOGITS: [-4.26, 4.42, -0.16] | PROBS: [c0=0.0002, c1(live)=0.9897, c2=0.0101] | argmax=1
+08-19 23:13:22.322 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[158.3,156.0,149.7] range=[59..255,58..255,62..255] signature=440268342
+08-19 23:13:22.332 D/FaceAntiSpoof(20290): LOGITS: [-5.03, 4.79, 0.24] | PROBS: [c0=0.0001, c1(live)=0.9894, c2=0.0105] | argmax=1
+08-19 23:13:22.333 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9896 print=0.0001 replay=0.0103 attack=0.0103 margin=0.9793 argmax=1 v2Attack=0.0101 v1seAttack=0.0105 sameCrop=true
+08-19 23:13:22.342 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0103/-1.62 PARALLAX=0.0125/+0.00 MOIRE=1.1714/+0.71 SPECULAR=0.0062/+0.00 CHROMA=6.0480/+0.00 BEZEL=0.4784/+0.00 | QUALITY eye=56.8 faceW=199 luma=119.6 sharp=0.253 yaw=26.3 pitch=19.1 roll=4.4
+08-19 23:13:22.344 D/FaceAntiSpoof(20290): CADENCE | gap=119ms target=100ms inferMs=65 frame=480x640
+08-19 23:13:22.344 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.599 frame=-0.912 ticks=10 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:22.399 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[156.7,154.8,148.2] range=[59..255,57..255,60..255] signature=-304572301
+08-19 23:13:22.409 D/FaceAntiSpoof(20290): LOGITS: [-4.51, 4.67, -0.16] | PROBS: [c0=0.0001, c1(live)=0.9920, c2=0.0079] | argmax=1
+08-19 23:13:22.412 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[156.7,154.8,148.2] range=[59..255,57..255,60..255] signature=-304572301
+08-19 23:13:22.423 D/FaceAntiSpoof(20290): LOGITS: [-4.19, 4.99, -0.80] | PROBS: [c0=0.0001, c1(live)=0.9968, c2=0.0031] | argmax=1
+08-19 23:13:22.424 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9944 print=0.0001 replay=0.0055 attack=0.0055 margin=0.9889 argmax=1 v2Attack=0.0079 v1seAttack=0.0031 sameCrop=true
+08-19 23:13:22.433 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0055/-1.63 PARALLAX=0.0112/+0.00 MOIRE=1.5345/+1.25 SPECULAR=0.0040/+0.00 CHROMA=5.9173/+0.00 BEZEL=0.4709/+0.00 | QUALITY eye=59.7 faceW=199 luma=117.1 sharp=0.300 yaw=24.1 pitch=19.0 roll=3.2
+08-19 23:13:22.434 D/FaceAntiSpoof(20290): CADENCE | gap=106ms target=100ms inferMs=49 frame=480x640
+08-19 23:13:22.435 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.591 frame=-0.382 ticks=11 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:22.609 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[134.1,132.7,126.3] range=[46..255,43..255,46..255] signature=-562183153
+08-19 23:13:22.618 D/FaceAntiSpoof(20290): LOGITS: [-3.88, 2.81, 1.07] | PROBS: [c0=0.0011, c1(live)=0.8502, c2=0.1488] | argmax=1
+08-19 23:13:22.621 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[134.1,132.7,126.3] range=[46..255,43..255,46..255] signature=-562183153
+08-19 23:13:22.632 D/FaceAntiSpoof(20290): LOGITS: [-4.69, 4.57, 0.11] | PROBS: [c0=0.0001, c1(live)=0.9885, c2=0.0114] | argmax=1
+08-19 23:13:22.632 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9193 print=0.0006 replay=0.0801 attack=0.0801 margin=0.8392 argmax=1 v2Attack=0.1488 v1seAttack=0.0114 sameCrop=true
+08-19 23:13:22.640 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0801/-1.41 PARALLAX=0.0098/+0.00 MOIRE=1.1206/+0.63 SPECULAR=0.0021/+0.00 CHROMA=5.8662/+0.00 BEZEL=0.4402/+0.00 | QUALITY eye=66.6 faceW=206 luma=88.8 sharp=0.424 yaw=22.7 pitch=15.8 roll=2.3
+08-19 23:13:22.641 D/FaceAntiSpoof(20290): CADENCE | gap=211ms target=100ms inferMs=45 frame=480x640
+08-19 23:13:22.641 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.981 frame=-0.779 ticks=12 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:22.781 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[141.2,140.2,134.1] range=[47..255,46..255,44..255] signature=1833488905
+08-19 23:13:22.793 D/FaceAntiSpoof(20290): LOGITS: [-4.76, 3.39, 1.37] | PROBS: [c0=0.0003, c1(live)=0.8836, c2=0.1162] | argmax=1
+08-19 23:13:22.796 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[141.2,140.2,134.1] range=[47..255,46..255,44..255] signature=1833488905
+08-19 23:13:22.806 D/FaceAntiSpoof(20290): LOGITS: [-4.87, 3.99, 0.88] | PROBS: [c0=0.0001, c1(live)=0.9574, c2=0.0425] | argmax=1
+08-19 23:13:22.807 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9205 print=0.0002 replay=0.0793 attack=0.0793 margin=0.8412 argmax=1 v2Attack=0.1162 v1seAttack=0.0425 sameCrop=true
+08-19 23:13:22.820 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0793/-1.41 PARALLAX=0.0098/+0.00 MOIRE=0.4927/+0.00 SPECULAR=0.0034/+0.00 CHROMA=5.9976/+0.00 BEZEL=0.4385/+0.00 | QUALITY eye=68.9 faceW=208 luma=97.5 sharp=0.386 yaw=23.5 pitch=23.0 roll=3.2
+08-19 23:13:22.821 D/FaceAntiSpoof(20290): CADENCE | gap=162ms target=100ms inferMs=62 frame=480x640
+08-19 23:13:22.821 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.946 frame=-1.412 ticks=13 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:22.884 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[146.2,144.8,139.4] range=[53..255,51..255,48..255] signature=-498711594
+08-19 23:13:22.901 D/FaceAntiSpoof(20290): LOGITS: [-5.97, 4.65, 1.32] | PROBS: [c0=0.0000, c1(live)=0.9656, c2=0.0344] | argmax=1
+08-19 23:13:22.904 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[146.2,144.8,139.4] range=[53..255,51..255,48..255] signature=-498711594
+08-19 23:13:22.919 D/FaceAntiSpoof(20290): LOGITS: [-4.72, 4.24, 0.48] | PROBS: [c0=0.0001, c1(live)=0.9771, c2=0.0228] | argmax=1
+08-19 23:13:22.919 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9713 print=0.0001 replay=0.0286 attack=0.0286 margin=0.9427 argmax=1 v2Attack=0.0344 v1seAttack=0.0228 sameCrop=true
+08-19 23:13:22.929 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0286/-1.56 PARALLAX=0.0115/+0.00 MOIRE=0.8689/+0.25 SPECULAR=0.0047/+0.00 CHROMA=5.9937/+0.00 BEZEL=0.4182/+0.00 | QUALITY eye=69.5 faceW=210 luma=101.2 sharp=0.405 yaw=23.1 pitch=21.8 roll=4.2
+08-19 23:13:22.930 D/FaceAntiSpoof(20290): CADENCE | gap=107ms target=100ms inferMs=64 frame=480x640
+08-19 23:13:22.930 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.665 frame=-1.311 ticks=14 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:25.255 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=74.3 faceW=231 luma=172.7 sharp=0.109 yaw=7.5 pitch=2.2 roll=2.8
+08-19 23:13:25.255 D/FaceAntiSpoof(20290): CADENCE | gap=772ms target=100ms inferMs=11 frame=480x640 gated=HOLD_STILL
+08-19 23:13:25.419 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=74.9 faceW=231 luma=105.3 sharp=0.125 yaw=1.8 pitch=8.4 roll=2.4
+08-19 23:13:25.419 D/FaceAntiSpoof(20290): CADENCE | gap=173ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:25.614 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.5,121.0,112.3] range=[42..255,45..255,43..255] signature=-868521037
+08-19 23:13:25.631 D/FaceAntiSpoof(20290): LOGITS: [-3.31, 5.00, -1.69] | PROBS: [c0=0.0002, c1(live)=0.9985, c2=0.0012] | argmax=1
+08-19 23:13:25.634 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.5,121.0,112.3] range=[42..255,45..255,43..255] signature=-868521037
+08-19 23:13:25.652 D/FaceAntiSpoof(20290): LOGITS: [-5.69, 6.88, -1.20] | PROBS: [c0=0.0000, c1(live)=0.9997, c2=0.0003] | argmax=1
+08-19 23:13:25.653 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9991 print=0.0001 replay=0.0008 attack=0.0008 margin=0.9983 argmax=1 v2Attack=0.0012 v1seAttack=0.0003 sameCrop=true
+08-19 23:13:25.663 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0008/-1.65 PARALLAX=-/- MOIRE=0.9032/+0.30 SPECULAR=0.0008/+0.00 CHROMA=7.7743/+0.00 BEZEL=0.4942/+0.00 | QUALITY eye=75.4 faceW=231 luma=113.8 sharp=0.157 yaw=1.6 pitch=8.3 roll=4.3
+08-19 23:13:25.664 D/FaceAntiSpoof(20290): CADENCE | gap=166ms target=100ms inferMs=80 frame=480x640
+08-19 23:13:25.665 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.343 frame=-1.343 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:25.731 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[120.4,120.0,111.2] range=[40..255,45..255,41..255] signature=994017578
+08-19 23:13:25.741 D/FaceAntiSpoof(20290): LOGITS: [-3.91, 5.28, -1.37] | PROBS: [c0=0.0001, c1(live)=0.9986, c2=0.0013] | argmax=1
+08-19 23:13:25.743 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[120.4,120.0,111.2] range=[40..255,45..255,41..255] signature=994017578
+08-19 23:13:25.754 D/FaceAntiSpoof(20290): LOGITS: [-6.70, 7.54, -0.84] | PROBS: [c0=0.0000, c1(live)=0.9998, c2=0.0002] | argmax=1
+08-19 23:13:25.754 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9992 print=0.0001 replay=0.0008 attack=0.0008 margin=0.9984 argmax=1 v2Attack=0.0013 v1seAttack=0.0002 sameCrop=true
+08-19 23:13:25.764 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0008/-1.65 PARALLAX=-/- MOIRE=0.5180/+0.00 SPECULAR=0.0000/+0.00 CHROMA=7.7534/+0.00 BEZEL=0.4836/+0.00 | QUALITY eye=74.6 faceW=229 luma=113.1 sharp=0.147 yaw=1.6 pitch=8.7 roll=4.3
+08-19 23:13:25.765 D/FaceAntiSpoof(20290): CADENCE | gap=135ms target=100ms inferMs=47 frame=480x640
+08-19 23:13:25.765 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.789 frame=-1.648 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:25.967 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.0,115.9,106.9] range=[42..255,42..255,38..255] signature=-1385796317
+08-19 23:13:25.977 D/FaceAntiSpoof(20290): LOGITS: [-4.73, 5.64, -0.91] | PROBS: [c0=0.0000, c1(live)=0.9985, c2=0.0014] | argmax=1
+08-19 23:13:25.979 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.0,115.9,106.9] range=[42..255,42..255,38..255] signature=-1385796317
+08-19 23:13:25.990 D/FaceAntiSpoof(20290): LOGITS: [-7.11, 8.67, -1.57] | PROBS: [c0=0.0000, c1(live)=1.0000, c2=0.0000] | argmax=1
+08-19 23:13:25.990 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9993 print=0.0000 replay=0.0007 attack=0.0007 margin=0.9985 argmax=1 v2Attack=0.0014 v1seAttack=0.0000 sameCrop=true
+08-19 23:13:26.000 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0007/-1.65 PARALLAX=-/- MOIRE=0.8681/+0.25 SPECULAR=0.0000/+0.00 CHROMA=7.4432/+0.00 BEZEL=0.5023/+0.00 | QUALITY eye=74.1 faceW=230 luma=108.1 sharp=0.161 yaw=1.8 pitch=7.5 roll=3.6
+08-19 23:13:26.001 D/FaceAntiSpoof(20290): CADENCE | gap=234ms target=100ms inferMs=48 frame=480x640
+08-19 23:13:26.001 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.766 frame=-1.396 ticks=3 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:26.149 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[119.8,117.2,107.7] range=[45..254,40..255,37..254] signature=-1573067116
+08-19 23:13:26.156 D/FaceAntiSpoof(20290): LOGITS: [-5.17, 5.56, -0.39] | PROBS: [c0=0.0000, c1(live)=0.9974, c2=0.0026] | argmax=1
+08-19 23:13:26.159 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[119.8,117.2,107.7] range=[45..254,40..255,37..254] signature=-1573067116
+08-19 23:13:26.166 D/FaceAntiSpoof(20290): LOGITS: [-5.98, 6.99, -1.01] | PROBS: [c0=0.0000, c1(live)=0.9997, c2=0.0003] | argmax=1
+08-19 23:13:26.166 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9985 print=0.0000 replay=0.0015 attack=0.0015 margin=0.9971 argmax=1 v2Attack=0.0026 v1seAttack=0.0003 sameCrop=true
+08-19 23:13:26.175 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0015/-1.65 PARALLAX=0.0145/+0.00 MOIRE=0.7976/+0.15 SPECULAR=0.0000/+0.00 CHROMA=7.8921/+0.00 BEZEL=0.4956/+0.00 | QUALITY eye=72.5 faceW=228 luma=107.0 sharp=0.192 yaw=2.5 pitch=6.4 roll=3.2
+08-19 23:13:26.176 D/FaceAntiSpoof(20290): CADENCE | gap=171ms target=100ms inferMs=52 frame=480x640
+08-19 23:13:26.176 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.701 frame=-1.499 ticks=4 corroborating=0 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:28.387 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=95.0 faceW=254 luma=122.0 sharp=0.093 yaw=-4.1 pitch=-5.6 roll=-2.3
+08-19 23:13:28.387 D/FaceAntiSpoof(20290): CADENCE | gap=1069ms target=100ms inferMs=11 frame=480x640 gated=HOLD_STILL
+08-19 23:13:28.548 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=87.9 faceW=276 luma=124.0 sharp=0.096 yaw=2.1 pitch=-5.0 roll=2.0
+08-19 23:13:28.549 D/FaceAntiSpoof(20290): CADENCE | gap=170ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:28.674 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=85.5 faceW=275 luma=122.3 sharp=0.122 yaw=6.8 pitch=-4.8 roll=-0.2
+08-19 23:13:28.674 D/FaceAntiSpoof(20290): CADENCE | gap=117ms target=100ms inferMs=11 frame=480x640 gated=HOLD_STILL
+08-19 23:13:28.788 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=81.0 faceW=269 luma=121.1 sharp=0.099 yaw=7.4 pitch=-1.5 roll=0.4
+08-19 23:13:28.788 D/FaceAntiSpoof(20290): CADENCE | gap=110ms target=100ms inferMs=15 frame=480x640 gated=HOLD_STILL
+08-19 23:13:28.896 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=78.5 faceW=237 luma=131.2 sharp=0.113 yaw=8.9 pitch=-0.0 roll=0.7
+08-19 23:13:28.896 D/FaceAntiSpoof(20290): CADENCE | gap=119ms target=100ms inferMs=4 frame=480x640 gated=HOLD_STILL
+08-19 23:13:29.051 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=76.9 faceW=235 luma=139.3 sharp=0.117 yaw=8.0 pitch=-2.3 roll=1.7
+08-19 23:13:29.051 D/FaceAntiSpoof(20290): CADENCE | gap=156ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:29.243 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=74.9 faceW=230 luma=146.1 sharp=0.125 yaw=7.8 pitch=-5.3 roll=0.3
+08-19 23:13:29.243 D/FaceAntiSpoof(20290): CADENCE | gap=192ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 23:13:29.497 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[108.7,94.8,80.7] range=[16..234,15..242,9..242] signature=1602172647
+08-19 23:13:29.507 D/FaceAntiSpoof(20290): LOGITS: [-7.09, 6.59, 0.50] | PROBS: [c0=0.0000, c1(live)=0.9977, c2=0.0023] | argmax=1
+08-19 23:13:29.510 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[108.7,94.8,80.7] range=[16..234,15..242,9..242] signature=1602172647
+08-19 23:13:29.520 D/FaceAntiSpoof(20290): LOGITS: [-6.36, 6.32, 0.05] | PROBS: [c0=0.0000, c1(live)=0.9981, c2=0.0019] | argmax=1
+08-19 23:13:29.521 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9979 print=0.0000 replay=0.0021 attack=0.0021 margin=0.9958 argmax=1 v2Attack=0.0023 v1seAttack=0.0019 sameCrop=true
+08-19 23:13:29.530 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0021/-1.64 PARALLAX=0.0115/+0.00 MOIRE=1.0280/+0.49 SPECULAR=0.0000/+0.00 CHROMA=8.0160/+0.00 BEZEL=0.4857/+0.00 | QUALITY eye=74.6 faceW=226 luma=136.6 sharp=0.144 yaw=7.1 pitch=-3.9 roll=1.0
+08-19 23:13:29.531 D/FaceAntiSpoof(20290): CADENCE | gap=229ms target=100ms inferMs=62 frame=480x640
+08-19 23:13:29.532 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.152 frame=-1.152 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:29.682 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=75.1 faceW=234 luma=129.1 sharp=0.132 yaw=5.8 pitch=-8.4 roll=-0.2
+08-19 23:13:29.682 D/FaceAntiSpoof(20290): CADENCE | gap=210ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:29.873 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[101.9,88.4,72.8] range=[17..225,15..233,16..232] signature=-865201405
+08-19 23:13:29.884 D/FaceAntiSpoof(20290): LOGITS: [-7.62, 7.53, 0.09] | PROBS: [c0=0.0000, c1(live)=0.9994, c2=0.0006] | argmax=1
+08-19 23:13:29.886 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[101.9,88.4,72.8] range=[17..225,15..233,16..232] signature=-865201405
+08-19 23:13:29.898 D/FaceAntiSpoof(20290): LOGITS: [-6.81, 7.60, -0.79] | PROBS: [c0=0.0000, c1(live)=0.9998, c2=0.0002] | argmax=1
+08-19 23:13:29.898 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9996 print=0.0000 replay=0.0004 attack=0.0004 margin=0.9992 argmax=1 v2Attack=0.0006 v1seAttack=0.0002 sameCrop=true
+08-19 23:13:29.908 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0004/-1.65 PARALLAX=0.0082/+0.00 MOIRE=1.0324/+0.50 SPECULAR=0.0000/+0.00 CHROMA=7.6792/+0.00 BEZEL=0.4909/+0.00 | QUALITY eye=77.1 faceW=237 luma=127.1 sharp=0.153 yaw=5.5 pitch=-10.1 roll=-1.1
+08-19 23:13:29.909 D/FaceAntiSpoof(20290): CADENCE | gap=171ms target=100ms inferMs=58 frame=480x640
+08-19 23:13:29.909 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.129 frame=-1.150 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:29.985 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[101.5,88.0,72.6] range=[16..225,16..233,10..234] signature=2009853890
+08-19 23:13:29.990 D/FaceAntiSpoof(20290): LOGITS: [-8.07, 8.53, -0.46] | PROBS: [c0=0.0000, c1(live)=0.9999, c2=0.0001] | argmax=1
+08-19 23:13:29.993 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[101.5,88.0,72.6] range=[16..225,16..233,10..234] signature=2009853890
+08-19 23:13:29.999 D/FaceAntiSpoof(20290): LOGITS: [-6.79, 8.28, -1.49] | PROBS: [c0=0.0000, c1(live)=0.9999, c2=0.0001] | argmax=1
+08-19 23:13:29.999 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9999 print=0.0000 replay=0.0001 attack=0.0001 margin=0.9998 argmax=1 v2Attack=0.0001 v1seAttack=0.0001 sameCrop=true
+08-19 23:13:30.007 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0001/-1.65 PARALLAX=0.0101/+0.00 MOIRE=0.9986/+0.45 SPECULAR=0.0000/+0.00 CHROMA=7.9469/+0.00 BEZEL=0.4801/+0.00 | QUALITY eye=78.6 faceW=241 luma=128.9 sharp=0.171 yaw=5.0 pitch=-13.2 roll=-0.8
+08-19 23:13:30.007 D/FaceAntiSpoof(20290): CADENCE | gap=114ms target=100ms inferMs=43 frame=480x640
+08-19 23:13:30.008 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.012 frame=-1.202 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:30.158 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[101.5,88.1,72.8] range=[14..223,16..232,12..231] signature=306732531
+08-19 23:13:30.168 D/FaceAntiSpoof(20290): LOGITS: [-7.72, 8.04, -0.33] | PROBS: [c0=0.0000, c1(live)=0.9998, c2=0.0002] | argmax=1
+08-19 23:13:30.171 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[101.5,88.1,72.8] range=[14..223,16..232,12..231] signature=306732531
+08-19 23:13:30.176 D/FaceAntiSpoof(20290): LOGITS: [-7.06, 7.99, -0.93] | PROBS: [c0=0.0000, c1(live)=0.9999, c2=0.0001] | argmax=1
+08-19 23:13:30.177 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9998 print=0.0000 replay=0.0002 attack=0.0002 margin=0.9996 argmax=1 v2Attack=0.0002 v1seAttack=0.0001 sameCrop=true
+08-19 23:13:30.184 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0002/-1.65 PARALLAX=0.0099/+0.00 MOIRE=0.8287/+0.19 SPECULAR=0.0000/+0.00 CHROMA=7.9354/+0.00 BEZEL=0.4743/+0.00 | QUALITY eye=78.5 faceW=241 luma=129.0 sharp=0.151 yaw=5.2 pitch=-12.7 roll=-0.3
+08-19 23:13:30.185 D/FaceAntiSpoof(20290): CADENCE | gap=173ms target=100ms inferMs=48 frame=480x640
+08-19 23:13:30.185 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.016 frame=-1.456 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:30.301 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[101.8,88.2,73.5] range=[17..224,15..232,15..232] signature=-765927942
+08-19 23:13:30.306 D/FaceAntiSpoof(20290): LOGITS: [-7.28, 7.52, -0.25] | PROBS: [c0=0.0000, c1(live)=0.9996, c2=0.0004] | argmax=1
+08-19 23:13:30.309 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[101.8,88.2,73.5] range=[17..224,15..232,15..232] signature=-765927942
+08-19 23:13:30.315 D/FaceAntiSpoof(20290): LOGITS: [-6.92, 7.55, -0.63] | PROBS: [c0=0.0000, c1(live)=0.9997, c2=0.0003] | argmax=1
+08-19 23:13:30.315 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9996 print=0.0000 replay=0.0004 attack=0.0004 margin=0.9993 argmax=1 v2Attack=0.0004 v1seAttack=0.0003 sameCrop=true
+08-19 23:13:30.323 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0004/-1.65 PARALLAX=0.0100/+0.00 MOIRE=0.7751/+0.11 SPECULAR=0.0000/+0.00 CHROMA=7.8729/+0.00 BEZEL=0.4678/+0.00 | QUALITY eye=79.3 faceW=242 luma=129.4 sharp=0.174 yaw=4.9 pitch=-14.3 roll=0.0
+08-19 23:13:30.323 D/FaceAntiSpoof(20290): CADENCE | gap=147ms target=100ms inferMs=36 frame=480x640
+08-19 23:13:30.324 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.950 frame=-1.536 ticks=5 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:31.853 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[110.2,115.2,119.0] range=[28..255,35..255,40..255] signature=60301801
+08-19 23:13:31.864 D/FaceAntiSpoof(20290): LOGITS: [-2.63, 1.48, 1.15] | PROBS: [c0=0.0094, c1(live)=0.5778, c2=0.4128] | argmax=1
+08-19 23:13:31.867 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[110.2,115.2,119.0] range=[28..255,35..255,40..255] signature=60301801
+08-19 23:13:31.877 D/FaceAntiSpoof(20290): LOGITS: [-4.04, 3.48, 0.55] | PROBS: [c0=0.0005, c1(live)=0.9489, c2=0.0506] | argmax=1
+08-19 23:13:31.878 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.7633 print=0.0050 replay=0.2317 attack=0.2317 margin=0.5316 argmax=1 v2Attack=0.4128 v1seAttack=0.0506 sameCrop=true
+08-19 23:13:31.887 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.2317/-0.95 PARALLAX=-/- MOIRE=0.5326/+0.00 SPECULAR=0.0000/+0.00 CHROMA=4.0759/+0.00 BEZEL=0.3437/+0.00 | QUALITY eye=74.2 faceW=233 luma=70.4 sharp=0.145 yaw=8.2 pitch=2.8 roll=-6.4
+08-19 23:13:31.888 D/FaceAntiSpoof(20290): CADENCE | gap=609ms target=100ms inferMs=71 frame=480x640
+08-19 23:13:31.888 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.955 frame=-0.955 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:32.503 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=27.5 faceW=90 luma=202.7 sharp=0.158 yaw=37.8 pitch=2.1 roll=7.1
+08-19 23:13:32.503 D/FaceAntiSpoof(20290): CADENCE | gap=684ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:33.048 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=16.7 faceW=68 luma=101.4 sharp=0.170 yaw=-29.2 pitch=15.9 roll=-47.9
+08-19 23:13:33.048 D/FaceAntiSpoof(20290): CADENCE | gap=539ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:33.311 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=40.8 faceW=153 luma=83.1 sharp=0.172 yaw=-9.5 pitch=15.8 roll=-33.7
+08-19 23:13:33.311 D/FaceAntiSpoof(20290): CADENCE | gap=264ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:33.429 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=43.5 faceW=156 luma=84.6 sharp=0.199 yaw=-8.4 pitch=16.8 roll=-30.5
+08-19 23:13:33.429 D/FaceAntiSpoof(20290): CADENCE | gap=116ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:33.553 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=28.1 faceW=122 luma=97.7 sharp=0.170 yaw=-43.1 pitch=5.2 roll=-20.2
+08-19 23:13:33.553 D/FaceAntiSpoof(20290): CADENCE | gap=121ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:33.795 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=35.1 faceW=116 luma=87.7 sharp=0.184 yaw=-37.4 pitch=8.9 roll=2.0
+08-19 23:13:33.795 D/FaceAntiSpoof(20290): CADENCE | gap=246ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:33.971 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=88.0 faceW=306 luma=97.6 sharp=0.257 yaw=-28.5 pitch=-1.3 roll=-11.8
+08-19 23:13:33.972 D/FaceAntiSpoof(20290): CADENCE | gap=175ms target=100ms inferMs=9 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:34.100 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=42.7 faceW=160 luma=102.5 sharp=0.220 yaw=-34.6 pitch=5.0 roll=3.3
+08-19 23:13:34.100 D/FaceAntiSpoof(20290): CADENCE | gap=123ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:34.268 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.0 faceW=194 luma=96.1 sharp=0.239 yaw=-31.8 pitch=-0.7 roll=6.3
+08-19 23:13:34.268 D/FaceAntiSpoof(20290): CADENCE | gap=180ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:34.402 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[112.3,108.0,101.8] range=[33..220,32..220,31..225] signature=-1881719484
+08-19 23:13:34.416 D/FaceAntiSpoof(20290): LOGITS: [-4.24, 2.93, 1.31] | PROBS: [c0=0.0006, c1(live)=0.8347, c2=0.1647] | argmax=1
+08-19 23:13:34.419 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[111.5,107.4,101.3] range=[33..248,32..243,33..225] signature=278091065
+08-19 23:13:34.430 D/FaceAntiSpoof(20290): LOGITS: [-4.24, 4.89, -0.66] | PROBS: [c0=0.0001, c1(live)=0.9960, c2=0.0039] | argmax=1
+08-19 23:13:34.431 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9153 print=0.0004 replay=0.0843 attack=0.0843 margin=0.8311 argmax=1 v2Attack=0.1647 v1seAttack=0.0039 sameCrop=false
+08-19 23:13:34.442 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0843/-1.40 PARALLAX=0.0174/+0.00 MOIRE=0.7135/+0.02 SPECULAR=0.0000/+0.00 CHROMA=7.9032/+0.00 BEZEL=0.4654/+0.00 | QUALITY eye=57.4 faceW=169 luma=98.2 sharp=0.164 yaw=-25.5 pitch=6.2 roll=6.6
+08-19 23:13:34.443 D/FaceAntiSpoof(20290): CADENCE | gap=101ms target=100ms inferMs=76 frame=480x640
+08-19 23:13:34.443 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.377 frame=-1.377 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:34.485 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=57.0 faceW=182 luma=100.0 sharp=0.260 yaw=-30.5 pitch=2.2 roll=6.8
+08-19 23:13:34.485 D/FaceAntiSpoof(20290): CADENCE | gap=116ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:34.794 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=67.8 faceW=229 luma=86.8 sharp=0.135 yaw=-23.6 pitch=-2.5 roll=5.1
+08-19 23:13:34.794 D/FaceAntiSpoof(20290): CADENCE | gap=302ms target=100ms inferMs=10 frame=480x640 gated=HOLD_STILL
+08-19 23:13:34.953 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[111.0,105.2,98.8] range=[28..253,30..253,33..231] signature=1411402908
+08-19 23:13:34.963 D/FaceAntiSpoof(20290): LOGITS: [-4.56, 3.24, 1.32] | PROBS: [c0=0.0004, c1(live)=0.8709, c2=0.1288] | argmax=1
+08-19 23:13:34.965 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[111.0,105.2,98.8] range=[28..253,30..253,33..231] signature=1411402908
+08-19 23:13:34.976 D/FaceAntiSpoof(20290): LOGITS: [-4.40, 5.58, -1.18] | PROBS: [c0=0.0000, c1(live)=0.9988, c2=0.0012] | argmax=1
+08-19 23:13:34.976 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9348 print=0.0002 replay=0.0650 attack=0.0650 margin=0.8699 argmax=1 v2Attack=0.1288 v1seAttack=0.0012 sameCrop=true
+08-19 23:13:34.985 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0650/-1.46 PARALLAX=-/- MOIRE=1.5092/+1.21 SPECULAR=0.0000/+0.00 CHROMA=6.6177/+0.00 BEZEL=0.5752/+0.00 | QUALITY eye=61.9 faceW=208 luma=86.7 sharp=0.163 yaw=-23.6 pitch=-0.3 roll=3.5
+08-19 23:13:34.986 D/FaceAntiSpoof(20290): CADENCE | gap=156ms target=100ms inferMs=46 frame=480x640
+08-19 23:13:34.986 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.241 frame=-0.241 ticks=1 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:35.147 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=20.0 faceW=146 luma=107.4 sharp=0.337 yaw=-58.7 pitch=3.2 roll=7.4
+08-19 23:13:35.147 D/FaceAntiSpoof(20290): CADENCE | gap=199ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:35.287 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=36.4 faceW=157 luma=88.6 sharp=0.180 yaw=-49.8 pitch=11.2 roll=15.2
+08-19 23:13:35.287 D/FaceAntiSpoof(20290): CADENCE | gap=142ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:35.414 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=24.2 faceW=152 luma=102.5 sharp=0.139 yaw=-57.0 pitch=4.6 roll=13.4
+08-19 23:13:35.414 D/FaceAntiSpoof(20290): CADENCE | gap=125ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:35.592 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=23.4 faceW=161 luma=91.7 sharp=0.125 yaw=-59.6 pitch=9.1 roll=12.7
+08-19 23:13:35.592 D/FaceAntiSpoof(20290): CADENCE | gap=180ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:35.810 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=29.8 faceW=153 luma=70.5 sharp=0.156 yaw=-55.2 pitch=1.0 roll=15.3
+08-19 23:13:35.810 D/FaceAntiSpoof(20290): CADENCE | gap=216ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:35.927 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=20.1 faceW=154 luma=76.5 sharp=0.111 yaw=-64.4 pitch=2.2 roll=9.5
+08-19 23:13:35.927 D/FaceAntiSpoof(20290): CADENCE | gap=117ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:36.133 D/FaceAntiSpoof(20290): GATED | reason=MOVE_CLOSER | QUALITY eye=40.6 faceW=159 luma=67.3 sharp=0.194 yaw=-42.4 pitch=4.6 roll=12.7
+08-19 23:13:36.133 D/FaceAntiSpoof(20290): CADENCE | gap=211ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 23:13:36.766 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=56.3 faceW=153 luma=101.3 sharp=0.176 yaw=6.4 pitch=29.1 roll=11.5
+08-19 23:13:36.766 D/FaceAntiSpoof(20290): CADENCE | gap=629ms target=100ms inferMs=7 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:37.045 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.6,120.1,116.6] range=[33..227,33..223,36..228] signature=-617728386
+08-19 23:13:37.056 D/FaceAntiSpoof(20290): LOGITS: [-3.48, 2.90, 0.58] | PROBS: [c0=0.0015, c1(live)=0.9098, c2=0.0886] | argmax=1
+08-19 23:13:37.059 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.8,121.6,117.5] range=[27..229,32..223,32..227] signature=1641960027
+08-19 23:13:37.073 D/FaceAntiSpoof(20290): LOGITS: [-4.90, 5.72, -0.82] | PROBS: [c0=0.0000, c1(live)=0.9985, c2=0.0015] | argmax=1
+08-19 23:13:37.074 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9542 print=0.0008 replay=0.0450 attack=0.0450 margin=0.9091 argmax=1 v2Attack=0.0886 v1seAttack=0.0015 sameCrop=false
+08-19 23:13:37.083 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0450/-1.51 PARALLAX=-/- MOIRE=1.5647/+1.30 SPECULAR=0.0000/+0.00 CHROMA=6.4649/+0.00 BEZEL=0.5246/+0.00 | QUALITY eye=50.7 faceW=141 luma=113.6 sharp=0.149 yaw=-6.5 pitch=15.3 roll=7.6
+08-19 23:13:37.084 D/FaceAntiSpoof(20290): CADENCE | gap=272ms target=100ms inferMs=53 frame=480x640
+08-19 23:13:37.084 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-0.218 frame=-0.218 ticks=1 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:37.153 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[116.0,113.7,109.8] range=[32..252,33..249,28..237] signature=1424583801
+08-19 23:13:37.159 D/FaceAntiSpoof(20290): LOGITS: [-3.37, 4.55, -1.18] | PROBS: [c0=0.0004, c1(live)=0.9964, c2=0.0032] | argmax=1
+08-19 23:13:37.162 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[114.6,113.6,109.5] range=[26..253,29..253,30..239] signature=-1504570357
+08-19 23:13:37.167 D/FaceAntiSpoof(20290): LOGITS: [-4.67, 6.92, -2.25] | PROBS: [c0=0.0000, c1(live)=0.9999, c2=0.0001] | argmax=1
+08-19 23:13:37.168 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9981 print=0.0002 replay=0.0017 attack=0.0017 margin=0.9965 argmax=1 v2Attack=0.0032 v1seAttack=0.0001 sameCrop=false
+08-19 23:13:37.175 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0017/-1.64 PARALLAX=-/- MOIRE=1.1751/+0.71 SPECULAR=0.0000/+0.00 CHROMA=6.8753/+0.00 BEZEL=0.5143/+0.00 | QUALITY eye=53.5 faceW=133 luma=111.0 sharp=0.216 yaw=0.1 pitch=20.9 roll=5.8
+08-19 23:13:37.176 D/FaceAntiSpoof(20290): CADENCE | gap=108ms target=100ms inferMs=37 frame=480x640
+08-19 23:13:37.176 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.118 frame=-0.932 ticks=2 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:37.257 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[114.0,111.1,107.2] range=[31..253,33..251,31..235] signature=640850532
+08-19 23:13:37.271 D/FaceAntiSpoof(20290): LOGITS: [-2.87, 4.08, -1.21] | PROBS: [c0=0.0010, c1(live)=0.9940, c2=0.0050] | argmax=1
+08-19 23:13:37.274 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[113.7,112.3,108.0] range=[25..243,27..240,31..237] signature=993601400
+08-19 23:13:37.284 D/FaceAntiSpoof(20290): LOGITS: [-4.64, 7.02, -2.39] | PROBS: [c0=0.0000, c1(live)=0.9999, c2=0.0001] | argmax=1
+08-19 23:13:37.285 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9970 print=0.0005 replay=0.0025 attack=0.0025 margin=0.9944 argmax=1 v2Attack=0.0050 v1seAttack=0.0001 sameCrop=false
+08-19 23:13:37.292 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0025/-1.64 PARALLAX=-/- MOIRE=0.4639/+0.00 SPECULAR=0.0000/+0.00 CHROMA=6.5982/+0.00 BEZEL=0.5109/+0.00 | QUALITY eye=54.6 faceW=132 luma=111.6 sharp=0.248 yaw=0.7 pitch=22.1 roll=4.2
+08-19 23:13:37.293 D/FaceAntiSpoof(20290): CADENCE | gap=101ms target=100ms inferMs=53 frame=480x640
+08-19 23:13:37.293 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.592 frame=-1.642 ticks=3 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:37.451 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[118.2,114.5,109.9] range=[33..254,34..251,31..228] signature=258388066
+08-19 23:13:37.463 D/FaceAntiSpoof(20290): LOGITS: [-3.35, 2.36, 0.99] | PROBS: [c0=0.0026, c1(live)=0.7957, c2=0.2017] | argmax=1
+08-19 23:13:37.465 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[119.7,117.7,112.3] range=[25..253,28..253,32..239] signature=-1172332046
+08-19 23:13:37.478 D/FaceAntiSpoof(20290): LOGITS: [-4.47, 4.76, -0.30] | PROBS: [c0=0.0001, c1(live)=0.9936, c2=0.0063] | argmax=1
+08-19 23:13:37.479 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.8946 print=0.0014 replay=0.1040 attack=0.1040 margin=0.7906 argmax=1 v2Attack=0.2017 v1seAttack=0.0063 sameCrop=false
+08-19 23:13:37.488 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.1040/-1.34 PARALLAX=0.0080/+0.00 MOIRE=1.6538/+1.43 SPECULAR=0.0000/+0.00 CHROMA=6.3665/+0.00 BEZEL=0.5256/+0.00 | QUALITY eye=54.8 faceW=134 luma=116.6 sharp=0.232 yaw=2.8 pitch=17.8 roll=3.3
+08-19 23:13:37.489 D/FaceAntiSpoof(20290): CADENCE | gap=194ms target=100ms inferMs=55 frame=480x640
+08-19 23:13:37.489 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.111 frame=+0.093 ticks=4 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:37.553 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=56.6 faceW=165 luma=118.0 sharp=0.130 yaw=3.2 pitch=15.5 roll=3.5
+08-19 23:13:37.553 D/FaceAntiSpoof(20290): CADENCE | gap=117ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:37.715 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.9,123.6,117.6] range=[30..242,31..244,34..245] signature=-1761755160
+08-19 23:13:37.736 D/FaceAntiSpoof(20290): LOGITS: [-3.73, 2.82, 0.91] | PROBS: [c0=0.0012, c1(live)=0.8704, c2=0.1283] | argmax=1
+08-19 23:13:37.739 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.1,125.4,119.0] range=[29..246,30..246,32..242] signature=1849148941
+08-19 23:13:37.756 D/FaceAntiSpoof(20290): LOGITS: [-4.82, 5.95, -1.13] | PROBS: [c0=0.0000, c1(live)=0.9991, c2=0.0008] | argmax=1
+08-19 23:13:37.757 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9348 print=0.0006 replay=0.0646 attack=0.0646 margin=0.8702 argmax=1 v2Attack=0.1283 v1seAttack=0.0008 sameCrop=false
+08-19 23:13:37.772 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0646/-1.46 PARALLAX=0.0087/+0.00 MOIRE=0.5908/+0.00 SPECULAR=0.0000/+0.00 CHROMA=7.6765/+0.00 BEZEL=0.5456/+0.00 | QUALITY eye=56.8 faceW=162 luma=119.3 sharp=0.356 yaw=2.6 pitch=20.3 roll=0.6
+08-19 23:13:37.772 D/FaceAntiSpoof(20290): CADENCE | gap=125ms target=100ms inferMs=95 frame=480x640
+08-19 23:13:37.773 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.250 frame=-1.456 ticks=5 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:37.815 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.9,125.5,119.1] range=[30..245,31..243,34..241] signature=853684821
+08-19 23:13:37.826 D/FaceAntiSpoof(20290): LOGITS: [-3.84, 3.79, 0.04] | PROBS: [c0=0.0005, c1(live)=0.9766, c2=0.0230] | argmax=1
+08-19 23:13:37.829 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.3,127.5,120.6] range=[30..255,31..254,34..247] signature=-1180326115
+08-19 23:13:37.840 D/FaceAntiSpoof(20290): LOGITS: [-5.08, 5.60, -0.53] | PROBS: [c0=0.0000, c1(live)=0.9978, c2=0.0022] | argmax=1
+08-19 23:13:37.840 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9872 print=0.0002 replay=0.0126 attack=0.0126 margin=0.9746 argmax=1 v2Attack=0.0230 v1seAttack=0.0022 sameCrop=false
+08-19 23:13:37.850 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0126/-1.61 PARALLAX=0.0088/+0.00 MOIRE=0.6705/+0.00 SPECULAR=0.0000/+0.00 CHROMA=7.7361/+0.00 BEZEL=0.5580/+0.00 | QUALITY eye=56.6 faceW=163 luma=121.1 sharp=0.214 yaw=3.1 pitch=19.5 roll=1.4
+08-19 23:13:37.851 D/FaceAntiSpoof(20290): CADENCE | gap=125ms target=100ms inferMs=49 frame=480x640
+08-19 23:13:37.851 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.375 frame=-1.612 ticks=6 corroborating=1 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:38.136 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[127.5,123.8,116.8] range=[30..255,31..255,35..249] signature=1212136409
+08-19 23:13:38.146 D/FaceAntiSpoof(20290): LOGITS: [-2.97, 3.48, -0.50] | PROBS: [c0=0.0016, c1(live)=0.9801, c2=0.0183] | argmax=1
+08-19 23:13:38.149 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[128.8,125.7,118.2] range=[30..255,32..255,27..246] signature=1898008281
+08-19 23:13:38.161 D/FaceAntiSpoof(20290): LOGITS: [-4.34, 5.29, -0.96] | PROBS: [c0=0.0001, c1(live)=0.9980, c2=0.0019] | argmax=1
+08-19 23:13:38.161 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9891 print=0.0008 replay=0.0101 attack=0.0101 margin=0.9789 argmax=1 v2Attack=0.0183 v1seAttack=0.0019 sameCrop=false
+08-19 23:13:38.172 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0101/-1.62 PARALLAX=0.0088/+0.00 MOIRE=0.6670/+0.00 SPECULAR=0.0000/+0.00 CHROMA=7.7288/+0.00 BEZEL=0.5480/+0.00 | QUALITY eye=56.6 faceW=165 luma=114.9 sharp=0.267 yaw=1.6 pitch=19.0 roll=1.9
+08-19 23:13:38.173 D/FaceAntiSpoof(20290): CADENCE | gap=322ms target=100ms inferMs=51 frame=480x640
+08-19 23:13:38.174 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-5.339 frame=-1.620 ticks=7 corroborating=1 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:40.031 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[141.4,141.2,139.8] range=[30..255,35..255,33..255] signature=-891478573
+08-19 23:13:40.041 D/FaceAntiSpoof(20290): LOGITS: [-2.70, 3.73, -1.03] | PROBS: [c0=0.0016, c1(live)=0.9899, c2=0.0085] | argmax=1
+08-19 23:13:40.044 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[141.4,141.2,139.8] range=[30..255,35..255,33..255] signature=-891478573
+08-19 23:13:40.055 D/FaceAntiSpoof(20290): LOGITS: [-2.37, 3.13, -0.77] | PROBS: [c0=0.0040, c1(live)=0.9763, c2=0.0197] | argmax=1
+08-19 23:13:40.055 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9831 print=0.0028 replay=0.0141 attack=0.0141 margin=0.9691 argmax=1 v2Attack=0.0085 v1seAttack=0.0197 sameCrop=true
+08-19 23:13:40.065 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0141/-1.61 PARALLAX=-/- MOIRE=0.7053/+0.01 SPECULAR=0.0018/+0.00 CHROMA=3.8845/+0.00 BEZEL=0.4365/+0.00 | QUALITY eye=60.8 faceW=192 luma=98.2 sharp=0.371 yaw=4.6 pitch=7.6 roll=-6.5
+08-19 23:13:40.066 D/FaceAntiSpoof(20290): CADENCE | gap=1042ms target=100ms inferMs=68 frame=480x640
+08-19 23:13:40.066 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.600 frame=-1.600 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:40.340 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.5,125.6,121.1] range=[29..255,36..255,32..255] signature=-1380100583
+08-19 23:13:40.345 D/FaceAntiSpoof(20290): LOGITS: [-3.88, 3.69, 0.19] | PROBS: [c0=0.0005, c1(live)=0.9703, c2=0.0292] | argmax=1
+08-19 23:13:40.349 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[126.5,125.6,121.1] range=[29..255,36..255,32..255] signature=-1380100583
+08-19 23:13:40.355 D/FaceAntiSpoof(20290): LOGITS: [-3.86, 4.27, -0.41] | PROBS: [c0=0.0003, c1(live)=0.9906, c2=0.0092] | argmax=1
+08-19 23:13:40.355 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9804 print=0.0004 replay=0.0192 attack=0.0192 margin=0.9613 argmax=1 v2Attack=0.0292 v1seAttack=0.0092 sameCrop=true
+08-19 23:13:40.363 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0192/-1.59 PARALLAX=-/- MOIRE=0.8399/+0.21 SPECULAR=0.0000/+0.00 CHROMA=4.7803/+0.00 BEZEL=0.0000/+0.00 | QUALITY eye=76.7 faceW=227 luma=81.9 sharp=0.175 yaw=-5.5 pitch=16.4 roll=-2.7
+08-19 23:13:40.363 D/FaceAntiSpoof(20290): CADENCE | gap=329ms target=100ms inferMs=37 frame=480x640
+08-19 23:13:40.364 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-2.742 frame=-1.383 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:40.527 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.3,128.5,124.1] range=[33..255,37..255,40..255] signature=-6763366
+08-19 23:13:40.546 D/FaceAntiSpoof(20290): LOGITS: [-3.89, 3.16, 0.73] | PROBS: [c0=0.0008, c1(live)=0.9189, c2=0.0803] | argmax=1
+08-19 23:13:40.550 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.3,128.5,124.1] range=[33..255,37..255,40..255] signature=-6763366
+08-19 23:13:40.555 D/FaceAntiSpoof(20290): LOGITS: [-3.86, 3.77, 0.09] | PROBS: [c0=0.0005, c1(live)=0.9749, c2=0.0246] | argmax=1
+08-19 23:13:40.556 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9469 print=0.0006 replay=0.0525 attack=0.0525 margin=0.8944 argmax=1 v2Attack=0.0803 v1seAttack=0.0246 sameCrop=true
+08-19 23:13:40.564 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0525/-1.49 PARALLAX=0.0096/+0.00 MOIRE=0.7185/+0.03 SPECULAR=0.0068/+0.00 CHROMA=5.0206/+0.00 BEZEL=0.3151/+0.00 | QUALITY eye=77.1 faceW=203 luma=92.3 sharp=0.193 yaw=-2.7 pitch=15.2 roll=-0.4
+08-19 23:13:40.565 D/FaceAntiSpoof(20290): CADENCE | gap=160ms target=100ms inferMs=78 frame=480x640
+08-19 23:13:40.565 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.796 frame=-1.465 ticks=3 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:40.603 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=84.8 faceW=205 luma=101.3 sharp=0.129 yaw=-3.0 pitch=14.9 roll=-2.0
+08-19 23:13:40.603 D/FaceAntiSpoof(20290): CADENCE | gap=114ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 23:13:40.730 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.7,119.1,112.1] range=[28..255,38..255,31..255] signature=53723843
+08-19 23:13:40.741 D/FaceAntiSpoof(20290): LOGITS: [-4.59, 5.40, -0.82] | PROBS: [c0=0.0000, c1(live)=0.9980, c2=0.0020] | argmax=1
+08-19 23:13:40.743 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[121.7,119.1,112.1] range=[28..255,38..255,31..255] signature=53723843
+08-19 23:13:40.759 D/FaceAntiSpoof(20290): LOGITS: [-4.58, 3.93, 0.65] | PROBS: [c0=0.0002, c1(live)=0.9635, c2=0.0363] | argmax=1
+08-19 23:13:40.760 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9807 print=0.0001 replay=0.0192 attack=0.0192 margin=0.9616 argmax=1 v2Attack=0.0020 v1seAttack=0.0363 sameCrop=true
+08-19 23:13:40.769 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0192/-1.59 PARALLAX=0.0131/+0.00 MOIRE=0.9019/+0.30 SPECULAR=0.0000/+0.00 CHROMA=5.1013/+0.00 BEZEL=0.3724/+0.00 | QUALITY eye=85.9 faceW=211 luma=94.6 sharp=0.191 yaw=0.5 pitch=18.7 roll=-1.6
+08-19 23:13:40.770 D/FaceAntiSpoof(20290): CADENCE | gap=109ms target=100ms inferMs=60 frame=480x640
+08-19 23:13:40.770 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-4.516 frame=-1.290 ticks=4 corroborating=0 isLive=true strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:42.473 D/FaceAntiSpoof(20290): GATED | reason=HOLD_STILL | QUALITY eye=88.8 faceW=246 luma=102.4 sharp=0.124 yaw=-2.8 pitch=14.3 roll=10.0
+08-19 23:13:42.473 D/FaceAntiSpoof(20290): CADENCE | gap=265ms target=100ms inferMs=8 frame=480x640 gated=HOLD_STILL
+08-19 23:13:42.820 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.4,130.2,124.7] range=[34..255,38..255,36..255] signature=221491236
+08-19 23:13:42.831 D/FaceAntiSpoof(20290): LOGITS: [-1.59, 1.58, 0.01] | PROBS: [c0=0.0334, c1(live)=0.8001, c2=0.1665] | argmax=1
+08-19 23:13:42.834 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[130.4,130.2,124.7] range=[34..255,38..255,36..255] signature=221491236
+08-19 23:13:42.844 D/FaceAntiSpoof(20290): LOGITS: [-1.57, 2.81, -1.24] | PROBS: [c0=0.0121, c1(live)=0.9709, c2=0.0170] | argmax=1
+08-19 23:13:42.844 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.8855 print=0.0228 replay=0.0917 attack=0.0917 margin=0.7938 argmax=1 v2Attack=0.1665 v1seAttack=0.0170 sameCrop=true
+08-19 23:13:42.854 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0917/-1.37 PARALLAX=0.0097/+0.00 MOIRE=0.4956/+0.00 SPECULAR=0.0000/+0.00 CHROMA=4.2141/+0.00 BEZEL=0.5901/+0.00 | QUALITY eye=78.7 faceW=239 luma=68.8 sharp=0.226 yaw=-0.0 pitch=11.6 roll=12.9
+08-19 23:13:42.855 D/FaceAntiSpoof(20290): CADENCE | gap=332ms target=100ms inferMs=57 frame=480x640
+08-19 23:13:42.855 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.375 frame=-1.375 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:43.038 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.2,134.6,131.3] range=[41..255,44..255,45..255] signature=-241985039
+08-19 23:13:43.043 D/FaceAntiSpoof(20290): LOGITS: [-4.42, 2.51, 1.90] | PROBS: [c0=0.0006, c1(live)=0.6469, c2=0.3525] | argmax=1
+08-19 23:13:43.046 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[135.2,134.6,131.3] range=[41..255,44..255,45..255] signature=-241985039
+08-19 23:13:43.053 D/FaceAntiSpoof(20290): LOGITS: [-3.84, 2.59, 1.25] | PROBS: [c0=0.0013, c1(live)=0.7916, c2=0.2071] | argmax=1
+08-19 23:13:43.054 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.7193 print=0.0010 replay=0.2798 attack=0.2798 margin=0.4395 argmax=1 v2Attack=0.3525 v1seAttack=0.2071 sameCrop=true
+08-19 23:13:43.062 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.2798/-0.81 PARALLAX=0.0084/+0.00 MOIRE=0.6393/+0.00 SPECULAR=0.0160/+0.00 CHROMA=3.8480/+0.00 BEZEL=0.5312/+0.00 | QUALITY eye=81.2 faceW=236 luma=85.4 sharp=0.197 yaw=3.3 pitch=10.7 roll=11.4
+08-19 23:13:43.062 D/FaceAntiSpoof(20290): CADENCE | gap=229ms target=100ms inferMs=36 frame=480x640
+08-19 23:13:43.063 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-1.979 frame=-0.811 ticks=2 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:43.254 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[143.2,143.0,139.8] range=[43..255,48..255,44..255] signature=195901352
+08-19 23:13:43.264 D/FaceAntiSpoof(20290): LOGITS: [-2.73, 2.59, 0.14] | PROBS: [c0=0.0045, c1(live)=0.9167, c2=0.0788] | argmax=1
+08-19 23:13:43.267 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[143.2,143.0,139.8] range=[43..255,48..255,44..255] signature=195901352
+08-19 23:13:43.278 D/FaceAntiSpoof(20290): LOGITS: [-3.93, 3.44, 0.50] | PROBS: [c0=0.0006, c1(live)=0.9493, c2=0.0501] | argmax=1
+08-19 23:13:43.279 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9330 print=0.0025 replay=0.0644 attack=0.0644 margin=0.8686 argmax=1 v2Attack=0.0788 v1seAttack=0.0501 sameCrop=true
+08-19 23:13:43.289 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0644/-1.46 PARALLAX=0.0089/+0.00 MOIRE=0.3455/+0.00 SPECULAR=0.0556/+0.00 CHROMA=4.4137/+0.00 BEZEL=0.5125/+0.00 | QUALITY eye=82.7 faceW=252 luma=83.2 sharp=0.435 yaw=23.3 pitch=23.6 roll=6.5
+08-19 23:13:43.290 D/FaceAntiSpoof(20290): CADENCE | gap=200ms target=100ms inferMs=63 frame=480x640
+08-19 23:13:43.290 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-3.139 frame=-1.457 ticks=3 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:43.339 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=83.8 faceW=253 luma=71.3 sharp=0.275 yaw=22.7 pitch=25.5 roll=3.0
+08-19 23:13:43.339 D/FaceAntiSpoof(20290): CADENCE | gap=111ms target=100ms inferMs=2 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:43.520 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=83.9 faceW=257 luma=73.6 sharp=0.351 yaw=23.5 pitch=24.4 roll=0.7
+08-19 23:13:43.520 D/FaceAntiSpoof(20290): CADENCE | gap=180ms target=100ms inferMs=3 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:43.641 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[145.0,141.6,136.0] range=[47..255,48..255,42..255] signature=-1286351194
+08-19 23:13:43.652 D/FaceAntiSpoof(20290): LOGITS: [-4.37, 3.96, 0.41] | PROBS: [c0=0.0002, c1(live)=0.9719, c2=0.0279] | argmax=1
+08-19 23:13:43.655 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[145.0,141.6,136.0] range=[47..255,48..255,42..255] signature=-1286351194
+08-19 23:13:43.675 D/FaceAntiSpoof(20290): LOGITS: [-5.83, 5.41, 0.42] | PROBS: [c0=0.0000, c1(live)=0.9932, c2=0.0067] | argmax=1
+08-19 23:13:43.675 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9826 print=0.0001 replay=0.0173 attack=0.0173 margin=0.9653 argmax=1 v2Attack=0.0279 v1seAttack=0.0067 sameCrop=true
+08-19 23:13:43.686 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0173/-1.60 PARALLAX=0.0098/+0.00 MOIRE=0.4494/+0.00 SPECULAR=0.0206/+0.00 CHROMA=5.1105/+0.00 BEZEL=0.4700/+0.00 | QUALITY eye=78.6 faceW=257 luma=92.7 sharp=0.199 yaw=19.2 pitch=19.8 roll=0.5
+08-19 23:13:43.687 D/FaceAntiSpoof(20290): CADENCE | gap=101ms target=100ms inferMs=68 frame=480x640
+08-19 23:13:43.687 D/FaceAntiSpoof(20290): FUSION | status=ACQUIRING total=-4.266 frame=-1.598 ticks=4 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0
+08-19 23:13:43.733 D/FaceAntiSpoof(20290): GATED | reason=FACE_CAMERA | QUALITY eye=79.1 faceW=251 luma=99.6 sharp=0.219 yaw=15.2 pitch=24.5 roll=0.2
+08-19 23:13:43.733 D/FaceAntiSpoof(20290): CADENCE | gap=112ms target=100ms inferMs=3 frame=480x640 gated=FACE_CAMERA
+08-19 23:13:43.903 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[154.2,150.3,145.2] range=[58..255,56..255,47..255] signature=1895175990
+08-19 23:13:43.920 D/FaceAntiSpoof(20290): LOGITS: [-5.73, 4.18, 1.55] | PROBS: [c0=0.0000, c1(live)=0.9326, c2=0.0674] | argmax=1
+08-19 23:13:43.923 D/FaceAntiSpoof(20290): INPUT_STATS | mean=[154.2,150.3,145.2] range=[58..255,56..255,47..255] signature=1895175990
+08-19 23:13:43.929 D/FaceAntiSpoof(20290): LOGITS: [-6.18, 5.60, 0.59] | PROBS: [c0=0.0000, c1(live)=0.9934, c2=0.0066] | argmax=1
+08-19 23:13:43.929 D/FaceAntiSpoof(20290): ENSEMBLE_SAMPLE | live=0.9630 print=0.0000 replay=0.0370 attack=0.0370 margin=0.9260 argmax=1 v2Attack=0.0674 v1seAttack=0.0066 sameCrop=true
+08-19 23:13:43.937 D/FaceAntiSpoof(20290): CUES | ANTI_SPOOF=0.0370/-1.54 PARALLAX=0.0135/+0.00 MOIRE=0.5476/+0.00 SPECULAR=0.0151/+0.00 CHROMA=5.4277/+0.00 BEZEL=0.4279/+0.00 | QUALITY eye=78.4 faceW=232 luma=94.5 sharp=0.232 yaw=4.7 pitch=12.0 roll=0.7
+08-19 23:13:43.938 D/FaceAntiSpoof(20290): CADENCE | gap=142ms target=100ms inferMs=65 frame=480x640
+08-19 23:13:43.938 D/FaceAntiSpoof(20290): FUSION | status=LIVE_CONFIRMED total=-5.165 frame=-1.539 ticks=5 corroborating=0 isLive=true strictness=STRICT accept=-4.5 reject=3.0

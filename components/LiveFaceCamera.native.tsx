@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LayoutChangeEvent, StyleSheet } from "react-native";
-import { PERFORMANCE_PRESETS, PerformanceMode, SCANNING_PERFORMANCE_PRESETS, ScanningPerformanceMode } from "@/utils/settings";
+import { PERFORMANCE_PRESETS, PerformanceMode, SCANNING_PERFORMANCE_PRESETS, ScanningPerformanceMode, LivenessStrictnessMode } from "@/utils/settings";
 import { signedAngle } from "@/utils/faceMatching";
 import {
   CameraView,
@@ -41,6 +41,14 @@ export type RealtimeFace = {
   livenessDurationMs: number | null;
   livenessSamples: number;
   isLive: boolean | null;
+  /**
+   * Set when the native quality gate refused to score the frame, e.g.
+   * "MOVE_CLOSER" / "MORE_LIGHT" / "HOLD_STILL". Refusal is not a spoof verdict,
+   * so the UI must prompt rather than reject.
+   */
+  livenessGuidance?: string | null;
+  /** Accumulated fusion evidence in nats; positive favours attack. Debug/telemetry. */
+  livenessEvidence?: number | null;
   yawAngle: number | null;
   rollAngle: number | null;
 };
@@ -57,6 +65,12 @@ export type LiveFaceCameraProps = {
   performanceMode: PerformanceMode;
   scanningPerformance: ScanningPerformanceMode;
   cameraFacing: "front" | "back";
+  /**
+   * Anti-spoofing operating point. Only the level *name* crosses the bridge; the
+   * evidence bounds it selects live in `LivenessFusion.Strictness`. Defaults to
+   * "balanced" so callers that do not care never have to pass it.
+   */
+  livenessStrictness?: LivenessStrictnessMode;
   showNativeOverlay?: boolean;
   smoothNativeOverlay?: boolean;
   /** ML Kit face detection accuracy mode. Defaults to "fast". Use "accurate"
@@ -77,6 +91,7 @@ export function LiveFaceCamera({
   performanceMode,
   scanningPerformance,
   cameraFacing,
+  livenessStrictness = "balanced",
   showNativeOverlay = true,
   smoothNativeOverlay = true,
   faceDetectorMode = "fast",
@@ -96,8 +111,9 @@ export function LiveFaceCamera({
       smoothNativeOverlay,
       minDetectionInterval: (PERFORMANCE_PRESETS[performanceMode] || PERFORMANCE_PRESETS.balanced).intervalMs,
       scanningIntervalMs: (SCANNING_PERFORMANCE_PRESETS[scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).intervalMs,
+      livenessStrictness,
     }),
-    [performanceMode, scanningPerformance, showNativeOverlay, smoothNativeOverlay, faceDetectorMode],
+    [performanceMode, scanningPerformance, livenessStrictness, showNativeOverlay, smoothNativeOverlay, faceDetectorMode],
   );
   const brightnessRef = useRef<Record<"frame" | "face" | "background" | "highlights", number | null>>({
     frame: null,
@@ -200,6 +216,8 @@ export function LiveFaceCamera({
           livenessDurationMs?: number;
           livenessSamples?: number;
           isLive?: boolean;
+          guidance?: string;
+          fusion?: { total?: number };
         };
       };
       onFaceChange({
@@ -233,6 +251,8 @@ export function LiveFaceCamera({
         livenessDurationMs: lightingFace.normalization?.livenessDurationMs ?? null,
         livenessSamples: lightingFace.normalization?.livenessSamples ?? 0,
         isLive: lightingFace.normalization?.isLive ?? null,
+        livenessGuidance: lightingFace.normalization?.guidance ?? null,
+        livenessEvidence: lightingFace.normalization?.fusion?.total ?? null,
         // The native detector mirrors front-camera angles into a 0..360 range,
         // so a left turn arrives as 335 rather than -25. Normalize to signed
         // degrees here, once, so every consumer sees a sane value.

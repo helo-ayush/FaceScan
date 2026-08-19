@@ -4,6 +4,8 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
 import {
+  LIVENESS_STRICTNESS_PRESETS,
+  LivenessStrictnessMode,
   PERFORMANCE_PRESETS,
   PerformanceMode,
   SCANNING_PERFORMANCE_PRESETS,
@@ -21,6 +23,17 @@ const SCANNING_OPTIONS: Array<{ key: ScanningPerformanceMode; label: string; spe
   { key: "low", label: "Low", speed: "1 sec" },
   { key: "standard", label: "Standard", speed: "500 ms" },
   { key: "high", label: "High", speed: "200 ms" },
+];
+
+/**
+ * The `hint` is the user-facing consequence, not the mechanism: nobody choosing a
+ * setting wants to reason about accumulated log-likelihood bounds, and the honest
+ * summary of what each level buys is a trade between retries and missed spoofs.
+ */
+const STRICTNESS_OPTIONS: Array<{ key: LivenessStrictnessMode; hint: string }> = [
+  { key: "lenient", hint: "Fewer retries" },
+  { key: "balanced", hint: "Recommended" },
+  { key: "strict", hint: "Fewer misses" },
 ];
 
 export default function SettingsScreen() {
@@ -272,6 +285,60 @@ export default function SettingsScreen() {
                 <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
               </View>
             </Pressable>
+
+            {/* Anti-spoofing strictness. Mounted only while anti-spoofing is on —
+                offering an operating point for a disabled check reads as if it still
+                does something. */}
+            {settings.antiSpoofingEnabled && (
+              <View className="p-5 border-b border-slate-100">
+                <Text className="font-bold text-on-surface text-base mb-1">Liveness Strictness</Text>
+                <Text className="text-xs text-on-surface-variant mb-3">
+                  How much evidence a decision needs. Every level runs the same checks and
+                  still requires two independent signals to agree before rejecting anyone.
+                </Text>
+                <View className="flex-row gap-2">
+                  {STRICTNESS_OPTIONS.map((option) => (
+                    <Pressable
+                      key={option.key}
+                      onPress={() => {
+                        triggerHaptic("light");
+                        updateSetting("livenessStrictness", option.key);
+                      }}
+                      className={`flex-1 rounded-2xl border p-3 ${
+                        settings.livenessStrictness === option.key
+                          ? "bg-primary/10 border-primary"
+                          : "bg-surface-muted border-slate-100"
+                      } active:scale-95`}
+                    >
+                      <Text
+                        className={`font-black text-sm ${
+                          settings.livenessStrictness === option.key ? "text-primary" : "text-on-surface-variant"
+                        }`}
+                      >
+                        {LIVENESS_STRICTNESS_PRESETS[option.key].label}
+                      </Text>
+                      <Text
+                        className={`text-xs font-bold mt-1 ${
+                          settings.livenessStrictness === option.key ? "text-primary" : "text-on-surface-variant"
+                        }`}
+                      >
+                        {option.hint}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </View>
+                <Text className="text-[11px] font-semibold text-on-surface-variant mt-3">
+                  {(LIVENESS_STRICTNESS_PRESETS[settings.livenessStrictness] || LIVENESS_STRICTNESS_PRESETS.balanced).description}
+                </Text>
+                {(LIVENESS_STRICTNESS_PRESETS[settings.livenessStrictness] || LIVENESS_STRICTNESS_PRESETS.balanced).warning && (
+                  <View className="mt-3 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex-row items-center gap-2">
+                    <Text className="text-xs font-bold text-amber-700 leading-tight">
+                      {(LIVENESS_STRICTNESS_PRESETS[settings.livenessStrictness] || LIVENESS_STRICTNESS_PRESETS.balanced).warning}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            )}
 
             {/* Haptic Feedback Toggle */}
             <Pressable

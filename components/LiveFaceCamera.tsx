@@ -1,6 +1,13 @@
 import React from "react";
 import { LayoutChangeEvent } from "react-native";
-import { PerformanceMode, ScanningPerformanceMode } from "@/utils/settings";
+import { PerformanceMode, ScanningPerformanceMode, LivenessStrictnessMode } from "@/utils/settings";
+
+/**
+ * Web fallback. Note this file, not `LiveFaceCamera.native.tsx`, is what `tsc`
+ * resolves for `@/components/LiveFaceCamera` — so any field added to the native
+ * component's types must be mirrored here or the native-only consumers will not
+ * type-check against it.
+ */
 
 export type RealtimeFace = {
   imageWidth: number;
@@ -33,6 +40,14 @@ export type RealtimeFace = {
   livenessDurationMs: number | null;
   livenessSamples: number;
   isLive: boolean | null;
+  /**
+   * Set when the native quality gate refused to score the frame, e.g.
+   * "MOVE_CLOSER" / "MORE_LIGHT" / "HOLD_STILL". Refusal is not a spoof verdict,
+   * so the UI must prompt rather than reject.
+   */
+  livenessGuidance?: string | null;
+  /** Accumulated fusion evidence in nats; positive favours attack. Debug/telemetry. */
+  livenessEvidence?: number | null;
   yawAngle: number | null;
   rollAngle: number | null;
 };
@@ -50,6 +65,8 @@ export type LiveFaceCameraProps = {
   performanceMode: PerformanceMode;
   scanningPerformance?: ScanningPerformanceMode;
   cameraFacing: "front" | "back";
+  /** Anti-spoofing operating point; native-only, ignored by this fallback. */
+  livenessStrictness?: LivenessStrictnessMode;
   showNativeOverlay?: boolean;
   smoothNativeOverlay?: boolean;
   onCameraReady: () => void;

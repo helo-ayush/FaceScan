@@ -1,0 +1,927 @@
+--------- beginning of main
+08-18 23:59:12.700 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.3 faceW=119 luma=133.5 sharp=0.136 yaw=-9.6 pitch=-8.9 roll=3.8
+08-18 23:59:12.700 D/FaceAntiSpoof(26368): CADENCE | gap=74231ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:12.992 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=30.5 faceW=111 luma=126.2 sharp=0.170 yaw=-10.3 pitch=-6.2 roll=-4.3
+08-18 23:59:12.992 D/FaceAntiSpoof(26368): CADENCE | gap=294ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:13.098 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=27.3 faceW=95 luma=130.4 sharp=0.145 yaw=8.0 pitch=-15.0 roll=163.4
+08-18 23:59:13.098 D/FaceAntiSpoof(26368): CADENCE | gap=104ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:13.220 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=24.3 faceW=94 luma=134.0 sharp=0.314 yaw=18.1 pitch=-14.1 roll=155.2
+08-18 23:59:13.221 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:13.336 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=26.5 faceW=108 luma=128.0 sharp=0.230 yaw=13.4 pitch=-10.0 roll=157.8
+08-18 23:59:13.336 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:13.580 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.1 faceW=123 luma=125.2 sharp=0.190 yaw=-14.7 pitch=-10.8 roll=-0.3
+08-18 23:59:13.580 D/FaceAntiSpoof(26368): CADENCE | gap=244ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:13.735 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.3 faceW=126 luma=124.0 sharp=0.360 yaw=-13.4 pitch=-9.2 roll=0.7
+08-18 23:59:13.736 D/FaceAntiSpoof(26368): CADENCE | gap=135ms target=100ms inferMs=22 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:13.888 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.0 faceW=127 luma=123.1 sharp=0.354 yaw=-13.5 pitch=-9.1 roll=1.0
+08-18 23:59:13.888 D/FaceAntiSpoof(26368): CADENCE | gap=174ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:13.998 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.7 faceW=126 luma=125.7 sharp=0.356 yaw=-12.1 pitch=-5.9 roll=0.7
+08-18 23:59:13.998 D/FaceAntiSpoof(26368): CADENCE | gap=109ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:14.171 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.5 faceW=125 luma=124.7 sharp=0.451 yaw=-13.6 pitch=-7.9 roll=0.6
+08-18 23:59:14.171 D/FaceAntiSpoof(26368): CADENCE | gap=169ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:14.296 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.0 faceW=125 luma=125.7 sharp=0.322 yaw=-13.1 pitch=-7.9 roll=0.4
+08-18 23:59:14.297 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:14.626 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.7 faceW=132 luma=123.9 sharp=0.262 yaw=-13.0 pitch=-9.3 roll=2.1
+08-18 23:59:14.626 D/FaceAntiSpoof(26368): CADENCE | gap=337ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:14.818 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.4 faceW=128 luma=124.9 sharp=0.356 yaw=-14.0 pitch=-7.8 roll=2.0
+08-18 23:59:14.818 D/FaceAntiSpoof(26368): CADENCE | gap=183ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:15.004 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.4 faceW=126 luma=127.2 sharp=0.283 yaw=-13.7 pitch=-9.1 roll=1.6
+08-18 23:59:15.004 D/FaceAntiSpoof(26368): CADENCE | gap=196ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:15.129 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.1 faceW=124 luma=128.0 sharp=0.342 yaw=-13.3 pitch=-8.1 roll=1.4
+08-18 23:59:15.129 D/FaceAntiSpoof(26368): CADENCE | gap=125ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:15.271 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.9 faceW=124 luma=131.1 sharp=0.364 yaw=-12.0 pitch=-7.6 roll=0.7
+08-18 23:59:15.271 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:15.626 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.4 faceW=125 luma=131.2 sharp=0.295 yaw=-14.2 pitch=-7.4 roll=0.7
+08-18 23:59:15.626 D/FaceAntiSpoof(26368): CADENCE | gap=353ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:15.753 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=31.9 faceW=121 luma=129.7 sharp=0.231 yaw=-13.7 pitch=-7.7 roll=2.3
+08-18 23:59:15.753 D/FaceAntiSpoof(26368): CADENCE | gap=129ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:15.945 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.0 faceW=115 luma=131.4 sharp=0.356 yaw=-12.2 pitch=-7.2 roll=0.5
+08-18 23:59:15.945 D/FaceAntiSpoof(26368): CADENCE | gap=184ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:16.070 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=28.0 faceW=100 luma=136.9 sharp=0.404 yaw=-13.4 pitch=-7.9 roll=-0.2
+08-18 23:59:16.070 D/FaceAntiSpoof(26368): CADENCE | gap=134ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:16.236 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=26.9 faceW=97 luma=131.4 sharp=0.320 yaw=-13.4 pitch=-8.8 roll=-0.1
+08-18 23:59:16.237 D/FaceAntiSpoof(26368): CADENCE | gap=158ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:16.366 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=26.6 faceW=94 luma=129.3 sharp=0.742 yaw=-13.5 pitch=-7.6 roll=-0.1
+08-18 23:59:16.367 D/FaceAntiSpoof(26368): CADENCE | gap=138ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:16.493 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=26.4 faceW=93 luma=130.1 sharp=0.397 yaw=-15.1 pitch=-8.2 roll=0.7
+08-18 23:59:16.493 D/FaceAntiSpoof(26368): CADENCE | gap=113ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:16.739 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=26.8 faceW=96 luma=130.6 sharp=0.620 yaw=-13.3 pitch=-7.5 roll=0.4
+08-18 23:59:16.739 D/FaceAntiSpoof(26368): CADENCE | gap=258ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:16.845 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=27.9 faceW=101 luma=128.8 sharp=0.446 yaw=-12.3 pitch=-7.0 roll=1.6
+08-18 23:59:16.845 D/FaceAntiSpoof(26368): CADENCE | gap=102ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:16.973 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.0 faceW=104 luma=129.0 sharp=0.474 yaw=-12.8 pitch=-9.1 roll=2.3
+08-18 23:59:16.973 D/FaceAntiSpoof(26368): CADENCE | gap=128ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:17.208 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.0 faceW=102 luma=129.7 sharp=0.376 yaw=-12.4 pitch=-7.7 roll=1.7
+08-18 23:59:17.208 D/FaceAntiSpoof(26368): CADENCE | gap=236ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:17.340 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.4 faceW=118 luma=129.2 sharp=0.383 yaw=-14.2 pitch=-9.9 roll=-0.4
+08-18 23:59:17.341 D/FaceAntiSpoof(26368): CADENCE | gap=132ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:17.449 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=30.7 faceW=121 luma=132.1 sharp=0.400 yaw=-13.7 pitch=-9.5 roll=-1.4
+08-18 23:59:17.449 D/FaceAntiSpoof(26368): CADENCE | gap=108ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:17.589 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=31.4 faceW=125 luma=133.1 sharp=0.366 yaw=-12.4 pitch=-9.2 roll=-1.5
+08-18 23:59:17.589 D/FaceAntiSpoof(26368): CADENCE | gap=140ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:17.806 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.2 faceW=115 luma=131.0 sharp=0.258 yaw=-13.0 pitch=-9.0 roll=-1.5
+08-18 23:59:17.806 D/FaceAntiSpoof(26368): CADENCE | gap=221ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:17.940 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.4 faceW=122 luma=125.8 sharp=0.270 yaw=-14.0 pitch=-9.8 roll=-1.3
+08-18 23:59:17.941 D/FaceAntiSpoof(26368): CADENCE | gap=131ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:18.059 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.9 faceW=121 luma=125.8 sharp=0.194 yaw=-11.2 pitch=-7.4 roll=-1.6
+08-18 23:59:18.059 D/FaceAntiSpoof(26368): CADENCE | gap=117ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:18.190 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.8 faceW=119 luma=129.5 sharp=0.264 yaw=-9.5 pitch=-6.2 roll=-2.9
+08-18 23:59:18.190 D/FaceAntiSpoof(26368): CADENCE | gap=137ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:18.328 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.1 faceW=118 luma=130.3 sharp=0.339 yaw=-11.1 pitch=-5.5 roll=-2.1
+08-18 23:59:18.328 D/FaceAntiSpoof(26368): CADENCE | gap=131ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:18.449 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.0 faceW=116 luma=129.7 sharp=0.523 yaw=-13.5 pitch=-7.3 roll=-1.9
+08-18 23:59:18.449 D/FaceAntiSpoof(26368): CADENCE | gap=122ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:18.576 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.1 faceW=116 luma=129.5 sharp=0.528 yaw=-14.0 pitch=-9.1 roll=-1.6
+08-18 23:59:18.576 D/FaceAntiSpoof(26368): CADENCE | gap=127ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:18.939 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=31.7 faceW=109 luma=131.9 sharp=0.510 yaw=-13.1 pitch=-7.5 roll=-2.4
+08-18 23:59:18.939 D/FaceAntiSpoof(26368): CADENCE | gap=364ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:19.122 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.2 faceW=111 luma=131.4 sharp=0.386 yaw=-12.8 pitch=-7.8 roll=-1.6
+08-18 23:59:19.123 D/FaceAntiSpoof(26368): CADENCE | gap=183ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:19.299 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.0 faceW=113 luma=131.5 sharp=0.496 yaw=-12.8 pitch=-5.5 roll=-1.9
+08-18 23:59:19.299 D/FaceAntiSpoof(26368): CADENCE | gap=181ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:19.471 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.7 faceW=122 luma=131.2 sharp=0.271 yaw=-11.5 pitch=-9.5 roll=-1.5
+08-18 23:59:19.471 D/FaceAntiSpoof(26368): CADENCE | gap=165ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:19.593 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.6 faceW=124 luma=126.1 sharp=0.449 yaw=-13.6 pitch=-7.0 roll=-0.2
+08-18 23:59:19.593 D/FaceAntiSpoof(26368): CADENCE | gap=123ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:19.701 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.3 faceW=123 luma=127.0 sharp=0.204 yaw=-12.8 pitch=-7.7 roll=1.1
+08-18 23:59:19.702 D/FaceAntiSpoof(26368): CADENCE | gap=105ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:19.980 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.3 faceW=124 luma=129.9 sharp=0.436 yaw=-12.7 pitch=-8.5 roll=0.8
+08-18 23:59:19.980 D/FaceAntiSpoof(26368): CADENCE | gap=282ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:20.127 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.5 faceW=121 luma=128.1 sharp=0.426 yaw=-14.4 pitch=-5.5 roll=8.5
+08-18 23:59:20.127 D/FaceAntiSpoof(26368): CADENCE | gap=148ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:20.267 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.3 faceW=121 luma=130.3 sharp=0.128 yaw=-14.5 pitch=-5.3 roll=9.0
+08-18 23:59:20.267 D/FaceAntiSpoof(26368): CADENCE | gap=131ms target=100ms inferMs=15 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:20.498 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.7 faceW=130 luma=130.0 sharp=0.446 yaw=-12.5 pitch=-6.5 roll=6.7
+08-18 23:59:20.498 D/FaceAntiSpoof(26368): CADENCE | gap=246ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:20.660 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.4 faceW=128 luma=132.3 sharp=0.286 yaw=-13.7 pitch=-9.2 roll=4.0
+08-18 23:59:20.660 D/FaceAntiSpoof(26368): CADENCE | gap=158ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:20.770 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.9 faceW=129 luma=132.9 sharp=0.310 yaw=-11.1 pitch=-5.7 roll=0.4
+08-18 23:59:20.770 D/FaceAntiSpoof(26368): CADENCE | gap=103ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:20.859 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.2 faceW=160 luma=132.9 sharp=0.438 yaw=-14.0 pitch=-1.4 roll=-1.5
+08-18 23:59:20.859 D/FaceAntiSpoof(26368): CADENCE | gap=100ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:21.042 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.5 faceW=138 luma=135.7 sharp=0.390 yaw=-12.1 pitch=-5.3 roll=-4.1
+08-18 23:59:21.042 D/FaceAntiSpoof(26368): CADENCE | gap=178ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:21.175 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.5 faceW=171 luma=130.6 sharp=0.224 yaw=-11.7 pitch=-6.9 roll=0.3
+08-18 23:59:21.175 D/FaceAntiSpoof(26368): CADENCE | gap=133ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:21.321 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.3 faceW=151 luma=123.5 sharp=0.129 yaw=-15.0 pitch=-7.9 roll=1.4
+08-18 23:59:21.322 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:21.490 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.2 faceW=145 luma=121.9 sharp=0.149 yaw=-13.6 pitch=-8.7 roll=1.0
+08-18 23:59:21.490 D/FaceAntiSpoof(26368): CADENCE | gap=178ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:21.608 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.4 faceW=147 luma=121.6 sharp=0.238 yaw=-12.2 pitch=-8.5 roll=1.2
+08-18 23:59:21.608 D/FaceAntiSpoof(26368): CADENCE | gap=107ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:21.720 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.0 faceW=144 luma=124.3 sharp=0.372 yaw=-13.9 pitch=-7.6 roll=1.0
+08-18 23:59:21.720 D/FaceAntiSpoof(26368): CADENCE | gap=119ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:21.871 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.9 faceW=142 luma=125.5 sharp=0.260 yaw=-13.7 pitch=-8.4 roll=1.2
+08-18 23:59:21.871 D/FaceAntiSpoof(26368): CADENCE | gap=150ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:22.159 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.0 faceW=139 luma=127.2 sharp=0.392 yaw=-13.5 pitch=-6.7 roll=1.0
+08-18 23:59:22.159 D/FaceAntiSpoof(26368): CADENCE | gap=291ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:22.286 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.8 faceW=139 luma=127.0 sharp=0.333 yaw=-13.0 pitch=-7.5 roll=1.4
+08-18 23:59:22.286 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:22.406 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.5 faceW=138 luma=127.2 sharp=0.367 yaw=-14.2 pitch=-6.9 roll=1.3
+08-18 23:59:22.406 D/FaceAntiSpoof(26368): CADENCE | gap=120ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:22.578 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=136 luma=126.9 sharp=0.506 yaw=-13.6 pitch=-7.3 roll=2.1
+08-18 23:59:22.578 D/FaceAntiSpoof(26368): CADENCE | gap=181ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:22.785 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.2 faceW=137 luma=127.5 sharp=0.227 yaw=-13.2 pitch=-6.1 roll=3.3
+08-18 23:59:22.785 D/FaceAntiSpoof(26368): CADENCE | gap=201ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:22.890 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.0 faceW=140 luma=126.3 sharp=0.494 yaw=-14.6 pitch=-8.1 roll=2.7
+08-18 23:59:22.890 D/FaceAntiSpoof(26368): CADENCE | gap=103ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:23.005 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.1 faceW=140 luma=125.7 sharp=0.444 yaw=-14.0 pitch=-6.6 roll=2.7
+08-18 23:59:23.005 D/FaceAntiSpoof(26368): CADENCE | gap=116ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:23.208 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.5 faceW=139 luma=127.6 sharp=0.368 yaw=-12.6 pitch=-6.6 roll=2.5
+08-18 23:59:23.208 D/FaceAntiSpoof(26368): CADENCE | gap=205ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:23.332 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.4 faceW=135 luma=128.7 sharp=0.330 yaw=-14.3 pitch=-6.8 roll=2.1
+08-18 23:59:23.332 D/FaceAntiSpoof(26368): CADENCE | gap=127ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:23.494 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=136 luma=130.8 sharp=0.224 yaw=-12.7 pitch=-8.2 roll=1.2
+08-18 23:59:23.495 D/FaceAntiSpoof(26368): CADENCE | gap=156ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:23.734 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.6 faceW=144 luma=134.6 sharp=0.242 yaw=-9.7 pitch=-7.4 roll=-1.5
+08-18 23:59:23.734 D/FaceAntiSpoof(26368): CADENCE | gap=246ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:23.865 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.1 faceW=142 luma=141.0 sharp=0.196 yaw=-12.3 pitch=-7.7 roll=-1.1
+08-18 23:59:23.865 D/FaceAntiSpoof(26368): CADENCE | gap=127ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:24.002 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.5 faceW=134 luma=134.3 sharp=0.218 yaw=-18.4 pitch=-8.1 roll=1.8
+08-18 23:59:24.002 D/FaceAntiSpoof(26368): CADENCE | gap=138ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:24.107 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.6 faceW=132 luma=129.7 sharp=0.266 yaw=-13.6 pitch=-7.5 roll=-0.8
+08-18 23:59:24.107 D/FaceAntiSpoof(26368): CADENCE | gap=106ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:24.298 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.4 faceW=141 luma=129.2 sharp=0.465 yaw=-12.5 pitch=-7.4 roll=-1.2
+08-18 23:59:24.298 D/FaceAntiSpoof(26368): CADENCE | gap=192ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:24.418 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.6 faceW=141 luma=129.4 sharp=0.288 yaw=-13.4 pitch=-8.0 roll=0.2
+08-18 23:59:24.419 D/FaceAntiSpoof(26368): CADENCE | gap=114ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:24.573 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.8 faceW=142 luma=129.3 sharp=0.336 yaw=-13.0 pitch=-7.8 roll=0.4
+08-18 23:59:24.573 D/FaceAntiSpoof(26368): CADENCE | gap=158ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:24.874 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.1 faceW=137 luma=129.6 sharp=0.394 yaw=-12.9 pitch=-6.4 roll=0.5
+08-18 23:59:24.874 D/FaceAntiSpoof(26368): CADENCE | gap=302ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:24.994 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.2 faceW=138 luma=129.7 sharp=0.513 yaw=-13.3 pitch=-5.9 roll=0.6
+08-18 23:59:24.995 D/FaceAntiSpoof(26368): CADENCE | gap=117ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:25.140 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.4 faceW=140 luma=129.3 sharp=0.503 yaw=-13.9 pitch=-5.7 roll=0.4
+08-18 23:59:25.140 D/FaceAntiSpoof(26368): CADENCE | gap=149ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:25.436 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.4 faceW=149 luma=128.9 sharp=0.245 yaw=-13.5 pitch=-5.1 roll=0.7
+08-18 23:59:25.436 D/FaceAntiSpoof(26368): CADENCE | gap=295ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:25.560 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.1 faceW=131 luma=123.5 sharp=0.303 yaw=-7.4 pitch=-6.9 roll=-2.1
+08-18 23:59:25.560 D/FaceAntiSpoof(26368): CADENCE | gap=120ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:25.701 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.1 faceW=129 luma=123.1 sharp=0.293 yaw=-7.6 pitch=-5.0 roll=-3.0
+08-18 23:59:25.702 D/FaceAntiSpoof(26368): CADENCE | gap=143ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:25.907 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.7 faceW=138 luma=126.5 sharp=0.266 yaw=-12.3 pitch=-9.0 roll=-2.0
+08-18 23:59:25.907 D/FaceAntiSpoof(26368): CADENCE | gap=211ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:26.013 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.5 faceW=137 luma=127.0 sharp=0.347 yaw=-12.1 pitch=-7.6 roll=-2.6
+08-18 23:59:26.013 D/FaceAntiSpoof(26368): CADENCE | gap=100ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:26.203 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=147 luma=128.9 sharp=0.151 yaw=-12.2 pitch=-5.6 roll=-1.8
+08-18 23:59:26.203 D/FaceAntiSpoof(26368): CADENCE | gap=194ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:26.492 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.1 faceW=138 luma=135.3 sharp=0.236 yaw=-11.6 pitch=-5.3 roll=-0.3
+08-18 23:59:26.492 D/FaceAntiSpoof(26368): CADENCE | gap=288ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:26.602 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.4 faceW=141 luma=131.1 sharp=0.273 yaw=-13.7 pitch=-6.2 roll=0.9
+08-18 23:59:26.602 D/FaceAntiSpoof(26368): CADENCE | gap=109ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:26.774 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.1 faceW=143 luma=128.8 sharp=0.237 yaw=-12.7 pitch=-5.5 roll=2.5
+08-18 23:59:26.774 D/FaceAntiSpoof(26368): CADENCE | gap=173ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:26.954 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.6 faceW=151 luma=126.7 sharp=0.245 yaw=-13.3 pitch=-3.3 roll=2.1
+08-18 23:59:26.954 D/FaceAntiSpoof(26368): CADENCE | gap=184ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:27.139 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.8 faceW=160 luma=123.2 sharp=0.267 yaw=-13.1 pitch=-6.2 roll=3.2
+08-18 23:59:27.139 D/FaceAntiSpoof(26368): CADENCE | gap=178ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:27.241 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.1 faceW=160 luma=121.3 sharp=0.448 yaw=-13.4 pitch=-6.0 roll=2.8
+08-18 23:59:27.241 D/FaceAntiSpoof(26368): CADENCE | gap=106ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:27.538 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.2 faceW=153 luma=122.7 sharp=0.399 yaw=-13.3 pitch=-6.2 roll=2.0
+08-18 23:59:27.538 D/FaceAntiSpoof(26368): CADENCE | gap=294ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:27.712 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.3 faceW=152 luma=128.9 sharp=0.294 yaw=-12.6 pitch=-6.5 roll=1.0
+08-18 23:59:27.713 D/FaceAntiSpoof(26368): CADENCE | gap=175ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:27.849 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.6 faceW=152 luma=128.5 sharp=0.546 yaw=-14.0 pitch=-7.3 roll=0.3
+08-18 23:59:27.849 D/FaceAntiSpoof(26368): CADENCE | gap=136ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:28.111 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.4 faceW=150 luma=129.8 sharp=0.581 yaw=-13.6 pitch=-6.1 roll=-0.3
+08-18 23:59:28.111 D/FaceAntiSpoof(26368): CADENCE | gap=269ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:28.244 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.3 faceW=149 luma=127.2 sharp=0.211 yaw=-13.8 pitch=-9.0 roll=0.0
+08-18 23:59:28.244 D/FaceAntiSpoof(26368): CADENCE | gap=127ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:28.356 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.1 faceW=146 luma=127.6 sharp=0.347 yaw=-14.1 pitch=-5.9 roll=0.3
+08-18 23:59:28.356 D/FaceAntiSpoof(26368): CADENCE | gap=111ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:28.541 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.3 faceW=149 luma=127.2 sharp=0.279 yaw=-14.1 pitch=-7.1 roll=0.7
+08-18 23:59:28.541 D/FaceAntiSpoof(26368): CADENCE | gap=188ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:28.671 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.2 faceW=146 luma=127.9 sharp=0.322 yaw=-12.6 pitch=-6.8 roll=-0.3
+08-18 23:59:28.671 D/FaceAntiSpoof(26368): CADENCE | gap=130ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:28.772 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.4 faceW=145 luma=127.0 sharp=0.365 yaw=-12.8 pitch=-5.6 roll=-0.6
+08-18 23:59:28.772 D/FaceAntiSpoof(26368): CADENCE | gap=101ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:28.884 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.8 faceW=143 luma=126.6 sharp=0.302 yaw=-13.6 pitch=-7.4 roll=-1.0
+08-18 23:59:28.884 D/FaceAntiSpoof(26368): CADENCE | gap=112ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:29.052 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.3 faceW=145 luma=130.2 sharp=0.392 yaw=-12.8 pitch=-7.2 roll=-1.1
+08-18 23:59:29.052 D/FaceAntiSpoof(26368): CADENCE | gap=172ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:29.158 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.7 faceW=146 luma=130.8 sharp=0.404 yaw=-13.4 pitch=-5.4 roll=-0.8
+08-18 23:59:29.159 D/FaceAntiSpoof(26368): CADENCE | gap=101ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:29.284 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.5 faceW=148 luma=132.2 sharp=0.254 yaw=-14.0 pitch=-6.3 roll=0.1
+08-18 23:59:29.284 D/FaceAntiSpoof(26368): CADENCE | gap=125ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:29.396 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.2 faceW=147 luma=134.8 sharp=0.248 yaw=-11.2 pitch=-4.8 roll=0.9
+08-18 23:59:29.397 D/FaceAntiSpoof(26368): CADENCE | gap=114ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:29.663 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.8 faceW=155 luma=124.6 sharp=0.266 yaw=-12.3 pitch=-6.4 roll=2.9
+08-18 23:59:29.663 D/FaceAntiSpoof(26368): CADENCE | gap=271ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:29.789 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.9 faceW=156 luma=124.4 sharp=0.416 yaw=-13.7 pitch=-6.6 roll=3.1
+08-18 23:59:29.789 D/FaceAntiSpoof(26368): CADENCE | gap=122ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:29.958 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.6 faceW=154 luma=125.7 sharp=0.320 yaw=-11.7 pitch=-6.3 roll=2.2
+08-18 23:59:29.958 D/FaceAntiSpoof(26368): CADENCE | gap=167ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:30.121 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.6 faceW=150 luma=128.0 sharp=0.502 yaw=-13.7 pitch=-7.1 roll=1.4
+08-18 23:59:30.121 D/FaceAntiSpoof(26368): CADENCE | gap=166ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:30.232 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.6 faceW=148 luma=128.8 sharp=0.310 yaw=-13.0 pitch=-6.4 roll=1.2
+08-18 23:59:30.232 D/FaceAntiSpoof(26368): CADENCE | gap=114ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:30.401 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.3 faceW=148 luma=130.2 sharp=0.380 yaw=-11.5 pitch=-3.7 roll=-0.2
+08-18 23:59:30.401 D/FaceAntiSpoof(26368): CADENCE | gap=162ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:30.537 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.9 faceW=146 luma=130.9 sharp=0.402 yaw=-12.2 pitch=-6.4 roll=-1.1
+08-18 23:59:30.537 D/FaceAntiSpoof(26368): CADENCE | gap=139ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:30.767 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.0 faceW=145 luma=132.5 sharp=0.345 yaw=-12.5 pitch=-6.1 roll=-1.0
+08-18 23:59:30.767 D/FaceAntiSpoof(26368): CADENCE | gap=233ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:30.880 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.1 faceW=144 luma=128.5 sharp=0.404 yaw=-13.4 pitch=-6.4 roll=-1.9
+08-18 23:59:30.880 D/FaceAntiSpoof(26368): CADENCE | gap=110ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:31.015 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.5 faceW=145 luma=128.8 sharp=0.410 yaw=-12.7 pitch=-7.2 roll=-1.9
+08-18 23:59:31.015 D/FaceAntiSpoof(26368): CADENCE | gap=134ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:31.298 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.0 faceW=149 luma=128.8 sharp=0.267 yaw=-12.3 pitch=-7.3 roll=0.1
+08-18 23:59:31.299 D/FaceAntiSpoof(26368): CADENCE | gap=283ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:31.413 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.7 faceW=151 luma=127.7 sharp=0.320 yaw=-12.8 pitch=-7.3 roll=1.2
+08-18 23:59:31.413 D/FaceAntiSpoof(26368): CADENCE | gap=115ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:31.537 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.1 faceW=149 luma=126.6 sharp=0.414 yaw=-13.0 pitch=-6.3 roll=1.4
+08-18 23:59:31.537 D/FaceAntiSpoof(26368): CADENCE | gap=130ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:31.809 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.0 faceW=141 luma=127.9 sharp=0.349 yaw=-12.9 pitch=-6.1 roll=1.0
+08-18 23:59:31.809 D/FaceAntiSpoof(26368): CADENCE | gap=271ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:31.967 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.1 faceW=141 luma=128.1 sharp=0.426 yaw=-14.0 pitch=-7.7 roll=0.9
+08-18 23:59:31.967 D/FaceAntiSpoof(26368): CADENCE | gap=152ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:32.107 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.3 faceW=141 luma=128.2 sharp=0.312 yaw=-12.8 pitch=-5.3 roll=0.5
+08-18 23:59:32.107 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:32.345 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.5 faceW=140 luma=127.8 sharp=0.534 yaw=-14.1 pitch=-6.7 roll=0.0
+08-18 23:59:32.345 D/FaceAntiSpoof(26368): CADENCE | gap=242ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:32.475 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.4 faceW=137 luma=127.8 sharp=0.277 yaw=-13.5 pitch=-8.6 roll=0.9
+08-18 23:59:32.475 D/FaceAntiSpoof(26368): CADENCE | gap=125ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:32.602 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.9 faceW=134 luma=127.6 sharp=0.421 yaw=-13.6 pitch=-7.3 roll=0.8
+08-18 23:59:32.602 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:32.844 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.8 faceW=130 luma=130.4 sharp=0.379 yaw=-13.4 pitch=-5.7 roll=0.8
+08-18 23:59:32.844 D/FaceAntiSpoof(26368): CADENCE | gap=248ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:33.021 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.7 faceW=132 luma=127.8 sharp=0.345 yaw=-2.2 pitch=-7.5 roll=-1.3
+08-18 23:59:33.021 D/FaceAntiSpoof(26368): CADENCE | gap=176ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:33.224 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[115.6,101.6,95.0] range=[27..254,29..255,28..255] signature=1947091917
+08-18 23:59:33.234 D/FaceAntiSpoof(26368): LOGITS: [-3.91, -2.69, 6.61] | PROBS: [c0=0.0000, c1(live)=0.0001, c2=0.9999] | argmax=2
+08-18 23:59:33.237 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[115.6,101.6,95.0] range=[27..254,29..255,28..255] signature=1947091917
+08-18 23:59:33.244 D/FaceAntiSpoof(26368): LOGITS: [-4.96, -3.12, 8.08] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:33.245 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0001 print=0.0000 replay=0.9999 attack=0.9999 margin=-0.9999 argmax=2
+08-18 23:59:33.253 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=0.9999/+1.35 PARALLAX=0.0065/+0.00 MOIRE=1.7793/+1.62 SPECULAR=0.0000/+0.00 CHROMA=26.1709/+2.00 BEZEL=0.7493/+0.00 | QUALITY eye=46.0 faceW=240 luma=130.5 sharp=0.186 yaw=-7.9 pitch=-12.4 roll=-1.5
+08-18 23:59:33.253 D/FaceAntiSpoof(26368): CADENCE | gap=178ms target=100ms inferMs=56 frame=480x640
+08-18 23:59:33.253 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=4.969 frame=+4.969 ticks=1 corroborating=3 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:34.041 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[107.9,93.1,88.4] range=[21..221,24..238,25..250] signature=-419265694
+08-18 23:59:34.053 D/FaceAntiSpoof(26368): LOGITS: [-3.94, -3.19, 7.14] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:34.056 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[107.9,93.1,88.4] range=[21..221,24..238,25..250] signature=-419265694
+08-18 23:59:34.066 D/FaceAntiSpoof(26368): LOGITS: [-6.19, -1.99, 8.19] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:34.066 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0000 print=0.0000 replay=1.0000 attack=1.0000 margin=-0.9999 argmax=2
+08-18 23:59:34.077 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=1.0000/+1.35 PARALLAX=-/- MOIRE=1.2666/+0.85 SPECULAR=0.0000/+0.00 CHROMA=18.7515/+1.22 BEZEL=0.5006/+0.00 | QUALITY eye=46.0 faceW=179 luma=123.5 sharp=0.175 yaw=-14.6 pitch=-9.5 roll=2.5
+08-18 23:59:34.077 D/FaceAntiSpoof(26368): CADENCE | gap=822ms target=100ms inferMs=59 frame=480x640
+08-18 23:59:34.077 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=3.415 frame=+3.415 ticks=1 corroborating=2 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:35.034 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[125.3,106.6,99.2] range=[29..221,29..227,23..237] signature=-1908701549
+08-18 23:59:35.041 D/FaceAntiSpoof(26368): LOGITS: [-3.67, -2.47, 6.15] | PROBS: [c0=0.0001, c1(live)=0.0002, c2=0.9998] | argmax=2
+08-18 23:59:35.044 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[112.0,96.4,90.5] range=[24..212,26..226,25..237] signature=-1842076309
+08-18 23:59:35.054 D/FaceAntiSpoof(26368): LOGITS: [-5.50, -3.13, 8.64] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:35.054 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0001 print=0.0000 replay=0.9999 attack=0.9999 margin=-0.9998 argmax=2
+08-18 23:59:35.063 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=0.9999/+1.35 PARALLAX=-/- MOIRE=1.2754/+0.86 SPECULAR=0.0000/+0.00 CHROMA=18.6416/+1.20 BEZEL=0.3760/+0.00 | QUALITY eye=45.3 faceW=162 luma=128.8 sharp=0.270 yaw=-12.4 pitch=-5.3 roll=2.0
+08-18 23:59:35.063 D/FaceAntiSpoof(26368): CADENCE | gap=1004ms target=100ms inferMs=41 frame=480x640
+08-18 23:59:35.064 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=3.408 frame=+3.408 ticks=1 corroborating=2 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:35.853 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.9 faceW=153 luma=131.0 sharp=0.349 yaw=-14.0 pitch=-6.2 roll=0.3
+08-18 23:59:35.853 D/FaceAntiSpoof(26368): CADENCE | gap=818ms target=100ms inferMs=13 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:36.128 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[130.1,109.2,100.0] range=[27..222,30..201,26..209] signature=-776703160
+08-18 23:59:36.135 D/FaceAntiSpoof(26368): LOGITS: [-4.47, -1.63, 6.09] | PROBS: [c0=0.0000, c1(live)=0.0004, c2=0.9995] | argmax=2
+08-18 23:59:36.138 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[112.0,97.3,91.6] range=[25..255,28..255,25..255] signature=-1454389746
+08-18 23:59:36.146 D/FaceAntiSpoof(26368): LOGITS: [-6.63, 0.44, 6.18] | PROBS: [c0=0.0000, c1(live)=0.0032, c2=0.9968] | argmax=2
+08-18 23:59:36.146 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0018 print=0.0000 replay=0.9982 attack=0.9982 margin=-0.9963 argmax=2
+08-18 23:59:36.154 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=0.9982/+1.34 PARALLAX=-/- MOIRE=1.1972/+0.75 SPECULAR=0.0000/+0.00 CHROMA=18.9463/+1.25 BEZEL=0.3567/+0.00 | QUALITY eye=44.2 faceW=154 luma=131.5 sharp=0.447 yaw=-12.6 pitch=-7.5 roll=0.1
+08-18 23:59:36.154 D/FaceAntiSpoof(26368): CADENCE | gap=276ms target=100ms inferMs=38 frame=480x640
+08-18 23:59:36.155 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=3.341 frame=+3.341 ticks=1 corroborating=2 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:36.949 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.8 faceW=155 luma=126.0 sharp=0.274 yaw=-12.9 pitch=-8.2 roll=2.9
+08-18 23:59:36.949 D/FaceAntiSpoof(26368): CADENCE | gap=827ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:37.152 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.6 faceW=146 luma=124.8 sharp=0.389 yaw=-13.7 pitch=-6.4 roll=2.8
+08-18 23:59:37.152 D/FaceAntiSpoof(26368): CADENCE | gap=201ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:37.272 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.6 faceW=142 luma=117.6 sharp=0.361 yaw=-6.1 pitch=-6.1 roll=0.0
+08-18 23:59:37.272 D/FaceAntiSpoof(26368): CADENCE | gap=124ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:37.436 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.4 faceW=142 luma=119.7 sharp=0.287 yaw=-6.5 pitch=-7.0 roll=-1.0
+08-18 23:59:37.436 D/FaceAntiSpoof(26368): CADENCE | gap=162ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:37.670 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.3 faceW=149 luma=129.0 sharp=0.360 yaw=-14.1 pitch=-7.1 roll=0.4
+08-18 23:59:37.670 D/FaceAntiSpoof(26368): CADENCE | gap=238ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:37.787 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.8 faceW=151 luma=129.2 sharp=0.203 yaw=-12.6 pitch=-6.7 roll=1.2
+08-18 23:59:37.787 D/FaceAntiSpoof(26368): CADENCE | gap=111ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:37.945 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.1 faceW=150 luma=128.4 sharp=0.465 yaw=-12.8 pitch=-6.4 roll=0.2
+08-18 23:59:37.945 D/FaceAntiSpoof(26368): CADENCE | gap=155ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:38.176 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.2 faceW=149 luma=129.0 sharp=0.401 yaw=-14.5 pitch=-7.7 roll=0.0
+08-18 23:59:38.176 D/FaceAntiSpoof(26368): CADENCE | gap=233ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:38.388 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.5 faceW=150 luma=128.5 sharp=0.616 yaw=-13.5 pitch=-7.4 roll=-0.0
+08-18 23:59:38.388 D/FaceAntiSpoof(26368): CADENCE | gap=211ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:38.526 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.4 faceW=150 luma=128.8 sharp=0.377 yaw=-12.7 pitch=-7.5 roll=-0.1
+08-18 23:59:38.526 D/FaceAntiSpoof(26368): CADENCE | gap=143ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:38.656 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.6 faceW=153 luma=129.1 sharp=0.398 yaw=-13.3 pitch=-4.7 roll=0.3
+08-18 23:59:38.656 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=13 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:38.802 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.3 faceW=153 luma=130.4 sharp=0.225 yaw=-13.4 pitch=-7.5 roll=1.4
+08-18 23:59:38.802 D/FaceAntiSpoof(26368): CADENCE | gap=154ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:39.028 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.1 faceW=147 luma=129.0 sharp=0.301 yaw=-13.0 pitch=-9.4 roll=1.8
+08-18 23:59:39.028 D/FaceAntiSpoof(26368): CADENCE | gap=230ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:39.180 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.2 faceW=148 luma=128.6 sharp=0.515 yaw=-13.4 pitch=-4.4 roll=1.8
+08-18 23:59:39.180 D/FaceAntiSpoof(26368): CADENCE | gap=146ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:39.320 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.9 faceW=148 luma=128.7 sharp=0.572 yaw=-13.7 pitch=-5.9 roll=1.5
+08-18 23:59:39.321 D/FaceAntiSpoof(26368): CADENCE | gap=137ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:39.424 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.0 faceW=148 luma=129.0 sharp=0.593 yaw=-13.7 pitch=-5.2 roll=1.3
+08-18 23:59:39.424 D/FaceAntiSpoof(26368): CADENCE | gap=113ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:39.593 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.8 faceW=148 luma=128.9 sharp=0.545 yaw=-14.1 pitch=-4.4 roll=1.2
+08-18 23:59:39.593 D/FaceAntiSpoof(26368): CADENCE | gap=160ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:39.734 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.2 faceW=152 luma=129.8 sharp=0.411 yaw=-14.4 pitch=-7.3 roll=1.1
+08-18 23:59:39.734 D/FaceAntiSpoof(26368): CADENCE | gap=146ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:39.874 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.2 faceW=152 luma=130.0 sharp=0.387 yaw=-13.8 pitch=-7.3 roll=1.1
+08-18 23:59:39.875 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:40.214 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=44.0 faceW=153 luma=129.3 sharp=0.446 yaw=-13.5 pitch=-7.1 roll=-0.5
+08-18 23:59:40.214 D/FaceAntiSpoof(26368): CADENCE | gap=341ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:40.416 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[126.0,105.6,97.7] range=[25..219,28..237,24..246] signature=1695882819
+08-18 23:59:40.422 D/FaceAntiSpoof(26368): LOGITS: [-4.41, -2.83, 7.25] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=0.9999] | argmax=2
+08-18 23:59:40.425 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[110.1,94.7,89.3] range=[23..255,27..255,25..255] signature=934469547
+08-18 23:59:40.431 D/FaceAntiSpoof(26368): LOGITS: [-5.75, -2.27, 8.02] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:40.431 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0000 print=0.0000 replay=1.0000 attack=1.0000 margin=-0.9999 argmax=2
+08-18 23:59:40.439 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=1.0000/+1.35 PARALLAX=0.0185/+0.00 MOIRE=1.0646/+0.55 SPECULAR=0.0000/+0.00 CHROMA=18.6679/+1.20 BEZEL=0.3553/+0.00 | QUALITY eye=45.2 faceW=158 luma=129.2 sharp=0.363 yaw=-14.0 pitch=-7.0 roll=0.4
+08-18 23:59:40.439 D/FaceAntiSpoof(26368): CADENCE | gap=183ms target=100ms inferMs=44 frame=480x640
+08-18 23:59:40.439 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=3.097 frame=+3.097 ticks=1 corroborating=2 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:41.251 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[130.7,113.0,104.1] range=[27..255,29..255,23..255] signature=1236147283
+08-18 23:59:41.269 D/FaceAntiSpoof(26368): LOGITS: [-3.90, -2.71, 6.61] | PROBS: [c0=0.0000, c1(live)=0.0001, c2=0.9999] | argmax=2
+08-18 23:59:41.273 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[118.9,105.4,97.5] range=[23..255,27..255,23..255] signature=-2007298624
+08-18 23:59:41.278 D/FaceAntiSpoof(26368): LOGITS: [-5.51, -2.06, 7.58] | PROBS: [c0=0.0000, c1(live)=0.0001, c2=0.9999] | argmax=2
+08-18 23:59:41.279 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0001 print=0.0000 replay=0.9999 attack=0.9999 margin=-0.9998 argmax=2
+08-18 23:59:41.286 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=0.9999/+1.35 PARALLAX=-/- MOIRE=1.7101/+1.52 SPECULAR=0.0000/+0.00 CHROMA=19.3975/+1.33 BEZEL=0.3642/+0.00 | QUALITY eye=44.9 faceW=157 luma=130.6 sharp=0.497 yaw=-13.8 pitch=-6.4 roll=-0.4
+08-18 23:59:41.286 D/FaceAntiSpoof(26368): CADENCE | gap=830ms target=100ms inferMs=62 frame=480x640
+08-18 23:59:41.287 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=4.196 frame=+4.196 ticks=1 corroborating=3 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:42.046 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[133.7,110.7,104.5] range=[25..255,28..255,23..255] signature=-1346100844
+08-18 23:59:42.057 D/FaceAntiSpoof(26368): LOGITS: [-3.93, -2.50, 6.44] | PROBS: [c0=0.0000, c1(live)=0.0001, c2=0.9998] | argmax=2
+08-18 23:59:42.060 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[111.8,96.3,91.9] range=[24..255,26..255,25..255] signature=1067360617
+08-18 23:59:42.073 D/FaceAntiSpoof(26368): LOGITS: [-5.58, -1.00, 6.57] | PROBS: [c0=0.0000, c1(live)=0.0005, c2=0.9995] | argmax=2
+08-18 23:59:42.073 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0003 print=0.0000 replay=0.9997 attack=0.9997 margin=-0.9993 argmax=2
+08-18 23:59:42.082 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=0.9997/+1.35 PARALLAX=-/- MOIRE=1.1582/+0.69 SPECULAR=0.0000/+0.00 CHROMA=20.9475/+1.61 BEZEL=0.0000/+0.00 | QUALITY eye=44.9 faceW=145 luma=121.6 sharp=0.282 yaw=-7.2 pitch=-8.4 roll=-3.1
+08-18 23:59:42.082 D/FaceAntiSpoof(26368): CADENCE | gap=807ms target=100ms inferMs=51 frame=480x640
+08-18 23:59:42.082 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=3.647 frame=+3.647 ticks=1 corroborating=2 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:42.858 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[123.5,105.7,97.0] range=[29..255,29..255,24..255] signature=690028394
+08-18 23:59:42.869 D/FaceAntiSpoof(26368): LOGITS: [-3.91, -3.81, 7.72] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:42.875 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[114.1,98.3,90.7] range=[24..255,26..255,25..255] signature=-1494711201
+08-18 23:59:42.882 D/FaceAntiSpoof(26368): LOGITS: [-6.32, -3.60, 9.92] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:42.882 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0000 print=0.0000 replay=1.0000 attack=1.0000 margin=-1.0000 argmax=2
+08-18 23:59:42.890 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=1.0000/+1.35 PARALLAX=-/- MOIRE=1.3504/+0.98 SPECULAR=0.0000/+0.00 CHROMA=18.6944/+1.20 BEZEL=0.4095/+0.00 | QUALITY eye=45.1 faceW=168 luma=128.9 sharp=0.315 yaw=-12.7 pitch=-6.1 roll=1.0
+08-18 23:59:42.890 D/FaceAntiSpoof(26368): CADENCE | gap=805ms target=100ms inferMs=54 frame=480x640
+08-18 23:59:42.890 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=3.531 frame=+3.531 ticks=1 corroborating=2 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:43.679 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.4 faceW=155 luma=123.9 sharp=0.202 yaw=-12.8 pitch=-6.7 roll=1.8
+08-18 23:59:43.679 D/FaceAntiSpoof(26368): CADENCE | gap=834ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:43.790 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.4 faceW=150 luma=127.7 sharp=0.574 yaw=-13.9 pitch=-7.3 roll=1.5
+08-18 23:59:43.790 D/FaceAntiSpoof(26368): CADENCE | gap=109ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:43.910 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.1 faceW=150 luma=129.6 sharp=0.575 yaw=-15.0 pitch=-7.5 roll=1.6
+08-18 23:59:43.910 D/FaceAntiSpoof(26368): CADENCE | gap=129ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:44.053 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.6 faceW=151 luma=129.5 sharp=0.378 yaw=-13.4 pitch=-7.2 roll=1.1
+08-18 23:59:44.054 D/FaceAntiSpoof(26368): CADENCE | gap=141ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:44.372 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.6 faceW=147 luma=130.6 sharp=0.346 yaw=-13.5 pitch=-6.3 roll=0.7
+08-18 23:59:44.372 D/FaceAntiSpoof(26368): CADENCE | gap=319ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:44.504 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.3 faceW=149 luma=131.3 sharp=0.525 yaw=-13.9 pitch=-7.4 roll=-0.0
+08-18 23:59:44.504 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:44.642 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.4 faceW=149 luma=128.2 sharp=0.407 yaw=-13.5 pitch=-6.2 roll=-0.2
+08-18 23:59:44.642 D/FaceAntiSpoof(26368): CADENCE | gap=141ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:44.807 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.6 faceW=154 luma=128.0 sharp=0.457 yaw=-13.8 pitch=-7.6 roll=-0.1
+08-18 23:59:44.807 D/FaceAntiSpoof(26368): CADENCE | gap=169ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:44.936 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.7 faceW=153 luma=127.9 sharp=0.441 yaw=-12.9 pitch=-8.2 roll=-0.5
+08-18 23:59:44.936 D/FaceAntiSpoof(26368): CADENCE | gap=125ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:45.056 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.9 faceW=155 luma=128.1 sharp=0.373 yaw=-12.9 pitch=-7.6 roll=-0.7
+08-18 23:59:45.056 D/FaceAntiSpoof(26368): CADENCE | gap=116ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:45.161 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.9 faceW=160 luma=131.3 sharp=0.162 yaw=-16.4 pitch=-8.1 roll=0.7
+08-18 23:59:45.161 D/FaceAntiSpoof(26368): CADENCE | gap=112ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:45.369 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[124.9,104.5,98.7] range=[25..254,27..255,19..255] signature=-1691065237
+08-18 23:59:45.381 D/FaceAntiSpoof(26368): LOGITS: [-4.57, -4.15, 8.73] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:45.384 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[110.0,93.5,89.7] range=[24..255,25..255,23..255] signature=2135427810
+08-18 23:59:45.394 D/FaceAntiSpoof(26368): LOGITS: [-4.70, -1.80, 6.50] | PROBS: [c0=0.0000, c1(live)=0.0002, c2=0.9997] | argmax=2
+08-18 23:59:45.395 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0001 print=0.0000 replay=0.9999 attack=0.9999 margin=-0.9997 argmax=2
+08-18 23:59:45.404 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=0.9999/+1.35 PARALLAX=0.0208/+0.00 MOIRE=1.1004/+0.60 SPECULAR=0.0000/+0.00 CHROMA=18.6488/+1.20 BEZEL=0.0000/+0.00 | QUALITY eye=45.9 faceW=161 luma=126.9 sharp=0.315 yaw=-13.1 pitch=-7.9 roll=0.6
+08-18 23:59:45.404 D/FaceAntiSpoof(26368): CADENCE | gap=194ms target=100ms inferMs=53 frame=480x640
+08-18 23:59:45.404 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=3.147 frame=+3.147 ticks=1 corroborating=2 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:46.252 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[125.6,106.4,97.4] range=[27..255,27..255,24..255] signature=2064918296
+08-18 23:59:46.262 D/FaceAntiSpoof(26368): LOGITS: [-4.17, -2.00, 6.17] | PROBS: [c0=0.0000, c1(live)=0.0003, c2=0.9997] | argmax=2
+08-18 23:59:46.265 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[110.9,95.1,87.8] range=[24..254,26..255,23..255] signature=927192374
+08-18 23:59:46.276 D/FaceAntiSpoof(26368): LOGITS: [-6.44, -2.45, 8.89] | PROBS: [c0=0.0000, c1(live)=0.0000, c2=1.0000] | argmax=2
+08-18 23:59:46.276 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.0001 print=0.0000 replay=0.9998 attack=0.9998 margin=-0.9997 argmax=2
+08-18 23:59:46.285 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=0.9998/+1.35 PARALLAX=-/- MOIRE=1.2370/+0.81 SPECULAR=0.0000/+0.00 CHROMA=18.7109/+1.21 BEZEL=0.3521/+0.00 | QUALITY eye=45.7 faceW=161 luma=126.8 sharp=0.196 yaw=-13.1 pitch=-6.9 roll=1.6
+08-18 23:59:46.285 D/FaceAntiSpoof(26368): CADENCE | gap=879ms target=100ms inferMs=55 frame=480x640
+08-18 23:59:46.286 D/FaceAntiSpoof(26368): FUSION | status=SPOOF_CONFIRMED total=3.363 frame=+3.363 ticks=1 corroborating=2 isLive=false strictness=STRICT accept=-4.5 reject=3.0
+08-18 23:59:47.059 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.8 faceW=153 luma=130.9 sharp=0.428 yaw=-13.9 pitch=-8.1 roll=-1.3
+08-18 23:59:47.059 D/FaceAntiSpoof(26368): CADENCE | gap=815ms target=100ms inferMs=14 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:47.198 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.3 faceW=151 luma=130.6 sharp=0.340 yaw=-13.6 pitch=-7.9 roll=-1.4
+08-18 23:59:47.198 D/FaceAntiSpoof(26368): CADENCE | gap=145ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:47.321 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.4 faceW=151 luma=130.6 sharp=0.487 yaw=-14.3 pitch=-8.0 roll=-1.1
+08-18 23:59:47.322 D/FaceAntiSpoof(26368): CADENCE | gap=125ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:47.572 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.3 faceW=149 luma=130.3 sharp=0.392 yaw=-13.6 pitch=-6.5 roll=-0.9
+08-18 23:59:47.572 D/FaceAntiSpoof(26368): CADENCE | gap=249ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:47.690 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.7 faceW=149 luma=129.3 sharp=0.404 yaw=-14.0 pitch=-6.2 roll=-0.8
+08-18 23:59:47.691 D/FaceAntiSpoof(26368): CADENCE | gap=118ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:47.812 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.1 faceW=148 luma=127.6 sharp=0.547 yaw=-14.1 pitch=-7.2 roll=-0.3
+08-18 23:59:47.812 D/FaceAntiSpoof(26368): CADENCE | gap=123ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:48.069 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.7 faceW=147 luma=127.6 sharp=0.425 yaw=-13.7 pitch=-8.1 roll=-0.0
+08-18 23:59:48.069 D/FaceAntiSpoof(26368): CADENCE | gap=261ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:48.203 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.3 faceW=146 luma=128.7 sharp=0.584 yaw=-14.1 pitch=-8.0 roll=0.2
+08-18 23:59:48.203 D/FaceAntiSpoof(26368): CADENCE | gap=127ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:48.337 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.6 faceW=146 luma=128.6 sharp=0.538 yaw=-14.5 pitch=-7.4 roll=-0.0
+08-18 23:59:48.337 D/FaceAntiSpoof(26368): CADENCE | gap=137ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:48.660 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.0 faceW=146 luma=127.4 sharp=0.517 yaw=-13.6 pitch=-5.8 roll=-0.3
+08-18 23:59:48.660 D/FaceAntiSpoof(26368): CADENCE | gap=323ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:49.433 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.9 faceW=124 luma=103.2 sharp=0.537 yaw=-8.6 pitch=6.7 roll=-6.7
+08-18 23:59:49.433 D/FaceAntiSpoof(26368): CADENCE | gap=770ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:49.582 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.0 faceW=114 luma=105.3 sharp=0.299 yaw=-6.5 pitch=11.7 roll=-5.5
+08-18 23:59:49.582 D/FaceAntiSpoof(26368): CADENCE | gap=157ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:49.729 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=128 luma=103.9 sharp=0.159 yaw=-6.7 pitch=10.0 roll=-6.4
+08-18 23:59:49.730 D/FaceAntiSpoof(26368): CADENCE | gap=140ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:49.878 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.8 faceW=118 luma=118.0 sharp=0.210 yaw=-6.3 pitch=9.6 roll=-4.6
+08-18 23:59:49.878 D/FaceAntiSpoof(26368): CADENCE | gap=153ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:49.997 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.3 faceW=181 luma=104.4 sharp=0.164 yaw=-6.4 pitch=8.4 roll=-3.1
+08-18 23:59:49.997 D/FaceAntiSpoof(26368): CADENCE | gap=114ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:50.200 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.2 faceW=109 luma=109.8 sharp=0.180 yaw=-6.4 pitch=16.2 roll=-3.5
+08-18 23:59:50.200 D/FaceAntiSpoof(26368): CADENCE | gap=205ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:50.325 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=30.9 faceW=98 luma=112.5 sharp=0.210 yaw=-5.9 pitch=9.6 roll=-1.2
+08-18 23:59:50.326 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:50.458 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.7 faceW=88 luma=111.3 sharp=0.218 yaw=-5.9 pitch=10.8 roll=-0.5
+08-18 23:59:50.458 D/FaceAntiSpoof(26368): CADENCE | gap=132ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:50.722 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.3 faceW=91 luma=110.3 sharp=0.192 yaw=-4.6 pitch=11.0 roll=-1.6
+08-18 23:59:50.723 D/FaceAntiSpoof(26368): CADENCE | gap=268ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:50.871 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.5 faceW=86 luma=112.1 sharp=0.242 yaw=-3.3 pitch=12.2 roll=-0.6
+08-18 23:59:50.871 D/FaceAntiSpoof(26368): CADENCE | gap=143ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:50.987 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.7 faceW=86 luma=111.5 sharp=0.335 yaw=-5.3 pitch=10.3 roll=-1.9
+08-18 23:59:50.987 D/FaceAntiSpoof(26368): CADENCE | gap=120ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:51.266 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.9 faceW=98 luma=103.6 sharp=0.431 yaw=-4.9 pitch=10.5 roll=-1.6
+08-18 23:59:51.266 D/FaceAntiSpoof(26368): CADENCE | gap=280ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:51.368 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=30.9 faceW=101 luma=107.5 sharp=0.281 yaw=-5.1 pitch=9.9 roll=-2.0
+08-18 23:59:51.368 D/FaceAntiSpoof(26368): CADENCE | gap=104ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:51.525 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.6 faceW=104 luma=106.1 sharp=0.356 yaw=-6.5 pitch=8.9 roll=-2.3
+08-18 23:59:51.525 D/FaceAntiSpoof(26368): CADENCE | gap=153ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:51.828 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.9 faceW=108 luma=105.5 sharp=0.297 yaw=-8.0 pitch=8.1 roll=-2.9
+08-18 23:59:51.829 D/FaceAntiSpoof(26368): CADENCE | gap=309ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:51.956 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.1 faceW=113 luma=106.3 sharp=0.152 yaw=-9.9 pitch=5.4 roll=-3.9
+08-18 23:59:51.956 D/FaceAntiSpoof(26368): CADENCE | gap=120ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:52.083 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.0 faceW=115 luma=108.7 sharp=0.270 yaw=-8.8 pitch=6.1 roll=-3.4
+08-18 23:59:52.083 D/FaceAntiSpoof(26368): CADENCE | gap=128ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:52.284 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.1 faceW=121 luma=106.5 sharp=0.308 yaw=-9.1 pitch=5.3 roll=-3.4
+08-18 23:59:52.284 D/FaceAntiSpoof(26368): CADENCE | gap=203ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:52.409 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.6 faceW=118 luma=106.8 sharp=0.292 yaw=-8.9 pitch=5.7 roll=-4.1
+08-18 23:59:52.409 D/FaceAntiSpoof(26368): CADENCE | gap=124ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:52.571 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.3 faceW=115 luma=107.8 sharp=0.225 yaw=-8.9 pitch=6.5 roll=-2.5
+08-18 23:59:52.571 D/FaceAntiSpoof(26368): CADENCE | gap=159ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:52.866 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.6 faceW=104 luma=104.8 sharp=0.369 yaw=-9.2 pitch=5.0 roll=-2.5
+08-18 23:59:52.866 D/FaceAntiSpoof(26368): CADENCE | gap=301ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:53.057 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.0 faceW=104 luma=104.3 sharp=0.357 yaw=-10.5 pitch=6.6 roll=-1.8
+08-18 23:59:53.057 D/FaceAntiSpoof(26368): CADENCE | gap=185ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:53.172 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.7 faceW=106 luma=107.9 sharp=0.370 yaw=-10.2 pitch=5.5 roll=-1.8
+08-18 23:59:53.172 D/FaceAntiSpoof(26368): CADENCE | gap=122ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:53.346 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.8 faceW=111 luma=108.3 sharp=0.345 yaw=-10.8 pitch=6.4 roll=-2.0
+08-18 23:59:53.346 D/FaceAntiSpoof(26368): CADENCE | gap=175ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:53.483 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.7 faceW=112 luma=108.1 sharp=0.439 yaw=-10.4 pitch=6.3 roll=-2.2
+08-18 23:59:53.483 D/FaceAntiSpoof(26368): CADENCE | gap=133ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:53.597 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.8 faceW=111 luma=105.6 sharp=0.292 yaw=-10.6 pitch=5.7 roll=-2.2
+08-18 23:59:53.597 D/FaceAntiSpoof(26368): CADENCE | gap=112ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:53.718 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.3 faceW=111 luma=105.8 sharp=0.304 yaw=-10.2 pitch=6.5 roll=-2.2
+08-18 23:59:53.718 D/FaceAntiSpoof(26368): CADENCE | gap=122ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:53.951 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.6 faceW=111 luma=105.5 sharp=0.347 yaw=-10.1 pitch=6.7 roll=-2.3
+08-18 23:59:53.951 D/FaceAntiSpoof(26368): CADENCE | gap=234ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:54.066 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.9 faceW=110 luma=106.8 sharp=0.408 yaw=-10.7 pitch=6.6 roll=-2.1
+08-18 23:59:54.066 D/FaceAntiSpoof(26368): CADENCE | gap=109ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:54.186 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.7 faceW=111 luma=106.8 sharp=0.300 yaw=-10.2 pitch=7.5 roll=-2.0
+08-18 23:59:54.186 D/FaceAntiSpoof(26368): CADENCE | gap=125ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:54.416 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.2 faceW=109 luma=106.8 sharp=0.370 yaw=-9.9 pitch=6.3 roll=-2.0
+08-18 23:59:54.417 D/FaceAntiSpoof(26368): CADENCE | gap=235ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:54.543 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.3 faceW=109 luma=106.3 sharp=0.341 yaw=-9.4 pitch=6.9 roll=-2.4
+08-18 23:59:54.543 D/FaceAntiSpoof(26368): CADENCE | gap=114ms target=100ms inferMs=15 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:54.694 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.3 faceW=111 luma=104.8 sharp=0.302 yaw=-7.7 pitch=5.7 roll=-3.1
+08-18 23:59:54.694 D/FaceAntiSpoof(26368): CADENCE | gap=152ms target=100ms inferMs=14 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:54.984 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.5 faceW=112 luma=106.3 sharp=0.234 yaw=-4.8 pitch=7.4 roll=-5.4
+08-18 23:59:54.984 D/FaceAntiSpoof(26368): CADENCE | gap=301ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:55.099 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.9 faceW=116 luma=99.3 sharp=0.313 yaw=-3.7 pitch=7.4 roll=-3.8
+08-18 23:59:55.099 D/FaceAntiSpoof(26368): CADENCE | gap=108ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:55.219 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.1 faceW=117 luma=103.5 sharp=0.241 yaw=-3.1 pitch=7.2 roll=-3.9
+08-18 23:59:55.219 D/FaceAntiSpoof(26368): CADENCE | gap=123ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:55.473 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.7 faceW=116 luma=104.6 sharp=0.260 yaw=-2.3 pitch=6.4 roll=-4.8
+08-18 23:59:55.473 D/FaceAntiSpoof(26368): CADENCE | gap=255ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:55.670 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.0 faceW=116 luma=107.5 sharp=0.241 yaw=-3.4 pitch=6.3 roll=-4.1
+08-18 23:59:55.671 D/FaceAntiSpoof(26368): CADENCE | gap=192ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:55.793 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.8 faceW=115 luma=107.4 sharp=0.207 yaw=-2.6 pitch=6.7 roll=-3.5
+08-18 23:59:55.794 D/FaceAntiSpoof(26368): CADENCE | gap=128ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:56.010 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.5 faceW=115 luma=103.4 sharp=0.288 yaw=-2.9 pitch=7.2 roll=-3.4
+08-18 23:59:56.010 D/FaceAntiSpoof(26368): CADENCE | gap=221ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:56.191 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.0 faceW=116 luma=104.8 sharp=0.333 yaw=-5.8 pitch=7.4 roll=-4.2
+08-18 23:59:56.191 D/FaceAntiSpoof(26368): CADENCE | gap=176ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:56.322 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.5 faceW=114 luma=113.8 sharp=0.197 yaw=-12.2 pitch=6.8 roll=-9.5
+08-18 23:59:56.322 D/FaceAntiSpoof(26368): CADENCE | gap=129ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:56.523 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=26.4 faceW=130 luma=136.4 sharp=0.476 yaw=-47.2 pitch=9.1 roll=-17.1
+08-18 23:59:56.523 D/FaceAntiSpoof(26368): CADENCE | gap=207ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:56.646 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=27.7 faceW=124 luma=139.1 sharp=0.445 yaw=-42.5 pitch=12.2 roll=-19.6
+08-18 23:59:56.647 D/FaceAntiSpoof(26368): CADENCE | gap=116ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:56.808 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=22.9 faceW=122 luma=134.8 sharp=0.490 yaw=-47.3 pitch=10.4 roll=-20.0
+08-18 23:59:56.808 D/FaceAntiSpoof(26368): CADENCE | gap=160ms target=100ms inferMs=13 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:56.909 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=24.4 faceW=122 luma=129.1 sharp=0.438 yaw=-45.8 pitch=10.9 roll=-20.3
+08-18 23:59:56.909 D/FaceAntiSpoof(26368): CADENCE | gap=101ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:57.144 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=30.8 faceW=113 luma=115.6 sharp=0.222 yaw=-25.5 pitch=4.2 roll=-17.9
+08-18 23:59:57.144 D/FaceAntiSpoof(26368): CADENCE | gap=244ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:57.253 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.0 faceW=114 luma=114.6 sharp=0.302 yaw=-13.8 pitch=10.6 roll=-12.4
+08-18 23:59:57.253 D/FaceAntiSpoof(26368): CADENCE | gap=106ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:57.371 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.4 faceW=114 luma=105.6 sharp=0.309 yaw=-8.0 pitch=12.6 roll=-9.7
+08-18 23:59:57.371 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:57.538 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.3 faceW=115 luma=98.6 sharp=0.179 yaw=-1.3 pitch=8.6 roll=-7.0
+08-18 23:59:57.538 D/FaceAntiSpoof(26368): CADENCE | gap=166ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:57.664 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.5 faceW=123 luma=100.1 sharp=0.201 yaw=-1.9 pitch=4.2 roll=-4.8
+08-18 23:59:57.664 D/FaceAntiSpoof(26368): CADENCE | gap=122ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:57.795 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.4 faceW=125 luma=100.1 sharp=0.255 yaw=2.1 pitch=2.4 roll=-4.4
+08-18 23:59:57.795 D/FaceAntiSpoof(26368): CADENCE | gap=129ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:57.931 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.6 faceW=127 luma=99.9 sharp=0.248 yaw=4.6 pitch=1.3 roll=-4.4
+08-18 23:59:57.931 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:58.181 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.5 faceW=124 luma=96.4 sharp=0.418 yaw=21.4 pitch=-3.1 roll=-2.5
+08-18 23:59:58.181 D/FaceAntiSpoof(26368): CADENCE | gap=251ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:58.409 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.5 faceW=122 luma=99.7 sharp=0.432 yaw=20.8 pitch=0.8 roll=-0.9
+08-18 23:59:58.409 D/FaceAntiSpoof(26368): CADENCE | gap=224ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:58.513 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.6 faceW=123 luma=101.4 sharp=0.295 yaw=16.0 pitch=-0.7 roll=-2.0
+08-18 23:59:58.513 D/FaceAntiSpoof(26368): CADENCE | gap=105ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:58.678 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.1 faceW=121 luma=98.9 sharp=0.261 yaw=12.1 pitch=1.1 roll=-1.3
+08-18 23:59:58.678 D/FaceAntiSpoof(26368): CADENCE | gap=168ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:58.804 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.9 faceW=120 luma=98.4 sharp=0.328 yaw=10.5 pitch=0.9 roll=-0.8
+08-18 23:59:58.804 D/FaceAntiSpoof(26368): CADENCE | gap=115ms target=100ms inferMs=13 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:58.956 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.4 faceW=119 luma=99.1 sharp=0.224 yaw=6.8 pitch=0.8 roll=-0.6
+08-18 23:59:58.956 D/FaceAntiSpoof(26368): CADENCE | gap=155ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:59.281 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.0 faceW=116 luma=99.7 sharp=0.213 yaw=3.0 pitch=0.9 roll=-0.2
+08-18 23:59:59.281 D/FaceAntiSpoof(26368): CADENCE | gap=332ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:59.451 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.2 faceW=107 luma=95.3 sharp=0.132 yaw=-4.4 pitch=-0.8 roll=-0.6
+08-18 23:59:59.451 D/FaceAntiSpoof(26368): CADENCE | gap=167ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:59.725 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.0 faceW=107 luma=94.2 sharp=0.209 yaw=-5.5 pitch=6.5 roll=2.3
+08-18 23:59:59.726 D/FaceAntiSpoof(26368): CADENCE | gap=279ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-18 23:59:59.906 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=31.5 faceW=102 luma=110.3 sharp=0.321 yaw=-8.0 pitch=7.0 roll=3.6
+08-18 23:59:59.906 D/FaceAntiSpoof(26368): CADENCE | gap=176ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:00.049 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=30.8 faceW=98 luma=112.1 sharp=0.275 yaw=-7.1 pitch=7.9 roll=4.4
+08-19 00:00:00.049 D/FaceAntiSpoof(26368): CADENCE | gap=139ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:00.286 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=29.7 faceW=89 luma=110.3 sharp=0.178 yaw=-6.8 pitch=7.5 roll=4.6
+08-19 00:00:00.286 D/FaceAntiSpoof(26368): CADENCE | gap=238ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:00.435 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=28.9 faceW=87 luma=108.0 sharp=0.277 yaw=-4.7 pitch=11.2 roll=3.8
+08-19 00:00:00.435 D/FaceAntiSpoof(26368): CADENCE | gap=146ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:00.554 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=28.9 faceW=85 luma=109.6 sharp=0.228 yaw=-3.4 pitch=11.8 roll=3.2
+08-19 00:00:00.554 D/FaceAntiSpoof(26368): CADENCE | gap=129ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:00.887 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=30.2 faceW=90 luma=107.6 sharp=0.263 yaw=-1.4 pitch=12.4 roll=2.1
+08-19 00:00:00.888 D/FaceAntiSpoof(26368): CADENCE | gap=324ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:01.070 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.0 faceW=93 luma=110.3 sharp=0.179 yaw=-3.4 pitch=13.0 roll=-1.8
+08-19 00:00:01.070 D/FaceAntiSpoof(26368): CADENCE | gap=193ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:01.299 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.4 faceW=113 luma=102.3 sharp=0.171 yaw=-3.2 pitch=11.4 roll=-2.1
+08-19 00:00:01.299 D/FaceAntiSpoof(26368): CADENCE | gap=229ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:01.434 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.2 faceW=118 luma=106.0 sharp=0.212 yaw=-4.3 pitch=11.5 roll=-2.0
+08-19 00:00:01.434 D/FaceAntiSpoof(26368): CADENCE | gap=135ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:01.541 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.1 faceW=117 luma=106.3 sharp=0.137 yaw=-3.7 pitch=12.9 roll=-2.8
+08-19 00:00:01.541 D/FaceAntiSpoof(26368): CADENCE | gap=104ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:01.727 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.3 faceW=115 luma=101.5 sharp=0.173 yaw=1.9 pitch=9.7 roll=-2.9
+08-19 00:00:01.727 D/FaceAntiSpoof(26368): CADENCE | gap=189ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:01.868 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.9 faceW=121 luma=102.4 sharp=0.255 yaw=4.5 pitch=5.4 roll=-8.4
+08-19 00:00:01.868 D/FaceAntiSpoof(26368): CADENCE | gap=137ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:01.996 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.4 faceW=122 luma=102.1 sharp=0.324 yaw=6.3 pitch=5.7 roll=-9.6
+08-19 00:00:01.996 D/FaceAntiSpoof(26368): CADENCE | gap=127ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:02.173 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.3 faceW=124 luma=97.5 sharp=0.275 yaw=5.2 pitch=4.7 roll=-10.2
+08-19 00:00:02.173 D/FaceAntiSpoof(26368): CADENCE | gap=178ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:02.413 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.6 faceW=120 luma=98.2 sharp=0.278 yaw=6.0 pitch=4.4 roll=-10.4
+08-19 00:00:02.413 D/FaceAntiSpoof(26368): CADENCE | gap=242ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:02.577 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.8 faceW=120 luma=102.3 sharp=0.293 yaw=9.2 pitch=4.3 roll=-12.1
+08-19 00:00:02.577 D/FaceAntiSpoof(26368): CADENCE | gap=161ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:02.715 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.1 faceW=120 luma=102.7 sharp=0.287 yaw=10.2 pitch=2.3 roll=-12.2
+08-19 00:00:02.715 D/FaceAntiSpoof(26368): CADENCE | gap=133ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:02.878 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.4 faceW=131 luma=104.2 sharp=0.148 yaw=8.3 pitch=2.0 roll=-11.9
+08-19 00:00:02.878 D/FaceAntiSpoof(26368): CADENCE | gap=170ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:03.006 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.9 faceW=125 luma=99.8 sharp=0.276 yaw=9.9 pitch=2.1 roll=-11.1
+08-19 00:00:03.007 D/FaceAntiSpoof(26368): CADENCE | gap=122ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:03.149 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=124 luma=103.6 sharp=0.195 yaw=6.2 pitch=4.2 roll=-8.4
+08-19 00:00:03.149 D/FaceAntiSpoof(26368): CADENCE | gap=144ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:03.295 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.6 faceW=121 luma=106.9 sharp=0.199 yaw=1.7 pitch=4.4 roll=-6.2
+08-19 00:00:03.295 D/FaceAntiSpoof(26368): CADENCE | gap=149ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:03.542 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.3 faceW=120 luma=99.5 sharp=0.264 yaw=-0.7 pitch=5.7 roll=-5.0
+08-19 00:00:03.542 D/FaceAntiSpoof(26368): CADENCE | gap=243ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:03.656 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.5 faceW=120 luma=100.9 sharp=0.206 yaw=-1.2 pitch=5.6 roll=-4.7
+08-19 00:00:03.657 D/FaceAntiSpoof(26368): CADENCE | gap=118ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:03.782 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.1 faceW=118 luma=101.0 sharp=0.231 yaw=-2.6 pitch=5.3 roll=-5.1
+08-19 00:00:03.782 D/FaceAntiSpoof(26368): CADENCE | gap=131ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:03.964 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.6 faceW=118 luma=102.8 sharp=0.332 yaw=-3.5 pitch=6.9 roll=-5.0
+08-19 00:00:03.964 D/FaceAntiSpoof(26368): CADENCE | gap=177ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:04.091 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.8 faceW=112 luma=102.1 sharp=0.324 yaw=-4.5 pitch=5.7 roll=-5.0
+08-19 00:00:04.091 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:04.221 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.9 faceW=112 luma=101.4 sharp=0.267 yaw=-5.1 pitch=6.0 roll=-4.1
+08-19 00:00:04.221 D/FaceAntiSpoof(26368): CADENCE | gap=134ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:04.363 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.9 faceW=110 luma=105.3 sharp=0.284 yaw=-5.3 pitch=6.9 roll=-4.4
+08-19 00:00:04.363 D/FaceAntiSpoof(26368): CADENCE | gap=138ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:04.613 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.3 faceW=113 luma=110.0 sharp=0.244 yaw=-5.7 pitch=7.1 roll=-5.1
+08-19 00:00:04.613 D/FaceAntiSpoof(26368): CADENCE | gap=256ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:04.740 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.0 faceW=116 luma=109.2 sharp=0.308 yaw=-4.7 pitch=7.2 roll=-5.4
+08-19 00:00:04.740 D/FaceAntiSpoof(26368): CADENCE | gap=120ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:04.881 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.1 faceW=116 luma=103.1 sharp=0.293 yaw=-4.2 pitch=8.1 roll=-5.9
+08-19 00:00:04.882 D/FaceAntiSpoof(26368): CADENCE | gap=143ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:05.103 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.4 faceW=122 luma=102.8 sharp=0.258 yaw=-3.6 pitch=7.8 roll=-5.8
+08-19 00:00:05.103 D/FaceAntiSpoof(26368): CADENCE | gap=218ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:05.228 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.7 faceW=123 luma=104.7 sharp=0.290 yaw=-3.8 pitch=8.6 roll=-5.4
+08-19 00:00:05.228 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=14 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:05.360 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.8 faceW=122 luma=106.8 sharp=0.312 yaw=-2.7 pitch=10.3 roll=-6.5
+08-19 00:00:05.360 D/FaceAntiSpoof(26368): CADENCE | gap=136ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:05.465 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.0 faceW=121 luma=104.7 sharp=0.288 yaw=-2.5 pitch=10.7 roll=-6.8
+08-19 00:00:05.465 D/FaceAntiSpoof(26368): CADENCE | gap=108ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:05.698 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.5 faceW=122 luma=104.3 sharp=0.275 yaw=-1.2 pitch=8.9 roll=-6.2
+08-19 00:00:05.698 D/FaceAntiSpoof(26368): CADENCE | gap=233ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:05.893 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.7 faceW=121 luma=109.2 sharp=0.198 yaw=-1.9 pitch=13.4 roll=-6.7
+08-19 00:00:05.893 D/FaceAntiSpoof(26368): CADENCE | gap=174ms target=100ms inferMs=28 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:05.967 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.3 faceW=122 luma=113.1 sharp=0.211 yaw=-1.6 pitch=12.8 roll=-7.1
+08-19 00:00:05.967 D/FaceAntiSpoof(26368): CADENCE | gap=101ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:06.275 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.9 faceW=114 luma=103.6 sharp=0.204 yaw=-1.3 pitch=9.4 roll=-6.4
+08-19 00:00:06.275 D/FaceAntiSpoof(26368): CADENCE | gap=307ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:06.407 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.1 faceW=112 luma=105.9 sharp=0.309 yaw=-3.0 pitch=8.1 roll=-4.4
+08-19 00:00:06.407 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:06.637 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.0 faceW=111 luma=110.6 sharp=0.140 yaw=-4.5 pitch=6.6 roll=-4.3
+08-19 00:00:06.637 D/FaceAntiSpoof(26368): CADENCE | gap=227ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:06.823 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.0 faceW=116 luma=108.2 sharp=0.228 yaw=-5.5 pitch=8.3 roll=-2.3
+08-19 00:00:06.823 D/FaceAntiSpoof(26368): CADENCE | gap=185ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:06.935 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.8 faceW=117 luma=108.2 sharp=0.234 yaw=-7.9 pitch=6.0 roll=-0.8
+08-19 00:00:06.935 D/FaceAntiSpoof(26368): CADENCE | gap=113ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:07.151 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.3 faceW=117 luma=109.5 sharp=0.197 yaw=-10.8 pitch=5.2 roll=-0.8
+08-19 00:00:07.151 D/FaceAntiSpoof(26368): CADENCE | gap=220ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:07.319 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.3 faceW=117 luma=103.4 sharp=0.319 yaw=-11.8 pitch=6.0 roll=-0.8
+08-19 00:00:07.319 D/FaceAntiSpoof(26368): CADENCE | gap=156ms target=100ms inferMs=19 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:07.522 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.8 faceW=117 luma=105.3 sharp=0.268 yaw=-11.6 pitch=5.3 roll=-0.7
+08-19 00:00:07.522 D/FaceAntiSpoof(26368): CADENCE | gap=213ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:07.651 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.0 faceW=116 luma=108.2 sharp=0.391 yaw=-11.9 pitch=6.2 roll=-1.4
+08-19 00:00:07.651 D/FaceAntiSpoof(26368): CADENCE | gap=137ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:07.842 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.1 faceW=124 luma=106.3 sharp=0.211 yaw=-8.5 pitch=5.2 roll=-1.4
+08-19 00:00:07.842 D/FaceAntiSpoof(26368): CADENCE | gap=191ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:07.992 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.6 faceW=116 luma=115.4 sharp=0.226 yaw=-7.2 pitch=8.1 roll=-0.6
+08-19 00:00:07.992 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:08.394 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.1 faceW=118 luma=114.5 sharp=0.349 yaw=-4.0 pitch=14.5 roll=-2.9
+08-19 00:00:08.394 D/FaceAntiSpoof(26368): CADENCE | gap=403ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:08.557 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.2 faceW=115 luma=107.6 sharp=0.304 yaw=-4.4 pitch=16.8 roll=-4.1
+08-19 00:00:08.557 D/FaceAntiSpoof(26368): CADENCE | gap=158ms target=100ms inferMs=13 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:09.065 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.2 faceW=110 luma=107.3 sharp=0.255 yaw=-2.1 pitch=15.1 roll=-5.8
+08-19 00:00:09.065 D/FaceAntiSpoof(26368): CADENCE | gap=514ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:09.252 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.2 faceW=119 luma=96.1 sharp=0.203 yaw=-0.3 pitch=-0.6 roll=-8.3
+08-19 00:00:09.252 D/FaceAntiSpoof(26368): CADENCE | gap=189ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:09.546 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.1 faceW=125 luma=95.2 sharp=0.298 yaw=-1.2 pitch=-3.4 roll=-6.4
+08-19 00:00:09.546 D/FaceAntiSpoof(26368): CADENCE | gap=288ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:09.716 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.7 faceW=127 luma=106.4 sharp=0.189 yaw=-7.2 pitch=-8.7 roll=-6.5
+08-19 00:00:09.716 D/FaceAntiSpoof(26368): CADENCE | gap=167ms target=100ms inferMs=13 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:09.828 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.9 faceW=119 luma=94.3 sharp=0.358 yaw=-24.5 pitch=-3.3 roll=-4.0
+08-19 00:00:09.828 D/FaceAntiSpoof(26368): CADENCE | gap=120ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:10.212 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=32.6 faceW=122 luma=106.5 sharp=0.401 yaw=-40.6 pitch=-0.2 roll=-2.7
+08-19 00:00:10.212 D/FaceAntiSpoof(26368): CADENCE | gap=383ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:10.409 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=33.0 faceW=127 luma=106.7 sharp=0.306 yaw=-40.7 pitch=-1.1 roll=-1.4
+08-19 00:00:10.410 D/FaceAntiSpoof(26368): CADENCE | gap=154ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:10.647 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.0 faceW=122 luma=101.1 sharp=0.402 yaw=-26.9 pitch=-2.6 roll=-1.0
+08-19 00:00:10.647 D/FaceAntiSpoof(26368): CADENCE | gap=277ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:10.806 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.4 faceW=131 luma=89.5 sharp=0.218 yaw=-8.0 pitch=-8.1 roll=-1.3
+08-19 00:00:10.806 D/FaceAntiSpoof(26368): CADENCE | gap=161ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:11.417 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.2 faceW=124 luma=95.6 sharp=0.436 yaw=-4.9 pitch=-16.5 roll=-1.5
+08-19 00:00:11.417 D/FaceAntiSpoof(26368): CADENCE | gap=619ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:11.666 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.0 faceW=127 luma=96.8 sharp=0.289 yaw=-9.2 pitch=-7.5 roll=-1.3
+08-19 00:00:11.666 D/FaceAntiSpoof(26368): CADENCE | gap=249ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:11.785 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.2 faceW=124 luma=106.8 sharp=0.264 yaw=-7.6 pitch=-0.2 roll=-3.2
+08-19 00:00:11.785 D/FaceAntiSpoof(26368): CADENCE | gap=113ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:11.944 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.1 faceW=124 luma=101.9 sharp=0.315 yaw=-4.6 pitch=1.1 roll=-3.7
+08-19 00:00:11.944 D/FaceAntiSpoof(26368): CADENCE | gap=165ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:12.049 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.9 faceW=123 luma=102.5 sharp=0.220 yaw=-2.7 pitch=2.9 roll=-4.3
+08-19 00:00:12.049 D/FaceAntiSpoof(26368): CADENCE | gap=103ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:12.416 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.1 faceW=126 luma=108.9 sharp=0.269 yaw=-1.7 pitch=5.7 roll=-4.8
+08-19 00:00:12.416 D/FaceAntiSpoof(26368): CADENCE | gap=363ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:12.516 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=123 luma=108.0 sharp=0.251 yaw=-2.0 pitch=10.9 roll=-4.1
+08-19 00:00:12.516 D/FaceAntiSpoof(26368): CADENCE | gap=102ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:12.641 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.6 faceW=121 luma=107.8 sharp=0.255 yaw=-2.4 pitch=11.2 roll=-4.8
+08-19 00:00:12.641 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:12.780 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.3 faceW=119 luma=104.2 sharp=0.248 yaw=-2.5 pitch=11.2 roll=-4.7
+08-19 00:00:12.781 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:12.946 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.5 faceW=119 luma=104.0 sharp=0.288 yaw=-3.0 pitch=10.0 roll=-4.7
+08-19 00:00:12.946 D/FaceAntiSpoof(26368): CADENCE | gap=166ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:13.076 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.9 faceW=121 luma=103.5 sharp=0.253 yaw=-3.8 pitch=9.4 roll=-4.7
+08-19 00:00:13.076 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:13.370 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.1 faceW=123 luma=102.9 sharp=0.352 yaw=-4.6 pitch=7.1 roll=-4.0
+08-19 00:00:13.370 D/FaceAntiSpoof(26368): CADENCE | gap=291ms target=100ms inferMs=13 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:13.470 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=124 luma=100.5 sharp=0.309 yaw=-4.1 pitch=6.0 roll=-3.8
+08-19 00:00:13.471 D/FaceAntiSpoof(26368): CADENCE | gap=112ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:13.660 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.0 faceW=126 luma=107.1 sharp=0.291 yaw=-2.8 pitch=7.8 roll=-4.6
+08-19 00:00:13.660 D/FaceAntiSpoof(26368): CADENCE | gap=183ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:13.917 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.1 faceW=127 luma=100.9 sharp=0.283 yaw=-2.7 pitch=9.3 roll=-3.9
+08-19 00:00:13.917 D/FaceAntiSpoof(26368): CADENCE | gap=263ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:14.127 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.2 faceW=126 luma=103.5 sharp=0.350 yaw=-2.8 pitch=7.7 roll=-3.5
+08-19 00:00:14.127 D/FaceAntiSpoof(26368): CADENCE | gap=203ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:14.402 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.3 faceW=120 luma=106.6 sharp=0.410 yaw=-2.0 pitch=7.0 roll=-3.4
+08-19 00:00:14.402 D/FaceAntiSpoof(26368): CADENCE | gap=278ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:14.529 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.0 faceW=119 luma=109.5 sharp=0.261 yaw=-3.3 pitch=6.6 roll=-3.8
+08-19 00:00:14.529 D/FaceAntiSpoof(26368): CADENCE | gap=125ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:14.672 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.8 faceW=118 luma=106.1 sharp=0.281 yaw=-4.2 pitch=6.6 roll=-3.9
+08-19 00:00:14.672 D/FaceAntiSpoof(26368): CADENCE | gap=148ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:14.894 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.3 faceW=122 luma=105.1 sharp=0.251 yaw=-4.4 pitch=6.4 roll=-3.7
+08-19 00:00:14.894 D/FaceAntiSpoof(26368): CADENCE | gap=217ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:15.034 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.2 faceW=121 luma=107.8 sharp=0.208 yaw=-4.1 pitch=8.3 roll=-4.6
+08-19 00:00:15.034 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:15.162 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.2 faceW=121 luma=104.5 sharp=0.262 yaw=-4.7 pitch=9.9 roll=-4.6
+08-19 00:00:15.162 D/FaceAntiSpoof(26368): CADENCE | gap=127ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:15.468 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.9 faceW=120 luma=104.1 sharp=0.371 yaw=-4.7 pitch=9.4 roll=-3.9
+08-19 00:00:15.469 D/FaceAntiSpoof(26368): CADENCE | gap=307ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:15.592 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.5 faceW=120 luma=106.1 sharp=0.288 yaw=-4.2 pitch=9.1 roll=-3.0
+08-19 00:00:15.592 D/FaceAntiSpoof(26368): CADENCE | gap=128ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:15.739 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.5 faceW=119 luma=103.9 sharp=0.224 yaw=-4.5 pitch=9.3 roll=-2.6
+08-19 00:00:15.740 D/FaceAntiSpoof(26368): CADENCE | gap=144ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:15.926 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.9 faceW=119 luma=101.8 sharp=0.204 yaw=-4.6 pitch=9.6 roll=-3.4
+08-19 00:00:15.926 D/FaceAntiSpoof(26368): CADENCE | gap=191ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:16.035 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.6 faceW=122 luma=100.5 sharp=0.209 yaw=-4.7 pitch=10.4 roll=-3.7
+08-19 00:00:16.035 D/FaceAntiSpoof(26368): CADENCE | gap=109ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:16.177 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.4 faceW=118 luma=83.8 sharp=0.206 yaw=-4.6 pitch=8.5 roll=-3.0
+08-19 00:00:16.177 D/FaceAntiSpoof(26368): CADENCE | gap=141ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:16.307 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.9 faceW=108 luma=75.6 sharp=0.267 yaw=-8.5 pitch=10.6 roll=-1.6
+08-19 00:00:16.307 D/FaceAntiSpoof(26368): CADENCE | gap=124ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:16.639 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.2 faceW=130 luma=78.5 sharp=0.327 yaw=-7.8 pitch=10.1 roll=-1.4
+08-19 00:00:16.639 D/FaceAntiSpoof(26368): CADENCE | gap=330ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:16.843 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.5 faceW=130 luma=82.8 sharp=0.285 yaw=-8.8 pitch=10.0 roll=-1.1
+08-19 00:00:16.843 D/FaceAntiSpoof(26368): CADENCE | gap=206ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:17.015 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.3 faceW=125 luma=84.4 sharp=0.298 yaw=-8.0 pitch=11.2 roll=0.3
+08-19 00:00:17.015 D/FaceAntiSpoof(26368): CADENCE | gap=173ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:17.121 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.9 faceW=133 luma=105.6 sharp=0.111 yaw=-4.5 pitch=6.9 roll=-1.1
+08-19 00:00:17.121 D/FaceAntiSpoof(26368): CADENCE | gap=105ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:17.261 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.6 faceW=117 luma=108.1 sharp=0.129 yaw=-3.9 pitch=5.2 roll=-1.3
+08-19 00:00:17.261 D/FaceAntiSpoof(26368): CADENCE | gap=140ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:17.373 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.4 faceW=117 luma=120.1 sharp=0.133 yaw=-6.6 pitch=5.3 roll=-2.2
+08-19 00:00:17.373 D/FaceAntiSpoof(26368): CADENCE | gap=109ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:17.637 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.1 faceW=123 luma=111.1 sharp=0.186 yaw=-6.5 pitch=7.8 roll=-2.4
+08-19 00:00:17.637 D/FaceAntiSpoof(26368): CADENCE | gap=262ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:17.752 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.2 faceW=130 luma=104.7 sharp=0.258 yaw=-6.1 pitch=8.4 roll=-3.1
+08-19 00:00:17.752 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:17.909 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.2 faceW=132 luma=107.7 sharp=0.208 yaw=-6.4 pitch=8.0 roll=-4.6
+08-19 00:00:17.909 D/FaceAntiSpoof(26368): CADENCE | gap=152ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:18.126 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.7 faceW=125 luma=104.1 sharp=0.228 yaw=-4.7 pitch=8.1 roll=-5.9
+08-19 00:00:18.128 D/FaceAntiSpoof(26368): CADENCE | gap=222ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:18.262 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.4 faceW=123 luma=98.5 sharp=0.211 yaw=-6.1 pitch=9.8 roll=-5.2
+08-19 00:00:18.262 D/FaceAntiSpoof(26368): CADENCE | gap=136ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:18.381 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.8 faceW=121 luma=97.5 sharp=0.192 yaw=-5.5 pitch=9.7 roll=-5.2
+08-19 00:00:18.381 D/FaceAntiSpoof(26368): CADENCE | gap=111ms target=100ms inferMs=15 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:18.650 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.0 faceW=124 luma=104.7 sharp=0.268 yaw=-4.2 pitch=11.3 roll=-2.0
+08-19 00:00:18.650 D/FaceAntiSpoof(26368): CADENCE | gap=273ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:18.775 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.1 faceW=123 luma=109.2 sharp=0.263 yaw=-4.3 pitch=10.6 roll=-0.8
+08-19 00:00:18.775 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:18.899 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=34.8 faceW=117 luma=110.1 sharp=0.182 yaw=-5.6 pitch=9.8 roll=0.8
+08-19 00:00:18.899 D/FaceAntiSpoof(26368): CADENCE | gap=124ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:19.175 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.8 faceW=115 luma=104.9 sharp=0.321 yaw=-5.3 pitch=9.2 roll=1.1
+08-19 00:00:19.175 D/FaceAntiSpoof(26368): CADENCE | gap=281ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:19.313 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.7 faceW=115 luma=105.1 sharp=0.141 yaw=-3.1 pitch=7.4 roll=0.1
+08-19 00:00:19.313 D/FaceAntiSpoof(26368): CADENCE | gap=135ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:19.456 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.8 faceW=188 luma=106.4 sharp=0.196 yaw=-5.8 pitch=10.7 roll=-0.0
+08-19 00:00:19.456 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:19.835 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.6 faceW=119 luma=113.1 sharp=0.261 yaw=-2.9 pitch=7.8 roll=0.7
+08-19 00:00:19.835 D/FaceAntiSpoof(26368): CADENCE | gap=388ms target=100ms inferMs=16 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:20.086 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.8 faceW=123 luma=109.9 sharp=0.242 yaw=-3.1 pitch=7.4 roll=0.3
+08-19 00:00:20.086 D/FaceAntiSpoof(26368): CADENCE | gap=264ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:20.260 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.5 faceW=124 luma=108.0 sharp=0.269 yaw=-2.2 pitch=8.6 roll=-0.2
+08-19 00:00:20.260 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=54 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:20.361 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.9 faceW=125 luma=107.7 sharp=0.316 yaw=-2.9 pitch=8.6 roll=-0.4
+08-19 00:00:20.361 D/FaceAntiSpoof(26368): CADENCE | gap=148ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:20.488 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.8 faceW=125 luma=110.1 sharp=0.173 yaw=-2.5 pitch=7.7 roll=-2.0
+08-19 00:00:20.489 D/FaceAntiSpoof(26368): CADENCE | gap=133ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:20.715 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.5 faceW=128 luma=104.5 sharp=0.151 yaw=-0.1 pitch=5.4 roll=-8.2
+08-19 00:00:20.717 D/FaceAntiSpoof(26368): CADENCE | gap=222ms target=100ms inferMs=11 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:20.963 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.3 faceW=126 luma=106.6 sharp=0.138 yaw=1.6 pitch=5.5 roll=-8.4
+08-19 00:00:20.963 D/FaceAntiSpoof(26368): CADENCE | gap=249ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:21.097 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.3 faceW=103 luma=62.9 sharp=0.206 yaw=-12.1 pitch=6.0 roll=-2.2
+08-19 00:00:21.097 D/FaceAntiSpoof(26368): CADENCE | gap=136ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:21.216 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=27.7 faceW=79 luma=69.5 sharp=0.455 yaw=24.5 pitch=1.9 roll=10.8
+08-19 00:00:21.217 D/FaceAntiSpoof(26368): CADENCE | gap=119ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:21.359 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.6 faceW=133 luma=74.6 sharp=0.226 yaw=-3.7 pitch=9.6 roll=-1.3
+08-19 00:00:21.359 D/FaceAntiSpoof(26368): CADENCE | gap=142ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:21.497 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.8 faceW=132 luma=82.5 sharp=0.274 yaw=-4.9 pitch=9.5 roll=-1.9
+08-19 00:00:21.498 D/FaceAntiSpoof(26368): CADENCE | gap=138ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:21.688 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.3 faceW=132 luma=85.2 sharp=0.323 yaw=-5.2 pitch=9.7 roll=-1.4
+08-19 00:00:21.688 D/FaceAntiSpoof(26368): CADENCE | gap=184ms target=100ms inferMs=14 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:22.032 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.2 faceW=128 luma=89.4 sharp=0.319 yaw=-6.3 pitch=9.1 roll=-1.1
+08-19 00:00:22.032 D/FaceAntiSpoof(26368): CADENCE | gap=351ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:22.209 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.7 faceW=199 luma=88.7 sharp=0.275 yaw=-5.9 pitch=10.8 roll=-0.4
+08-19 00:00:22.209 D/FaceAntiSpoof(26368): CADENCE | gap=177ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:22.311 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.3 faceW=134 luma=98.2 sharp=0.231 yaw=-5.0 pitch=8.7 roll=0.7
+08-19 00:00:22.312 D/FaceAntiSpoof(26368): CADENCE | gap=102ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:22.481 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.2 faceW=134 luma=97.0 sharp=0.280 yaw=-4.9 pitch=9.2 roll=0.1
+08-19 00:00:22.481 D/FaceAntiSpoof(26368): CADENCE | gap=165ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:22.727 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.0 faceW=132 luma=98.0 sharp=0.226 yaw=-3.6 pitch=9.9 roll=-0.3
+08-19 00:00:22.727 D/FaceAntiSpoof(26368): CADENCE | gap=247ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:22.915 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.9 faceW=123 luma=116.0 sharp=0.204 yaw=-3.1 pitch=8.1 roll=-2.4
+08-19 00:00:22.916 D/FaceAntiSpoof(26368): CADENCE | gap=186ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:23.223 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.7 faceW=124 luma=105.4 sharp=0.170 yaw=-4.7 pitch=7.5 roll=-5.2
+08-19 00:00:23.223 D/FaceAntiSpoof(26368): CADENCE | gap=315ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:23.408 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.1 faceW=125 luma=105.4 sharp=0.239 yaw=-3.9 pitch=7.5 roll=-5.5
+08-19 00:00:23.408 D/FaceAntiSpoof(26368): CADENCE | gap=175ms target=100ms inferMs=16 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:23.609 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.1 faceW=129 luma=105.1 sharp=0.180 yaw=-2.9 pitch=6.9 roll=-6.0
+08-19 00:00:23.609 D/FaceAntiSpoof(26368): CADENCE | gap=208ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:23.756 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.3 faceW=118 luma=109.0 sharp=0.307 yaw=-3.1 pitch=7.5 roll=-3.1
+08-19 00:00:23.756 D/FaceAntiSpoof(26368): CADENCE | gap=150ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:23.892 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.6 faceW=119 luma=107.8 sharp=0.273 yaw=-2.4 pitch=7.0 roll=-3.4
+08-19 00:00:23.892 D/FaceAntiSpoof(26368): CADENCE | gap=133ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:23.992 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.5 faceW=118 luma=108.6 sharp=0.348 yaw=-2.6 pitch=7.0 roll=-3.0
+08-19 00:00:23.992 D/FaceAntiSpoof(26368): CADENCE | gap=106ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:24.126 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.1 faceW=124 luma=104.5 sharp=0.303 yaw=-2.8 pitch=8.5 roll=-2.9
+08-19 00:00:24.126 D/FaceAntiSpoof(26368): CADENCE | gap=134ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:24.270 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.3 faceW=124 luma=104.2 sharp=0.377 yaw=-3.2 pitch=7.3 roll=-2.8
+08-19 00:00:24.271 D/FaceAntiSpoof(26368): CADENCE | gap=141ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:24.391 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.6 faceW=125 luma=103.9 sharp=0.335 yaw=-3.0 pitch=7.6 roll=-2.5
+08-19 00:00:24.391 D/FaceAntiSpoof(26368): CADENCE | gap=124ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:24.507 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.8 faceW=123 luma=106.4 sharp=0.250 yaw=-2.7 pitch=8.4 roll=-3.0
+08-19 00:00:24.507 D/FaceAntiSpoof(26368): CADENCE | gap=113ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:24.617 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.2 faceW=123 luma=106.9 sharp=0.217 yaw=-1.9 pitch=7.9 roll=-3.7
+08-19 00:00:24.617 D/FaceAntiSpoof(26368): CADENCE | gap=111ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:24.719 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.8 faceW=122 luma=106.2 sharp=0.194 yaw=-2.7 pitch=6.8 roll=-4.5
+08-19 00:00:24.719 D/FaceAntiSpoof(26368): CADENCE | gap=100ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:24.981 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.9 faceW=109 luma=120.1 sharp=0.128 yaw=-2.1 pitch=5.8 roll=-5.9
+08-19 00:00:24.981 D/FaceAntiSpoof(26368): CADENCE | gap=260ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:25.184 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.8 faceW=115 luma=101.2 sharp=0.239 yaw=-2.7 pitch=9.2 roll=-5.2
+08-19 00:00:25.184 D/FaceAntiSpoof(26368): CADENCE | gap=207ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:25.293 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.3 faceW=113 luma=102.9 sharp=0.253 yaw=-2.3 pitch=10.2 roll=-4.7
+08-19 00:00:25.293 D/FaceAntiSpoof(26368): CADENCE | gap=105ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:25.461 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.5 faceW=113 luma=107.1 sharp=0.270 yaw=-2.5 pitch=10.3 roll=-4.6
+08-19 00:00:25.461 D/FaceAntiSpoof(26368): CADENCE | gap=173ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:25.649 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=35.8 faceW=119 luma=110.5 sharp=0.208 yaw=-2.3 pitch=9.3 roll=-4.5
+08-19 00:00:25.649 D/FaceAntiSpoof(26368): CADENCE | gap=188ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:25.762 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.3 faceW=120 luma=107.8 sharp=0.280 yaw=-2.5 pitch=9.8 roll=-5.1
+08-19 00:00:25.762 D/FaceAntiSpoof(26368): CADENCE | gap=112ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:25.997 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.3 faceW=119 luma=108.7 sharp=0.193 yaw=-1.6 pitch=9.2 roll=-6.5
+08-19 00:00:25.997 D/FaceAntiSpoof(26368): CADENCE | gap=231ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:26.201 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.9 faceW=130 luma=108.6 sharp=0.234 yaw=-0.9 pitch=9.0 roll=-6.2
+08-19 00:00:26.201 D/FaceAntiSpoof(26368): CADENCE | gap=211ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:26.376 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.8 faceW=128 luma=108.6 sharp=0.261 yaw=-1.0 pitch=10.3 roll=-5.7
+08-19 00:00:26.376 D/FaceAntiSpoof(26368): CADENCE | gap=169ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:26.501 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.3 faceW=131 luma=111.0 sharp=0.171 yaw=-0.9 pitch=8.8 roll=-6.8
+08-19 00:00:26.502 D/FaceAntiSpoof(26368): CADENCE | gap=130ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:26.671 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.1 faceW=123 luma=102.1 sharp=0.195 yaw=-0.9 pitch=9.1 roll=-7.4
+08-19 00:00:26.671 D/FaceAntiSpoof(26368): CADENCE | gap=160ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:26.786 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.1 faceW=125 luma=100.8 sharp=0.307 yaw=-1.0 pitch=9.2 roll=-7.7
+08-19 00:00:26.786 D/FaceAntiSpoof(26368): CADENCE | gap=126ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:26.912 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.2 faceW=126 luma=99.0 sharp=0.274 yaw=-1.2 pitch=9.3 roll=-7.3
+08-19 00:00:26.912 D/FaceAntiSpoof(26368): CADENCE | gap=120ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:27.096 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.9 faceW=124 luma=101.1 sharp=0.238 yaw=-1.8 pitch=8.0 roll=-8.2
+08-19 00:00:27.096 D/FaceAntiSpoof(26368): CADENCE | gap=177ms target=100ms inferMs=14 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:27.232 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=122 luma=106.0 sharp=0.195 yaw=-0.3 pitch=8.5 roll=-6.7
+08-19 00:00:27.232 D/FaceAntiSpoof(26368): CADENCE | gap=149ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:27.428 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.5 faceW=118 luma=107.1 sharp=0.244 yaw=-0.7 pitch=9.2 roll=-6.0
+08-19 00:00:27.428 D/FaceAntiSpoof(26368): CADENCE | gap=195ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:27.550 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.7 faceW=117 luma=107.5 sharp=0.232 yaw=-1.0 pitch=8.6 roll=-5.2
+08-19 00:00:27.550 D/FaceAntiSpoof(26368): CADENCE | gap=116ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:27.686 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=37.4 faceW=116 luma=107.8 sharp=0.260 yaw=-0.6 pitch=8.3 roll=-4.5
+08-19 00:00:27.686 D/FaceAntiSpoof(26368): CADENCE | gap=140ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:27.851 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.3 faceW=115 luma=105.9 sharp=0.196 yaw=-0.6 pitch=10.5 roll=-4.6
+08-19 00:00:27.852 D/FaceAntiSpoof(26368): CADENCE | gap=163ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:28.012 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.2 faceW=114 luma=104.7 sharp=0.259 yaw=-1.3 pitch=8.8 roll=-5.3
+08-19 00:00:28.012 D/FaceAntiSpoof(26368): CADENCE | gap=161ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:28.166 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.9 faceW=114 luma=102.9 sharp=0.302 yaw=-1.9 pitch=10.1 roll=-5.1
+08-19 00:00:28.167 D/FaceAntiSpoof(26368): CADENCE | gap=155ms target=100ms inferMs=5 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:28.314 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=36.9 faceW=120 luma=101.0 sharp=0.314 yaw=-1.5 pitch=10.6 roll=-5.4
+08-19 00:00:28.315 D/FaceAntiSpoof(26368): CADENCE | gap=152ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:28.441 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.0 faceW=121 luma=104.3 sharp=0.240 yaw=-1.4 pitch=10.3 roll=-6.2
+08-19 00:00:28.441 D/FaceAntiSpoof(26368): CADENCE | gap=122ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:28.591 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.2 faceW=124 luma=104.4 sharp=0.300 yaw=-1.1 pitch=10.3 roll=-6.3
+08-19 00:00:28.591 D/FaceAntiSpoof(26368): CADENCE | gap=146ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:28.759 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.2 faceW=122 luma=108.8 sharp=0.274 yaw=-1.1 pitch=8.3 roll=-6.9
+08-19 00:00:28.759 D/FaceAntiSpoof(26368): CADENCE | gap=177ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:28.901 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.3 faceW=124 luma=108.2 sharp=0.236 yaw=0.0 pitch=8.4 roll=-7.3
+08-19 00:00:28.901 D/FaceAntiSpoof(26368): CADENCE | gap=133ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:29.006 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.8 faceW=125 luma=107.5 sharp=0.276 yaw=0.3 pitch=8.6 roll=-7.8
+08-19 00:00:29.006 D/FaceAntiSpoof(26368): CADENCE | gap=108ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:29.333 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.3 faceW=133 luma=105.6 sharp=0.230 yaw=0.1 pitch=9.1 roll=-7.8
+08-19 00:00:29.333 D/FaceAntiSpoof(26368): CADENCE | gap=332ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:29.477 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.1 faceW=135 luma=103.6 sharp=0.248 yaw=0.5 pitch=7.6 roll=-7.9
+08-19 00:00:29.477 D/FaceAntiSpoof(26368): CADENCE | gap=140ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:29.631 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.6 faceW=135 luma=103.8 sharp=0.259 yaw=0.7 pitch=8.4 roll=-7.3
+08-19 00:00:29.631 D/FaceAntiSpoof(26368): CADENCE | gap=151ms target=100ms inferMs=9 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:29.780 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.0 faceW=133 luma=106.0 sharp=0.315 yaw=0.3 pitch=8.5 roll=-7.3
+08-19 00:00:29.780 D/FaceAntiSpoof(26368): CADENCE | gap=157ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:29.892 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.3 faceW=132 luma=104.8 sharp=0.266 yaw=1.1 pitch=8.6 roll=-7.1
+08-19 00:00:29.892 D/FaceAntiSpoof(26368): CADENCE | gap=106ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:30.020 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.0 faceW=133 luma=108.9 sharp=0.320 yaw=0.6 pitch=9.9 roll=-6.8
+08-19 00:00:30.020 D/FaceAntiSpoof(26368): CADENCE | gap=129ms target=100ms inferMs=6 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:30.159 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.7 faceW=133 luma=108.6 sharp=0.235 yaw=0.8 pitch=8.1 roll=-6.5
+08-19 00:00:30.159 D/FaceAntiSpoof(26368): CADENCE | gap=141ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:30.352 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.0 faceW=128 luma=109.0 sharp=0.346 yaw=0.8 pitch=9.3 roll=-6.3
+08-19 00:00:30.352 D/FaceAntiSpoof(26368): CADENCE | gap=191ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:30.456 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.5 faceW=128 luma=109.5 sharp=0.321 yaw=-0.1 pitch=9.5 roll=-6.8
+08-19 00:00:30.456 D/FaceAntiSpoof(26368): CADENCE | gap=108ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:30.602 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.9 faceW=126 luma=108.7 sharp=0.288 yaw=0.7 pitch=9.8 roll=-5.9
+08-19 00:00:30.602 D/FaceAntiSpoof(26368): CADENCE | gap=134ms target=100ms inferMs=15 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:30.728 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.3 faceW=126 luma=106.7 sharp=0.260 yaw=1.7 pitch=10.0 roll=-6.1
+08-19 00:00:30.728 D/FaceAntiSpoof(26368): CADENCE | gap=129ms target=100ms inferMs=4 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:30.893 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.5 faceW=126 luma=105.5 sharp=0.284 yaw=3.0 pitch=11.6 roll=-5.2
+08-19 00:00:30.893 D/FaceAntiSpoof(26368): CADENCE | gap=175ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:31.029 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=38.8 faceW=124 luma=106.4 sharp=0.218 yaw=1.0 pitch=8.8 roll=-4.0
+08-19 00:00:31.029 D/FaceAntiSpoof(26368): CADENCE | gap=130ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:31.164 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.0 faceW=122 luma=106.2 sharp=0.257 yaw=-0.5 pitch=9.8 roll=-4.9
+08-19 00:00:31.164 D/FaceAntiSpoof(26368): CADENCE | gap=133ms target=100ms inferMs=10 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:31.494 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.0 faceW=122 luma=101.8 sharp=0.217 yaw=-1.3 pitch=8.7 roll=-5.3
+08-19 00:00:31.494 D/FaceAntiSpoof(26368): CADENCE | gap=331ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:31.616 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=39.3 faceW=123 luma=103.1 sharp=0.265 yaw=-1.3 pitch=9.1 roll=-6.0
+08-19 00:00:31.616 D/FaceAntiSpoof(26368): CADENCE | gap=121ms target=100ms inferMs=8 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:31.748 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.6 faceW=125 luma=102.2 sharp=0.270 yaw=-1.3 pitch=9.5 roll=-6.6
+08-19 00:00:31.748 D/FaceAntiSpoof(26368): CADENCE | gap=135ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:31.919 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=40.9 faceW=129 luma=107.3 sharp=0.186 yaw=-1.3 pitch=9.8 roll=-6.7
+08-19 00:00:31.919 D/FaceAntiSpoof(26368): CADENCE | gap=176ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:32.051 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=41.8 faceW=131 luma=110.3 sharp=0.237 yaw=-0.3 pitch=9.7 roll=-6.6
+08-19 00:00:32.051 D/FaceAntiSpoof(26368): CADENCE | gap=131ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:32.210 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.7 faceW=131 luma=113.7 sharp=0.236 yaw=-0.5 pitch=10.4 roll=-6.2
+08-19 00:00:32.211 D/FaceAntiSpoof(26368): CADENCE | gap=154ms target=100ms inferMs=7 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:32.367 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.1 faceW=133 luma=114.9 sharp=0.261 yaw=-1.0 pitch=10.2 roll=-5.4
+08-19 00:00:32.368 D/FaceAntiSpoof(26368): CADENCE | gap=161ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:32.564 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.9 faceW=134 luma=112.8 sharp=0.250 yaw=-1.6 pitch=9.3 roll=-5.4
+08-19 00:00:32.565 D/FaceAntiSpoof(26368): CADENCE | gap=199ms target=100ms inferMs=3 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:32.666 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=43.6 faceW=137 luma=109.8 sharp=0.277 yaw=-1.3 pitch=11.2 roll=-5.2
+08-19 00:00:32.666 D/FaceAntiSpoof(26368): CADENCE | gap=101ms target=100ms inferMs=2 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:32.817 D/FaceAntiSpoof(26368): GATED | reason=MOVE_CLOSER | QUALITY eye=42.7 faceW=137 luma=111.0 sharp=0.248 yaw=-1.5 pitch=11.5 roll=-5.3
+08-19 00:00:32.817 D/FaceAntiSpoof(26368): CADENCE | gap=140ms target=100ms inferMs=12 frame=480x640 gated=MOVE_CLOSER
+08-19 00:00:33.157 D/FaceAntiSpoof(26368): GATED | reason=HOLD_STILL | QUALITY eye=48.0 faceW=162 luma=109.8 sharp=0.072 yaw=-2.3 pitch=-3.6 roll=-0.3
+08-19 00:00:33.157 D/FaceAntiSpoof(26368): CADENCE | gap=346ms target=100ms inferMs=8 frame=480x640 gated=HOLD_STILL
+08-19 00:00:33.255 D/FaceAntiSpoof(26368): GATED | reason=HOLD_STILL | QUALITY eye=49.8 faceW=165 luma=122.1 sharp=0.070 yaw=-2.6 pitch=4.4 roll=1.8
+08-19 00:00:33.256 D/FaceAntiSpoof(26368): CADENCE | gap=104ms target=100ms inferMs=3 frame=480x640 gated=HOLD_STILL
+08-19 00:00:33.910 D/FaceAntiSpoof(26368): GATED | reason=HOLD_STILL | QUALITY eye=47.3 faceW=160 luma=108.9 sharp=0.134 yaw=-6.6 pitch=9.2 roll=-0.5
+08-19 00:00:33.910 D/FaceAntiSpoof(26368): CADENCE | gap=655ms target=100ms inferMs=2 frame=480x640 gated=HOLD_STILL
+08-19 00:00:34.658 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[124.7,107.3,102.1] range=[22..254,26..254,26..255] signature=-204960176
+08-19 00:00:34.694 D/FaceAntiSpoof(26368): LOGITS: [-2.61, 0.34, 2.27] | PROBS: [c0=0.0066, c1(live)=0.1265, c2=0.8669] | argmax=2
+08-19 00:00:34.698 D/FaceAntiSpoof(26368): INPUT_STATS | mean=[124.7,107.3,102.1] range=[22..254,26..254,26..255] signature=-204960176
+08-19 00:00:34.734 D/FaceAntiSpoof(26368): LOGITS: [-4.22, 2.51, 1.71] | PROBS: [c0=0.0008, c1(live)=0.6891, c2=0.3101] | argmax=1
+08-19 00:00:34.734 D/FaceAntiSpoof(26368): ENSEMBLE_SAMPLE | live=0.4078 print=0.0037 replay=0.5885 attack=0.5885 margin=-0.1807 argmax=2
+08-19 00:00:34.744 D/FaceAntiSpoof(26368): CUES | ANTI_SPOOF=0.5885/+0.12 PARALLAX=-/- MOIRE=1.3320/+0.95 SPECULAR=0.0000/+0.00 CHROMA=13.2130/+0.22 BEZEL=0.6433/+0.00 | QUALITY eye=52.6 faceW=197 luma=136.5 sharp=0.145 yaw=-12.1 pitch=-0.1 roll=-2.8
+08-19 00:00:34.744 D/FaceAntiSpoof(26368): CADENCE | gap=736ms target=100ms inferMs=101 frame=480x640
+08-19 00:00:34.745 D/FaceAntiSpoof(26368): FUSION | status=ACQUIRING total=1.282 frame=+1.282 ticks=1 corroborating=0 isLive=null strictness=STRICT accept=-4.5 reject=3.0

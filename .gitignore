@@ -20,3 +20,12 @@ server/node_modules/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Anti-spoof calibration scratch. `logs/` IS tracked — those captures are the evidence
+# behind the CALIBRATION table in LivenessFusion.kt and scripts/calibrate_anti_spoof.py
+# cannot be re-run without them. What is ignored here is only working scratch: the
+# upstream Silent-Face-Anti-Spoofing checkout and its sample images, pulled down to
+# verify the [0,255] BGR input contract, plus Python bytecode.
+.tmp/
+__pycache__/
+*.pyc

@@ -5,6 +5,37 @@ const SETTINGS_KEY = "@face_scanner_settings";
 
 export type PerformanceMode = "low" | "balanced" | "high";
 export type ScanningPerformanceMode = "low" | "standard" | "high";
+export type LivenessStrictnessMode = "lenient" | "balanced" | "strict";
+
+/**
+ * Anti-spoofing operating point. The *numbers* live in Kotlin
+ * (`LivenessFusion.Strictness`) next to the evidence they were derived from — this map
+ * only names the levels and describes them for the UI, so there is exactly one place
+ * where a threshold can be changed.
+ *
+ * All three levels run the identical cue set, the identical quality gate, and the
+ * identical two-independent-cue corroboration requirement. Only the amount of
+ * accumulated evidence needed to decide moves. In particular there is no level at
+ * which a single cue can reject on its own.
+ */
+export const LIVENESS_STRICTNESS_PRESETS: Record<
+  LivenessStrictnessMode,
+  { label: string; description: string; warning?: string }
+> = {
+  lenient: {
+    label: "Lenient",
+    description: "Favours letting genuine users through. Use in dim or crowded rooms where a retry costs more than a missed spoof.",
+  },
+  balanced: {
+    label: "Balanced",
+    description: "Recommended. Genuine faces confirm in roughly 0.3s; a screen or photo needs two independent cues to agree before it is rejected.",
+  },
+  strict: {
+    label: "Strict",
+    description: "Rejects on less evidence and asks genuine users for a few more frames.",
+    warning: "⚠️ Expect more retries in poor lighting or at arm's length.",
+  },
+};
 
 export const PERFORMANCE_PRESETS: Record<
   PerformanceMode,
@@ -52,6 +83,8 @@ export interface SettingsConfig {
   smoothFaceBox: boolean;
   strictLightingCheck: boolean;
   antiSpoofingEnabled: boolean;
+  /** Only meaningful when `antiSpoofingEnabled`. See {@link LIVENESS_STRICTNESS_PRESETS}. */
+  livenessStrictness: LivenessStrictnessMode;
 }
 
 export const defaultSettings: SettingsConfig = {
@@ -66,6 +99,7 @@ export const defaultSettings: SettingsConfig = {
   smoothFaceBox: true,
   strictLightingCheck: true,
   antiSpoofingEnabled: true,
+  livenessStrictness: "balanced",
 };
 
 let memorySettings: SettingsConfig = { ...defaultSettings };
@@ -95,6 +129,12 @@ export const AppSettings = {
             ? parsed.scanningPerformance
             : defaultSettings.scanningPerformance,
           smoothFaceBox: typeof parsed?.smoothFaceBox === "boolean" ? parsed.smoothFaceBox : defaultSettings.smoothFaceBox,
+          // Validated rather than trusted: native already falls back to BALANCED on an
+          // unknown name, so an unvalidated stored value would leave the UI showing a
+          // level that is not the one actually in effect — worse than either alone.
+          livenessStrictness: LIVENESS_STRICTNESS_PRESETS[parsed?.livenessStrictness as LivenessStrictnessMode]
+            ? parsed.livenessStrictness
+            : defaultSettings.livenessStrictness,
         };
       }
     } catch (e) {

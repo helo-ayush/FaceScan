@@ -148,6 +148,22 @@ type LightingWarning = {
   message: string;
 };
 
+/**
+ * Human text for the guidance keys the native quality gate emits
+ * (`LivenessFusion.gate`). These are frames the pipeline *refused to score*, which
+ * is a different thing from a spoof verdict, so every one of them must read as an
+ * instruction rather than an accusation — telling a genuine user in a dim room that
+ * their face isn't real is the failure this rebuild exists to remove.
+ */
+const LIVENESS_GUIDANCE: Record<string, string> = {
+  MOVE_CLOSER: "Move a little closer",
+  MOVE_BACK: "Move back slightly",
+  MORE_LIGHT: "Need more light",
+  LESS_GLARE: "Too much glare",
+  HOLD_STILL: "Hold steady",
+  FACE_CAMERA: "Look at the camera",
+};
+
 function getLightingWarning(
   face: RealtimeFace | null,
   lighting: RealtimeLighting,
@@ -551,6 +567,26 @@ export default function CameraLandingScreen() {
         surface: "rgba(255,255,255,0.98)",
       };
     }
+
+    // Checked *after* the two verdicts and before the generic spinners: a refused
+    // frame is still undecided, so it must not look like a rejection, but it is the
+    // one undecided case where the user can actually do something about it. Amber
+    // rather than red for exactly that reason.
+    const guidance = face.livenessGuidance
+      ? LIVENESS_GUIDANCE[face.livenessGuidance]
+      : face.livenessStatus === "INCONCLUSIVE"
+        ? "Move slightly, keep looking at the camera"
+        : null;
+    if (guidance) {
+      return {
+        title: guidance,
+        loading: true,
+        color: "#f59e0b",
+        tint: "rgba(245,158,11,0.10)",
+        surface: "rgba(255,255,255,0.98)",
+      };
+    }
+
     if (lockedCandidateRef.current != null && face.isLive !== true) {
       return {
         title: "Verifying it's really you…",
@@ -678,6 +714,7 @@ export default function CameraLandingScreen() {
         performanceMode={settings.performance}
         scanningPerformance={settings.scanningPerformance}
         cameraFacing={settings.cameraFacing}
+        livenessStrictness={settings.livenessStrictness}
         showNativeOverlay={true}
         smoothNativeOverlay={settings.smoothFaceBox}
         onFaceChange={setFace}
