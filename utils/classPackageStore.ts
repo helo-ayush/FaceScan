@@ -38,6 +38,19 @@ export type DownloadedClassInfo = {
   downloadedAt: string;
   studentCount: number;
   embeddingModel: string;
+  /**
+   * True only when a verified embedding package exists on disk for this class.
+   *
+   * `getAvailableClasses()` deliberately also lists classes that are merely known
+   * (synced into `cached_classes`) or that have offline enrollments waiting, so a
+   * teacher can pick them straight after enrolling. Those entries cannot be
+   * scanned against the server roster, and without this flag they are
+   * indistinguishable from a real download — the scan screen showed them with
+   * "0 students" and then searched an empty roster forever. Optional because
+   * `.meta.json` files written by older builds do not carry it; treat a missing
+   * value as unknown and use `getAvailableClasses()`, which always sets it.
+   */
+  hasPackage?: boolean;
 };
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -359,6 +372,10 @@ export async function removeStudentFromClassPackage(
 /**
  * List all available classes for scanning (combining downloaded packages,
  * cached classes from SQLite, and classes with pending enrollments).
+ *
+ * Only entries with `hasPackage: true` have a verified roster on disk. The rest
+ * are listed so a teacher can select a class they just enrolled into offline —
+ * check the flag before treating an entry as scannable.
  */
 export async function getAvailableClasses(): Promise<DownloadedClassInfo[]> {
   const downloaded = await getDownloadedClasses();
@@ -369,7 +386,7 @@ export async function getAvailableClasses(): Promise<DownloadedClassInfo[]> {
 
   // 1. Add all downloaded classes
   for (const d of downloaded) {
-    classMap.set(d.classId, { ...d });
+    classMap.set(d.classId, { ...d, hasPackage: true });
   }
 
   // 2. Add cached classes that aren't already downloaded
@@ -382,6 +399,7 @@ export async function getAvailableClasses(): Promise<DownloadedClassInfo[]> {
         downloadedAt: new Date().toISOString(),
         studentCount: 0,
         embeddingModel: APP_EMBEDDING_MODEL,
+        hasPackage: false,
       });
     }
   }
@@ -410,6 +428,7 @@ export async function getAvailableClasses(): Promise<DownloadedClassInfo[]> {
         downloadedAt: new Date().toISOString(),
         studentCount: count,
         embeddingModel: APP_EMBEDDING_MODEL,
+        hasPackage: false,
       });
     }
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import { BackHandler } from "react-native";
 import { Tabs, useFocusEffect, useRouter } from "expo-router";
 import { Icon } from "@/components/Icon";
 import { useAdminAuth } from "@/utils/AdminAuthProvider";
@@ -13,9 +14,27 @@ export default function TabsLayout() {
         router.replace("/login");
         return;
       }
+
+      // Android hardware back. Two separate things made the default wrong:
+      //  - the root stack still holds the `/login` screen we signed in through, so
+      //    an ordinary pop landed on the password form instead of the scan screen;
+      //  - bottom-tabs' default `backBehavior` sends back to the first tab, so
+      //    leaving admin from any other tab took two presses.
+      // `dismissTo` pops everything above `/`, which is the stack's initial route,
+      // so one press always lands on the scan screen. BackHandler runs subscribers
+      // newest-first and NavigationContainer registers its own on mount, so this
+      // one — registered later, on focus — is consulted first.
+      const backSubscription = BackHandler.addEventListener("hardwareBackPress", () => {
+        router.dismissTo("/");
+        return true;
+      });
+
       // Tabs may switch freely. Leaving the entire Admin group locks it, so a
       // fresh username/password entry is always required on the next visit.
-      return () => lockAdmin();
+      return () => {
+        backSubscription.remove();
+        lockAdmin();
+      };
     }, [isAdminUnlocked, lockAdmin, router])
   );
 

@@ -168,6 +168,45 @@ async function refreshPendingCount(): Promise<void> {
   emitStatus();
 }
 
+// ─── Network ─────────────────────────────────────────────────────────────────
+
+/**
+ * How long any single sync request may take before it is abandoned.
+ *
+ * `fetch` has no default timeout on React Native, so a wrong or unreachable
+ * `EXPO_PUBLIC_API_URL` — a stale LAN IP, a backend that is switched off, a host
+ * that silently drops packets — leaves the request hanging. `isSyncing` stays
+ * true for as long as that takes, which blocks every later trigger and makes the
+ * Sync centre read "Syncing your saved work" indefinitely instead of "Offline".
+ * Failing fast turns that into an ordinary retry on the next 2-minute tick.
+ *
+ * Package downloads are excluded: they are large and run through
+ * `classPackageStore`, on an explicit user action.
+ */
+const REQUEST_TIMEOUT_MS = 15000;
+
+/** `fetch` with an abort-based timeout. Rejects like a network error on expiry. */
+async function fetchWithTimeout(
+  input: string,
+  init?: RequestInit,
+  timeoutMs = REQUEST_TIMEOUT_MS
+): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(input, { ...init, signal: controller.signal });
+  } catch (err) {
+    // Surface an abort as something the existing `catch` blocks already know how
+    // to treat as "server unreachable" rather than an opaque AbortError.
+    if (controller.signal.aborted) {
+      throw new Error(`Request timed out after ${Math.round(timeoutMs / 1000)}s`);
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 // ─── Core sync routine ──────────────────────────────────────────────────────
 
 /**
@@ -232,7 +271,7 @@ async function syncStudentDeletions(): Promise<void> {
   const rows = await getUnsyncedStudentDeletions();
   for (const row of rows) {
     try {
-      const res = await fetch(`${apiUrl}/api/students/${encodeURIComponent(row.enrollment_number)}`, {
+      const res = await fetchWithTimeout(`${apiUrl}/api/students/${encodeURIComponent(row.enrollment_number)}`, {
         method: 'DELETE',
       });
 
@@ -262,7 +301,7 @@ async function syncAttendance(deviceId: string): Promise<void> {
   const rows = await getUnsyncedAttendance();
   for (const row of rows) {
     try {
-      const res = await fetch(`${apiUrl}/api/sync/attendance`, {
+      const res = await fetchWithTimeout(`${apiUrl}/api/sync/attendance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -309,7 +348,7 @@ async function syncEnrollment(deviceId: string): Promise<void> {
   for (const row of rows) {
     try {
       const faceEmbeddings = JSON.parse(row.embeddings_json);
-      const res = await fetch(`${apiUrl}/api/sync/enrollment`, {
+      const res = await fetchWithTimeout(`${apiUrl}/api/sync/enrollment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -369,7 +408,7 @@ async function syncConflictLog(): Promise<void> {
   if (rows.length === 0) return;
 
   try {
-    const res = await fetch(`${apiUrl}/api/sync/conflict-log`, {
+    const res = await fetchWithTimeout(`${apiUrl}/api/sync/conflict-log`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -406,25 +445,20 @@ async function refreshStalePackages(): Promise<void> {
     const downloaded = await getDownloadedClasses();
     if (downloaded.length === 0) return;
 
-    // Fetch class list from server to get live updatedAt values.
-    const res = await fetch(`${apiUrl}/api/classes`);
-    if (!res.ok) return;
-
-    const serverClasses: Array<{ id: string; [key: string]: any }> = await res.json();
-    // The /api/classes response uses `id` for classId.
-
+    // Staleness is decided per class from `/api/classes/:id/package`, which is the
+    // only endpoint that returns `classUpdatedAt`. This used to fetch `/api/classes`
+    // first and throw the response away — a wasted round trip that also gated the
+    // whole refresh: a non-200 there skipped every package check even when the
+    // per-class endpoint was fine. `refreshClassCache()` still fetches that list,
+    // once, for the offline class cache.
     for (const local of downloaded) {
-      // Find this class in the server response. The server returns `id` not `classId`.
-      // We need the live updatedAt, but /api/classes doesn't return it directly.
-      // Fetch the class's package metadata instead — check if classUpdatedAt differs.
       try {
-        const metaRes = await fetch(`${apiUrl}/api/classes/${local.classId}/package`);
+        const metaRes = await fetchWithTimeout(`${apiUrl}/api/classes/${local.classId}/package`);
         if (!metaRes.ok) continue;
         const manifest = await metaRes.json();
         if (isPackageStale(local.classUpdatedAt, manifest.classUpdatedAt)) {
-          // Re-download the full package (we already have the response).
-          // But the checksum verification and storage happen in downloadClassPackage,
-          // so just call it again for consistency.
+          // Re-download through downloadClassPackage so the checksum, schema and
+          // embedding-model checks all run before anything is written to disk.
           await downloadClassPackage(apiUrl, local.classId);
         }
       } catch {
@@ -444,7 +478,7 @@ async function refreshStalePackages(): Promise<void> {
  */
 async function refreshClassCache(): Promise<void> {
   try {
-    const res = await fetch(`${apiUrl}/api/classes`);
+    const res = await fetchWithTimeout(`${apiUrl}/api/classes`);
     if (!res.ok) return;
 
     noteServerContact();

@@ -42,6 +42,7 @@ import {
 import { useSyncEngine } from "@/utils/SyncProvider";
 import { insertPendingEnrollment, getCachedClasses } from "@/utils/localDb";
 
+import { API_URL } from "@/utils/apiConfig";
 /**
  * How many distinct, quality-checked frames to average into each pose template.
  * A single frame carries whatever noise that instant had; averaging several and
@@ -250,7 +251,7 @@ export default function EnrollScreen() {
   const [submitting, setSubmitting] = useState(false);
   const [loadingEnrollSetup, setLoadingEnrollSetup] = useState(true);
   const hasLoadedEnrollSetup = useRef(false);
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
+  const apiUrl = API_URL;
 
   async function fetchEnrollClasses() {
     const showSkeleton = !hasLoadedEnrollSetup.current;

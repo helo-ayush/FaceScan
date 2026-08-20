@@ -41,6 +41,7 @@ import {
 } from "@/utils/faceMatching";
 import { useSyncEngine } from "@/utils/SyncProvider";
 import { insertPendingAttendance } from "@/utils/localDb";
+import { API_URL } from "@/utils/apiConfig";
 import {
   getDownloadedClasses,
   getAvailableClasses,
@@ -248,6 +249,20 @@ export default function CameraLandingScreen() {
   const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
   const [activePackage, setActivePackage] = useState<ClassPackageManifest | null>(null);
   const [showClassPicker, setShowClassPicker] = useState(false);
+  /**
+   * Which class the currently-loaded roster belongs to. `undefined` means no load
+   * has finished yet. Comparing this against `selectedClassId` — rather than a
+   * plain "loaded" boolean — is what keeps the blocker card from flashing a stale
+   * verdict for a frame while a newly-selected class is still being read.
+   */
+  const [loadedRosterClassId, setLoadedRosterClassId] = useState<string | null | undefined>(undefined);
+  /**
+   * False until the class list has been read once. Without this the blocker
+   * briefly claimed "no class on this device" on every cold start, because the
+   * first roster load runs against a still-null `selectedClassId` and completes
+   * before `getAvailableClasses()` returns.
+   */
+  const [classesLoaded, setClassesLoaded] = useState(false);
 
   // --- Session log: in-memory only, lost when the app closes ---
   type SessionMark = {
@@ -354,19 +369,24 @@ export default function CameraLandingScreen() {
   // scanned twice per frame.
   const [lastScored, setLastScored] = useState<{ scored: ScoredFrame; yaw: number } | null>(null);
 
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
+  const apiUrl = API_URL;
 
   // Load available class list (downloaded packages + cached classes + pending enrollments).
   const refreshDownloadedClasses = useCallback(async () => {
     try {
       const classes = await getAvailableClasses();
       setDownloadedClasses(classes);
-      // Auto-select the first class if none selected yet.
+      // Auto-select on first load. Prefer a class that actually has a package on
+      // disk — the list also contains classes we only know the *name* of, and
+      // landing on one of those means staring at a camera that can never match.
       if (classes.length > 0 && !selectedClassId) {
-        setSelectedClassId(classes[0].classId);
+        const scannable = classes.find((c) => c.hasPackage);
+        setSelectedClassId((scannable ?? classes[0]).classId);
       }
     } catch (err) {
       console.warn('Failed to load available classes:', err);
+    } finally {
+      setClassesLoaded(true);
     }
   }, [selectedClassId]);
 
@@ -374,6 +394,7 @@ export default function CameraLandingScreen() {
     if (!classId) {
       setStudents([]);
       setActivePackage(null);
+      setLoadedRosterClassId(null);
       return;
     }
 
@@ -400,6 +421,8 @@ export default function CameraLandingScreen() {
       console.warn('Failed to load roster for class:', err);
       setStudents([]);
       setActivePackage(null);
+    } finally {
+      setLoadedRosterClassId(classId);
     }
   }, []);
 
@@ -425,12 +448,75 @@ export default function CameraLandingScreen() {
     }, [scanSessionStart, scanSessionEnd, refreshDownloadedClasses, selectedClassId, loadRosterForClass])
   );
 
+  /** Classes that can actually be scanned — a verified package exists on disk. */
+  const scannableClasses = useMemo(
+    () => downloadedClasses.filter((c) => c.hasPackage),
+    [downloadedClasses],
+  );
+
+  // Why scanning cannot work right now, or null when it can. The class list
+  // deliberately includes classes this device only knows the *name* of — either
+  // synced from `/api/classes` or created by an offline enrollment still waiting
+  // to upload — so "a class is selected" is not the same thing as "there are
+  // face templates to match against". Previously those cases fell through to the
+  // normal scanning UI and the camera simply never matched anyone.
+  const scanBlocker = useMemo(() => {
+    // Say nothing until both the class list and the roster for the *currently
+    // selected* class have actually been read.
+    if (!classesLoaded) return null;
+    if (loadedRosterClassId === undefined || loadedRosterClassId !== selectedClassId) return null;
+
+    if (downloadedClasses.length === 0) {
+      return {
+        title: "Can't scan — no class on this device",
+        message:
+          'Face scan needs a downloaded class package. Ask your admin to sign in and download one from the admin panel.',
+        cta: 'Open admin panel',
+        action: 'admin' as const,
+      };
+    }
+
+    const selected = downloadedClasses.find((c) => c.classId === selectedClassId);
+
+    if (!selected) {
+      return {
+        title: "Can't scan — no class selected",
+        message: 'Tap the class button at the top right and pick the class you are taking attendance for.',
+        cta: 'Choose a class',
+        action: 'picker' as const,
+      };
+    }
+
+    if (!selected.hasPackage) {
+      return {
+        title: "Can't scan — package not downloaded",
+        message: `${selected.className} has no face data on this device. Ask your admin to download this class package from the admin panel.`,
+        cta: 'Open admin panel',
+        action: 'admin' as const,
+      };
+    }
+
+    if (students.length === 0) {
+      return {
+        title: "Can't scan — no students in this class",
+        message: `${selected.className} was downloaded but contains no enrolled students. Enroll students, or download the package again after your admin adds them.`,
+        cta: 'Open admin panel',
+        action: 'admin' as const,
+      };
+    }
+
+    return null;
+  }, [classesLoaded, loadedRosterClassId, downloadedClasses, selectedClassId, students.length]);
+
   // Pose-aware cosine search, gated on frame quality, an absolute similarity
   // floor, a margin over the closest *other* student, and temporal consensus.
   useEffect(() => {
     // Pause matching while the shelf is open — a face in the background should
     // not trigger attendance when the user is scrolling through the log.
     if (scanningPaused || isMatchLocked || !face) return;
+    // Nothing to match against. Without this the screen happily reported
+    // "Searching enrolled student embeddings database..." over an empty roster.
+    if (scanBlocker) return;
 
     const quality = checkFrameQuality(face, { requireGoodLighting: false });
     if (!quality.ok) {
@@ -533,7 +619,7 @@ export default function CameraLandingScreen() {
       }
       // else: still waiting on liveness — do nothing further this tick
     }
-  }, [face, lighting, students, isMatchLocked, settings.antiSpoofingEnabled, triggerSync]);
+  }, [face, lighting, students, isMatchLocked, scanBlocker, settings.antiSpoofingEnabled, triggerSync]);
 
   const previewFace = useMemo(
     () =>
@@ -545,6 +631,9 @@ export default function CameraLandingScreen() {
 
   const livenessPill = useMemo(() => {
     if (!settings.antiSpoofingEnabled || !previewFace || !face) return null;
+    // The blocker card already owns the screen; a "verifying you're real" pill
+    // underneath it would promise a scan that cannot happen.
+    if (scanBlocker) return null;
 
     const lightingWarning = getLightingWarning(face, lighting);
     const spoofConfirmed = face.livenessStatus === "SPOOF_CONFIRMED";
@@ -603,7 +692,7 @@ export default function CameraLandingScreen() {
       tint: "rgba(93,95,239,0.10)",
       surface: "rgba(255,255,255,0.98)",
     };
-  }, [face, lighting, previewFace, settings.antiSpoofingEnabled]);
+  }, [face, lighting, previewFace, scanBlocker, settings.antiSpoofingEnabled]);
 
   const handleCameraLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -622,11 +711,13 @@ export default function CameraLandingScreen() {
   }, [lightingWarningKey]);
   const statusTitle = error
     ? "Detector unavailable"
-    : matchedStudent
-      ? matchedStudent.name
-      : previewFace
-        ? "Face detected — Matching..."
-        : "Looking for a face";
+    : scanBlocker
+      ? scanBlocker.title
+      : matchedStudent
+        ? matchedStudent.name
+        : previewFace
+          ? "Face detected — Matching..."
+          : "Looking for a face";
 
   // Live readout derived from the frame the matcher already scored, so the
   // roster is not searched a second time per frame.
@@ -648,29 +739,32 @@ export default function CameraLandingScreen() {
   }, [lastScored]);
   const statusDescription = error
     ? "Restart the development build and check camera permission."
-    : matchedStudent
-      ? matchedStudent.sync === "failed"
-        ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nAttendance NOT saved — ${matchedStudent.syncDetail || "check server"}`
-        : matchedStudent.sync === "pending"
-          ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nSaving attendance...`
-          : `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}`
-      : previewFace && liveSimilarity
-        ? liveSimilarity.ambiguous
-          ? `Too close to call — ${liveSimilarity.name} vs others (margin ${liveSimilarity.margin.toFixed(2)})`
-          : `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} • ${liveSimilarity.yaw}°) → cos ${liveSimilarity.cosine.toFixed(3)} · margin ${liveSimilarity.margin.toFixed(2)}`
-        : previewFace
-          ? rejectReason
-            ? `Hold on — ${rejectReason}`
-            : "Searching enrolled student embeddings database..."
-          : downloadedClasses.length === 0
-            ? "Download embeddings from the admin panel to start scanning."
+    : scanBlocker
+      ? scanBlocker.message
+      : matchedStudent
+        ? matchedStudent.sync === "failed"
+          ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nAttendance NOT saved — ${matchedStudent.syncDetail || "check server"}`
+          : matchedStudent.sync === "pending"
+            ? `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}\nSaving attendance...`
+            : `${matchedStudent.enrollmentNumber} • ${matchedStudent.classId} • cos ${matchedStudent.cosine.toFixed(3)}`
+        : previewFace && liveSimilarity
+          ? liveSimilarity.ambiguous
+            ? `Too close to call — ${liveSimilarity.name} vs others (margin ${liveSimilarity.margin.toFixed(2)})`
+            : `Best: ${liveSimilarity.name} (${liveSimilarity.activePose} • ${liveSimilarity.yaw}°) → cos ${liveSimilarity.cosine.toFixed(3)} · margin ${liveSimilarity.margin.toFixed(2)}`
+          : previewFace
+            ? rejectReason
+              ? `Hold on — ${rejectReason}`
+              : "Searching enrolled student embeddings database..."
             : "Point camera at an enrolled student's face.";
 
-  // Staleness display for the active package.
+  // Staleness display for the active package. Only meaningful for a real
+  // download — cached-only entries carry a synthetic `downloadedAt` of "now",
+  // which would render as "Downloaded just now" for a class that was never
+  // downloaded at all.
   const packageStaleness = useMemo(() => {
     if (!selectedClassId || downloadedClasses.length === 0) return null;
     const info = downloadedClasses.find((c) => c.classId === selectedClassId);
-    if (!info) return null;
+    if (!info || !info.hasPackage) return null;
     const downloadedMs = Date.now() - new Date(info.downloadedAt).getTime();
     const mins = Math.floor(downloadedMs / 60000);
     if (mins < 1) return 'Downloaded just now';
@@ -850,7 +944,7 @@ export default function CameraLandingScreen() {
                   {activePackage ? getClassInitials(activePackage.className) : "??"}
                 </Text>
               </Pressable>
-              {downloadedClasses.length > 0 && (
+              {scannableClasses.length > 0 && (
                 <View
                   style={{
                     position: "absolute",
@@ -868,7 +962,7 @@ export default function CameraLandingScreen() {
                   }}
                 >
                   <Text style={{ color: "#fff", fontSize: 9, fontWeight: "900" }}>
-                    {downloadedClasses.length}
+                    {scannableClasses.length}
                   </Text>
                 </View>
               )}
@@ -908,6 +1002,106 @@ export default function CameraLandingScreen() {
             </Animated.View>
           )}
         </Animated.View>
+
+        {/* Scan blocker. Shown whenever there is no roster to match against, so a
+            teacher is told why nothing is happening instead of holding a phone up
+            to a camera that can never recognise anyone. Not `pointerEvents="none"`
+            — the CTA has to be tappable. */}
+        {scanBlocker && !sheetExpanded && (
+          <Animated.View
+            entering={FadeInDown.duration(260)}
+            exiting={FadeOutUp.duration(180)}
+            style={{
+              position: "absolute",
+              left: 24,
+              right: 24,
+              top: insets.top + 96,
+              backgroundColor: "rgba(255,255,255,0.98)",
+              borderRadius: 28,
+              borderWidth: 1.5,
+              borderColor: "#fbbf24",
+              paddingHorizontal: 22,
+              paddingVertical: 24,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.22,
+              shadowRadius: 24,
+              elevation: 14,
+              zIndex: 25,
+            }}
+          >
+            <View
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: 18,
+                backgroundColor: "#fef3c7",
+                borderWidth: 1,
+                borderColor: "#fde68a",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 14,
+              }}
+            >
+              <Text style={{ fontSize: 26, fontWeight: "900", color: "#b45309" }}>!</Text>
+            </View>
+
+            <Text style={{ fontSize: 17, fontWeight: "900", color: "#0f172a", marginBottom: 6 }}>
+              {scanBlocker.title}
+            </Text>
+            <Text style={{ fontSize: 13, fontWeight: "600", color: "#475569", lineHeight: 20 }}>
+              {scanBlocker.message}
+            </Text>
+
+            <View style={{ flexDirection: "row", gap: 10, marginTop: 18 }}>
+              <Pressable
+                onPress={() => {
+                  AppSettings.haptic("light");
+                  if (scanBlocker.action === "picker") {
+                    setShowClassPicker(true);
+                  } else {
+                    router.push("/login");
+                  }
+                }}
+                style={{
+                  flex: 1,
+                  minHeight: 48,
+                  borderRadius: 16,
+                  backgroundColor: "#5d5fef",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ color: "#ffffff", fontSize: 13, fontWeight: "900" }}>
+                  {scanBlocker.cta}
+                </Text>
+              </Pressable>
+
+              <Pressable
+                accessibilityLabel="Check again for class packages"
+                onPress={() => {
+                  AppSettings.haptic("light");
+                  void refreshDownloadedClasses();
+                  void loadRosterForClass(selectedClassId);
+                }}
+                style={{
+                  minHeight: 48,
+                  paddingHorizontal: 18,
+                  borderRadius: 16,
+                  backgroundColor: "#f1f5f9",
+                  borderWidth: 1,
+                  borderColor: "#e2e8f0",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ color: "#475569", fontSize: 13, fontWeight: "900" }}>
+                  Retry
+                </Text>
+              </Pressable>
+            </View>
+          </Animated.View>
+        )}
 
         {livenessPill && (
           <Animated.View
@@ -1336,7 +1530,7 @@ export default function CameraLandingScreen() {
                     {/* 3. Last Synced */}
                     <View style={{ flex: 1, backgroundColor: '#f8fafc', borderRadius: 16, paddingVertical: 12, paddingHorizontal: 6, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center' }}>
                       <Text style={{ fontSize: 12, fontWeight: '900', color: '#0f172a' }} numberOfLines={1}>
-                        {packageStaleness ? packageStaleness.replace('Downloaded ', '') : "Just now"}
+                        {packageStaleness ? packageStaleness.replace('Downloaded ', '') : "Never"}
                       </Text>
                       <Text style={{ fontSize: 10, fontWeight: '700', color: '#64748b', marginTop: 2, textAlign: 'center' }}>
                         Last Synced
@@ -1349,7 +1543,7 @@ export default function CameraLandingScreen() {
               {/* Downloaded Classes Picker Section */}
               <View style={{ marginBottom: 4 }}>
                 <Text style={{ fontSize: 11, fontWeight: '900', color: '#475569', textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 10 }}>
-                  Available Class Packages ({downloadedClasses.length})
+                  Available Class Packages ({scannableClasses.length} of {downloadedClasses.length} downloaded)
                 </Text>
 
                 {downloadedClasses.length === 0 ? (
@@ -1412,9 +1606,17 @@ export default function CameraLandingScreen() {
                             <Text style={{ fontSize: 14, fontWeight: '800', color: '#0f172a' }}>
                               {cls.className}
                             </Text>
-                            <Text style={{ fontSize: 11, fontWeight: '600', color: '#64748b', marginTop: 2 }}>
-                              {cls.studentCount} students • Downloaded {staleTxt}
-                            </Text>
+                            {cls.hasPackage ? (
+                              <Text style={{ fontSize: 11, fontWeight: '600', color: '#64748b', marginTop: 2 }}>
+                                {cls.studentCount} students • Downloaded {staleTxt}
+                              </Text>
+                            ) : (
+                              <Text style={{ fontSize: 11, fontWeight: '800', color: '#b45309', marginTop: 2 }}>
+                                {cls.studentCount > 0
+                                  ? `${cls.studentCount} waiting to upload • package not downloaded`
+                                  : 'Package not downloaded — cannot scan'}
+                              </Text>
+                            )}
                           </View>
                         </View>
 

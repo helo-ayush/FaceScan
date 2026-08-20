@@ -135,7 +135,11 @@ export default function DashboardScreen() {
             <Pressable 
               onPress={() => {
                 AppSettings.haptic("light");
-                router.replace("/"); // Route back to the root camera landing page
+                // `dismissTo` rather than `replace`: replacing left the `/login`
+                // screen we signed in through sitting underneath the scan screen,
+                // so the next back press reopened the password form. This pops
+                // everything above `/` instead.
+                router.dismissTo("/");
               }}
               className="p-6 flex-row items-center gap-5 active:scale-[0.98] transition-all"
             >
@@ -160,7 +164,9 @@ export default function DashboardScreen() {
               <Pressable
                 onPress={() => {
                   AppSettings.haptic("light");
-                  router.push("/enroll");
+                  // `navigate`, not `push` — these are sibling tabs, and pushing a
+                  // tab route builds up history the tab bar itself cannot show.
+                  router.navigate("/enroll");
                 }}
                 className="p-5 rounded-3xl gap-3 active:scale-[0.97] transition-all"
               >
@@ -179,7 +185,7 @@ export default function DashboardScreen() {
               <Pressable
                 onPress={() => {
                   AppSettings.haptic("light");
-                  router.push("/logs");
+                  router.navigate("/logs");
                 }}
                 className="p-5 rounded-3xl gap-3 active:scale-[0.97] transition-all"
               >

@@ -70,7 +70,7 @@ index b56f488..90f8aee 100644
          if (!EmulatorUtilities.isRunningOnEmulator()) {
            view.takePicture(options, promise, cacheDirectory)
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
-index afd158a..dfbc190 100644
+index afd158a..c37be56 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
 @@ -2,9 +2,12 @@ package com.facedetectorcamera
@@ -103,24 +103,32 @@ index afd158a..dfbc190 100644
      private val scope = CoroutineScope(Dispatchers.Main)
  
      var lenFacing = CameraType.FRONT
-@@ -82,6 +88,45 @@ class CameraView(
+@@ -82,6 +88,71 @@ class CameraView(
      // Scanning-related properties
      private var faceDetectorSettings = FaceDetectorSettings()
      private var shouldDetectFaces = false
-+    private val cameraExecutor = java.util.concurrent.Executors.newSingleThreadExecutor { runnable ->
-+        Thread(runnable).apply {
-+            uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { _, throwable ->
-+                if (throwable is com.google.android.gms.tasks.DuplicateTaskCompletionException ||
-+                    throwable.cause is com.google.android.gms.tasks.DuplicateTaskCompletionException ||
-+                    throwable.message?.contains("DuplicateTaskCompletionException") == true
-+                ) {
-+                    Log.w("CameraView", "Handled in-flight task completion during tear-down safely")
-+                } else {
-+                    Log.e("CameraView", "Uncaught exception in camera execution thread", throwable)
++    /**
++     * Worker thread that runs the ML Kit analyzer. A `var`, not a `val`, because
++     * [onDetachedFromWindow] shuts it down and [onAttachedToWindow] has to build a
++     * fresh one — an `ExecutorService`, once shut down, can never be restarted.
++     */
++    private var cameraExecutor = newCameraExecutor()
++
++    private fun newCameraExecutor(): java.util.concurrent.ExecutorService =
++        java.util.concurrent.Executors.newSingleThreadExecutor { runnable ->
++            Thread(runnable).apply {
++                uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { _, throwable ->
++                    if (throwable is com.google.android.gms.tasks.DuplicateTaskCompletionException ||
++                        throwable.cause is com.google.android.gms.tasks.DuplicateTaskCompletionException ||
++                        throwable.message?.contains("DuplicateTaskCompletionException") == true
++                    ) {
++                        Log.w("CameraView", "Handled in-flight task completion during tear-down safely")
++                    } else {
++                        Log.e("CameraView", "Uncaught exception in camera execution thread", throwable)
++                    }
 +                }
 +            }
 +        }
-+    }
 +
 +    private fun updateTargetRotation(): Boolean {
 +        val newRotation = previewView.display?.rotation ?: return false
@@ -142,6 +150,24 @@ index afd158a..dfbc190 100644
 +        }
 +    }
 +
++    override fun onAttachedToWindow() {
++        super.onAttachedToWindow()
++
++        // React Navigation detaches a screen's views whenever it loses focus, and
++        // [onDetachedFromWindow] shuts the executor down for good. Every frame after
++        // that was submitted to a dead executor; CameraX swallows the resulting
++        // RejectedExecutionException, so the preview kept streaming while
++        // `onFacesDetected` never fired again and the native overlay froze on its
++        // last boxes — recoverable only by restarting the app. Rebuild the executor,
++        // then rebuild the analyzer that captured the old one.
++        if (cameraExecutor.isShutdown) {
++            cameraExecutor = newCameraExecutor()
++            if (cameraProvider != null || shouldDetectFaces) {
++                post { createCamera() }
++            }
++        }
++    }
++
 +    override fun onDetachedFromWindow() {
 +        super.onDetachedFromWindow()
 +        cameraExecutor.shutdown()
@@ -149,7 +175,7 @@ index afd158a..dfbc190 100644
  
      override fun onLayout(
          changed: Boolean,
-@@ -94,6 +139,7 @@ class CameraView(
+@@ -94,6 +165,7 @@ class CameraView(
          val height = bottom - top
  
          previewView.layout(0, 0, width, height)
@@ -157,7 +183,7 @@ index afd158a..dfbc190 100644
          postInvalidate(left, top, right, bottom)
      }
  
-@@ -133,15 +179,50 @@ class CameraView(
+@@ -133,15 +205,50 @@ class CameraView(
          )
      }
  
@@ -208,7 +234,7 @@ index afd158a..dfbc190 100644
                      .build()
                      .also {
                          it.setSurfaceProvider(previewView.surfaceProvider)
-@@ -151,8 +232,10 @@ class CameraView(
+@@ -151,8 +258,10 @@ class CameraView(
                      .requireLensFacing(lenFacing.mapToCharacteristic())
                      .build()
  
@@ -221,7 +247,7 @@ index afd158a..dfbc190 100644
  
                  Log.d("FaceDetector", "applying useCases")
                  val useCases = UseCaseGroup.Builder().apply {
-@@ -182,11 +265,17 @@ class CameraView(
+@@ -182,11 +291,17 @@ class CameraView(
          )
      }
  
@@ -241,7 +267,7 @@ index afd158a..dfbc190 100644
                      .build()
              )
              .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-@@ -194,9 +283,11 @@ class CameraView(
+@@ -194,9 +309,11 @@ class CameraView(
              .also { analyzer ->
                  Log.d("FaceDetector", "analyzer creating")
                  analyzer.setAnalyzer(
@@ -256,7 +282,7 @@ index afd158a..dfbc190 100644
                      }
                  )
              }
-@@ -214,12 +305,20 @@ class CameraView(
+@@ -214,12 +331,20 @@ class CameraView(
      }
  
      fun setShouldDetectFaces(shouldDetectFaces: Boolean) {
@@ -278,7 +304,7 @@ index afd158a..dfbc190 100644
      }
  
      fun releaseCamera() {
-@@ -229,7 +328,9 @@ class CameraView(
+@@ -229,7 +354,9 @@ class CameraView(
      }
  
      private fun onFacesDetected(
@@ -289,7 +315,7 @@ index afd158a..dfbc190 100644
      ) {
          Log.d("FaceDetector", "onFacesDetected private fun call")
          if (shouldDetectFaces) {
-@@ -237,7 +338,9 @@ class CameraView(
+@@ -237,7 +364,9 @@ class CameraView(
              onFacesDetected(
                  FacesDetectedEvent(
                      faces,
@@ -300,7 +326,7 @@ index afd158a..dfbc190 100644
                  )
              )
          }
-@@ -253,6 +356,10 @@ class CameraView(
+@@ -253,6 +382,10 @@ class CameraView(
      )
  
      init {
@@ -311,7 +337,7 @@ index afd158a..dfbc190 100644
          previewView.setOnHierarchyChangeListener(object : OnHierarchyChangeListener {
              override fun onChildViewRemoved(parent: View?, child: View?) = Unit
              override fun onChildViewAdded(parent: View?, child: View?) {
-@@ -264,6 +371,36 @@ class CameraView(
+@@ -264,6 +397,36 @@ class CameraView(
              }
          })
          addView(previewView)

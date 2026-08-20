@@ -6,6 +6,7 @@ import { Icon } from "@/components/Icon";
 import Animated, { FadeInUp, FadeInDown, SlideInDown, SlideOutDown } from "react-native-reanimated";
 import { AppSettings } from "@/utils/settings";
 
+import { API_URL } from "@/utils/apiConfig";
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type LogEntry = {
@@ -60,7 +61,7 @@ export default function LogsScreen() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
   
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
+  const apiUrl = API_URL;
 
   /** YYYY-MM-DD from the phone's local calendar, never UTC. */
   function localDateStr(d: Date): string {

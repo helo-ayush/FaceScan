@@ -11,7 +11,8 @@ import { AppSettings } from "@/utils/settings";
 import { SyncProvider } from "@/utils/SyncProvider";
 import { AdminAuthProvider } from "@/utils/AdminAuthProvider";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
+import { API_URL as CONFIGURED_API_URL } from "@/utils/apiConfig";
+const API_URL = CONFIGURED_API_URL;
 
 // Disable Reanimated's strict mode warnings (triggered intentionally by NativeWind v4 styling)
 configureReanimatedLogger({

@@ -20,6 +20,7 @@ import {
 } from "@/utils/localDb";
 import { useSyncEngine } from "@/utils/SyncProvider";
 
+import { API_URL } from "@/utils/apiConfig";
 type ClassItem = {
   id: string;
   code: string;
@@ -61,7 +62,7 @@ export default function ClassesScreen() {
   const [isCreatingClass, setIsCreatingClass] = useState(false);
   const [loadingClasses, setLoadingClasses] = useState(true);
   const hasLoadedClasses = useRef(false);
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.103:5000";
+  const apiUrl = API_URL;
 
   useEffect(() => {
     if (confirmDelete) {

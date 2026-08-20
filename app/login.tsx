@@ -8,6 +8,7 @@ import { AppSettings } from "@/utils/settings";
 import { useAdminAuth } from "@/utils/AdminAuthProvider";
 import { rememberOfflineAdminCredentials, verifyOfflineAdminCredentials } from "@/utils/adminAuth";
 
+import { API_URL } from "@/utils/apiConfig";
 export default function LoginScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -18,7 +19,7 @@ export default function LoginScreen() {
   const [offlineAccess, setOfflineAccess] = useState(false);
   const { unlockAdmin } = useAdminAuth();
 
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5000";
+  const apiUrl = API_URL;
 
   async function handleLogin() {
     if (!username || !password) {
