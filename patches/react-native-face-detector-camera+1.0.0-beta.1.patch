@@ -10,6 +10,58 @@ index 0000000..0a3280e
 +	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
 +	<classpathentry kind="output" path="bin/default"/>
 +</classpath>
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/checksums/checksums.lock b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/checksums/checksums.lock
+new file mode 100644
+index 0000000..b51b71f
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/checksums/checksums.lock differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/dependencies-accessors/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/dependencies-accessors/gc.properties
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileChanges/last-build.bin b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileChanges/last-build.bin
+new file mode 100644
+index 0000000..f76dd23
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileChanges/last-build.bin differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileHashes/fileHashes.lock b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileHashes/fileHashes.lock
+new file mode 100644
+index 0000000..f34128f
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/fileHashes/fileHashes.lock differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/8.9/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/8.9/gc.properties
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/checksums/checksums.lock b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/checksums/checksums.lock
+new file mode 100644
+index 0000000..ae529da
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/checksums/checksums.lock differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileChanges/last-build.bin b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileChanges/last-build.bin
+new file mode 100644
+index 0000000..f76dd23
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileChanges/last-build.bin differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin
+new file mode 100644
+index 0000000..66003c7
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock
+new file mode 100644
+index 0000000..afbee26
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/gc.properties
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+new file mode 100644
+index 0000000..72cc92b
+Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock differ
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties
+new file mode 100644
+index 0000000..ab2db42
+--- /dev/null
++++ b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties
+@@ -0,0 +1,2 @@
++#Tue Aug 18 01:50:17 IST 2026
++gradle.version=8.9
+diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/vcs-1/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/vcs-1/gc.properties
+new file mode 100644
+index 0000000..e69de29
 diff --git a/node_modules/react-native-face-detector-camera/android/.project b/node_modules/react-native-face-detector-camera/android/.project
 new file mode 100644
 index 0000000..595f579
@@ -50,6 +102,51 @@ index 0000000..595f579
 +		</filter>
 +	</filteredResources>
 +</projectDescription>
+diff --git a/node_modules/react-native-face-detector-camera/android/.settings/org.eclipse.buildship.core.prefs b/node_modules/react-native-face-detector-camera/android/.settings/org.eclipse.buildship.core.prefs
+new file mode 100644
+index 0000000..1675490
+--- /dev/null
++++ b/node_modules/react-native-face-detector-camera/android/.settings/org.eclipse.buildship.core.prefs
+@@ -0,0 +1,2 @@
++connection.project.dir=../../../android
++eclipse.preferences.version=1
+diff --git a/node_modules/react-native-face-detector-camera/android/build.gradle b/node_modules/react-native-face-detector-camera/android/build.gradle
+index d1452b8..a61a2d7 100644
+--- a/node_modules/react-native-face-detector-camera/android/build.gradle
++++ b/node_modules/react-native-face-detector-camera/android/build.gradle
+@@ -63,6 +63,16 @@ android {
+     kotlinOptions {
+       jvmTarget = JavaVersion.VERSION_11.majorVersion
+     }
++  } else {
++    // Expo SDK 52 builds its Android code against Java 17. Keep this module's
++    // Kotlin bytecode target aligned with Java so Gradle can compile it.
++    compileOptions {
++      sourceCompatibility JavaVersion.VERSION_17
++      targetCompatibility JavaVersion.VERSION_17
++    }
++    kotlinOptions {
++      jvmTarget = JavaVersion.VERSION_17.majorVersion
++    }
+   }
+ 
+   namespace "com.facedetectorcamera"
+@@ -75,6 +85,9 @@ android {
+   lintOptions {
+     abortOnError false
+   }
++  aaptOptions {
++    noCompress "tflite"
++  }
+   publishing {
+     singleVariant("release") {
+       withSourcesJar()
+@@ -101,4 +114,5 @@ dependencies {
+   
+   implementation 'com.google.mlkit:face-detection:16.1.6'
+   api "androidx.exifinterface:exifinterface:1.3.6"
++  implementation 'org.tensorflow:tensorflow-lite:2.14.0'
+ }
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraModule.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraModule.kt
 index b56f488..90f8aee 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraModule.kt
@@ -70,7 +167,7 @@ index b56f488..90f8aee 100644
          if (!EmulatorUtilities.isRunningOnEmulator()) {
            view.takePicture(options, promise, cacheDirectory)
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
-index afd158a..c37be56 100644
+index afd158a..3f7bf63 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/CameraView.kt
 @@ -2,9 +2,12 @@ package com.facedetectorcamera
@@ -103,7 +200,7 @@ index afd158a..c37be56 100644
      private val scope = CoroutineScope(Dispatchers.Main)
  
      var lenFacing = CameraType.FRONT
-@@ -82,6 +88,71 @@ class CameraView(
+@@ -82,6 +88,77 @@ class CameraView(
      // Scanning-related properties
      private var faceDetectorSettings = FaceDetectorSettings()
      private var shouldDetectFaces = false
@@ -162,9 +259,15 @@ index afd158a..c37be56 100644
 +        // then rebuild the analyzer that captured the old one.
 +        if (cameraExecutor.isShutdown) {
 +            cameraExecutor = newCameraExecutor()
-+            if (cameraProvider != null || shouldDetectFaces) {
-+                post { createCamera() }
-+            }
++        }
++        // Rebind on every reattach, not only after an executor rebuild. A bind that
++        // failed transiently while the executor was alive (activity briefly
++        // unavailable, another camera instance still mid-release) left this view
++        // with no camera and nothing ever retried — the preview froze and face
++        // events stopped until the app was restarted. createCamera() is an
++        // unbind-then-bind, so an extra call on a healthy camera is harmless.
++        if (cameraProvider != null || shouldDetectFaces) {
++            post { createCamera() }
 +        }
 +    }
 +
@@ -175,7 +278,7 @@ index afd158a..c37be56 100644
  
      override fun onLayout(
          changed: Boolean,
-@@ -94,6 +165,7 @@ class CameraView(
+@@ -94,6 +171,7 @@ class CameraView(
          val height = bottom - top
  
          previewView.layout(0, 0, width, height)
@@ -183,7 +286,7 @@ index afd158a..c37be56 100644
          postInvalidate(left, top, right, bottom)
      }
  
-@@ -133,15 +205,50 @@ class CameraView(
+@@ -133,15 +211,50 @@ class CameraView(
          )
      }
  
@@ -234,7 +337,7 @@ index afd158a..c37be56 100644
                      .build()
                      .also {
                          it.setSurfaceProvider(previewView.surfaceProvider)
-@@ -151,8 +258,10 @@ class CameraView(
+@@ -151,8 +264,10 @@ class CameraView(
                      .requireLensFacing(lenFacing.mapToCharacteristic())
                      .build()
  
@@ -247,7 +350,7 @@ index afd158a..c37be56 100644
  
                  Log.d("FaceDetector", "applying useCases")
                  val useCases = UseCaseGroup.Builder().apply {
-@@ -182,11 +291,17 @@ class CameraView(
+@@ -182,11 +297,17 @@ class CameraView(
          )
      }
  
@@ -267,7 +370,7 @@ index afd158a..c37be56 100644
                      .build()
              )
              .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-@@ -194,9 +309,11 @@ class CameraView(
+@@ -194,9 +315,11 @@ class CameraView(
              .also { analyzer ->
                  Log.d("FaceDetector", "analyzer creating")
                  analyzer.setAnalyzer(
@@ -282,7 +385,7 @@ index afd158a..c37be56 100644
                      }
                  )
              }
-@@ -214,12 +331,20 @@ class CameraView(
+@@ -214,12 +337,20 @@ class CameraView(
      }
  
      fun setShouldDetectFaces(shouldDetectFaces: Boolean) {
@@ -304,7 +407,7 @@ index afd158a..c37be56 100644
      }
  
      fun releaseCamera() {
-@@ -229,7 +354,9 @@ class CameraView(
+@@ -229,7 +360,9 @@ class CameraView(
      }
  
      private fun onFacesDetected(
@@ -315,7 +418,7 @@ index afd158a..c37be56 100644
      ) {
          Log.d("FaceDetector", "onFacesDetected private fun call")
          if (shouldDetectFaces) {
-@@ -237,7 +364,9 @@ class CameraView(
+@@ -237,7 +370,9 @@ class CameraView(
              onFacesDetected(
                  FacesDetectedEvent(
                      faces,
@@ -326,7 +429,7 @@ index afd158a..c37be56 100644
                  )
              )
          }
-@@ -253,6 +382,10 @@ class CameraView(
+@@ -253,6 +388,10 @@ class CameraView(
      )
  
      init {
@@ -337,7 +440,7 @@ index afd158a..c37be56 100644
          previewView.setOnHierarchyChangeListener(object : OnHierarchyChangeListener {
              override fun onChildViewRemoved(parent: View?, child: View?) = Unit
              override fun onChildViewAdded(parent: View?, child: View?) {
-@@ -264,6 +397,36 @@ class CameraView(
+@@ -264,6 +403,36 @@ class CameraView(
              }
          })
          addView(previewView)
@@ -3887,6 +3990,53 @@ index 0000000..4ebfabf
 +        assertEquals(0, res.second)
 +    }
 +}
+diff --git a/node_modules/react-native-face-detector-camera/build/Camera.types.d.ts b/node_modules/react-native-face-detector-camera/build/Camera.types.d.ts
+index b847b2f..c6915a0 100644
+--- a/node_modules/react-native-face-detector-camera/build/Camera.types.d.ts
++++ b/node_modules/react-native-face-detector-camera/build/Camera.types.d.ts
+@@ -1,7 +1,7 @@
+ import { PermissionResponse, PermissionStatus, PermissionExpiration, PermissionHookOptions } from 'expo-modules-core';
+ import { Ref } from 'react';
+ import type { ViewProps } from 'react-native';
+-export type CameraType = 'front';
++export type CameraType = 'front' | 'back';
+ export type CameraCapturedPicture = {
+     /**
+      * Captured image width.
+@@ -261,7 +261,9 @@ export type FaceDetectorSettings = {
+      * `faceID` attribute which should be consistent across frames.
+      * @default false
+      */
+-    tracking?: boolean;
++    tracking?: boolean
++  /** Temporary native 112x112 crop thumbnail for development inspection. */
++  debugNormalizedPreview?: boolean;
+ };
+ export type CameraProps = ViewProps & {
+     /**
+@@ -293,6 +295,7 @@ export type CameraProps = ViewProps & {
+  */
+ export interface CameraViewRef {
+     readonly takePicture: (options: CameraPictureOptions) => Promise<CameraCapturedPicture>;
++    readonly freezePreview: () => Promise<CameraCapturedPicture>;
+ }
+ /**
+  * @hidden
+diff --git a/node_modules/react-native-face-detector-camera/build/CameraView.js b/node_modules/react-native-face-detector-camera/build/CameraView.js
+index 98cf88f..9be0a33 100644
+--- a/node_modules/react-native-face-detector-camera/build/CameraView.js
++++ b/node_modules/react-native-face-detector-camera/build/CameraView.js
+@@ -53,6 +53,10 @@ export default class CameraView extends React.Component {
+         const pictureOptions = ensurePictureOptions(options);
+         return await this._cameraRef.current?.takePicture(pictureOptions);
+     }
++    /** Returns the exact PreviewView frame for instant still-frame review. */
++    async freezePreviewAsync() {
++        return await this._cameraRef.current?.freezePreview();
++    }
+     _onCameraReady = () => {
+         if (this.props.onCameraReady) {
+             this.props.onCameraReady();
 diff --git a/node_modules/react-native-face-detector-camera/src/Camera.types.ts b/node_modules/react-native-face-detector-camera/src/Camera.types.ts
 index bce7c94..44f7948 100644
 --- a/node_modules/react-native-face-detector-camera/src/Camera.types.ts

@@ -91,8 +91,8 @@ android {
         applicationId 'com.anonymous.facewmobile'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 2
+        versionName "1.0.1"
     }
     signingConfigs {
         debug {
@@ -144,6 +144,15 @@ android {
             android.packagingOptions[prop] += it
         }
     }
+}
+
+// `EXPO_PUBLIC_*` variables from `.env` are inlined into the JS bundle when the
+// bundle task runs, but the task's declared inputs do not include `.env`. A
+// build after an env-only change therefore finishes UP-TO-DATE and re-ships the
+// old bundle — the stale-backend-URL bug. Registering the file as an input
+// forces a re-bundle whenever it changes.
+tasks.matching { it.name.startsWith("createBundle") && it.name.endsWith("JsAndAssets") }.configureEach {
+    inputs.file(file("$projectRoot/.env"))
 }
 
 dependencies {

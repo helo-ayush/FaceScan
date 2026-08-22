@@ -6,15 +6,10 @@ import { useAdminAuth } from "@/utils/AdminAuthProvider";
 
 export default function TabsLayout() {
   const router = useRouter();
-  const { isAdminUnlocked, lockAdmin } = useAdminAuth();
+  const { isAdminUnlocked } = useAdminAuth();
 
   useFocusEffect(
     React.useCallback(() => {
-      if (!isAdminUnlocked) {
-        router.replace("/login");
-        return;
-      }
-
       // Android hardware back. Two separate things made the default wrong:
       //  - the root stack still holds the `/login` screen we signed in through, so
       //    an ordinary pop landed on the password form instead of the scan screen;
@@ -24,20 +19,26 @@ export default function TabsLayout() {
       // so one press always lands on the scan screen. BackHandler runs subscribers
       // newest-first and NavigationContainer registers its own on mount, so this
       // one — registered later, on focus — is consulted first.
+      //
+      // Locking does NOT happen here. This used to lock in the cleanup on every
+      // blur, which also fired when /settings was pushed on top of the tabs —
+      // returning from settings then redirected to /login — and the lock racing
+      // the back-navigation replaced the dismissal with /login. Locking now lives
+      // in AdminAuthProvider, decided from the settled pathname.
       const backSubscription = BackHandler.addEventListener("hardwareBackPress", () => {
         router.dismissTo("/");
         return true;
       });
 
-      // Tabs may switch freely. Leaving the entire Admin group locks it, so a
-      // fresh username/password entry is always required on the next visit.
       return () => {
         backSubscription.remove();
-        lockAdmin();
       };
-    }, [isAdminUnlocked, lockAdmin, router])
+    }, [router])
   );
 
+  // AdminAuthProvider redirects to /login when an admin surface renders without
+  // an unlock (cold deep link, or the app-backgrounded lock). Rendering null
+  // here keeps the tabs from flashing underneath that redirect.
   if (!isAdminUnlocked) return null;
 
   return (

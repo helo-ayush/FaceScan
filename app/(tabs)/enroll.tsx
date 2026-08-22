@@ -13,22 +13,21 @@ import {
 import { useFocusEffect, useNavigation } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
+  FadeIn,
   FadeInUp,
   FadeInDown,
-  SlideInDown,
-  SlideOutDown,
   useSharedValue,
   useAnimatedStyle,
   withSequence,
   withTiming,
 } from "react-native-reanimated";
+import * as FileSystem from "expo-file-system";
 
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Icon } from "@/components/Icon";
 import { SkeletonBlock } from "@/components/ScreenSkeleton";
 import { LiveFaceCamera, RealtimeFace, RealtimeLighting } from "@/components/LiveFaceCamera";
 import { AppSettings, useAppSettings } from "@/utils/settings";
-import { useFaceDetection } from "@infinitered/react-native-mlkit-face-detection";
 import { mapFaceToPreview } from "@/utils/faceBoxUtils";
 import {
   averageEmbeddings,
@@ -40,7 +39,7 @@ import {
   type PoseKey,
 } from "@/utils/faceMatching";
 import { useSyncEngine } from "@/utils/SyncProvider";
-import { insertPendingEnrollment, getCachedClasses } from "@/utils/localDb";
+import { insertPendingEnrollment, getCachedClasses, replaceCachedClasses } from "@/utils/localDb";
 
 import { API_URL } from "@/utils/apiConfig";
 /**
@@ -79,6 +78,14 @@ const MIN_SAMPLE_COHESION = 0.75;
  * without this check a burst could average the same vector several times over.
  */
 const MAX_DUPLICATE_SIMILARITY = 0.9995;
+
+/**
+ * Hard ceiling on the class-list refresh. `fetch` has no default timeout in React
+ * Native, so a backend that accepts the connection and then never answers used to
+ * leave the dropdown skeleton spinning with no way out. Matches the bound the sync
+ * engine already applies to every one of its own requests.
+ */
+const CLASS_FETCH_TIMEOUT_MS = 10000;
 
 type PoseStep = {
   key: PoseKey;
@@ -156,8 +163,7 @@ export default function EnrollScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const { settings, updateSetting } = useAppSettings();
-  const faceDetector = useFaceDetection();
-  const { triggerSync } = useSyncEngine();
+  const { triggerSync, status: syncStatus } = useSyncEngine();
 
   const cameraHandleRef = useRef<any>(null);
 
@@ -218,6 +224,59 @@ export default function EnrollScreen() {
     cohesion: number;
   } | null>(null);
 
+  /**
+   * Mirror of `pendingCapture` for the camera callback. The native detector emits
+   * a frame every `PERFORMANCE_PRESETS[...].intervalMs` — 50 ms on the default
+   * "balanced" setting, so twenty times a second. Reading the flag from a ref lets
+   * `handleFaceChange` stay referentially stable and drop those frames without a
+   * state read, which is what stops the whole screen re-rendering while the review
+   * sheet is on screen.
+   */
+  const pendingCaptureRef = useRef(false);
+  pendingCaptureRef.current = pendingCapture !== null;
+
+  /**
+   * Last frozen preview frame written to the cache directory. Kept so it can be
+   * deleted on retake/confirm/close — `freezePreview` writes a temp JPEG per call,
+   * and without this every retake would leave one behind for the life of the app.
+   */
+  const freezeUriRef = useRef<string | null>(null);
+
+  /**
+   * In-scanner failure message (cohesion too low, burst stalled, no face yet).
+   * These used to be `alert()` calls, which threw a system modal over the camera
+   * mid-capture; an inline banner keeps the person in the flow.
+   */
+  const [captureError, setCaptureError] = useState<string | null>(null);
+  const captureErrorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showCaptureError = useCallback((message: string) => {
+    setCaptureError(message);
+    if (captureErrorTimerRef.current) clearTimeout(captureErrorTimerRef.current);
+    captureErrorTimerRef.current = setTimeout(() => setCaptureError(null), 4000);
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (captureErrorTimerRef.current) clearTimeout(captureErrorTimerRef.current);
+    },
+    [],
+  );
+
+  /** Throw away a frozen preview frame once the review that used it is over. */
+  const discardFreezeFrame = useCallback(() => {
+    const uri = freezeUriRef.current;
+    freezeUriRef.current = null;
+    if (!uri) return;
+    FileSystem.deleteAsync(uri, { idempotent: true }).catch(() => {
+      // A leftover file in the cache directory is harmless; Android reclaims it.
+    });
+  }, []);
+
+  // Catch-all for the one path the Retake/Confirm/Close handlers cannot cover:
+  // leaving the tab outright while a review is still open.
+  useEffect(() => discardFreezeFrame, [discardFreezeFrame]);
+
   // Burst capture progress. Samples accumulate in a ref because they are fed by
   // the camera callback and must not trigger a re-render per frame.
   const burstSamplesRef = useRef<number[][]>([]);
@@ -253,7 +312,29 @@ export default function EnrollScreen() {
   const hasLoadedEnrollSetup = useRef(false);
   const apiUrl = API_URL;
 
-  async function fetchEnrollClasses() {
+  /**
+   * Applies a freshly loaded class list without clobbering a choice the person has
+   * already made. Uses a functional update so it never has to read
+   * `selectedClassId`, which is what let `fetchEnrollClasses` drop that value from
+   * its dependencies — the focus effect used to list `selectedClassId` in its deps
+   * while this code set it, re-running the whole load on every dropdown change.
+   */
+  const applyClassList = useCallback(
+    (formatted: { id: string; code: string; title: string }[]) => {
+      setClassesList(formatted);
+      if (formatted.length === 0) {
+        setSelectedClassId("");
+        return;
+      }
+      setSelectedClassId((current) =>
+        // Keep the current choice if it still exists in the new list.
+        current && formatted.some((f) => f.id === current) ? current : formatted[0].id,
+      );
+    },
+    [],
+  );
+
+  const fetchEnrollClasses = useCallback(async () => {
     const showSkeleton = !hasLoadedEnrollSetup.current;
     if (showSkeleton) setLoadingEnrollSetup(true);
 
@@ -261,15 +342,9 @@ export default function EnrollScreen() {
     try {
       const cached = await getCachedClasses();
       if (cached.length > 0) {
-        const formatted = cached.map((c) => ({
-          id: c.class_id,
-          code: c.code,
-          title: c.title,
-        }));
-        setClassesList(formatted);
-        if (!formatted.some((f) => f.id === selectedClassId)) {
-          setSelectedClassId(formatted[0].id);
-        }
+        applyClassList(
+          cached.map((c) => ({ id: c.class_id, code: c.code, title: c.title })),
+        );
         // Cache loaded — hide skeleton immediately
         hasLoadedEnrollSetup.current = true;
         if (showSkeleton) setLoadingEnrollSetup(false);
@@ -278,37 +353,68 @@ export default function EnrollScreen() {
       console.warn("Failed to load cached classes:", err);
     }
 
-    // 2. Try to refresh from server (updates the dropdown if online)
+    // 2. Try to refresh from server (updates the dropdown if online). Skipped
+    //    outright when the sync engine already knows the device is offline, so a
+    //    known-offline enroll screen never waits on a request that cannot succeed.
+    if (syncStatus.isOnline === false) {
+      hasLoadedEnrollSetup.current = true;
+      if (showSkeleton) setLoadingEnrollSetup(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), CLASS_FETCH_TIMEOUT_MS);
     try {
-      const res = await fetch(`${apiUrl}/api/classes`);
+      const res = await fetch(`${apiUrl}/api/classes`, { signal: controller.signal });
+      if (!res.ok) throw new Error(`Class list request failed (${res.status})`);
       const data = await res.json();
-      const formatted = data.map((c: any) => ({
+      const formatted = (Array.isArray(data) ? data : []).map((c: any) => ({
         id: c.id,
         code: c.code,
         title: c.title,
       }));
-      setClassesList(formatted);
+      applyClassList(formatted);
+      // Persist what we just fetched. Without this, a device that only ever
+      // visited this screen while online had an empty cache the moment it went
+      // offline, because only the sync engine wrote `cached_classes`.
       if (formatted.length > 0) {
-        if (!formatted.some((f: any) => f.id === selectedClassId)) {
-          setSelectedClassId(formatted[0].id);
-        }
-      } else {
-        setSelectedClassId("");
+        await replaceCachedClasses(
+          formatted.map((c) => ({ id: c.id, code: c.code, title: c.title })),
+        );
       }
     } catch (err) {
-      // Offline — cache is already loaded above, so enrollment still works
+      // Offline or unreachable — the cache above already populated the dropdown,
+      // so enrollment still works and nothing needs to be surfaced here.
       console.warn("Network fetch for classes failed (offline mode):", err);
     } finally {
+      clearTimeout(timer);
       hasLoadedEnrollSetup.current = true;
       if (showSkeleton) setLoadingEnrollSetup(false);
     }
-  }
+  }, [apiUrl, applyClassList, syncStatus.isOnline]);
 
   useFocusEffect(
     useCallback(() => {
-      fetchEnrollClasses();
-    }, [selectedClassId])
+      void fetchEnrollClasses();
+    }, [fetchEnrollClasses])
   );
+
+  /**
+   * Camera frame sink. Frames are dropped outright while a capture is under review,
+   * because nothing on screen can change until Retake or Confirm is pressed. The
+   * native detector emits up to twenty frames a second and each one re-rendered
+   * this entire screen, which is what made the Confirm/Retake sheet take a visible
+   * moment to appear and then respond sluggishly to the first tap.
+   */
+  const handleFaceChange = useCallback((face: RealtimeFace | null) => {
+    if (pendingCaptureRef.current) return;
+    setCurrentFace(face);
+  }, []);
+
+  const handleLightingChange = useCallback((lighting: RealtimeLighting) => {
+    if (pendingCaptureRef.current) return;
+    setCurrentLighting(lighting);
+  }, []);
 
   const openScanner = () => {
     AppSettings.haptic("medium");
@@ -316,7 +422,10 @@ export default function EnrollScreen() {
     const firstUncaptured = POSE_STEPS.findIndex((step) => !capturedEmbeddings[step.key]);
     setCurrentStepIndex(firstUncaptured !== -1 ? firstUncaptured : 0);
     setPendingCapture(null);
+    pendingCaptureRef.current = false;
     setCurrentFace(null);
+    setCaptureError(null);
+    discardFreezeFrame();
     setScannerVisible(true);
   };
 
@@ -324,7 +433,11 @@ export default function EnrollScreen() {
     AppSettings.haptic("light");
     cancelBurstRef.current?.();
     setPendingCapture(null);
+    pendingCaptureRef.current = false;
     setCapturingPhoto(false);
+    setCurrentFace(null);
+    setCaptureError(null);
+    discardFreezeFrame();
     setScannerVisible(false);
   };
 
@@ -340,6 +453,9 @@ export default function EnrollScreen() {
     });
     setCurrentStepIndex(0);
     setPendingCapture(null);
+    pendingCaptureRef.current = false;
+    setCaptureError(null);
+    discardFreezeFrame();
   };
 
   const currentStep = POSE_STEPS[currentStepIndex];
@@ -437,18 +553,18 @@ export default function EnrollScreen() {
 
     if (!centroid) {
       cancelBurst();
-      alert("Could not build a face template from this capture. Please try again.");
+      setCapturingPhoto(false);
+      AppSettings.haptic("error");
+      showCaptureError("Could not build a face template from that capture. Try again.");
       return;
     }
 
     if (cohesion < MIN_SAMPLE_COHESION) {
       // The frames disagreed too much; averaging them would weaken the template.
       cancelBurst();
+      setCapturingPhoto(false);
       AppSettings.haptic("error");
-      alert(
-        "The captured frames varied too much (likely movement or changing light). " +
-          "Please hold still and capture this pose again.",
-      );
+      showCaptureError("Frames varied too much — hold still and capture this pose again.");
       return;
     }
 
@@ -457,17 +573,16 @@ export default function EnrollScreen() {
       embedding: centroid,
     };
 
-    const previewUri = frozenFace.previewBase64
-      ? frozenFace.previewBase64.startsWith("data:")
-        ? frozenFace.previewBase64
-        : `data:image/jpeg;base64,${frozenFace.previewBase64}`
-      : null;
-
+    // Show the review sheet on this same commit. The still frame is fetched
+    // afterwards and patched in when it lands, because `freezePreview` has to copy
+    // the preview surface and encode a JPEG — awaiting it here would put that
+    // latency in front of the buttons the person is waiting for.
+    pendingCaptureRef.current = true;
     setPendingCapture({
       poseKey: currentStep.key,
       embedding: centroid,
       face: frozenFace,
-      uri: previewUri,
+      uri: null,
       sampleCount: samples.length,
       cohesion,
     });
@@ -477,7 +592,28 @@ export default function EnrollScreen() {
     setBurstHint(null);
     setCapturingPhoto(false);
     AppSettings.haptic("success");
-  }, [currentFace, currentStep.key, evaluateSample, cancelBurst]);
+
+    const capturedPoseKey = currentStep.key;
+    cameraHandleRef.current
+      ?.freezePreviewAsync?.()
+      .then((frame: { uri?: string } | undefined) => {
+        if (!frame?.uri) return;
+        // Land it only if the same review is still open — a fast Retake or Confirm
+        // must not have a late still frame appear on top of it.
+        setPendingCapture((current) => {
+          if (!current || current.poseKey !== capturedPoseKey || current.uri) {
+            FileSystem.deleteAsync(frame.uri as string, { idempotent: true }).catch(() => {});
+            return current;
+          }
+          freezeUriRef.current = frame.uri as string;
+          return { ...current, uri: frame.uri as string };
+        });
+      })
+      .catch(() => {
+        // Preview surface not readable yet. The review sheet stays over the live
+        // feed, exactly as it behaved before, so nothing needs saying.
+      });
+  }, [currentFace, currentStep.key, evaluateSample, cancelBurst, showCaptureError]);
 
   // Starts the burst on its own once the pose has been held steady, so nobody
   // has to hold a 45-degree turn while hunting for the shutter button. The
@@ -527,12 +663,12 @@ export default function EnrollScreen() {
       cancelBurst();
       setCapturingPhoto(false);
       AppSettings.haptic("error");
-      alert("Could not capture enough clear frames. Please check lighting, hold still, and try again.");
+      showCaptureError("Not enough clear frames. Check the lighting, hold still, and try again.");
     }, BURST_TIMEOUT_MS);
     return () => clearTimeout(timer);
-  }, [capturingPhoto, burstProgress, cancelBurst]);
+  }, [capturingPhoto, burstProgress, cancelBurst, showCaptureError]);
 
-  const handleManualCapture = async () => {
+  const handleManualCapture = () => {
     if (capturingPhoto || pendingCapture) return;
 
     // If strict lighting check is enabled and there is an active lighting warning:
@@ -542,7 +678,8 @@ export default function EnrollScreen() {
     }
 
     if (!currentFace) {
-      alert("No face detected in camera frame. Please position your face inside the frame.");
+      AppSettings.haptic("error");
+      showCaptureError("No face in the frame — line your face up inside the guide.");
       return;
     }
 
@@ -550,11 +687,13 @@ export default function EnrollScreen() {
     // produced a real embedding yet, block the capture and ask the user to retry
     // rather than silently saving noise to the database.
     if (!currentFace.embedding || currentFace.embedding.length === 0) {
-      alert("Face embedding not ready. Please hold still and try again in a moment.");
+      AppSettings.haptic("error");
+      showCaptureError("Still reading your face — hold still for a moment, then tap again.");
       return;
     }
 
     AppSettings.haptic("medium");
+    setCaptureError(null);
 
     // Start collecting a burst; the effect above averages it into a template.
     startBurst();
@@ -567,8 +706,12 @@ export default function EnrollScreen() {
     const poseKeyToSave = pendingCapture.poseKey;
     const embeddingToSave = pendingCapture.embedding;
 
-    // Instantly clear pending capture state before any navigation
+    // Instantly clear pending capture state before any navigation. The ref is set
+    // in the same breath so the very next camera frame is accepted again rather
+    // than waiting for the re-render to publish the new state.
+    pendingCaptureRef.current = false;
     setPendingCapture(null);
+    discardFreezeFrame();
 
     setCapturedEmbeddings((prev) => ({
       ...prev,
@@ -590,22 +733,32 @@ export default function EnrollScreen() {
 
   const handleRetakePose = () => {
     AppSettings.haptic("light");
+    pendingCaptureRef.current = false;
     setPendingCapture(null);
+    discardFreezeFrame();
   };
 
-  const handleEnroll = async () => {
-    if (!studentName.trim() || !enrollmentId.trim() || !selectedClassId) {
-      alert("Please fill in Student Name, Enrollment ID, and select a Class.");
-      return;
-    }
+  const posesDone =
+    scanState === "done" &&
+    Boolean(capturedEmbeddings.front && capturedEmbeddings.left45 && capturedEmbeddings.right45);
 
-    if (
-      scanState !== "done" ||
-      !capturedEmbeddings.front ||
-      !capturedEmbeddings.left45 ||
-      !capturedEmbeddings.right45
-    ) {
-      alert("Please complete face identifier setup for all 3 poses first.");
+  /**
+   * What is still missing before "Complete Enrollment" can do anything. Rendered
+   * under the button so the requirement is visible up front, instead of only
+   * appearing as a modal after a tap that could not have worked.
+   */
+  const missingRequirements = [
+    !selectedClassId && "pick a class",
+    !studentName.trim() && "student name",
+    !enrollmentId.trim() && "enrollment number",
+    !posesDone && "all 3 face poses",
+  ].filter(Boolean) as string[];
+  const canSubmit = missingRequirements.length === 0 && !submitting;
+  const isOffline = syncStatus.isOnline === false;
+
+  const handleEnroll = async () => {
+    if (!canSubmit) {
+      AppSettings.haptic("error");
       return;
     }
 
@@ -628,19 +781,21 @@ export default function EnrollScreen() {
       });
 
       AppSettings.haptic("success");
-      setToastMessage("Student Registered Successfully!");
+      setToastMessage(
+        isOffline ? "Saved on this device — will sync when online" : "Student Registered Successfully!",
+      );
       setToastVisible(true);
       setStudentName("");
       setEnrollmentId("");
       setScanState("idle");
       setCapturedEmbeddings({ front: null, left45: null, right45: null });
-      setTimeout(() => setToastVisible(false), 2400);
+      setTimeout(() => setToastVisible(false), 2800);
 
       // Trigger sync to push the enrollment to the server when online.
-      triggerSync();
+      void triggerSync();
     } catch (err) {
       console.error(err);
-      alert("Failed to save enrollment locally");
+      alert("Failed to save enrollment on this device. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -668,9 +823,15 @@ export default function EnrollScreen() {
         </View>
       )}
 
+      {/* The form is unmounted while the scanner is up. It is completely hidden
+          behind the opaque scanner overlay anyway, and leaving ~250 lines of JSX
+          mounted meant every camera frame re-rendered all of it. Its entering
+          animations replay when the scanner closes, which reads as intentional. */}
+      {!scannerVisible && (
       <ScrollView
         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <Animated.View entering={FadeInUp.delay(100).duration(500)} className="mb-6">
           <Text className="text-3xl font-bold text-on-surface tracking-tight">
@@ -710,7 +871,8 @@ export default function EnrollScreen() {
                     <Text className="text-on-surface font-bold text-sm mt-0.5" numberOfLines={1}>
                       {(() => {
                         const selectedClass = classesList.find((c) => c.id === selectedClassId);
-                        return selectedClass ? `${selectedClass.code} • ${selectedClass.title}` : "Select a Course Class";
+                        if (selectedClass) return `${selectedClass.code} • ${selectedClass.title}`;
+                        return classesList.length === 0 ? "No classes available" : "Select a Course Class";
                       })()}
                     </Text>}
                 </View>
@@ -725,6 +887,22 @@ export default function EnrollScreen() {
                 entering={FadeInDown.duration(200)}
                 className="mt-2.5 bg-surface border border-slate-100 rounded-2xl overflow-hidden shadow-soft gap-0.5 p-1"
               >
+                {/* Empty state. An empty dropdown used to open to nothing at all,
+                    which looks like a broken screen rather than a missing class list. */}
+                {classesList.length === 0 && (
+                  <View className="px-4 py-5 items-center gap-1.5">
+                    <Icon name="school" size={20} color="#cbd5e1" />
+                    <Text className="text-xs font-extrabold text-on-surface text-center">
+                      No classes on this device yet
+                    </Text>
+                    <Text className="text-[11px] font-semibold text-on-surface-variant text-center leading-snug">
+                      {isOffline
+                        ? "You are offline. Connect once so the class list can download — after that it stays on the phone."
+                        : "Create a class in the admin panel, then reopen this screen."}
+                    </Text>
+                  </View>
+                )}
+
                 {classesList.map((c) => {
                   const isSelected = selectedClassId === c.id;
                   return (
@@ -882,18 +1060,48 @@ export default function EnrollScreen() {
         </Animated.View>
 
         {/* Submit Button */}
-        <Animated.View entering={FadeInUp.delay(420).duration(500)} className="shadow-premium rounded-2xl bg-primary">
-          <Pressable
-            onPress={handleEnroll}
-            disabled={submitting}
-            className="py-4 items-center justify-center active:scale-[0.98] transition-all disabled:opacity-50"
+        <Animated.View entering={FadeInUp.delay(420).duration(500)}>
+          <View
+            className="shadow-premium rounded-2xl bg-primary"
+            style={{ opacity: canSubmit ? 1 : 0.45 }}
           >
-            <Text className="text-on-primary font-bold text-base tracking-wide">
-              {submitting ? "Processing Embeddings & Registering..." : "Complete Enrollment"}
-            </Text>
-          </Pressable>
+            <Pressable
+              onPress={handleEnroll}
+              disabled={!canSubmit}
+              className="py-4 items-center justify-center active:scale-[0.98] transition-all"
+            >
+              <Text className="text-on-primary font-bold text-base tracking-wide">
+                {submitting ? "Saving enrollment…" : "Complete Enrollment"}
+              </Text>
+            </Pressable>
+          </View>
+
+          {/* Why the button is dimmed. Before this, tapping an incomplete form
+              either did nothing or threw an alert, with no standing indication of
+              what was still missing. */}
+          {missingRequirements.length > 0 && !submitting && (
+            <View className="flex-row items-start gap-1.5 mt-3 px-1">
+              <Icon name="info" size={13} color="#94a3b8" />
+              <Text className="flex-1 text-[11px] font-semibold text-on-surface-variant leading-snug">
+                Still needed: {missingRequirements.join(", ")}.
+              </Text>
+            </View>
+          )}
+
+          {/* Offline is a supported state here, not an error — the record is written
+              to this device and the sync engine pushes it on the next connection. */}
+          {isOffline && (
+            <View className="flex-row items-center gap-2 mt-3 px-3 py-2.5 rounded-2xl bg-amber-50 border border-amber-200">
+              <Icon name="cloud_off" size={15} color="#d97706" />
+              <Text className="flex-1 text-[11px] font-bold text-amber-800 leading-snug">
+                No connection — this enrollment saves on the phone and uploads by
+                itself once you are back online.
+              </Text>
+            </View>
+          )}
         </Animated.View>
       </ScrollView>
+      )}
 
       {/* FULL-SCREEN LIGHT-THEMED MULTI-POSE CAMERA SCANNER OVERLAY */}
       {scannerVisible && (
@@ -912,8 +1120,8 @@ export default function EnrollScreen() {
             faceDetectorMode="accurate"
             showNativeOverlay={!pendingCapture}
             smoothNativeOverlay={settings.smoothFaceBox}
-            onFaceChange={setCurrentFace}
-            onLightingChange={setCurrentLighting}
+            onFaceChange={handleFaceChange}
+            onLightingChange={handleLightingChange}
             onCameraReady={() => {}}
             onError={() => {}}
             onPreviewLayout={(e) => {
@@ -922,15 +1130,14 @@ export default function EnrollScreen() {
             }}
           />
 
-          {/* Static Captured Photo Snapshot Image (shows captured photo instead of live camera) */}
-          {pendingCapture && pendingCapture.uri && (
+          {/* The frame that was actually captured, frozen over the live feed while
+              the person decides. `freezePreview` returns what PreviewView was
+              *displaying*, which already includes the front-camera mirror, so no
+              further transform belongs here. */}
+          {pendingCapture?.uri && (
             <Image
               source={{ uri: pendingCapture.uri }}
-              style={[
-                StyleSheet.absoluteFillObject,
-                settings.cameraFacing === "front" ? { transform: [{ scaleX: -1 }] } : {},
-                { zIndex: 10 },
-              ]}
+              style={[StyleSheet.absoluteFillObject, { zIndex: 10 }]}
               resizeMode="cover"
             />
           )}
@@ -1075,6 +1282,49 @@ export default function EnrollScreen() {
                 zIndex: 300,
               }}
             >
+              {/* CAPTURE PROBLEM BANNER — replaces the system alerts that used to
+                  cover the camera whenever a burst failed mid-capture. */}
+              {captureError && (
+                <Animated.View
+                  entering={FadeIn.duration(140)}
+                  style={{
+                    width: "100%",
+                    marginBottom: 12,
+                    backgroundColor: "rgba(254, 242, 242, 0.97)",
+                    borderWidth: 1.5,
+                    borderColor: "#f87171",
+                    padding: 14,
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    shadowColor: "#ef4444",
+                    shadowOpacity: 0.22,
+                    shadowRadius: 12,
+                    shadowOffset: { width: 0, height: 4 },
+                    elevation: 6,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 38,
+                      height: 38,
+                      borderRadius: 12,
+                      backgroundColor: "#fee2e2",
+                      borderWidth: 1,
+                      borderColor: "rgba(239, 68, 68, 0.3)",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRight: 12,
+                    }}
+                  >
+                    <Icon name="error" size={20} color="#dc2626" />
+                  </View>
+                  <Text style={{ flex: 1, color: "#991b1b", fontSize: 12, fontWeight: "700" }}>
+                    {captureError}
+                  </Text>
+                </Animated.View>
+              )}
+
               {/* UPGRADED LIGHTING WARNING BANNER WITH WIGGLE */}
               {activeWarning && (
                 <Animated.View
@@ -1217,6 +1467,31 @@ export default function EnrollScreen() {
                   </Text>
                 </View>
 
+                {/* Burst fill bar. Collecting the accepted frames for one pose takes
+                    around three seconds, and a bare "3/6" counter made that wait read
+                    as a freeze. The bar steps as each frame is accepted, so there is
+                    always visible movement. */}
+                {capturingPhoto && (
+                  <View
+                    style={{
+                      height: 6,
+                      borderRadius: 3,
+                      backgroundColor: "#e2e8f0",
+                      marginTop: 10,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <View
+                      style={{
+                        height: "100%",
+                        borderRadius: 3,
+                        width: `${Math.min(100, (burstProgress / SAMPLES_PER_POSE) * 100)}%`,
+                        backgroundColor: "#4f46e5",
+                      }}
+                    />
+                  </View>
+                )}
+
                 {/* Step progress dots */}
                 <View style={{ flexDirection: "row", marginTop: 14, gap: 6 }}>
                   {POSE_STEPS.map((step, idx) => {
@@ -1327,8 +1602,12 @@ export default function EnrollScreen() {
                 },
               ]}
             >
+              {/* A short fade rather than the old 300 ms slide-up. The slide ran on
+                  the same JS thread that was still being handed camera frames, so
+                  its first frames landed late and the whole sheet read as a stall
+                  before the buttons appeared. */}
               <Animated.View
-                entering={SlideInDown.duration(300)}
+                entering={FadeIn.duration(140)}
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.98)",
                   borderWidth: 1,
@@ -1412,6 +1691,21 @@ export default function EnrollScreen() {
                   </View>
                 </View>
 
+                {/* What happens after Confirm. Without this the person had no way to
+                    know whether they were about to be asked for another pose. */}
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                  <Icon
+                    name={currentStepIndex === POSE_STEPS.length - 1 ? "check_circle" : "arrow_forward"}
+                    size={14}
+                    color="#64748b"
+                  />
+                  <Text style={{ color: "#64748b", fontSize: 11, fontWeight: "700" }}>
+                    {currentStepIndex === POSE_STEPS.length - 1
+                      ? "Last pose — confirming finishes the scan."
+                      : `Next up: ${POSE_STEPS[currentStepIndex + 1].title} — ${POSE_STEPS[currentStepIndex + 1].instruction}`}
+                  </Text>
+                </View>
+
                 {/* Action Buttons */}
                 <View style={{ flexDirection: "row", gap: 12 }}>
                   <Pressable
@@ -1446,7 +1740,9 @@ export default function EnrollScreen() {
                       opacity: pendingCapture ? 1 : 0.45,
                     }}
                   >
-                    <Text style={{ color: "#ffffff", fontWeight: "900", fontSize: 14 }}>Confirm Pose</Text>
+                    <Text style={{ color: "#ffffff", fontWeight: "900", fontSize: 14 }}>
+                      {currentStepIndex === POSE_STEPS.length - 1 ? "Finish Scan" : "Confirm & Next"}
+                    </Text>
                   </Pressable>
                 </View>
               </Animated.View>

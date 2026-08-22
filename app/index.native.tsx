@@ -229,6 +229,17 @@ export default function CameraLandingScreen() {
   const [error, setError] = useState<string | null>(null);
   const [cameraReady, setCameraReady] = useState(false);
   const [previewLayout, setPreviewLayout] = useState<PreviewLayout | null>(null);
+  /**
+   * Camera lifecycle across navigation. Returning to this screen sometimes left
+   * the scan pipeline dead until an app restart: the native camera's reattach
+   * rebind only retries when its worker executor was shut down, a transient bind
+   * failure while it was alive never recovered, and a sticky `error` here kept
+   * the page on "Detector unavailable". Instead of reusing the detached view, the
+   * camera is unmounted on blur and mounted fresh (new `key`) on every focus, so
+   * each return starts the whole detection pipeline from a clean state.
+   */
+  const [screenActive, setScreenActive] = useState(true);
+  const [cameraSession, setCameraSession] = useState(0);
 
   // Student Roster & Real-time Matching state
   const [students, setStudents] = useState<StudentRecord[]>([]);
@@ -448,6 +459,25 @@ export default function CameraLandingScreen() {
     }, [scanSessionStart, scanSessionEnd, refreshDownloadedClasses, selectedClassId, loadRosterForClass])
   );
 
+  // Restart the camera pipeline on every return to this screen — from login,
+  // admin, settings, anywhere. Deliberately separate from the effect above and
+  // with stable deps, so it runs strictly on focus/blur and never restarts the
+  // camera when the roster callbacks or the selected class change mid-session.
+  useFocusEffect(
+    useCallback(() => {
+      setScreenActive(true);
+      setCameraSession((session) => session + 1);
+      // Stale verdicts and errors from the previous visit must not survive the
+      // round trip.
+      setError(null);
+      setCameraReady(false);
+      setFace(null);
+      setDisplayedLightingWarning(null);
+      setMatchedStudent(null);
+      return () => setScreenActive(false);
+    }, [])
+  );
+
   /** Classes that can actually be scanned — a verified package exists on disk. */
   const scannableClasses = useMemo(
     () => downloadedClasses.filter((c) => c.hasPackage),
@@ -460,6 +490,10 @@ export default function CameraLandingScreen() {
   // to upload — so "a class is selected" is not the same thing as "there are
   // face templates to match against". Previously those cases fell through to the
   // normal scanning UI and the camera simply never matched anyone.
+  //
+  // `title`/`message` are the full explanations shown in the mid-screen status;
+  // `pillTitle`/`pillMessage` are the one-line versions for the compact top
+  // warning pill (same slot and style as the lighting warnings).
   const scanBlocker = useMemo(() => {
     // Say nothing until both the class list and the roster for the *currently
     // selected* class have actually been read.
@@ -471,6 +505,8 @@ export default function CameraLandingScreen() {
         title: "Can't scan — no class on this device",
         message:
           'Face scan needs a downloaded class package. Ask your admin to sign in and download one from the admin panel.',
+        pillTitle: 'No class package',
+        pillMessage: 'Download one from the admin panel',
         cta: 'Open admin panel',
         action: 'admin' as const,
       };
@@ -482,6 +518,8 @@ export default function CameraLandingScreen() {
       return {
         title: "Can't scan — no class selected",
         message: 'Tap the class button at the top right and pick the class you are taking attendance for.',
+        pillTitle: 'No class selected',
+        pillMessage: 'Tap the class chip (top right)',
         cta: 'Choose a class',
         action: 'picker' as const,
       };
@@ -491,6 +529,8 @@ export default function CameraLandingScreen() {
       return {
         title: "Can't scan — package not downloaded",
         message: `${selected.className} has no face data on this device. Ask your admin to download this class package from the admin panel.`,
+        pillTitle: 'Package not downloaded',
+        pillMessage: 'Get it from the admin panel',
         cta: 'Open admin panel',
         action: 'admin' as const,
       };
@@ -500,6 +540,8 @@ export default function CameraLandingScreen() {
       return {
         title: "Can't scan — no students in this class",
         message: `${selected.className} was downloaded but contains no enrolled students. Enroll students, or download the package again after your admin adds them.`,
+        pillTitle: 'No students enrolled',
+        pillMessage: 'Enroll or re-download this class',
         cta: 'Open admin panel',
         action: 'admin' as const,
       };
@@ -804,19 +846,22 @@ export default function CameraLandingScreen() {
 
   return (
     <View className="flex-1 bg-black">
-      <LiveFaceCamera
-        performanceMode={settings.performance}
-        scanningPerformance={settings.scanningPerformance}
-        cameraFacing={settings.cameraFacing}
-        livenessStrictness={settings.livenessStrictness}
-        showNativeOverlay={true}
-        smoothNativeOverlay={settings.smoothFaceBox}
-        onFaceChange={setFace}
-        onLightingChange={setLighting}
-        onCameraReady={() => setCameraReady(true)}
-        onError={setError}
-        onPreviewLayout={handleCameraLayout}
-      />
+      {screenActive && (
+        <LiveFaceCamera
+          key={cameraSession}
+          performanceMode={settings.performance}
+          scanningPerformance={settings.scanningPerformance}
+          cameraFacing={settings.cameraFacing}
+          livenessStrictness={settings.livenessStrictness}
+          showNativeOverlay={true}
+          smoothNativeOverlay={settings.smoothFaceBox}
+          onFaceChange={setFace}
+          onLightingChange={setLighting}
+          onCameraReady={() => setCameraReady(true)}
+          onError={setError}
+          onPreviewLayout={handleCameraLayout}
+        />
+      )}
 
       {/* Tap-outside-to-collapse. Only mounted while the shelf is open so it
           never intercepts taps on the header buttons during normal scanning. */}
@@ -969,7 +1014,7 @@ export default function CameraLandingScreen() {
             </View>
           </View>
 
-          {displayedLightingWarning && (
+          {displayedLightingWarning && !scanBlocker && (
             <Animated.View
               pointerEvents="none"
               entering={FadeInDown.duration(220)}
@@ -1001,60 +1046,36 @@ export default function CameraLandingScreen() {
               </View>
             </Animated.View>
           )}
-        </Animated.View>
 
-        {/* Scan blocker. Shown whenever there is no roster to match against, so a
-            teacher is told why nothing is happening instead of holding a phone up
-            to a camera that can never recognise anyone. Not `pointerEvents="none"`
-            — the CTA has to be tappable. */}
-        {scanBlocker && !sheetExpanded && (
-          <Animated.View
-            entering={FadeInDown.duration(260)}
-            exiting={FadeOutUp.duration(180)}
-            style={{
-              position: "absolute",
-              left: 24,
-              right: 24,
-              top: insets.top + 96,
-              backgroundColor: "rgba(255,255,255,0.98)",
-              borderRadius: 28,
-              borderWidth: 1.5,
-              borderColor: "#fbbf24",
-              paddingHorizontal: 22,
-              paddingVertical: 24,
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 8 },
-              shadowOpacity: 0.22,
-              shadowRadius: 24,
-              elevation: 14,
-              zIndex: 25,
-            }}
-          >
-            <View
+          {/* Scan blocker, shown in the same compact top slot as the lighting
+              warning above and deliberately instead of it: with no package on
+              the device the lighting advice is noise. Unlike the lighting pill
+              this one is tappable — the tap performs the old warning card's CTA
+              (open the admin panel, or the class picker). The full explanation
+              stays in the mid-screen status title/description. */}
+          {scanBlocker && !sheetExpanded && (
+            <Animated.View
+              entering={FadeInDown.duration(220)}
+              exiting={FadeOutUp.duration(180)}
               style={{
-                width: 52,
-                height: 52,
-                borderRadius: 18,
-                backgroundColor: "#fef3c7",
+                position: "absolute",
+                left: 80,
+                right: 80,
+                top: insets.top + 16,
+                backgroundColor: "rgba(255,255,255,0.95)",
                 borderWidth: 1,
-                borderColor: "#fde68a",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 14,
+                borderColor: "#fbbf24",
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.08,
+                shadowRadius: 8,
+                elevation: 3,
               }}
+              className="h-12 flex-row items-center rounded-full px-3"
             >
-              <Text style={{ fontSize: 26, fontWeight: "900", color: "#b45309" }}>!</Text>
-            </View>
-
-            <Text style={{ fontSize: 17, fontWeight: "900", color: "#0f172a", marginBottom: 6 }}>
-              {scanBlocker.title}
-            </Text>
-            <Text style={{ fontSize: 13, fontWeight: "600", color: "#475569", lineHeight: 20 }}>
-              {scanBlocker.message}
-            </Text>
-
-            <View style={{ flexDirection: "row", gap: 10, marginTop: 18 }}>
               <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={scanBlocker.title}
                 onPress={() => {
                   AppSettings.haptic("light");
                   if (scanBlocker.action === "picker") {
@@ -1063,45 +1084,19 @@ export default function CameraLandingScreen() {
                     router.push("/login");
                   }
                 }}
-                style={{
-                  flex: 1,
-                  minHeight: 48,
-                  borderRadius: 16,
-                  backgroundColor: "#5d5fef",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                className="flex-1 flex-row items-center gap-1.5"
               >
-                <Text style={{ color: "#ffffff", fontSize: 13, fontWeight: "900" }}>
-                  {scanBlocker.cta}
+                <View className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                <Text className="text-xs font-black text-amber-800" numberOfLines={1}>
+                  {scanBlocker.pillTitle}
+                </Text>
+                <Text className="flex-1 text-[10px] font-semibold text-amber-700" numberOfLines={1}>
+                  {scanBlocker.pillMessage}
                 </Text>
               </Pressable>
-
-              <Pressable
-                accessibilityLabel="Check again for class packages"
-                onPress={() => {
-                  AppSettings.haptic("light");
-                  void refreshDownloadedClasses();
-                  void loadRosterForClass(selectedClassId);
-                }}
-                style={{
-                  minHeight: 48,
-                  paddingHorizontal: 18,
-                  borderRadius: 16,
-                  backgroundColor: "#f1f5f9",
-                  borderWidth: 1,
-                  borderColor: "#e2e8f0",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={{ color: "#475569", fontSize: 13, fontWeight: "900" }}>
-                  Retry
-                </Text>
-              </Pressable>
-            </View>
-          </Animated.View>
-        )}
+            </Animated.View>
+          )}
+        </Animated.View>
 
         {livenessPill && (
           <Animated.View
