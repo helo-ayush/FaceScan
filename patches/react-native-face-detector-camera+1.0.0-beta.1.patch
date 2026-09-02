@@ -2035,7 +2035,13 @@ index 0000000..5eee027
 +                    parallax?.let { add(it) }
 +                    addAll(imageCues.evaluateCues(context, quality!!))
 +                }
-+                verdict = fusion.observe(cues)
++                // A moderately underexposed face is still useful to the model, but
++                // its texture and chroma are noisier. Let it contribute evidence while
++                // requiring a longer live run before confirming the easy path.
++                val minimumLiveTicks = if (
++                    quality!!.faceLuma < LivenessFusion.MODERATE_FACE_LUMA
++                ) LivenessFusion.MODERATE_FACE_MIN_LIVE_TICKS else 0
++                verdict = fusion.observe(cues, minimumLiveTicks)
 +                logCues(quality!!, cues, verdict)
 +                // Same frame, same geometry, same scores the line above reports - so the
 +                // dataset and the log can never disagree about what was measured. Off
@@ -3415,7 +3421,7 @@ new file mode 100644
 index 0000000..6801f77
 --- /dev/null
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/LivenessFusion.kt
-@@ -0,0 +1,485 @@
+@@ -0,0 +1,488 @@
 +package com.facedetectorcamera.pipeline
 +
 +import android.os.Bundle
@@ -3628,7 +3634,7 @@ index 0000000..6801f77
 +     * converges to `perFrame / (1 - DECAY)` and stays put rather than drifting across
 +     * a bound by accumulation alone.
 +     */
-+    fun observe(cues: List<CueScore>): Verdict {
++    fun observe(cues: List<CueScore>, minimumLiveTicks: Int = 0): Verdict {
 +        // Decay *every* cue's accumulated evidence, including ones that abstained this
 +        // tick. Decaying only the cues present would let a single hard hit — a bezel
 +        // glimpsed once as the phone was raised — count as a corroborating accuser
@@ -3666,7 +3672,7 @@ index 0000000..6801f77
 +
 +        val decision = when {
 +            total >= strictness.reject && corroborating >= MIN_CORROBORATING_CUES -> Decision.ATTACK
-+            total <= strictness.accept -> Decision.LIVE
++            total <= strictness.accept && ticks >= minimumLiveTicks -> Decision.LIVE
 +            else -> Decision.OPEN
 +        }
 +        return Verdict(decision, total, frameLlr, ticks, corroborating, "", perCue)
@@ -3757,7 +3763,11 @@ index 0000000..6801f77
 +         * only fire when the anti-spoof model is also compromised; a frame that is
 +         * merely too dim for spectral work should lose that one cue, not the tick.
 +         */
-+        const val MIN_FACE_LUMA = 26f
++        /** Below this the crop is too dark to produce dependable evidence. */
++        const val MIN_FACE_LUMA = 18f
++        /** Moderate underexposure is scored, but needs six clean 100ms ticks to pass. */
++        const val MODERATE_FACE_LUMA = 32f
++        const val MODERATE_FACE_MIN_LIVE_TICKS = 6
 +        const val MAX_FACE_LUMA = 240f
 +
 +        /**
