@@ -14,9 +14,11 @@ export type ClassPackageStudent = {
   name: string;
   faceEmbeddings: {
     front: number[];
-    left45: number[];
-    right45: number[];
+    left45?: number[];
+    right45?: number[];
   };
+  /** New enrollments use one frontal burst instead of three pose captures. */
+  captureMode?: 'front_burst' | 'three_pose';
   updatedAt: string;
 };
 
@@ -271,6 +273,7 @@ export async function getUnifiedClassRoster(classId: string): Promise<{
         enrollmentNumber: row.enrollment_number,
         name: row.name,
         faceEmbeddings: embeddings,
+        captureMode: embeddings.captureMode === 'front_burst' ? 'front_burst' : 'three_pose',
         updatedAt: row.captured_at,
       });
     } catch {

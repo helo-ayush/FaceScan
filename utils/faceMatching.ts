@@ -23,6 +23,7 @@ export type MatchableStudent = {
   enrollmentNumber: string;
   classId: string;
   faceEmbeddings?: Partial<Record<PoseKey, number[] | null>>;
+  captureMode?: "front_burst" | "three_pose";
 };
 
 /**
@@ -169,15 +170,16 @@ export function poseForYaw(yaw: number): PoseKey {
  * accepted as a sample for that pose during enrollment.
  *
  * These sit strictly inside the routing bands above — `front` stops short of
- * `frontalYawLimit` and the side poses start past it — so a captured sample can
- * never land on a boundary and get routed to a different template at match time.
- * They are deliberately wide: a natural "slight turn" is around 25-40 degrees,
- * and demanding an exact angle is what makes enrollment feel impossible.
+ * `frontalYawLimit` (20) and the side poses start past it — so a captured sample
+ * can never land on a boundary and get routed to a different template at match
+ * time. The side windows target a gentle ~30-degree turn and accept anything
+ * from a barely-turned 22 degrees up to a moderate 45, guiding the person into
+ * position instead of demanding an exact angle.
  */
 export const POSE_CAPTURE: Record<PoseKey, { minYaw: number; maxYaw: number }> = {
   front: { minYaw: 0, maxYaw: 18 },
-  left45: { minYaw: 24, maxYaw: 56 },
-  right45: { minYaw: 24, maxYaw: 56 },
+  left45: { minYaw: 22, maxYaw: 45 },
+  right45: { minYaw: 22, maxYaw: 45 },
 };
 
 export type PoseGuidance = {
@@ -321,7 +323,8 @@ export function scoreFrame(
   const ranked: Candidate[] = [];
   for (const student of students) {
     let bestForStudent: Candidate | null = null;
-    for (const templatePose of ALL_POSES) {
+    const templatePoses = student.captureMode === "front_burst" ? ["front" as const] : ALL_POSES;
+    for (const templatePose of templatePoses) {
       const template = student.faceEmbeddings?.[templatePose];
       const similarity = cosineSimilarity(liveEmbedding, template);
       if (similarity <= -1) continue;

@@ -934,11 +934,6 @@ export default function CameraLandingScreen() {
                 backgroundColor: "rgba(255,255,255,0.9)",
                 borderWidth: 1,
                 borderColor: "rgba(241,245,249,0.5)",
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.08,
-                shadowRadius: 8,
-                elevation: 3,
               }}
             >
               <Pressable
@@ -1027,11 +1022,6 @@ export default function CameraLandingScreen() {
                 backgroundColor: "rgba(255,255,255,0.95)",
                 borderWidth: 1,
                 borderColor: "#fde68a",
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.08,
-                shadowRadius: 8,
-                elevation: 3,
               }}
               className="h-12 flex-row items-center gap-2 rounded-full px-3"
             >
@@ -1116,11 +1106,6 @@ export default function CameraLandingScreen() {
                 backgroundColor: livenessPill.surface,
                 borderWidth: 1,
                 borderColor: `${livenessPill.color}1A`,
-                shadowColor: "#0f172a",
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.08,
-                shadowRadius: 14,
-                elevation: 8,
                 zIndex: 30,
               },
               livenessPillAnimatedStyle,
@@ -1195,11 +1180,6 @@ export default function CameraLandingScreen() {
                 borderTopColor: "rgba(226,232,240,0.4)",
                 borderTopLeftRadius: 32,
                 borderTopRightRadius: 32,
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: -4 },
-                shadowOpacity: 0.12,
-                shadowRadius: 20,
-                elevation: 10,
                 overflow: "hidden",
               },
               shelfAnimatedStyle,

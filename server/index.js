@@ -115,13 +115,14 @@ app.get("/api/students", async (req, res) => {
 
 // Student enrollment endpoint
 app.post("/api/students/enroll", async (req, res) => {
-  const { name, enrollmentNumber, classId, faceEmbeddings } = req.body;
+  const { name, enrollmentNumber, classId, faceEmbeddings, captureMode } = req.body;
   try {
     const newStudent = await Student.create({
       name,
       enrollmentNumber,
       classId,
       faceEmbeddings,
+      captureMode,
       embeddingModel: EMBEDDING_MODEL,
     });
     // Bump the class's updatedAt so devices know to re-download the package.
@@ -418,7 +419,7 @@ app.post("/api/sync/attendance", async (req, res) => {
  * the teacher to resolve manually.
  */
 app.post("/api/sync/enrollment", async (req, res) => {
-  const { enrollmentNumber, name, classId, faceEmbeddings, embeddingModel, deviceId } = req.body;
+  const { enrollmentNumber, name, classId, faceEmbeddings, captureMode, embeddingModel, deviceId } = req.body;
 
   if (!enrollmentNumber || !name || !classId || !faceEmbeddings || !deviceId) {
     return res.status(400).json({
@@ -433,6 +434,7 @@ app.post("/api/sync/enrollment", async (req, res) => {
       name,
       classId,
       faceEmbeddings,
+      captureMode,
       embeddingModel: embeddingModel || EMBEDDING_MODEL,
     });
     // Bump the class so devices re-download the package with the new student.
@@ -484,6 +486,7 @@ app.get("/api/classes/:classId/package", async (req, res) => {
         enrollmentNumber: s.enrollmentNumber,
         name: s.name,
         faceEmbeddings: s.faceEmbeddings,
+        captureMode: s.captureMode,
         updatedAt: s.updatedAt,
       }));
 

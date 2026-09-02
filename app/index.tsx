@@ -194,7 +194,7 @@ export default function CameraLandingScreen() {
         <Animated.View
           entering={FadeInDown.delay(100).duration(600)}
           style={{ paddingBottom: insets.bottom + 20, paddingTop: 24, paddingHorizontal: 24 }}
-          className="w-full bg-white/80 border-t border-slate-200/40 rounded-t-[40px] shadow-premium gap-4"
+          className="w-full bg-white/80 border-t border-slate-200/40 rounded-t-[40px] gap-4"
         >
             
             {scanState === "scanning" ? (

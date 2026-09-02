@@ -356,6 +356,7 @@ async function syncEnrollment(deviceId: string): Promise<void> {
           name: row.name,
           classId: row.class_id,
           faceEmbeddings,
+          captureMode: faceEmbeddings.captureMode,
           embeddingModel: row.embedding_model,
           deviceId,
         }),

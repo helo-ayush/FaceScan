@@ -92,7 +92,7 @@ export default function LoginScreen() {
       {/* Main card */}
       <Animated.View 
         entering={FadeInUp.duration(550)}
-        className="bg-surface border border-slate-100 p-6 rounded-3xl shadow-medium gap-6"
+        className="bg-surface border border-slate-100 p-6 rounded-3xl gap-6"
       >
         <View className="items-center mb-2">
           <View className="w-14 h-14 rounded-2xl bg-primary/10 items-center justify-center mb-3">

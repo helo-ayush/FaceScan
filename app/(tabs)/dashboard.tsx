@@ -64,7 +64,7 @@ export default function DashboardScreen() {
         {/* Hello Banner Card */}
         <Animated.View 
           entering={FadeInUp.delay(100).duration(500)}
-          className="mb-6 bg-surface border border-slate-100 rounded-3xl p-6 shadow-soft"
+          className="mb-6 bg-surface border border-slate-100 rounded-3xl p-6"
         >
           <Text className="text-sm font-semibold uppercase tracking-wider text-primary">
             Welcome Back

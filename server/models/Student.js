@@ -19,6 +19,11 @@ const StudentSchema = new mongoose.Schema({
     left45: { type: [Number], default: [] },
     right45: { type: [Number], default: [] }
   },
+  captureMode: {
+    type: String,
+    enum: ['front_burst', 'three_pose'],
+    default: 'three_pose'
+  },
   /**
    * Which embedding model produced `faceEmbeddings`.
    *

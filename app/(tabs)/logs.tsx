@@ -333,20 +333,19 @@ export default function LogsScreen() {
 
       {/* Floating Scroll-to-Top Action Button (FAB) */}
       {showScrollTop && (
-        <Animated.View 
-          entering={FadeInDown.duration(200)}
-          className="absolute bottom-6 right-6 z-50 shadow-premium rounded-full"
-        >
-          <Pressable
-            onPress={() => {
-              AppSettings.haptic("light");
-              scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-            }}
-            className="w-12 h-12 rounded-full bg-primary items-center justify-center active:scale-90 active:bg-indigo-700 transition-all"
-          >
-            <Icon name="arrow_upward" size={22} color="#ffffff" />
-          </Pressable>
-        </Animated.View>
+        <View className="absolute bottom-6 right-6 z-50 shadow-premium rounded-full">
+          <Animated.View entering={FadeInDown.duration(200)}>
+            <Pressable
+              onPress={() => {
+                AppSettings.haptic("light");
+                scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+              }}
+              className="w-12 h-12 rounded-full bg-primary items-center justify-center active:scale-90 active:bg-indigo-700 transition-all"
+            >
+              <Icon name="arrow_upward" size={22} color="#ffffff" />
+            </Pressable>
+          </Animated.View>
+        </View>
       )}
 
       {/* Traditional Calendar Modal Picker Overlay */}

@@ -313,11 +313,9 @@ export default function ClassesScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Create New Class Primary Card */}
-        <Animated.View 
-          entering={FadeInUp.delay(100).duration(500)}
-          className="shadow-premium rounded-3xl mb-6 bg-primary"
-        >
-          <Pressable 
+          <View className="shadow-premium rounded-3xl mb-6 bg-primary">
+            <Animated.View entering={FadeInUp.delay(100).duration(500)}>
+            <Pressable
             onPress={() => {
               AppSettings.haptic("light");
               setShowCreateModal(true);
@@ -338,6 +336,7 @@ export default function ClassesScreen() {
             <Icon name="arrow_forward" size={20} color="rgba(255, 255, 255, 0.8)" />
           </Pressable>
         </Animated.View>
+        </View>
 
         {/* Classes Accordion List */}
         <Animated.View 
@@ -636,11 +635,6 @@ export default function ClassesScreen() {
               borderColor: "#f1f5f9",
               alignItems: "center",
               gap: 20,
-              elevation: 10,
-              shadowColor: "#000",
-              shadowOpacity: 0.15,
-              shadowRadius: 20,
-              shadowOffset: { width: 0, height: 10 },
             }}
           >
             {/* Warning Circle Icon */}
@@ -756,11 +750,6 @@ export default function ClassesScreen() {
               borderWidth: 1,
               borderColor: "#f1f5f9",
               gap: 16,
-              elevation: 10,
-              shadowColor: "#000",
-              shadowOpacity: 0.15,
-              shadowRadius: 20,
-              shadowOffset: { width: 0, height: 10 },
             }}
           >
             {/* Header */}
@@ -840,8 +829,8 @@ export default function ClassesScreen() {
                 {isCreatingClass ? "Creating Class..." : "Create Course Class"}
               </Text>
             </Pressable>
-          </Animated.View>
-        </View>
+            </Animated.View>
+          </View>
       )}
     </View>
   );
