@@ -3533,10 +3533,10 @@ index 0000000..a6e6734
 +}
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/LivenessFusion.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/LivenessFusion.kt
 new file mode 100644
-index 0000000..7084416
+index 0000000..a336a0f
 --- /dev/null
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/LivenessFusion.kt
-@@ -0,0 +1,515 @@
+@@ -0,0 +1,517 @@
 +package com.facedetectorcamera.pipeline
 +
 +import android.os.Bundle
@@ -3774,12 +3774,17 @@ index 0000000..7084416
 +            val calibration = CALIBRATION[cue.id] ?: continue
 +
 +            // Dynamic centre calibration:
-+            // 1. Backlit frontal genuine face: MiniFASNet classifies LIVE as top prediction (class=1) with near-zero
++            // 1. Direct bright illumination / glare: screen reflections and bright wash-out diminish moiré.
++            //    A real face in bright light scores ~0.048, while a washed-out screen scores ~0.20.
++            //    Tightening the centre to 0.18 firmly blocks washed-out screens while letting real faces verify quickly.
++            // 2. Backlit frontal genuine face: MiniFASNet classifies LIVE as top prediction (class=1) with near-zero
 +            //    replay (<0.10). Facial shadows elevate probPrint slightly (~0.27), which shouldn't accumulate attack nats.
-+            // 2. Genuine dim room: Camera sensor noise elevates score baseline slightly.
-+            // 3. Screen reflection / glare: Tighten centre to firmly reject replay attacks.
++            // 3. Genuine dim room: Camera sensor noise elevates score baseline slightly.
 +            val dynamicCentre = if (cue.id == CueId.ANTI_SPOOF) {
 +                when {
++                    hasGlare || (quality != null && quality.faceLuma > 165f) -> {
++                        calibration.centre - 0.07f // 0.18f: blocks washed-out screens under direct light
++                    }
 +                    isBacklit && abs(quality?.yaw ?: 0f) < 8f &&
 +                        cue.detail.contains("class=1") && !hasGlare -> {
 +                        calibration.centre + 0.05f // 0.30f: allows genuine backlit facial shadow without stalling
@@ -3787,9 +3792,6 @@ index 0000000..7084416
 +                    isTrulyDim && quality != null && quality.faceLuma < 80f && !hasGlare -> {
 +                        val dimFactor = ((80f - quality.faceLuma) / 50f).coerceIn(0f, 1f)
 +                        calibration.centre + 0.03f * dimFactor
-+                    }
-+                    hasGlare -> {
-+                        calibration.centre - 0.02f // 0.23f: strict on screen glare
 +                    }
 +                    else -> null
 +                }
