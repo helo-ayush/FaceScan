@@ -653,7 +653,7 @@ export default function CameraLandingScreen() {
         }, 3500);
       } else if (
         face.livenessStatus === "SPOOF_CONFIRMED" ||
-        Date.now() - lockedCandidateRef.current.lockedAt > 2000
+        Date.now() - lockedCandidateRef.current.lockedAt > 4500
       ) {
         // unlock: discard this candidate, resume active scanning
         lockedCandidateRef.current = null;

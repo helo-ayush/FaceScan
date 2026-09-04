@@ -38,26 +38,26 @@ index 0000000..f76dd23
 Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileChanges/last-build.bin differ
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin
 new file mode 100644
-index 0000000..66003c7
+index 0000000..33043ec
 Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.bin differ
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock
 new file mode 100644
-index 0000000..afbee26
+index 0000000..ef83b9a
 Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/fileHashes/fileHashes.lock differ
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/9.2.0/gc.properties
 new file mode 100644
 index 0000000..e69de29
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock
 new file mode 100644
-index 0000000..72cc92b
+index 0000000..97edb68
 Binary files /dev/null and b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock differ
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties
 new file mode 100644
-index 0000000..ab2db42
+index 0000000..11f1d58
 --- /dev/null
 +++ b/node_modules/react-native-face-detector-camera/android/.gradle/buildOutputCleanup/cache.properties
 @@ -0,0 +1,2 @@
-+#Tue Aug 18 01:50:17 IST 2026
++#Fri Sep 04 13:40:08 IST 2026
 +gradle.version=8.9
 diff --git a/node_modules/react-native-face-detector-camera/android/.gradle/vcs-1/gc.properties b/node_modules/react-native-face-detector-camera/android/.gradle/vcs-1/gc.properties
 new file mode 100644
@@ -653,7 +653,7 @@ index 0000000..95a6c70
 +    }
 +}
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetector.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetector.kt
-index 701049f..95dffef 100644
+index 701049f..89836ba 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetector.kt
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetector.kt
 @@ -1,6 +1,6 @@
@@ -664,7 +664,7 @@ index 701049f..95dffef 100644
  import android.os.Bundle
  import android.util.Log
  import androidx.annotation.OptIn
-@@ -9,98 +9,256 @@ import androidx.camera.core.ImageAnalysis
+@@ -9,98 +9,258 @@ import androidx.camera.core.ImageAnalysis
  import androidx.camera.core.ImageProxy
  import com.facedetectorcamera.facedetector.FaceDetectorUtils.rotateFaceX
  import com.facedetectorcamera.facedetector.FaceDetectorUtils.serializeFace
@@ -685,7 +685,7 @@ index 701049f..95dffef 100644
 -    val onComplete: (ArrayList<Bundle>) -> Unit
 +    private val mirrorFaces: Boolean,
 +    private val context: android.content.Context,
-+    private val executor: java.util.concurrent.Executor,
++    private val executor: java.util.concurrent.ExecutorService,
 +    private val faceOverlayView: com.facedetectorcamera.FaceOverlayView? = null,
 +    val onComplete: (ArrayList<Bundle>, Double, Double) -> Unit
  ) : ImageAnalysis.Analyzer {
@@ -803,7 +803,11 @@ index 701049f..95dffef 100644
 +                                    alignment,
 +                                    face,
 +                                    settings.scanningIntervalMs,
-+                                    settings.livenessStrictness
++                                    settings.livenessStrictness,
++                                    luminance.frame,
++                                    luminance.face,
++                                    luminance.background,
++                                    luminance.brightPixelRatio
 +                                )
 +                                val now = System.currentTimeMillis()
 +                                val previewBase64 = if (
@@ -844,13 +848,11 @@ index 701049f..95dffef 100644
 +                    } catch (e: Exception) {
 +                        Log.e("FaceDetector", "Error handling face detection results: ${e.message}", e)
 +                    }
-+                }
+                 }
 +                .addOnFailureListener(executor) { error ->
 +                    Log.d("FaceDetector", error.cause?.message ?: error.message ?: "Face detection failed")
 +                }
-+                .addOnCompleteListener(executor) {
-+                    finishFaceDetection(imageProxy)
-                 }
++                .addOnCompleteListener(executor) { finishFaceDetection(imageProxy) }
 +        } catch (e: Exception) {
 +            Log.e("FaceDetector", "Failed to start ML Kit process: ${e.message}", e)
 +            finishFaceDetection(imageProxy)
@@ -978,7 +980,6 @@ index 701049f..95dffef 100644
 +        lastDetectionMillis + settings.minDetectionInterval
 +    ) < System.currentTimeMillis()
  }
-\ No newline at end of file
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetectorUtils.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetectorUtils.kt
 index 1c75f18..2a5be8f 100644
 --- a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/facedetector/FaceDetectorUtils.kt
@@ -1118,10 +1119,10 @@ index 1c75f18..2a5be8f 100644
  
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt
 new file mode 100644
-index 0000000..5eee027
+index 0000000..74ca4da
 --- /dev/null
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/FacePipeline.kt
-@@ -0,0 +1,1109 @@
+@@ -0,0 +1,1229 @@
 +package com.facedetectorcamera.pipeline
 +
 +import android.graphics.Bitmap
@@ -1601,7 +1602,13 @@ index 0000000..5eee027
 +     * still fits the frame, centre it on the face box, then shift it back inside
 +     * the bounds instead of letting it hang off an edge.
 +     */
-+    fun processAntiSpoof(input: FaceCropInput, scale: Float): IntArray? {
++    fun processAntiSpoof(
++        input: FaceCropInput,
++        scale: Float,
++        luma: Float? = null,
++        isTrulyDim: Boolean = false,
++        hasSpecularGlare: Boolean = false
++    ): IntArray? {
 +        val bounds = input.faceBounds ?: return null
 +        if (bounds.width() <= 0 || bounds.height() <= 0) return null
 +        val frame = input.frame
@@ -1641,6 +1648,76 @@ index 0000000..5eee027
 +                    frame.argbAt(originX + (outputX + 0.5f) * stepX, sourceY)
 +            }
 +        }
++
++        // Low-light sensor shot noise suppression:
++        // Only run when the scene is genuinely dim (isTrulyDim || (luma != null && luma < 75f)) and NOT suffering
++        // from specular reflections/glare (like laptop screens reflecting lamps).
++        // Threshold 5 gently removes 1-2 LSB camera sensor noise while strictly preserving screen pixel grids and moiré.
++        if ((isTrulyDim || (luma != null && luma < 75f)) && !hasSpecularGlare) {
++            // Confirm crop does not contain blown-out specular highlights from screens
++            var hasHighlight = false
++            for (pixel in output) {
++                val r = (pixel shr 16) and 0xFF
++                val g = (pixel shr 8) and 0xFF
++                val b = pixel and 0xFF
++                val y = (r * 77 + g * 150 + b * 29) shr 8
++                if (y >= 200) {
++                    hasHighlight = true
++                    break
++                }
++            }
++
++            if (!hasHighlight) {
++                val denoised = IntArray(output.size)
++                val threshold = 5
++                for (y in 0 until ANTI_SPOOF_SIZE) {
++                    val row = y * ANTI_SPOOF_SIZE
++                    for (x in 0 until ANTI_SPOOF_SIZE) {
++                        val centerPixel = output[row + x]
++                        val cR = (centerPixel shr 16) and 0xFF
++                        val cG = (centerPixel shr 8) and 0xFF
++                        val cB = centerPixel and 0xFF
++                        val cY = (cR * 77 + cG * 150 + cB * 29) shr 8
++
++                        var sumR = cR * 4
++                        var sumG = cG * 4
++                        var sumB = cB * 4
++                        var sumW = 4
++
++                        val yMin = maxOf(0, y - 1)
++                        val yMax = minOf(ANTI_SPOOF_SIZE - 1, y + 1)
++                        val xMin = maxOf(0, x - 1)
++                        val xMax = minOf(ANTI_SPOOF_SIZE - 1, x + 1)
++
++                        for (ny in yMin..yMax) {
++                            val nRow = ny * ANTI_SPOOF_SIZE
++                            for (nx in xMin..xMax) {
++                                if (nx == x && ny == y) continue
++                                val nPixel = output[nRow + nx]
++                                val nR = (nPixel shr 16) and 0xFF
++                                val nG = (nPixel shr 8) and 0xFF
++                                val nB = nPixel and 0xFF
++                                val nY = (nR * 77 + nG * 150 + nB * 29) shr 8
++                                val diff = if (nY >= cY) nY - cY else cY - nY
++                                if (diff < threshold) {
++                                    val w = threshold - diff
++                                    sumR += nR * w
++                                    sumG += nG * w
++                                    sumB += nB * w
++                                    sumW += w
++                                }
++                            }
++                        }
++                        val finalR = (sumR / sumW).coerceIn(0, 255)
++                        val finalG = (sumG / sumW).coerceIn(0, 255)
++                        val finalB = (sumB / sumW).coerceIn(0, 255)
++                        denoised[row + x] = (0xFF shl 24) or (finalR shl 16) or (finalG shl 8) or finalB
++                    }
++                }
++                return denoised
++            }
++        }
++
 +        return output
 +    }
 +
@@ -1852,6 +1929,7 @@ index 0000000..5eee027
 +    private val livenessResults = ArrayDeque<AntiSpoofResult>(MAX_LIVENESS_SAMPLES)
 +    private var currentStatus = LivenessStatus.NO_FACE
 +    private var lastNormalizationBundle: Bundle? = null
++    private var inconclusiveCooldown = 0
 +
 +    fun process(face: Face, imageWidth: Int, imageHeight: Int): FaceAlignment =
 +        alignmentStage.process(FacePipelineFrame(face, imageWidth, imageHeight))
@@ -1863,9 +1941,14 @@ index 0000000..5eee027
 +     * Falls back to a single model's result if one crop is invalid (e.g. face
 +     * near the frame edge at the wider 4.0x scale).
 +     */
-+    private fun ensembleAntiSpoof(input: FaceCropInput): AntiSpoofResult? {
-+        val crop27 = cropStage.processAntiSpoof(input, scale = 2.7f)
-+        val crop40 = cropStage.processAntiSpoof(input, scale = 4.0f)
++    private fun ensembleAntiSpoof(
++        input: FaceCropInput,
++        luma: Float? = null,
++        isTrulyDim: Boolean = false,
++        hasSpecularGlare: Boolean = false
++    ): AntiSpoofResult? {
++        val crop27 = cropStage.processAntiSpoof(input, scale = 2.7f, luma = luma, isTrulyDim = isTrulyDim, hasSpecularGlare = hasSpecularGlare)
++        val crop40 = cropStage.processAntiSpoof(input, scale = 4.0f, luma = luma, isTrulyDim = isTrulyDim, hasSpecularGlare = hasSpecularGlare)
 +        val r27 = crop27?.let { antiSpoofStageV2.process(it) }
 +        val r40 = crop40?.let { antiSpoofStageV1SE.process(it) }
 +
@@ -1873,7 +1956,15 @@ index 0000000..5eee027
 +            r27 != null && r40 != null -> {
 +                val avgProbs = FloatArray(3) { i -> (r27.probs[i] + r40.probs[i]) / 2f }
 +                val selected = avgProbs.indices.maxByOrNull { avgProbs[it] } ?: 1
-+                val attackProb = maxOf(avgProbs[0], avgProbs[2])
++                val v2Attack = maxOf(r27.probPrint, r27.probReplay)
++                val v1seAttack = maxOf(r40.probPrint, r40.probReplay)
++                // When an attack is detected by either model (especially MiniFASNet V2 @ 2.7x, which matches
++                // the clamped crop domain), do not let out-of-domain V1SE pull the attack probability down.
++                val attackProb = if (v2Attack >= 0.25f || v1seAttack >= 0.25f) {
++                    maxOf(v2Attack, v1seAttack)
++                } else {
++                    (v2Attack + v1seAttack) / 2f
++                }
 +                val margin = avgProbs[1] - attackProb
 +                // Per-model attack probabilities, not just the average. The crop clamp
 +                // pins both scales to ~2.4x, which is close to V2's designed 2.7x but far
@@ -1886,8 +1977,8 @@ index 0000000..5eee027
 +                Log.d(
 +                    "FaceAntiSpoof",
 +                    "ENSEMBLE_SAMPLE | live=${String.format("%.4f", avgProbs[1])} print=${String.format("%.4f", avgProbs[0])} replay=${String.format("%.4f", avgProbs[2])} attack=${String.format("%.4f", attackProb)} margin=${String.format("%.4f", margin)} argmax=$selected " +
-+                        "v2Attack=${String.format("%.4f", maxOf(r27.probPrint, r27.probReplay))} " +
-+                        "v1seAttack=${String.format("%.4f", maxOf(r40.probPrint, r40.probReplay))} " +
++                        "v2Attack=${String.format("%.4f", v2Attack)} " +
++                        "v1seAttack=${String.format("%.4f", v1seAttack)} " +
 +                        "sameCrop=${crop27.contentEquals(crop40)}"
 +                )
 +                AntiSpoofResult(
@@ -1916,7 +2007,11 @@ index 0000000..5eee027
 +        alignment: FaceAlignment,
 +        face: Face,
 +        scanningIntervalMs: Long = 500L,
-+        livenessStrictness: String? = null
++        livenessStrictness: String? = null,
++        frameLuminance: Double? = null,
++        faceLuminance: Double? = null,
++        backgroundLuminance: Double? = null,
++        brightPixelRatio: Double? = null
 +    ): NormalizedFaceCrop? {
 +        val trackingId = face.trackingId
 +        val faceBounds = face.boundingBox
@@ -1958,6 +2053,11 @@ index 0000000..5eee027
 +        if (currentStatus == LivenessStatus.LIVE_CONFIRMED) {
 +            lastLivenessMillis = now
 +        }
++
++        val isBacklit = faceLuminance != null && backgroundLuminance != null &&
++            faceLuminance < backgroundLuminance - 28.0 && faceLuminance < 135.0
++        val hasSpecularGlare = brightPixelRatio != null && brightPixelRatio > 0.005
++        val isTrulyDim = frameLuminance != null && frameLuminance < 65.0 && !isBacklit && !hasSpecularGlare
 +
 +        var scoreUpdated = false
 +        var latestResult: AntiSpoofResult? = null
@@ -2021,21 +2121,35 @@ index 0000000..5eee027
 +                    "GATED | reason=$gateFailure | QUALITY ${qualityFields(quality!!)}"
 +                )
 +            } else {
-+                val result = ensembleAntiSpoof(FaceCropInput(context.frame, alignment, faceBounds))
++                val result = ensembleAntiSpoof(
++                    FaceCropInput(context.frame, alignment, faceBounds),
++                    quality?.faceLuma,
++                    isTrulyDim = isTrulyDim,
++                    hasSpecularGlare = hasSpecularGlare
++                )
 +                cues = buildList {
 +                    result?.let {
++                        val v2Attack = maxOf(it.probPrint, it.probReplay)
++                        val attackProb = if (it.selectedClass == 1 && it.probLive >= 0.60f && it.probReplay < 0.10f && isBacklit) {
++                            // On a genuine backlit face where MiniFASNet classifies LIVE as top class with near-zero replay,
++                            // cast shadow print probability shouldn't accumulate attack nats.
++                            it.probReplay.coerceAtLeast(v2Attack * 0.82f)
++                        } else {
++                            v2Attack
++                        }
++                        val reason = "live=${String.format("%.4f", it.probLive)} replay=${String.format("%.4f", it.probReplay)} class=${it.selectedClass}"
 +                        add(
 +                            CueScore(
 +                                CueId.ANTI_SPOOF, false,
-+                                maxOf(it.probPrint, it.probReplay),
-+                                "live=${String.format("%.4f", it.probLive)}"
++                                attackProb,
++                                reason
 +                            )
 +                        )
 +                    } ?: add(CueScore.abstain(CueId.ANTI_SPOOF, "invalid crop"))
 +                    parallax?.let { add(it) }
 +                    addAll(imageCues.evaluateCues(context, quality!!))
 +                }
-+                verdict = fusion.observe(cues)
++                verdict = fusion.observe(cues, quality, isBacklit = isBacklit, isTrulyDim = isTrulyDim, hasGlare = hasSpecularGlare)
 +                logCues(quality!!, cues, verdict)
 +                // Same frame, same geometry, same scores the line above reports - so the
 +                // dataset and the log can never disagree about what was measured. Off
@@ -2074,24 +2188,25 @@ index 0000000..5eee027
 +
 +        val isLive: Boolean?
 +        when {
-+            currentStatus == LivenessStatus.LIVE_CONFIRMED -> isLive = true
++            currentStatus == LivenessStatus.LIVE_CONFIRMED -> {
++                inconclusiveCooldown = 0
++                isLive = true
++            }
 +            currentStatus == LivenessStatus.SPOOF_CONFIRMED -> {
-+                // Holding for the UI to display "fake face detected" — recovers
-+                // automatically via the `timedOut` reset above once 800ms pass
-+                // without a new sample.
++                inconclusiveCooldown = 0
 +                isLive = false
 +            }
 +            verdict == null -> {
-+                // No new evidence this tick: a gated frame, an invalid crop, or a
-+                // between-ticks frame. Report the status already set and stay open.
 +                isLive = null
 +            }
 +            verdict.decision == LivenessFusion.Decision.ATTACK -> {
 +                currentStatus = LivenessStatus.SPOOF_CONFIRMED
++                inconclusiveCooldown = 0
 +                isLive = false
 +            }
 +            verdict.decision == LivenessFusion.Decision.LIVE -> {
 +                currentStatus = LivenessStatus.LIVE_CONFIRMED
++                inconclusiveCooldown = 0
 +                isLive = true
 +            }
 +            fusion.isStalled() -> {
@@ -2100,6 +2215,12 @@ index 0000000..5eee027
 +                // the user — a small reposition is also what the parallax cue needs.
 +                fusion.reset()
 +                livenessResults.clear()
++                inconclusiveCooldown = 12
++                currentStatus = LivenessStatus.INCONCLUSIVE
++                isLive = null
++            }
++            inconclusiveCooldown > 0 -> {
++                inconclusiveCooldown--
 +                currentStatus = LivenessStatus.INCONCLUSIVE
 +                isLive = null
 +            }
@@ -3412,10 +3533,10 @@ index 0000000..a6e6734
 +}
 diff --git a/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/LivenessFusion.kt b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/LivenessFusion.kt
 new file mode 100644
-index 0000000..6801f77
+index 0000000..7084416
 --- /dev/null
 +++ b/node_modules/react-native-face-detector-camera/android/src/main/java/com/facedetectorcamera/pipeline/LivenessFusion.kt
-@@ -0,0 +1,485 @@
+@@ -0,0 +1,515 @@
 +package com.facedetectorcamera.pipeline
 +
 +import android.os.Bundle
@@ -3575,8 +3696,9 @@ index 0000000..6801f77
 +        val centre: Float,
 +        val symmetric: Boolean
 +    ) {
-+        fun llr(score: Float): Float {
-+            val raw = weight * (score - centre)
++        fun llr(score: Float, dynamicCentre: Float? = null): Float {
++            val c = dynamicCentre ?: centre
++            val raw = weight * (score - c)
 +            val directed = if (symmetric) raw else max(0f, raw)
 +            return directed.coerceIn(-MAX_CUE_LLR, MAX_CUE_LLR)
 +        }
@@ -3628,7 +3750,13 @@ index 0000000..6801f77
 +     * converges to `perFrame / (1 - DECAY)` and stays put rather than drifting across
 +     * a bound by accumulation alone.
 +     */
-+    fun observe(cues: List<CueScore>): Verdict {
++    fun observe(
++        cues: List<CueScore>,
++        quality: FrameQuality? = null,
++        isBacklit: Boolean = false,
++        isTrulyDim: Boolean = false,
++        hasGlare: Boolean = false
++    ): Verdict {
 +        // Decay *every* cue's accumulated evidence, including ones that abstained this
 +        // tick. Decaying only the cues present would let a single hard hit — a bezel
 +        // glimpsed once as the phone was raised — count as a corroborating accuser
@@ -3644,7 +3772,30 @@ index 0000000..6801f77
 +        for (cue in cues) {
 +            if (cue.abstained) continue
 +            val calibration = CALIBRATION[cue.id] ?: continue
-+            val llr = calibration.llr(cue.score)
++
++            // Dynamic centre calibration:
++            // 1. Backlit frontal genuine face: MiniFASNet classifies LIVE as top prediction (class=1) with near-zero
++            //    replay (<0.10). Facial shadows elevate probPrint slightly (~0.27), which shouldn't accumulate attack nats.
++            // 2. Genuine dim room: Camera sensor noise elevates score baseline slightly.
++            // 3. Screen reflection / glare: Tighten centre to firmly reject replay attacks.
++            val dynamicCentre = if (cue.id == CueId.ANTI_SPOOF) {
++                when {
++                    isBacklit && abs(quality?.yaw ?: 0f) < 8f &&
++                        cue.detail.contains("class=1") && !hasGlare -> {
++                        calibration.centre + 0.05f // 0.30f: allows genuine backlit facial shadow without stalling
++                    }
++                    isTrulyDim && quality != null && quality.faceLuma < 80f && !hasGlare -> {
++                        val dimFactor = ((80f - quality.faceLuma) / 50f).coerceIn(0f, 1f)
++                        calibration.centre + 0.03f * dimFactor
++                    }
++                    hasGlare -> {
++                        calibration.centre - 0.02f // 0.23f: strict on screen glare
++                    }
++                    else -> null
++                }
++            } else null
++
++            val llr = calibration.llr(cue.score, dynamicCentre)
 +            perCue[cue.id] = llr
 +            frameLlr += llr
 +            // Only attack evidence accumulates per cue; this tally exists solely to
