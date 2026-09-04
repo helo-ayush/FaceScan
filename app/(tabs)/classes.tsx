@@ -1,3 +1,14 @@
+/**
+ * Classes & Student Roster Management Screen.
+ *
+ * Core administration features:
+ * - Course list & enrollment roster management.
+ * - On-device biometric package download: Downloads verified ArcFace embeddings
+ *   for fully offline recognition in `LiveFaceCamera`.
+ * - Offline student lifecycle: Supports local deletions, queueing deletion events
+ *   in `localDb`, and synchronizing updates once connectivity resumes.
+ */
+
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { View, Text, ScrollView, Pressable, Modal, TextInput, LayoutAnimation, StyleSheet } from "react-native";
 import { useFocusEffect } from "expo-router";

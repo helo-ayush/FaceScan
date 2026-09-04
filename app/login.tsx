@@ -1,3 +1,16 @@
+/**
+ * Admin Authentication Screen.
+ *
+ * Implements dual-mode credentials authentication:
+ * 1. Online: Authenticates with backend `/api/login` and updates the offline
+ *    salted SHA-256 verifier in device SecureStore.
+ * 2. Offline Fallback: If network/server is unreachable, verifies credentials
+ *    locally against the device's encrypted verifier.
+ *
+ * On success, unlocks the admin session in `AdminAuthProvider` and redirects
+ * to `/(tabs)/dashboard`.
+ */
+
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";

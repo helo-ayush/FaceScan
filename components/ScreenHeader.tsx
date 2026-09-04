@@ -4,7 +4,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Icon } from "./Icon";
 
-export function ScreenHeader({ title }: { title: string }) {
+export type ScreenHeaderProps = {
+  /** Screen title displayed in the app bar. */
+  title: string;
+};
+
+/**
+ * Standard top application bar for tab screens and modal workflows.
+ * Handles safe-area top inset padding and provides a shortcut to Settings.
+ */
+export function ScreenHeader({ title }: ScreenHeaderProps) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -19,6 +28,8 @@ export function ScreenHeader({ title }: { title: string }) {
         </Text>
         <Pressable 
           onPress={() => router.push("/settings")}
+          accessibilityRole="button"
+          accessibilityLabel="Open Settings"
           className="w-10 h-10 items-center justify-center rounded-full bg-surface-muted border border-slate-100 active:scale-95 active:bg-surface-container transition-all"
         >
           <Icon name="settings" size={20} color="#475569" />

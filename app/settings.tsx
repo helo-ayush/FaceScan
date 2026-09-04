@@ -1,3 +1,13 @@
+/**
+ * Application Settings Screen.
+ *
+ * Configures global operational parameters:
+ * - Tracking Frame Rate: Sets ML Kit detection intervals (10 FPS, 20 FPS, 30 FPS).
+ * - Embedding Extraction Frequency: Balances matching speed against CPU/battery drain.
+ * - Liveness Strictness: Configures SPRT anti-spoof operating point (lenient, balanced, strict).
+ * - User Feedback: Controls haptic feedback, audio cues, and visual scan guides.
+ */
+
 import React, { useState } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { useRouter } from "expo-router";

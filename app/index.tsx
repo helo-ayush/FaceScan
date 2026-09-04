@@ -1,3 +1,12 @@
+/**
+ * Web preview implementation of the Camera Landing Screen.
+ *
+ * NOTE: Production on-device facial recognition, ML Kit alignment, and ArcFace/MiniFASNet
+ * inference execute in `app/index.native.tsx` via the native CameraX pipeline.
+ * This web variant provides a mock UI simulation so web previews and layout tests
+ * render gracefully without native camera dependencies.
+ */
+
 import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";

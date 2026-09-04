@@ -1,3 +1,13 @@
+/**
+ * Attendance Logs & History Screen.
+ *
+ * Provides a comprehensive audit trail of student check-ins:
+ * - Date Filter Modes: Supports single-day inspection or multi-day range filtering.
+ * - Timezone-Aware: Translates raw UTC timestamps to the phone's local time (e.g. IST),
+ *   eliminating server-timezone skew.
+ * - Aggregate Metrics: Calculates present/absent totals for the filtered window.
+ */
+
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { View, Text, ScrollView, Pressable, Modal, LayoutAnimation, StyleSheet } from "react-native";
 import { useFocusEffect } from "expo-router";

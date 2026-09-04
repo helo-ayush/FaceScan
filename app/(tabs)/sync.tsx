@@ -1,3 +1,13 @@
+/**
+ * Data Synchronization & Offline Queue Monitor Screen.
+ *
+ * Provides visibility and control over the SQLite offline replication pipeline:
+ * - Queue Tab: Displays unsynced attendance scans and pending student enrollments.
+ * - Latest Tab: Shows recent successfully replicated attendance records and conflicts.
+ * - Classes Tab: Details local vs remote status for class rosters and on-device packages.
+ * - Manual Sync: Allows immediate on-demand sync trigger with connectivity validation.
+ */
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';

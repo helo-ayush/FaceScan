@@ -1,14 +1,20 @@
 import React from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-type IconProps = {
+export type IconProps = {
+  /** Icon glyph name (accepts snake_case Material Symbols or MaterialIcons keys). */
   name: string;
+  /** Size in density-independent pixels (defaults to 24). */
   size?: number;
+  /** Tint color (defaults to '#424656'). */
   color?: string;
+  /** Tailwind / NativeWind utility class string. */
   className?: string;
 };
 
-// Map web Material Symbols icon names to Expo MaterialIcons names
+/**
+ * Maps common web Material Symbols icon identifiers to Expo's MaterialIcons glyph keys.
+ */
 const ICON_MAP: Record<string, keyof typeof MaterialIcons.glyphMap> = {
   dashboard: "dashboard",
   school: "school",
@@ -39,6 +45,10 @@ const ICON_MAP: Record<string, keyof typeof MaterialIcons.glyphMap> = {
   refresh: "refresh",
 };
 
+/**
+ * Universal vector icon component wrapping Expo's `@expo/vector-icons/MaterialIcons`.
+ * Automatically translates web snake_case names (e.g. `person_add`) to native kebab-case glyphs (`person-add`).
+ */
 export function Icon({ name, size = 24, color = "#424656", className }: IconProps) {
   const iconName = ICON_MAP[name] || (name.replace(/_/g, "-") as keyof typeof MaterialIcons.glyphMap);
   return <MaterialIcons name={iconName} size={size} color={color} className={className} />;

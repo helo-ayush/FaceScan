@@ -1,3 +1,13 @@
+/**
+ * Admin Dashboard Screen.
+ *
+ * Provides teachers and administrators with an executive overview:
+ * - Aggregated attendance statistics (present count, absent count, attendance percentage).
+ * - Focus-aware polling: Refreshes on screen focus and every 60 seconds while visible.
+ * - Quick-action navigation shortcuts to enrollment, class rosters, and synchronization.
+ * - Offline-tolerant: Preserves last-known metrics when network connectivity is lost.
+ */
+
 import React, { useState, useCallback, useRef } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { useRouter, useFocusEffect } from "expo-router";
