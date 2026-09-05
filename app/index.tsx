@@ -101,7 +101,7 @@ export default function CameraLandingScreen() {
   // attendance endpoint, which could never match anything and now would be
   // rejected outright, since that endpoint only records decisions made on-device.
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
 
     if (scanState === "scanning") {
       timer = setTimeout(() => {
