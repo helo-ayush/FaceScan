@@ -29,3 +29,11 @@ Thumbs.db
 .tmp/
 __pycache__/
 *.pyc
+
+# Android and module build outputs
+.gradle/
+build/
+android/app/build/
+android/build/
+modules/**/build/
+modules/**/.gradle/

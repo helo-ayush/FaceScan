@@ -362,7 +362,7 @@ export default function LogsScreen() {
       {showDatePicker !== null && (
         <View
           style={[
-            StyleSheet.absoluteFillObject,
+            StyleSheet.absoluteFill,
             {
               zIndex: 9999,
               backgroundColor: "rgba(15, 23, 42, 0.6)",
@@ -371,7 +371,7 @@ export default function LogsScreen() {
           ]}
         >
           <Pressable 
-            style={StyleSheet.absoluteFillObject}
+            style={StyleSheet.absoluteFill}
             onPress={() => {
               AppSettings.haptic("light");
               setShowDatePicker(null);

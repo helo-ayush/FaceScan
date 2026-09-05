@@ -1,0 +1,8 @@
+{
+  "name": "react-native-face-detector-camera",
+  "version": "1.0.0",
+  "description": "On-device camera face detector and anti-spoofing engine",
+  "main": "index.ts",
+  "types": "index.ts",
+  "private": true
+}

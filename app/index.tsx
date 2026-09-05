@@ -158,7 +158,7 @@ export default function CameraLandingScreen() {
     <View className="flex-1 bg-black">
       {/* Actual Live Camera Viewfinder */}
       <CameraView
-        style={StyleSheet.absoluteFillObject}
+        style={StyleSheet.absoluteFill}
         facing={cameraFacing}
       />
 

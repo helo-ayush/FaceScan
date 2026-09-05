@@ -106,7 +106,7 @@ function SmoothFaceBox({
   }));
 
   return (
-    <View pointerEvents="none" style={StyleSheet.absoluteFillObject}>
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
       <Animated.View style={[styles.faceFrame, animatedStyle]}>
         <View style={styles.faceLabel}>
           <Text style={styles.faceLabelText}>FACE DETECTED</Text>
@@ -867,7 +867,7 @@ export default function CameraLandingScreen() {
           never intercepts taps on the header buttons during normal scanning. */}
       {sheetExpanded && (
         <Pressable
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           onPress={closeShelf}
           accessibilityLabel="Collapse attendance log"
         />
@@ -1365,7 +1365,7 @@ export default function CameraLandingScreen() {
       {showClassPicker && (
         <Pressable
           style={[
-            StyleSheet.absoluteFillObject,
+            StyleSheet.absoluteFill,
             { backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, zIndex: 100 },
           ]}
           onPress={() => setShowClassPicker(false)}

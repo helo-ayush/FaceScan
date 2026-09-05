@@ -616,7 +616,7 @@ export default function ClassesScreen() {
       {confirmDelete !== null && (
         <View
           style={[
-            StyleSheet.absoluteFillObject,
+            StyleSheet.absoluteFill,
             {
               zIndex: 9999,
               backgroundColor: "rgba(15, 23, 42, 0.6)",
@@ -627,7 +627,7 @@ export default function ClassesScreen() {
           ]}
         >
           <Pressable
-            style={StyleSheet.absoluteFillObject}
+            style={StyleSheet.absoluteFill}
             onPress={() => {
               AppSettings.haptic("light");
               setConfirmDelete(null);
@@ -733,7 +733,7 @@ export default function ClassesScreen() {
       {showCreateModal && (
         <View
           style={[
-            StyleSheet.absoluteFillObject,
+            StyleSheet.absoluteFill,
             {
               zIndex: 9999,
               backgroundColor: "rgba(15, 23, 42, 0.6)",
@@ -744,7 +744,7 @@ export default function ClassesScreen() {
           ]}
         >
           <Pressable
-            style={StyleSheet.absoluteFillObject}
+            style={StyleSheet.absoluteFill}
             onPress={() => {
               AppSettings.haptic("light");
               setShowCreateModal(false);

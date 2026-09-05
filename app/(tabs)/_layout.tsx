@@ -67,7 +67,7 @@ export default function TabsLayout() {
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="dashboard" size={size} color={color} />
+            <Icon name="dashboard" size={size} color={color as string} />
           ),
         }}
       />
@@ -76,7 +76,7 @@ export default function TabsLayout() {
         options={{
           title: "Classes",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="school" size={size} color={color} />
+            <Icon name="school" size={size} color={color as string} />
           ),
         }}
       />
@@ -85,7 +85,7 @@ export default function TabsLayout() {
         options={{
           title: "Enroll",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="person_add" size={size} color={color} />
+            <Icon name="person_add" size={size} color={color as string} />
           ),
         }}
       />
@@ -94,7 +94,7 @@ export default function TabsLayout() {
         options={{
           title: "Logs",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="history" size={size} color={color} />
+            <Icon name="history" size={size} color={color as string} />
           ),
         }}
       />
@@ -103,7 +103,7 @@ export default function TabsLayout() {
         options={{
           title: "Sync",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="sync" size={size} color={color} />
+            <Icon name="sync" size={size} color={color as string} />
           ),
         }}
       />

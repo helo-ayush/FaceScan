@@ -1062,7 +1062,7 @@ export default function EnrollScreen() {
       {scannerVisible && (
         <View
           style={[
-            StyleSheet.absoluteFillObject,
+            StyleSheet.absoluteFill,
             { zIndex: 99999, backgroundColor: "#000000" },
           ]}
         >
@@ -1089,7 +1089,7 @@ export default function EnrollScreen() {
           {pendingCapture?.uri && (
             <Image
               source={{ uri: pendingCapture.uri }}
-              style={[StyleSheet.absoluteFillObject, { zIndex: 10 }]}
+              style={[StyleSheet.absoluteFill, { zIndex: 10 }]}
               resizeMode="cover"
             />
           )}
@@ -1144,7 +1144,7 @@ export default function EnrollScreen() {
             <View
               pointerEvents="none"
               style={{
-                ...StyleSheet.absoluteFillObject,
+                ...StyleSheet.absoluteFill,
                 alignItems: "center",
                 justifyContent: "center",
                 zIndex: 100,
@@ -1507,7 +1507,7 @@ export default function EnrollScreen() {
           {pendingCapture && (
             <View
               style={[
-                StyleSheet.absoluteFillObject,
+                StyleSheet.absoluteFill,
                 {
                   zIndex: 600,
                   backgroundColor: "rgba(15, 23, 42, 0.35)",

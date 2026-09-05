@@ -266,7 +266,7 @@ export function LiveFaceCamera({
   return (
     <CameraView
       ref={cameraRef}
-      style={StyleSheet.absoluteFillObject}
+      style={StyleSheet.absoluteFill}
       facing={cameraFacing}
       onLayout={handleLayout}
       onCameraReady={onCameraReady}
