@@ -37,9 +37,21 @@ export const useCameraPermissions = createPermissionHook( {
 export * from './Camera.types'
 
 /**
+ * Plays a native positive acknowledgment chime on attendance confirmation.
+ */
+export function playAttendanceChime(): void {
+  try {
+    CameraManager.playAttendanceChime?.();
+  } catch {
+    // Graceful fallback on unsupported platforms
+  }
+}
+
+/**
  * @hidden
  */
 export const Camera = {
   getCameraPermissionsAsync,
-  requestCameraPermissionsAsync
+  requestCameraPermissionsAsync,
+  playAttendanceChime,
 }

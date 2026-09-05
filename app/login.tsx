@@ -15,7 +15,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, Pressable, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import NetInfo from "@react-native-community/netinfo";
 import { Icon } from "@/components/Icon";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import { AppSettings } from "@/utils/settings";
@@ -118,24 +117,7 @@ export default function LoginScreen() {
       AppSettings.haptic("error");
       console.warn("[LoginScreen] Network request failed:", err);
 
-      try {
-        const netState = await NetInfo.fetch();
-        const isDeviceOnline = Boolean(netState.isConnected && netState.isInternetReachable !== false);
-
-        if (!isDeviceOnline) {
-          setErrorMsg(
-            "Your device is currently offline. Offline admin access is only available after signing in online at least once on this device."
-          );
-        } else {
-          setErrorMsg(
-            "Could not reach the cloud server (facescan-568n.onrender.com). The free cloud server may be waking up from sleep. Please wait 15–30 seconds and tap Sign In again."
-          );
-        }
-      } catch {
-        setErrorMsg(
-          "Could not connect to the cloud server. Please check your internet connection or try again in a few moments."
-        );
-      }
+      setErrorMsg("No internet. If your internet is working, please wait 30 seconds and try again.");
     } finally {
       clearTimeout(wakeTimer1);
       clearTimeout(wakeTimer2);

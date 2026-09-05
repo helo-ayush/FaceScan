@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
+import { playAttendanceChime } from "react-native-face-detector-camera";
 
 const SETTINGS_KEY = "@face_scanner_settings";
 
@@ -72,12 +73,9 @@ export const SCANNING_PERFORMANCE_PRESETS: Record<
 };
 
 export interface SettingsConfig {
-  autoCapture: boolean;
-  showGrid: boolean;
-  soundFeedback: boolean;
   hapticsEnabled: boolean;
+  audioChimeEnabled: boolean;
   cameraFacing: "front" | "back";
-  sensitivity: "low" | "standard" | "high";
   performance: PerformanceMode;
   scanningPerformance: ScanningPerformanceMode;
   smoothFaceBox: boolean;
@@ -88,12 +86,9 @@ export interface SettingsConfig {
 }
 
 export const defaultSettings: SettingsConfig = {
-  autoCapture: true,
-  showGrid: true,
-  soundFeedback: true,
   hapticsEnabled: true,
+  audioChimeEnabled: false,
   cameraFacing: "front",
-  sensitivity: "standard",
   performance: "balanced",
   scanningPerformance: "standard",
   smoothFaceBox: true,
@@ -199,6 +194,16 @@ export const AppSettings = {
       // Haptics fallback or no-op on web
     }
   },
+
+  // Safe wrapper for audio chime feedback
+  playChime(force = false) {
+    if (!force && !memorySettings.audioChimeEnabled) return;
+    try {
+      playAttendanceChime();
+    } catch {
+      // no-op on unsupported platforms
+    }
+  },
 };
 
 // React hook to access reactive settings values inside UI components
@@ -226,6 +231,9 @@ export function useAppSettings() {
     },
     triggerHaptic: (type?: "light" | "medium" | "heavy" | "success" | "error" | "warning") => {
       AppSettings.haptic(type);
+    },
+    triggerChime: (force?: boolean) => {
+      AppSettings.playChime(force);
     },
   };
 }

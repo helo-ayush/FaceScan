@@ -49,6 +49,15 @@ class CameraModule : Module() {
       )
     }
 
+    Function("playAttendanceChime") {
+      try {
+        val toneGen = android.media.ToneGenerator(android.media.AudioManager.STREAM_NOTIFICATION, 85)
+        toneGen.startTone(android.media.ToneGenerator.TONE_PROP_ACK, 180)
+      } catch (e: Throwable) {
+        Log.w("CameraModule", "Attendance chime error: ${e.message}")
+      }
+    }
+
     OnDestroy {
       try {
         moduleScope.cancel(ModuleDestroyedException())

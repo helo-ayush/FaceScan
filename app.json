@@ -7,12 +7,6 @@
     "icon": "./assets/icon.png",
     "scheme": "scanattend",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#faf8ff"
-    },
     "ios": {
       "supportsTablet": true
     },

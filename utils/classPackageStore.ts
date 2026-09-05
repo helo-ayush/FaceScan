@@ -438,3 +438,47 @@ export async function getAvailableClasses(): Promise<DownloadedClassInfo[]> {
 
   return Array.from(classMap.values());
 }
+
+/**
+ * Delete all locally cached class packages and metadata.
+ */
+export async function clearAllClassPackages(): Promise<void> {
+  const dir = packageDir();
+  const dirInfo = await FileSystem.getInfoAsync(dir);
+  if (dirInfo.exists) {
+    await FileSystem.deleteAsync(dir, { idempotent: true });
+  }
+}
+
+/**
+ * Returns package count and disk size for the Settings screen.
+ */
+export async function getClassPackagesStorageInfo(): Promise<{ count: number; totalBytes: number; formattedSize: string }> {
+  const dir = packageDir();
+  const dirInfo = await FileSystem.getInfoAsync(dir);
+  if (!dirInfo.exists) {
+    return { count: 0, totalBytes: 0, formattedSize: "0 KB" };
+  }
+
+  const files = await FileSystem.readDirectoryAsync(dir);
+  let totalBytes = 0;
+  let count = 0;
+
+  for (const file of files) {
+    const fileInfo = await FileSystem.getInfoAsync(`${dir}${file}`);
+    if (fileInfo.exists && "size" in fileInfo && typeof fileInfo.size === "number") {
+      totalBytes += fileInfo.size;
+    }
+    if (file.endsWith(".json") && !file.endsWith(".meta.json")) {
+      count++;
+    }
+  }
+
+  const formattedSize =
+    totalBytes >= 1024 * 1024
+      ? `${(totalBytes / (1024 * 1024)).toFixed(1)} MB`
+      : `${Math.round(totalBytes / 1024)} KB`;
+
+  return { count, totalBytes, formattedSize };
+}
+

@@ -1,15 +1,20 @@
 /**
  * Application Settings Screen.
  *
- * Configures global operational parameters:
- * - Tracking Frame Rate: Sets ML Kit detection intervals (10 FPS, 20 FPS, 30 FPS).
+ * Configures active operational parameters:
+ * - Face Box Tracking Rate: Sets ML Kit detection intervals (10 FPS, 20 FPS, 30 FPS).
  * - Embedding Extraction Frequency: Balances matching speed against CPU/battery drain.
- * - Liveness Strictness: Configures SPRT anti-spoof operating point (lenient, balanced, strict).
- * - User Feedback: Controls haptic feedback, audio cues, and visual scan guides.
+ * - Smooth Box Motion: Fluid interpolation between face bounding boxes.
+ * - Anti-Spoofing & Strictness: Configures native dual-scale SPRT anti-spoof pipeline.
+ * - Strict Lighting Check: Pauses enrollment photo capture during glare/dim warnings.
+ * - Camera Source: Default front vs back camera selection.
+ * - Haptic Feedback: Tactile feedback on attendance capture and UI interactions.
+ * - Audio Chime: Positive sound acknowledgment on attendance confirmation (off by default).
+ * - Storage Management: View and clear downloaded class embedding packages.
  */
 
-import React, { useState } from "react";
-import { View, Text, ScrollView, Pressable } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { View, Text, ScrollView, Pressable, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/components/Icon";
@@ -22,6 +27,7 @@ import {
   ScanningPerformanceMode,
   useAppSettings,
 } from "@/utils/settings";
+import { clearAllClassPackages, getClassPackagesStorageInfo } from "@/utils/classPackageStore";
 
 const DETECTION_OPTIONS: Array<{ key: PerformanceMode; label: string; fps: string }> = [
   { key: "low", label: "Low", fps: "10 FPS" },
@@ -35,11 +41,6 @@ const SCANNING_OPTIONS: Array<{ key: ScanningPerformanceMode; label: string; spe
   { key: "high", label: "High", speed: "200 ms" },
 ];
 
-/**
- * The `hint` is the user-facing consequence, not the mechanism: nobody choosing a
- * setting wants to reason about accumulated log-likelihood bounds, and the honest
- * summary of what each level buys is a trade between retries and missed spoofs.
- */
 const STRICTNESS_OPTIONS: Array<{ key: LivenessStrictnessMode; hint: string }> = [
   { key: "lenient", hint: "Fewer retries" },
   { key: "balanced", hint: "Recommended" },
@@ -48,17 +49,57 @@ const STRICTNESS_OPTIONS: Array<{ key: LivenessStrictnessMode; hint: string }> =
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { settings, updateSetting, triggerHaptic } = useAppSettings();
-
-  const [cacheCleared, setCacheCleared] = useState(false);
-
-  function handleClearCache() {
-    triggerHaptic("success");
-    setCacheCleared(true);
-    setTimeout(() => setCacheCleared(false), 2000);
-  }
-
+  const { settings, updateSetting, triggerHaptic, triggerChime } = useAppSettings();
   const insets = useSafeAreaInsets();
+
+  const [storageInfo, setStorageInfo] = useState({ count: 0, totalBytes: 0, formattedSize: "0 KB" });
+  const [storageLoading, setStorageLoading] = useState(true);
+  const [clearing, setClearing] = useState(false);
+  const [clearSuccess, setClearSuccess] = useState(false);
+
+  const loadStorage = useCallback(async () => {
+    try {
+      const info = await getClassPackagesStorageInfo();
+      setStorageInfo(info);
+    } catch {
+      // ignore
+    } finally {
+      setStorageLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadStorage();
+  }, [loadStorage]);
+
+  function confirmClearPackages() {
+    triggerHaptic("medium");
+    Alert.alert(
+      "Clear Downloaded Packages?",
+      "This will remove locally cached face embedding files from this device. You can download updated class packages anytime from the Classes tab.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Clear Packages",
+          style: "destructive",
+          onPress: async () => {
+            setClearing(true);
+            try {
+              await clearAllClassPackages();
+              await loadStorage();
+              triggerHaptic("success");
+              setClearSuccess(true);
+              setTimeout(() => setClearSuccess(false), 3000);
+            } catch (e) {
+              console.warn("Failed to clear packages", e);
+            } finally {
+              setClearing(false);
+            }
+          },
+        },
+      ]
+    );
+  }
 
   return (
     <View className="flex-1 bg-background">
@@ -73,6 +114,8 @@ export default function SettingsScreen() {
               triggerHaptic("light");
               router.back();
             }}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
             className="w-10 h-10 items-center justify-center rounded-full bg-surface-muted border border-slate-100 active:scale-95 transition-all"
           >
             <Icon name="arrow_back" size={20} color="#0f172a" />
@@ -84,13 +127,13 @@ export default function SettingsScreen() {
       </View>
 
       <ScrollView
-        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: 40 }}
+        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: 48 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Section 1: Performance & Optimization */}
+        {/* Section 1: Performance & Tracking */}
         <View className="mb-6">
           <Text className="text-[10px] font-bold text-on-surface-variant mb-3 uppercase tracking-widest pl-1">
-            Performance Category
+            Performance & Tracking
           </Text>
 
           <View className="bg-surface border border-slate-100 rounded-3xl overflow-hidden shadow-soft">
@@ -100,7 +143,7 @@ export default function SettingsScreen() {
                 <View className="flex-1 pr-3">
                   <Text className="font-bold text-on-surface text-base">Face Box Tracking Rate</Text>
                   <Text className="text-xs text-on-surface-variant mt-1">
-                    Controls camera frame analysis frequency for face detection box tracking.
+                    Controls camera frame analysis frequency for the bounding box.
                   </Text>
                 </View>
                 <Text className="text-xs font-black text-primary uppercase">
@@ -142,7 +185,7 @@ export default function SettingsScreen() {
                   </Pressable>
                 ))}
               </View>
-              <Text className="text-[11px] text-on-surface-variant mt-3">
+              <Text className="text-[11px] text-on-surface-variant mt-3 font-medium">
                 {(PERFORMANCE_PRESETS[settings.performance] || PERFORMANCE_PRESETS.balanced).description}
               </Text>
             </View>
@@ -151,9 +194,9 @@ export default function SettingsScreen() {
             <View className="p-5 border-b border-slate-100">
               <View className="flex-row items-start justify-between mb-1">
                 <View className="flex-1 pr-3">
-                  <Text className="font-bold text-on-surface text-base">Face Recognition Scan Rate</Text>
+                  <Text className="font-bold text-on-surface text-base">Recognition Scan Interval</Text>
                   <Text className="text-xs text-on-surface-variant mt-1">
-                    Controls how frequently face feature vectors (embeddings) are extracted for matching.
+                    How frequently face embeddings are extracted to match against class rosters.
                   </Text>
                 </View>
                 <Text className="text-xs font-black text-primary uppercase">
@@ -195,7 +238,7 @@ export default function SettingsScreen() {
                   </Pressable>
                 ))}
               </View>
-              <Text className="text-[11px] font-semibold text-on-surface-variant mt-3">
+              <Text className="text-[11px] font-medium text-on-surface-variant mt-3">
                 {(SCANNING_PERFORMANCE_PRESETS[settings.scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).description}
               </Text>
               {(SCANNING_PERFORMANCE_PRESETS[settings.scanningPerformance] || SCANNING_PERFORMANCE_PRESETS.standard).warning && (
@@ -218,7 +261,7 @@ export default function SettingsScreen() {
               <View className="flex-1 pr-4">
                 <Text className="font-bold text-on-surface text-base">Smooth Box Motion</Text>
                 <Text className="text-xs text-on-surface-variant mt-1">
-                  Smoothly animate the face tracking box between position updates for a fluid preview.
+                  Smoothly interpolate the tracking box between frames for a fluid viewfinder preview.
                 </Text>
               </View>
               <View
@@ -232,33 +275,13 @@ export default function SettingsScreen() {
           </View>
         </View>
 
-        {/* Section 2: Capture Behavior */}
+        {/* Section 2: Security & Quality Checks */}
         <View className="mb-6">
           <Text className="text-[10px] font-bold text-on-surface-variant mb-3 uppercase tracking-widest pl-1">
-            Capture Configuration
+            Security & Quality Gates
           </Text>
 
           <View className="bg-surface border border-slate-100 rounded-3xl overflow-hidden shadow-soft">
-
-            {/* Auto Capture Toggle */}
-            <Pressable
-              onPress={() => {
-                triggerHaptic("light");
-                updateSetting("autoCapture", !settings.autoCapture);
-              }}
-              className="p-5 flex-row items-center justify-between border-b border-slate-100 active:bg-surface-muted/50"
-            >
-              <View className="flex-1 pr-4">
-                <Text className="font-bold text-on-surface text-base">Auto-Capture Mode</Text>
-                <Text className="text-xs text-on-surface-variant mt-1">
-                  Automatically register match when face is centered
-                </Text>
-              </View>
-              <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.autoCapture ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
-                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
-              </View>
-            </Pressable>
-
             {/* Strict Enrollment Lighting Check Toggle */}
             <Pressable
               onPress={() => {
@@ -270,7 +293,7 @@ export default function SettingsScreen() {
               <View className="flex-1 pr-4">
                 <Text className="font-bold text-on-surface text-base">Strict Enrollment Lighting Check</Text>
                 <Text className="text-xs text-on-surface-variant mt-1">
-                  Block capturing face photos during enrollment when lighting warnings (dim light, glare, backlighting) are present.
+                  Block capturing face photos during enrollment when dim light, glare, or backlighting warnings occur.
                 </Text>
               </View>
               <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.strictLightingCheck ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
@@ -278,6 +301,7 @@ export default function SettingsScreen() {
               </View>
             </Pressable>
 
+            {/* Passive Anti-Spoofing Toggle */}
             <Pressable
               onPress={() => {
                 triggerHaptic("light");
@@ -288,7 +312,7 @@ export default function SettingsScreen() {
               <View className="flex-1 pr-4">
                 <Text className="font-bold text-on-surface text-base">Passive Anti-Spoofing</Text>
                 <Text className="text-xs text-on-surface-variant mt-1">
-                  Require passive liveness verification before enrollment and attendance matching. Keep enabled for normal use.
+                  Require passive multi-cue liveness verification before enrollment and attendance recognition.
                 </Text>
               </View>
               <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.antiSpoofingEnabled ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
@@ -296,15 +320,12 @@ export default function SettingsScreen() {
               </View>
             </Pressable>
 
-            {/* Anti-spoofing strictness. Mounted only while anti-spoofing is on —
-                offering an operating point for a disabled check reads as if it still
-                does something. */}
+            {/* Anti-spoofing strictness (only when antiSpoofingEnabled is active) */}
             {settings.antiSpoofingEnabled && (
-              <View className="p-5 border-b border-slate-100">
+              <View className="p-5">
                 <Text className="font-bold text-on-surface text-base mb-1">Liveness Strictness</Text>
                 <Text className="text-xs text-on-surface-variant mb-3">
-                  How much evidence a decision needs. Every level runs the same checks and
-                  still requires two independent signals to agree before rejecting anyone.
+                  Configures the SPRT evidence threshold. All levels require two independent cues to agree.
                 </Text>
                 <View className="flex-row gap-2">
                   {STRICTNESS_OPTIONS.map((option) => (
@@ -337,7 +358,7 @@ export default function SettingsScreen() {
                     </Pressable>
                   ))}
                 </View>
-                <Text className="text-[11px] font-semibold text-on-surface-variant mt-3">
+                <Text className="text-[11px] font-medium text-on-surface-variant mt-3">
                   {(LIVENESS_STRICTNESS_PRESETS[settings.livenessStrictness] || LIVENESS_STRICTNESS_PRESETS.balanced).description}
                 </Text>
                 {(LIVENESS_STRICTNESS_PRESETS[settings.livenessStrictness] || LIVENESS_STRICTNESS_PRESETS.balanced).warning && (
@@ -349,80 +370,22 @@ export default function SettingsScreen() {
                 )}
               </View>
             )}
-
-            {/* Haptic Feedback Toggle */}
-            <Pressable
-              onPress={() => {
-                // Toggle haptics, then trigger micro vibration if turned ON
-                const nextVal = !settings.hapticsEnabled;
-                updateSetting("hapticsEnabled", nextVal);
-                if (nextVal) {
-                  setTimeout(() => triggerHaptic("light"), 100);
-                }
-              }}
-              className="p-5 flex-row items-center justify-between border-b border-slate-100 active:bg-surface-muted/50"
-            >
-              <View className="flex-1 pr-4">
-                <Text className="font-bold text-on-surface text-base">Haptic Feedback</Text>
-                <Text className="text-xs text-on-surface-variant mt-1">
-                  Vibrate device on scanning states and button clicks
-                </Text>
-              </View>
-              <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.hapticsEnabled ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
-                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
-              </View>
-            </Pressable>
-
-            {/* Sound Feedback Toggle */}
-            <Pressable
-              onPress={() => {
-                triggerHaptic("light");
-                updateSetting("soundFeedback", !settings.soundFeedback);
-              }}
-              className="p-5 flex-row items-center justify-between border-b border-slate-100 active:bg-surface-muted/50"
-            >
-              <View className="flex-1 pr-4">
-                <Text className="font-bold text-on-surface text-base">Audio Confirmation</Text>
-                <Text className="text-xs text-on-surface-variant mt-1">
-                  Play success sound feedback on scan complete
-                </Text>
-              </View>
-              <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.soundFeedback ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
-                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
-              </View>
-            </Pressable>
-
-            {/* Scanner Grid Toggle */}
-            <Pressable
-              onPress={() => {
-                triggerHaptic("light");
-                updateSetting("showGrid", !settings.showGrid);
-              }}
-              className="p-5 flex-row items-center justify-between active:bg-surface-muted/50"
-            >
-              <View className="flex-1 pr-4">
-                <Text className="font-bold text-on-surface text-base">Show Target Grid</Text>
-                <Text className="text-xs text-on-surface-variant mt-1">
-                  Display target overlay alignment lines
-                </Text>
-              </View>
-              <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.showGrid ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
-                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
-              </View>
-            </Pressable>
           </View>
         </View>
 
-        {/* Section 2: Hardware & Security */}
+        {/* Section 3: Hardware & Device Preferences */}
         <View className="mb-6">
           <Text className="text-[10px] font-bold text-on-surface-variant mb-3 uppercase tracking-widest pl-1">
-            Camera & Hardware
+            Hardware & Device Preferences
           </Text>
 
           <View className="bg-surface border border-slate-100 rounded-3xl overflow-hidden shadow-soft">
             {/* Camera Selector */}
             <View className="p-5 border-b border-slate-100">
-              <Text className="font-bold text-on-surface text-base mb-3">Camera Source</Text>
+              <Text className="font-bold text-on-surface text-base mb-1">Default Camera</Text>
+              <Text className="text-xs text-on-surface-variant mb-3">
+                Select which camera lens starts by default on launch.
+              </Text>
               <View className="flex-row gap-3">
                 <Pressable
                   onPress={() => {
@@ -453,61 +416,93 @@ export default function SettingsScreen() {
               </View>
             </View>
 
-            {/* Scan Precision / Sensitivity */}
-            <View className="p-5">
-              <Text className="font-bold text-on-surface text-base mb-3">Scan Precision</Text>
-              <View className="flex-row gap-2">
-                {(["low", "standard", "high"] as const).map((s) => (
-                  <Pressable
-                    key={s}
-                    onPress={() => {
-                      triggerHaptic("light");
-                      updateSetting("sensitivity", s);
-                    }}
-                    className={`flex-1 py-3 rounded-2xl items-center border capitalize ${
-                      settings.sensitivity === s ? "bg-primary/10 border-primary" : "bg-surface-muted border-slate-100"
-                    } active:scale-95 transition-all`}
-                  >
-                    <Text className={`font-bold text-xs ${settings.sensitivity === s ? "text-primary" : "text-on-surface-variant"}`}>
-                      {s}
-                    </Text>
-                  </Pressable>
-                ))}
+            {/* Haptic Feedback Toggle */}
+            <Pressable
+              onPress={() => {
+                const nextVal = !settings.hapticsEnabled;
+                updateSetting("hapticsEnabled", nextVal);
+                if (nextVal) {
+                  setTimeout(() => triggerHaptic("light"), 100);
+                }
+              }}
+              className="p-5 flex-row items-center justify-between border-b border-slate-100 active:bg-surface-muted/50"
+            >
+              <View className="flex-1 pr-4">
+                <Text className="font-bold text-on-surface text-base">Haptic Feedback</Text>
+                <Text className="text-xs text-on-surface-variant mt-1">
+                  Vibrate the device on successful scan match, mode toggle, and button presses.
+                </Text>
               </View>
-            </View>
+              <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.hapticsEnabled ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
+                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
+              </View>
+            </Pressable>
+
+            {/* Audio Confirmation Chime Toggle (Off by default) */}
+            <Pressable
+              onPress={() => {
+                const nextVal = !settings.audioChimeEnabled;
+                updateSetting("audioChimeEnabled", nextVal);
+                if (nextVal) {
+                  triggerChime(true);
+                }
+              }}
+              className="p-5 flex-row items-center justify-between active:bg-surface-muted/50"
+            >
+              <View className="flex-1 pr-4">
+                <Text className="font-bold text-on-surface text-base">Attendance Audio Chime</Text>
+                <Text className="text-xs text-on-surface-variant mt-1">
+                  Play an audio confirmation chime when a student's face is matched and attendance is recorded.
+                </Text>
+              </View>
+              <View className={`w-12 h-7 rounded-full p-1 transition-all ${settings.audioChimeEnabled ? "bg-primary items-end" : "bg-slate-200 items-start"}`}>
+                <View className="w-5 h-5 rounded-full bg-white shadow-sm" />
+              </View>
+            </Pressable>
           </View>
         </View>
 
-        {/* Section 3: Data Actions */}
+        {/* Section 4: Storage & Data (Minimal) */}
         <View className="mb-6">
           <Text className="text-[10px] font-bold text-on-surface-variant mb-3 uppercase tracking-widest pl-1">
-            Data Management
+            Storage & Data
           </Text>
 
           <View className="bg-surface border border-slate-100 rounded-3xl overflow-hidden shadow-soft p-5 gap-4">
             <View>
-              <Text className="font-bold text-on-surface text-base">Storage Management</Text>
+              <Text className="font-bold text-on-surface text-base">Downloaded Class Packages</Text>
               <Text className="text-xs text-on-surface-variant mt-1">
-                Clearing scanner template indexes does not affect roster database lists.
+                {storageLoading
+                  ? "Calculating storage..."
+                  : storageInfo.count === 0
+                  ? "No class packages currently stored on this device."
+                  : `${storageInfo.count} class package${storageInfo.count > 1 ? "s" : ""} on device (${storageInfo.formattedSize})`}
               </Text>
             </View>
 
             <Pressable
-              onPress={handleClearCache}
-              disabled={cacheCleared}
-              className={`w-full py-4 rounded-2xl items-center justify-center flex-row gap-2 border border-slate-100 ${
-                cacheCleared ? "bg-success-light border-success/20" : "bg-surface-muted hover:bg-slate-200"
-              } active:scale-98 transition-all`}
+              onPress={confirmClearPackages}
+              disabled={clearing || storageInfo.count === 0}
+              className={`w-full py-3.5 rounded-2xl items-center justify-center flex-row gap-2 border ${
+                storageInfo.count === 0
+                  ? "bg-surface-muted border-slate-100 opacity-60"
+                  : "bg-surface-muted border-slate-200 active:scale-[0.98]"
+              } transition-all`}
             >
-              <Icon
-                name={cacheCleared ? "check" : "delete_sweep"}
-                size={18}
-                color={cacheCleared ? "#10b981" : "#ef4444"}
-              />
-              <Text className={`font-bold text-sm ${cacheCleared ? "text-success" : "text-error"}`}>
-                {cacheCleared ? "Cache Purged successfully" : "Clear Template Scan Cache"}
+              <Icon name="delete_sweep" size={18} color={storageInfo.count === 0 ? "#94a3b8" : "#ef4444"} />
+              <Text className={`font-bold text-sm ${storageInfo.count === 0 ? "text-on-surface-variant" : "text-error"}`}>
+                {clearing ? "Clearing Packages..." : "Clear Downloaded Class Packages"}
               </Text>
             </Pressable>
+
+            {clearSuccess ? (
+              <View className="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl flex-row items-center gap-2">
+                <Icon name="check_circle" size={16} color="#059669" />
+                <Text className="text-emerald-800 font-bold text-xs flex-1">
+                  Cached packages cleared. Fresh packages can be downloaded from the Classes tab.
+                </Text>
+              </View>
+            ) : null}
           </View>
         </View>
       </ScrollView>

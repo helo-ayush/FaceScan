@@ -601,6 +601,7 @@ export default function CameraLandingScreen() {
 
         setIsMatchLocked(true);
         AppSettings.haptic("success");
+        AppSettings.playChime();
 
         setMatchedStudent({
           name: student.name,
