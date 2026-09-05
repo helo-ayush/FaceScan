@@ -183,7 +183,7 @@ async function refreshPendingCount(): Promise<void> {
  * Package downloads are excluded: they are large and run through
  * `classPackageStore`, on an explicit user action.
  */
-const REQUEST_TIMEOUT_MS = 15000;
+const REQUEST_TIMEOUT_MS = 35000;
 
 /** `fetch` with an abort-based timeout. Rejects like a network error on expiry. */
 async function fetchWithTimeout(

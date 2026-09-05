@@ -19,7 +19,7 @@
  * happened to be on — so treat reaching this as a misconfigured build rather
  * than a working setup. `hasConfiguredApiUrl` below is how a screen can tell.
  */
-const FALLBACK_API_URL = 'http://192.168.0.103:5000';
+const FALLBACK_API_URL = 'https://facescan-568n.onrender.com';
 
 /** True when the build actually carries an `EXPO_PUBLIC_API_URL`. */
 export const hasConfiguredApiUrl = Boolean(process.env.EXPO_PUBLIC_API_URL);

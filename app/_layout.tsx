@@ -30,6 +30,8 @@ export default function RootLayout() {
 
   useEffect(() => {
     AppSettings.load();
+    // Pre-warm backend cloud server immediately on app launch
+    fetch(`${API_URL}/`).catch(() => {});
   }, []);
 
   if (!fontsLoaded) {
